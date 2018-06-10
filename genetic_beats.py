@@ -8,7 +8,7 @@ from time import sleep
 
 pg.mixer.init()
 pg.init()
-num_generations = 5
+num_generations = 20
 num_initial_members = 3
 num_progeny_per_mating = 1
 num_saved_progeny_per_generation = 3
@@ -147,12 +147,15 @@ def play_beat(beat, num_loops):
 
 #evolve num_generations
 current_generation = create_inital_generation(sounds)
-
+num_unscored_generations = 5
 for x in range(0,num_generations+1):
     #mate pairs of members of current generation
     print("generation: " + str(x) + " of " + str(num_generations))
-    saved_progeny, last_generation_fitness = identify_fit_progeny(current_generation)
-    current_generation = create_next_generation(saved_progeny,last_generation_fitness)
+    if x % num_unscored_generations == 0:
+        saved_progeny, last_generation_fitness = identify_fit_progeny(current_generation)
+        current_generation = create_next_generation(saved_progeny,last_generation_fitness)
+    else:
+        current_generation = create_next_generation(current_generation,last_generation_fitness)
 
 
 print("final generation")
