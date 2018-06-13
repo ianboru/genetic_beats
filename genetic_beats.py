@@ -4,7 +4,7 @@ import numpy
 import os
 from datetime import datetime
 from time import sleep
-
+import asyncio
 
 pg.mixer.init()
 pg.init()
@@ -12,7 +12,7 @@ num_generations = 20
 num_initial_members = 3
 num_progeny_per_mating = 1
 num_saved_progeny_per_generation = 3
-note_subdivision = 8
+note_subdivision = 16
 num_loops = 2
 tempo = 95
 beat_length = (60/tempo)*(4 / note_subdivision)
@@ -31,7 +31,7 @@ sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/hi_hat.wav")))
 sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/G.wav")))
 sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/C.wav")))
 sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/Eb.wav")))
-sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/F#.wav")))
+#sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/F#.wav")))
 # sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/D.wav")))
 
 num_sounds = len(sounds)
@@ -40,7 +40,7 @@ for sound in sounds:
     sound_lengths.append(sound.get_length())
 
 # every sound has a corresponding print output
-sound_names  = ['Kc','Sn','Hh', 'G','C','Eb','F#','D']
+sound_names  = ['Kc','Sn','Hh', 'G','C','Eb','D']
 
 def array_of_random_integers(length, max_int):
     rand_int_array = []
@@ -92,6 +92,10 @@ def get_inherited_beat(father_beat,father_fitness,mother_beat, mother_fitness):
     else:
         return min(father_beat,mother_beat)
 
+async def play_sound(sound):
+    print("playing sound")
+    sound.play()
+
 def identify_fit_progeny(last_generation):
     print("identifying fit members")
     last_generation_fitness = []
@@ -99,9 +103,9 @@ def identify_fit_progeny(last_generation):
     for beat in last_generation:
         beat_num += 1
         #play beat to rate fitness
+        play_beat(beat, num_loops)
         print("playing member " + str(beat_num) + " of " + str(len(last_generation)))
         sleep(0.5)
-        play_beat(beat, num_loops)
         fitness = False
         while not fitness:
             fitness = input("score beat\n")
@@ -128,7 +132,9 @@ def play_beat(beat, num_loops):
                 for j in range(0, num_sounds):
                     beat_index = i+ (note_subdivision - 1) * j
                     if beat[beat_index]:
-                        sounds[j].play()
+                        loop = asyncio.get_event_loop()
+                        task = loop.create_task(play_sound(sounds[j]))
+                        loop.run_until_complete(task)
                         if(max_sound_length < sound_lengths[j]):
                             max_sound_length = sound_lengths[j]
                         note_string += sound_names[j]
