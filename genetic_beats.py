@@ -10,13 +10,13 @@ pg.mixer.init()
 pg.init()
 num_generations = 20
 num_initial_members = 3
-num_progeny_per_mating = 1
+num_progeny_per_mating = 2
 num_saved_progeny_per_generation = 3
 note_subdivision = 16
 num_loops = 2
-tempo = 95
+tempo = 100
 beat_length = (60/tempo)*(4 / note_subdivision)
-mutation_rate = .50
+mutation_rate = .30
 print("beat_length: " + str(beat_length))
 sounds = []
 pg.mixer.set_num_channels(19)
@@ -24,13 +24,14 @@ pg.mixer.set_num_channels(19)
 dirpath = os.path.abspath(os.path.dirname(__file__))
 
 # setting up sounds
-sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/kick.wav")))
-sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/snare.wav")))
+#sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/kick.wav")))
+#sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/snare.wav")))
 sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/hi_hat.wav")))
 #sounds.append(pg.mixer.Sound(pg.mixer.Sound("/Users/ianborukhovich/Projects/curiosity_driven_data_mining/genetic_beats/clave.wav")))
-sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/G.wav")))
-sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/C.wav")))
-sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/Eb.wav")))
+#sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/G.wav")))
+#sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/C.wav")))
+#sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/Eb.wav")))
+sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/bass_note.wav")))
 #sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/F#.wav")))
 # sounds.append(pg.mixer.Sound(pg.mixer.Sound(f"{dirpath}/D.wav")))
 
@@ -40,7 +41,7 @@ for sound in sounds:
     sound_lengths.append(sound.get_length())
 
 # every sound has a corresponding print output
-sound_names  = ['Kc','Sn','Hh', 'G','C','Eb','D']
+sound_names  = ['Hh','BsG']
 
 def array_of_random_integers(length, max_int):
     rand_int_array = []
@@ -153,15 +154,26 @@ def play_beat(beat, num_loops):
 
 #evolve num_generations
 current_generation = create_inital_generation(sounds)
+skip_scoring = True
 num_unscored_generations = 5
+num_random_survivors = 3
+
 for x in range(0,num_generations+1):
     #mate pairs of members of current generation
     print("generation: " + str(x) + " of " + str(num_generations))
-    if x % num_unscored_generations == 0:
+    if x % num_unscored_generations == 0 or not skip_scoring:
         saved_progeny, last_generation_fitness = identify_fit_progeny(current_generation)
         current_generation = create_next_generation(saved_progeny,last_generation_fitness)
     else:
         current_generation = create_next_generation(current_generation,last_generation_fitness)
+        random.shuffle(current_generation)
+        surviving_generation = []
+        num_survived = 0
+        for member in current_generation:
+            if num_survived < num_random_survivors:
+                surviving_generation.append(member)
+                num_survived += 1
+        current_generation = surviving_generation
 
 
 print("final generation")

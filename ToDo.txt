@@ -1,6 +1,7 @@
-- Make individual sound wav playback asynchronous so a sound can start while the timer that keeps the beat can keep running regardless of sound length (H)
+- Stop or score mid beat
 - Replay beat during scoring or final generation(H)
 - Save and load beats to playback by generation and member (L)
 - Separate initial configuration into config file (M)
-- Trim unscored generation to desired number of members through random selection (L)
-- Create UI choose instruments to include or exclude. Web is optimal for future multi-person use.
+- Create UI choose instruments to include or exclude. Web is optimal for future multi-person use. (M)
+- Create UI to load wavs into library (L)
+- adjust volume of sounds (plan for ui)
