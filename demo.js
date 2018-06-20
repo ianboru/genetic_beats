@@ -97,6 +97,7 @@ export default class Demo extends Component {
       currentScore: 0,
       musicData: initialMusicData,
       generation: 0,
+      scoreThreshold: -1
     };
 
     this.handlePlayToggle = this.handlePlayToggle.bind(this);
@@ -142,16 +143,36 @@ export default class Demo extends Component {
     console.log(randomIntegerArray)
     return randomIntegerArray
   }
+  updateScoreThreshold(){
+    const numMaters = 3
+
+    var allScores = []
+    this.state.musicData.forEach(
+      function(beat){
+        console.log(beat[0]["score"])
+        allScores.push(beat[0]["score"])
+    })
+    allScores = allScores.sort()
+    this.state.scoreThreshold = allScores[allScores.length-numMaters]
+    console.log("current score threshold: " + this.state.scoreThreshold)
+  }
   generateChildren(){
     const numChildren = 2
     const numSurvivors = 4
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
     console.log(this.state.musicData)
+    this.updateScoreThreshold()
     for (let momIndex = 0; momIndex < this.state.musicData.length; momIndex++) { 
       for (let dadIndex = momIndex+1; dadIndex < this.state.musicData.length; dadIndex++) { 
         console.log("mating " + momIndex + " and " + dadIndex)
-
+        //don't mate unfit pairs
+        if(
+          this.state.musicData[momIndex][0]["score"] < this.state.scoreThreshold ||
+          this.state.musicData[dadIndex][0]["score"] < this.state.scoreThreshold 
+          ){
+          continue
+        }
         let aveParentScore = (
           this.state.musicData[momIndex][0]["score"] +
           this.state.musicData[dadIndex][0]["score"]
