@@ -71,7 +71,6 @@ export default class Demo extends Component {
       generation: 0,
     };
 
-    this.handleAudioProcess = this.handleAudioProcess.bind(this);
     this.handlePlayToggle = this.handlePlayToggle.bind(this);
     this.toggleLightMode = this.toggleLightMode.bind(this);
     this.nextBeat = this.nextBeat.bind(this);
@@ -80,9 +79,7 @@ export default class Demo extends Component {
     this.mateCurrentPair = this.mateCurrentPair.bind(this);
 
   }
-  handleAudioProcess(analyser) {
-    this.visualization.audioProcess(analyser);
-  }
+  
   handlePlayToggle() {
     this.setState({
       playing: !this.state.playing,
@@ -112,12 +109,11 @@ export default class Demo extends Component {
               })
           }
           nextGeneration.push(currentBeat)
-          console.log("current child")
-          console.log(nextGeneration)
         }
       }
     }
-    
+    //so generations don't get huge.
+    nextGeneration = nextGeneration.slice(-numChildren)
     this.setState({ 
       beatNum: 0,
       musicData : nextGeneration,
@@ -132,7 +128,6 @@ export default class Demo extends Component {
       percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
     }
     const comparitor = 100*(.5 - percentDifference)
-    console.log("comparitor " + comparitor)
     var fittestBeat = {}
     var weakestBeat = {}
     if(dad["score"] > mom["score"]){
@@ -183,7 +178,7 @@ export default class Demo extends Component {
           playing={this.state.playing}
           tempo={90}
         >
-          <Analyser onAudioProcess={this.handleAudioProcess}>
+          
             <Sequencer
               resolution={16}
               bars={1}
@@ -191,18 +186,8 @@ export default class Demo extends Component {
               {generateSamplers(this.state.musicData[this.state.beatNum])}
             </Sequencer>
             
-          </Analyser>
+          
         </Song>
-
-        <div style={{ textAlign: 'center' }}>
-          <p style={this.state.lightMode ? {color: 'black'} : {color: 'white'}}>Light Mode</p>
-          <label className="switch">
-            <input type="checkbox" onChange={this.toggleLightMode} checked={this.state.lightMode} />
-            <div className="slider round"></div>
-          </label>
-        </div>
-
-        <Visualization ref={(c) => { this.visualization = c; }} />
 
         <button
           className="react-music-button"
@@ -225,15 +210,17 @@ export default class Demo extends Component {
         >
           Mate
         </button>
-        <div>Current Score: {this.state.musicData[this.state.beatNum][0]['score']}</div>
-        <form onSubmit = {this.setScore}>
-          <label>Score:
-            <input type="text" value={this.state.currentScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
-          </label>
-            <input type="submit" value="Submit" />
-        </form>
-        <span>generation: {this.state.generation}</span><br/>
-        <span>playing beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
+        <div style ={{textAlign:"center"}}>
+          <div>Current Score: {this.state.musicData[this.state.beatNum][0]['score']}</div>
+          <form onSubmit = {this.setScore}>
+            <label>Score:
+              <input type="text" value={this.state.currentScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
+            </label>
+              <input type="submit" value="Submit" />
+          </form>
+          <span>generation: {this.state.generation}</span><br/>
+          <span>playing beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
+        </div>
       </div>
     );
   }
