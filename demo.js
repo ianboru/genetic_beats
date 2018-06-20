@@ -24,7 +24,12 @@ const initialMusicData = [
        sample: "samples/snare.wav",
        beat: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
      },
-
+     {
+      score: 0,
+       sample: "samples/hihat.wav",
+       beat: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+     },
+     
   ],
   [
      {
@@ -36,6 +41,11 @@ const initialMusicData = [
       score: 0,
        sample: "samples/snare.wav",
        beat: [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
+     },
+     {
+      score: 0,
+       sample: "samples/hihat.wav",
+       beat: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
      },
 
   ]
@@ -93,9 +103,16 @@ export default class Demo extends Component {
     const numChildren = 3
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
+    console.log(this.state.musicData)
     for (let momIndex = 0; momIndex < this.state.musicData.length; momIndex++) { 
       for (let dadIndex = momIndex+1; dadIndex < this.state.musicData.length; dadIndex++) { 
         console.log("mating " + momIndex + " and " + dadIndex)
+
+        let aveParentScore = (
+          this.state.musicData[momIndex][0]["score"] +
+          this.state.musicData[dadIndex][0]["score"]
+          )/2
+        console.log(aveParentScore)
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
           for(let sampleIndex = 0; sampleIndex < this.state.musicData[momIndex].length; sampleIndex++){
@@ -103,8 +120,9 @@ export default class Demo extends Component {
                   this.state.musicData[momIndex][sampleIndex],
                   this.state.musicData[dadIndex][sampleIndex]
                   )
+
               currentBeat.push({
-                "score" : 0,
+                "score" : aveParentScore,
                 "sample": this.state.musicData[momIndex][sampleIndex]["sample"],
                 "beat" : childBeatForSample
               })
@@ -159,7 +177,7 @@ export default class Demo extends Component {
   setScore(event){
     event.preventDefault();
     console.log("setting score: " + this.state.currentScore)
-    this.state.musicData[this.state.beatNum][0]["score"] = this.state.currentScore
+    this.state.musicData[this.state.beatNum][0]["score"] = parseInt(this.state.currentScore)
     
   }
   handleInputChange(e) {
