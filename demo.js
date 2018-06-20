@@ -77,6 +77,7 @@ export default class Demo extends Component {
     this.setScore = this.setScore.bind(this);
     this.generateChildren = this.generateChildren.bind(this);
     this.mateCurrentPair = this.mateCurrentPair.bind(this);
+    this.restart = this.restart.bind(this);
 
   }
   
@@ -164,6 +165,17 @@ export default class Demo extends Component {
   handleInputChange(e) {
     this.setState({ currentScore: e.target.value });
   }
+  restart(){
+    this.setState({
+      playing: false,
+      lightMode: true,
+      beatNum: 0,
+      totalBeats: initialMusicData.length,
+      currentScore: 0,
+      musicData: initialMusicData,
+      generation: 0,
+    })
+  }
   render() {
     return (
       <div style={this.state.lightMode ? {
@@ -188,7 +200,13 @@ export default class Demo extends Component {
             
           
         </Song>
-
+        <button
+          className="react-music-button"
+          type="button"
+          onClick={this.restart}
+        >
+          Restart
+        </button>
         <button
           className="react-music-button"
           type="button"
