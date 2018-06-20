@@ -21,7 +21,7 @@ const initialMusicData = [
      },
      {
       score: 0,
-       sample: "samples/snare.wav",
+       sample: "samples/cowbell.wav",
        beat: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
      },
      {
@@ -39,7 +39,7 @@ const initialMusicData = [
      },
      {
       score: 0,
-       sample: "samples/snare.wav",
+       sample: "samples/cowbell.wav",
        beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
      },
      {
@@ -57,7 +57,7 @@ const initialMusicData = [
      },
      {
       score: 0,
-       sample: "samples/snare.wav",
+       sample: "samples/cowbell.wav",
        beat: [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
      },
      {
@@ -117,8 +117,33 @@ export default class Demo extends Component {
   toggleLightMode(){
     this.setState({lightMode: !this.state.lightMode});
   }
+  arrayOfRandomIntegers(numIntegers,arrayLength){
+    let randomIntegerArray = []
+    for (let i = 0; i < numIntegers; i++) { 
+      var randomInteger = Math.floor(Math.random() * arrayLength)
+      while(randomIntegerArray.indexOf(randomInteger) > -1){
+        randomInteger = Math.floor(Math.random() * arrayLength)
+      }
+      randomIntegerArray.push(randomInteger)
+    }
+    return randomIntegerArray
+  }
+  arrayFromIndexList(array,indexList){
+    let randomIntegerArray = []
+    console.log(array)
+    console.log(indexList)
+    console.log("final random ints")
+    indexList.forEach(
+      function(i){
+        console.log(i)
+        randomIntegerArray.push(array[i])
+    })
+      
+    console.log(randomIntegerArray)
+    return randomIntegerArray
+  }
   generateChildren(){
-    const numChildren = 3
+    const numChildren = 2
     const numSurvivors = 4
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
@@ -141,6 +166,7 @@ export default class Demo extends Component {
                   )
 
               currentBeat.push({
+                "parents" : dadIndex + "+" + momIndex,
                 "score" : aveParentScore,
                 "sample": this.state.musicData[momIndex][sampleIndex]["sample"],
                 "beat" : childBeatForSample
@@ -151,7 +177,11 @@ export default class Demo extends Component {
       }
     }
     //so generations don't get huge.
-    nextGeneration = nextGeneration.slice(-numSurvivors)
+    console.log(nextGeneration)
+    let randomIntegerArray = this.arrayOfRandomIntegers(numSurvivors,nextGeneration.length)
+    console.log("random ints")
+    console.log(randomIntegerArray)
+    nextGeneration = this.arrayFromIndexList(nextGeneration,randomIntegerArray)
     this.setState({ 
       beatNum: 0,
       musicData : nextGeneration,
@@ -162,10 +192,13 @@ export default class Demo extends Component {
   mateCurrentPair(mom,dad){
     console.log("mating current pair")
     var percentDifference = 0
+    const mutationRate = .15
     if(Math.max(dad["score"],mom["score"]) > 0){
       percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
     }
-    const comparitor = 100*(.5 - percentDifference)
+    const inheritanceComparitor = 100*(.5 - percentDifference)
+    const mutationComparitor = 100*mutationRate
+
     var fittestBeat = {}
     var weakestBeat = {}
     if(dad["score"] > mom["score"]){
@@ -177,12 +210,18 @@ export default class Demo extends Component {
     }
     var childBeat = []
     for (let noteIndex = 0; noteIndex < mom["beat"].length; noteIndex++) {
-      const randomInteger = Math.floor(Math.random() * 100) 
-      if(randomInteger > comparitor){
-        childBeat.push(fittestBeat["beat"][noteIndex])
+      var randomInteger = Math.floor(Math.random() * 100)
+      var survivingNote = 0 
+      if(randomInteger > inheritanceComparitor){
+        survivingNote = fittestBeat["beat"][noteIndex]
       }else{
-        childBeat.push(weakestBeat["beat"][noteIndex])
+        survivingNote = weakestBeat["beat"][noteIndex]
       }
+      randomInteger = Math.floor(Math.random() * 100)
+      if(randomInteger < mutationComparitor){
+        survivingNote = 1 - survivingNote
+      }
+      childBeat.push(survivingNote)
     }
     return childBeat
   }
@@ -267,6 +306,8 @@ export default class Demo extends Component {
         </button>
         <div style ={{textAlign:"center"}}>
           <div>Current Score: {this.state.musicData[this.state.beatNum][0]['score']}</div>
+          <div>parents: {this.state.musicData[this.state.beatNum][0]['parents']}</div>
+
           <form onSubmit = {this.setScore}>
             <label>Score:
               <input type="text" value={this.state.currentScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
@@ -275,6 +316,7 @@ export default class Demo extends Component {
           </form>
           <span>generation: {this.state.generation}</span><br/>
           <span>playing beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
+
         </div>
       </div>
     );
