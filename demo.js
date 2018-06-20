@@ -35,6 +35,24 @@ const initialMusicData = [
      {
        score: 0,
        sample: "samples/kick.wav",
+       beat: [1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+     },
+     {
+      score: 0,
+       sample: "samples/snare.wav",
+       beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     },
+     {
+      score: 0,
+       sample: "samples/hihat.wav",
+       beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     },
+     
+  ],
+  [
+     {
+       score: 0,
+       sample: "samples/kick.wav",
        beat: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
      },
      {
@@ -101,6 +119,7 @@ export default class Demo extends Component {
   }
   generateChildren(){
     const numChildren = 3
+    const numSurvivors = 4
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
     console.log(this.state.musicData)
@@ -132,7 +151,7 @@ export default class Demo extends Component {
       }
     }
     //so generations don't get huge.
-    nextGeneration = nextGeneration.slice(-numChildren)
+    nextGeneration = nextGeneration.slice(-numSurvivors)
     this.setState({ 
       beatNum: 0,
       musicData : nextGeneration,
