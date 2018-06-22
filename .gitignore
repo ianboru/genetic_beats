@@ -2,9 +2,12 @@ syntax: glob
 
 # Directories
 node_modules
+lib
+umd
 
 
 # Files
 *.asd
 .sass-cache
 .DS_Store
+npm-debug.log
