@@ -21,7 +21,7 @@ const initialMusicData = [
      },
      {
       score: 0,
-       sample: "samples/cowbell.wav",
+       sample: "samples/8580__ST_060.wav",
        beat: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
      },
      {
@@ -29,7 +29,6 @@ const initialMusicData = [
        sample: "samples/hihat.wav",
        beat: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
      },
-     
   ],
   [
      {
@@ -39,17 +38,25 @@ const initialMusicData = [
      },
      {
       score: 0,
-       sample: "samples/cowbell.wav",
-       beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     },
-     {
-      score: 0,
-       sample: "samples/hihat.wav",
-       beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+       sample: "samples/8580_PST_090.wav",
+       beat: [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
      },
      
   ],
   [
+     {
+       score: 0,
+       sample: "samples/kick.wav",
+       beat: [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+     },
+     {
+      score: 0,
+       sample: "samples/8580_PST_102.wav",
+       beat: [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1],
+     },
+     
+  ],
+  /*[
      {
        score: 0,
        sample: "samples/kick.wav",
@@ -63,10 +70,28 @@ const initialMusicData = [
      {
       score: 0,
        sample: "samples/hihat.wav",
-       beat: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+       beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
      },
 
-  ]
+  ],
+  [
+     {
+       score: 0,
+       sample: "samples/kick.wav",
+       beat: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+     },
+     {
+      score: 0,
+       sample: "samples/cowbell.wav",
+       beat: [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+     },
+     {
+      score: 0,
+       sample: "samples/hihat.wav",
+       beat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     },
+
+  ]*/
 ]
 
 const generateSamplers = (data) => {
@@ -97,7 +122,8 @@ export default class Demo extends Component {
       currentScore: 0,
       musicData: initialMusicData,
       generation: 0,
-      scoreThreshold: -1
+      scoreThreshold: -1,
+      allSamples: []
     };
 
     this.handlePlayToggle = this.handlePlayToggle.bind(this);
@@ -107,6 +133,9 @@ export default class Demo extends Component {
     this.generateChildren = this.generateChildren.bind(this);
     this.mateCurrentPair = this.mateCurrentPair.bind(this);
     this.restart = this.restart.bind(this);
+    this.updateUniqueSampleList = this.updateUniqueSampleList.bind(this);
+    this.findInJSON = this.findInJSON.bind(this);
+    this.updateUniqueSampleList()
 
   }
   
@@ -139,13 +168,26 @@ export default class Demo extends Component {
         console.log(i)
         randomIntegerArray.push(array[i])
     })
-      
     console.log(randomIntegerArray)
     return randomIntegerArray
   }
+  updateUniqueSampleList(){
+    let allSamples = []
+    this.state.musicData.forEach(
+      function(parent){
+        parent.forEach(
+        function(beat){
+          if(allSamples.indexOf(beat["sample"]) == -1){
+            allSamples.push(beat["sample"])
+          }
+        })
+      })
+    console.log("all samples")
+    console.log(allSamples)
+    this.state.allSamples = allSamples
+  }
   updateScoreThreshold(){
     const numMaters = 3
-
     var allScores = []
     this.state.musicData.forEach(
       function(beat){
@@ -156,13 +198,26 @@ export default class Demo extends Component {
     this.state.scoreThreshold = allScores[allScores.length-numMaters]
     console.log("current score threshold: " + this.state.scoreThreshold)
   }
+  findInJSON(object,key,value){
+    let result = {}
+    object.forEach(
+      function(element){
+        if(element[key] && element[key] == value ){
+          result = element
+        }
+    })
+    //console.log('finding ' + key +' equals ' + value)
+    //console.log(result)
+    return result
+  }
   generateChildren(){
-    const numChildren = 2
+    const numChildren = 3
     const numSurvivors = 4
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
     console.log(this.state.musicData)
     this.updateScoreThreshold()
+    this.updateUniqueSampleList()
     for (let momIndex = 0; momIndex < this.state.musicData.length; momIndex++) { 
       for (let dadIndex = momIndex+1; dadIndex < this.state.musicData.length; dadIndex++) { 
         console.log("mating " + momIndex + " and " + dadIndex)
@@ -173,6 +228,7 @@ export default class Demo extends Component {
           ){
           continue
         }
+        //to pass on to children
         let aveParentScore = (
           this.state.musicData[momIndex][0]["score"] +
           this.state.musicData[dadIndex][0]["score"]
@@ -180,19 +236,32 @@ export default class Demo extends Component {
         console.log(aveParentScore)
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
-          for(let sampleIndex = 0; sampleIndex < this.state.musicData[momIndex].length; sampleIndex++){
-              const childBeatForSample = this.mateCurrentPair(
-                  this.state.musicData[momIndex][sampleIndex],
-                  this.state.musicData[dadIndex][sampleIndex]
-                  )
+          this.state.allSamples.forEach(
+            function(sample){
+              let momBeat = this.findInJSON(this.state.musicData[momIndex],'sample',sample)
+              let dadBeat = this.findInJSON(this.state.musicData[dadIndex],'sample',sample)
+              if(momBeat["sample"] || dadBeat["sample"]){
+ 
+                if(!momBeat["sample"]){
+                  momBeat = dadBeat
+                }
+                if(!dadBeat["sample"]){
+                  dadBeat = momBeat
+                }
+                const childBeatForSample = this.mateCurrentPair(
+                  momBeat,
+                  dadBeat
+                )
+                currentBeat.push({
+                  "parents" : dadIndex + "+" + momIndex,
+                  "score" : aveParentScore,
+                  "sample": sample,
+                  "beat" : childBeatForSample
+                })
+              }
 
-              currentBeat.push({
-                "parents" : dadIndex + "+" + momIndex,
-                "score" : aveParentScore,
-                "sample": this.state.musicData[momIndex][sampleIndex]["sample"],
-                "beat" : childBeatForSample
-              })
-          }
+          }, this)
+        
           nextGeneration.push(currentBeat)
         }
       }
@@ -212,8 +281,11 @@ export default class Demo extends Component {
   }
   mateCurrentPair(mom,dad){
     console.log("mating current pair")
+    console.log(mom)
+    console.log(dad)
     var percentDifference = 0
-    const mutationRate = .15
+    const mutationRate = .05
+
     if(Math.max(dad["score"],mom["score"]) > 0){
       percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
     }
@@ -244,7 +316,9 @@ export default class Demo extends Component {
       }
       childBeat.push(survivingNote)
     }
-    return childBeat
+    
+      return childBeat
+  
   }
   nextBeat(){
     console.log("next beat")
