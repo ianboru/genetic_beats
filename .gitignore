@@ -1,0 +1,10 @@
+syntax: glob
+
+# Directories
+node_modules
+
+
+# Files
+*.asd
+.sass-cache
+.DS_Store
