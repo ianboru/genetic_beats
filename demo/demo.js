@@ -10,15 +10,29 @@ import {
   arrayOfRandomIntegers,
   arrayFromIndexList,
   findInJSON,
-  generateSamplers,
   mateCurrentPair,
-} from "../utils"
+} from "./utils"
 
 import Polysynth from "./polysynth"
 import Visualization from "./visualization"
 import initialMusicData from "./initialMusicData"
 
 import "./index.css"
+
+
+const generateSamplers = (data) => {
+ return data.map((sample) => {
+   let convertedBeat = []
+   sample.beat.forEach((note, i) => {
+     if (note === 1) { convertedBeat.push(i) }
+   })
+
+   return (<Sampler
+     sample = {sample.sample}
+     steps  = {convertedBeat}
+   />)
+ })
+}
 
 
 export default class Demo extends Component {

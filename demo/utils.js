@@ -36,19 +36,6 @@ const findInJSON = (object,key,value) => {
   return result
 }
 
-const generateSamplers = (data) => {
- return data.map((sample) => {
-   let convertedBeat = []
-   sample.beat.forEach((note, i) => {
-     if (note === 1) { convertedBeat.push(i) }
-   })
-
-   return (<Sampler
-     sample = {sample.sample}
-     steps  = {convertedBeat}
-   />)
- })
-}
 
 const mateCurrentPair = (mom,dad) => {
   console.log("mating current pair")
@@ -95,6 +82,5 @@ export {
   arrayOfRandomIntegers,
   arrayFromIndexList,
   findInJSON,
-  generateSamplers,
   mateCurrentPair,
 }
