@@ -191,7 +191,7 @@ export default class Demo extends Component {
 
   render() {
     return (
-      <div style={ paddingTop: "30px" }>
+      <div style={{ paddingTop: "30px" }}>
         <Song
           playing={this.state.playing}
           tempo={90}
