@@ -41,7 +41,6 @@ export default class Demo extends Component {
 
     this.state = {
       playing        : false,
-      lightMode      : true,
       beatNum        : 0,
       totalBeats     : initialMusicData.length,
       currentScore   : 0,
@@ -58,10 +57,6 @@ export default class Demo extends Component {
     this.setState({
       playing: !this.state.playing,
     })
-  }
-
-  toggleLightMode = () => {
-    this.setState({lightMode: !this.state.lightMode})
   }
 
   updateUniqueSampleList = () => {
@@ -186,7 +181,6 @@ export default class Demo extends Component {
   restart = () => {
     this.setState({
       playing: false,
-      lightMode: true,
       beatNum: 0,
       totalBeats: initialMusicData.length,
       currentScore: 0,
@@ -197,14 +191,7 @@ export default class Demo extends Component {
 
   render() {
     return (
-      <div style={this.state.lightMode ? {
-        paddingTop: "30px"
-      } : {
-        backgroundColor: "#000",
-        width: "100%",
-        height: "100%",
-        paddingTop: "30px",
-      }}>
+      <div style={ paddingTop: "30px" }>
         <Song
           playing={this.state.playing}
           tempo={90}
