@@ -97,6 +97,7 @@ export default class Demo extends Component {
     console.log(this.state.musicData)
     this.updateScoreThreshold()
     this.updateUniqueSampleList()
+    // For all mom, dad pairs for all children in number of children per generation
     for (let momIndex = 0; momIndex < this.state.musicData.length; momIndex++) {
       for (let dadIndex = momIndex+1; dadIndex < this.state.musicData.length; dadIndex++) {
         console.log("mating " + momIndex + " and " + dadIndex)
@@ -117,8 +118,10 @@ export default class Demo extends Component {
           var currentBeat = []
           this.state.allSamples.forEach(
             function(sample){
+
               let momBeat = findInJSON(this.state.musicData[momIndex],'sample',sample)
               let dadBeat = findInJSON(this.state.musicData[dadIndex],'sample',sample)
+              //Handle case where mom and dad don't have the same samples
               if (momBeat["sample"] || dadBeat["sample"]) {
 
                 if (!momBeat["sample"]) {
@@ -203,36 +206,37 @@ export default class Demo extends Component {
               {generateSamplers(this.state.musicData[this.state.beatNum])}
             </Sequencer>
         </Song>
-      <div className="buttons">
-        <button
-          className="react-music-button"
-          type="button"
-          onClick={this.reset}
-        >
-          Reset 
-        </button>
-        <button
-          className="react-music-button"
-          type="button"
-          onClick={this.handlePlayToggle}
-        >
-          {this.state.playing ? 'Stop' : 'Play'}
-        </button>
-        <button
-          className="react-music-button"
-          type="button"
-          onClick={this.nextBeat}
-        >
-          Next Beat
-        </button>
-        <button
-          className="react-music-button"
-          type="button"
-          onClick={this.generateChildren}
-        >
-          Mate
-        </button>
-      </div>
+
+        <div className="buttons">
+          <button
+            className="react-music-button"
+            type="button"
+            onClick={this.reset}
+          >
+            Reset 
+          </button>
+          <button
+            className="react-music-button"
+            type="button"
+            onClick={this.handlePlayToggle}
+          >
+            {this.state.playing ? 'Stop' : 'Play'}
+          </button>
+          <button
+            className="react-music-button"
+            type="button"
+            onClick={this.nextBeat}
+          >
+            Next Beat
+          </button>
+          <button
+            className="react-music-button"
+            type="button"
+            onClick={this.generateChildren}
+          >
+            Mate
+          </button>
+        </div>
         <div style ={{textAlign:"center"}}>
           <span>Generation: {this.state.generation}</span><br/>
           <span>Beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
