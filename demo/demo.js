@@ -48,6 +48,7 @@ export default class Demo extends Component {
       generation     : 0,
       scoreThreshold : -1,
       allSamples     : [],
+      inputScore     : ""
     }
 
     this.updateUniqueSampleList()
@@ -131,7 +132,7 @@ export default class Demo extends Component {
                   dadBeat
                 )
                 currentBeat.push({
-                  "parents" : dadIndex + "+" + momIndex,
+                  "parents" : dadIndex + " & " + momIndex,
                   "score"   : aveParentScore,
                   "sample"  : sample,
                   "beat"    : childBeatForSample,
@@ -165,28 +166,26 @@ export default class Demo extends Component {
     var newBeatNum = 0
     newBeatNum = (this.state.beatNum+1)%this.state.musicData.length
     console.log("beat num: " + newBeatNum )
+    console.log(this.state.musicData[this.state.beatNum])
+    this.state.currentScore = this.state.musicData[this.state.beatNum][0]["score"]
     this.setState({ beatNum: newBeatNum })
   }
 
   setScore = (event) => {
     event.preventDefault()
     console.log("setting score: " + this.state.currentScore)
-    this.state.musicData[this.state.beatNum][0]["score"] = parseInt(this.state.currentScore)
+    this.state.musicData[this.state.beatNum][0]["score"] = parseInt(this.state.inputScore)
+    this.state.inputScore = ""
+
+    this.nextBeat()
   }
 
   handleInputChange = (e) => {
-    this.setState({ currentScore: e.target.value })
+    this.setState({ inputScore: e.target.value })
   }
 
-  restart = () => {
-    this.setState({
-      playing: false,
-      beatNum: 0,
-      totalBeats: initialMusicData.length,
-      currentScore: 0,
-      musicData: initialMusicData,
-      generation: 0,
-    })
+  reset = () => {
+    window.location.reload()
   }
 
   render() {
@@ -204,13 +203,13 @@ export default class Demo extends Component {
               {generateSamplers(this.state.musicData[this.state.beatNum])}
             </Sequencer>
         </Song>
-
+      <div className="buttons">
         <button
           className="react-music-button"
           type="button"
-          onClick={this.restart}
+          onClick={this.reset}
         >
-          Restart
+          Reset 
         </button>
         <button
           className="react-music-button"
@@ -233,19 +232,19 @@ export default class Demo extends Component {
         >
           Mate
         </button>
-
+      </div>
         <div style ={{textAlign:"center"}}>
-          <div>Current Score: {this.state.musicData[this.state.beatNum][0]['score']}</div>
-          <div>parents: {this.state.musicData[this.state.beatNum][0]['parents']}</div>
+          <span>Generation: {this.state.generation}</span><br/>
+          <span>Beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
+          <div>Score: {this.state.musicData[this.state.beatNum][0]['score']}</div>
+          <div>Parents: {this.state.musicData[this.state.beatNum][0]['parents']}</div>
 
           <form onSubmit = {this.setScore}>
-            <label>Score:
-              <input type="text" value={this.state.currentScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
+            <label>Rate Beat
+              <input type="text" value={this.state.inputScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
             </label>
-              <input type="submit" value="Submit" />
           </form>
-          <span>generation: {this.state.generation}</span><br/>
-          <span>playing beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
+          
         </div>
       </div>
     )
