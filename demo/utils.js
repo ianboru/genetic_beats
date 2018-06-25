@@ -24,20 +24,35 @@ const findInJSON = (object, key, value) => {
   return result
 }
 
+const normalizeSubdivisions = (sequence, newSubdivisions) => {
+  let newSequence = []
+  let subdivisionRatio = newSubdivisions/sequence.length
+  console.log("Normalizing")
+  console.log(sequence)
+  sequence.forEach(
+    function(note){
+      newSequence.push(note)
+      for(let i = 0; i < subdivisionRatio-1; i++) {
+        newSequence.push(0)
+      }
+  })
+  console.log(newSequence)
+  return newSequence
+}
 
 const mateCurrentPair = (mom,dad) => {
   console.log("mating current pair")
   console.log(mom)
   console.log(dad)
   let percentDifference = 0
-  const mutationRate = .05
+  const mutationRate = .15
 
   if(Math.max(dad["score"],mom["score"]) > 0){
     percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
   }
   const inheritanceComparitor = 100*(.5 - percentDifference)
   const mutationComparitor = 100*mutationRate
-
+  
   let fittestBeat = {}
   let weakestBeat = {}
   if (dad["score"] > mom["score"]) {
@@ -47,6 +62,7 @@ const mateCurrentPair = (mom,dad) => {
     fittestBeat = mom
     weakestBeat = dad
   }
+
   let childBeat = []
   for (let noteIndex = 0; noteIndex < mom["beat"].length; noteIndex++) {
     let randomInteger = Math.floor(Math.random() * 100)

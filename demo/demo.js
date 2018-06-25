@@ -33,7 +33,28 @@ const generateSamplers = (data) => {
    />)
  })
 }
+var numSurvivors = 4
 
+const normalizeSubdivisions = (beat, newSubdivisions) => {
+  let subdivisionRatio = newSubdivisions/beat[0].beat.length
+  console.log("Normalizing to " + newSubdivisions)
+  console.log("ratio = " + subdivisionRatio)
+  console.log(beat)
+  for (let i = 0; i < beat.length; i++) {
+    var newSequence = []
+    beat[i].beat.forEach(
+        function(note){
+          newSequence.push(note)
+          for(let i = 0; i < subdivisionRatio-1; i++) {
+            newSequence.push(0)
+          }
+      })
+    beat[i].beat = newSequence
+  }
+  
+  console.log(beat)
+  return beat
+}
 
 export default class Demo extends Component {
   constructor(props) {
@@ -77,7 +98,9 @@ export default class Demo extends Component {
   }
 
   updateScoreThreshold = () => {
-    const numMaters = 3
+    //can't have more survivors then members of the generation
+    numSurvivors = Math.min(numSurvivors,this.state.musicData.length)
+
     var allScores = []
     this.state.musicData.forEach(
       function(beat){
@@ -85,13 +108,15 @@ export default class Demo extends Component {
         allScores.push(beat[0]["score"])
     })
     allScores = allScores.sort()
-    this.state.scoreThreshold = allScores[allScores.length-numMaters]
+    this.state.scoreThreshold = allScores[allScores.length-numSurvivors]
     console.log("current score threshold: " + this.state.scoreThreshold)
   }
 
   generateChildren = () => {
+    //Will become config
     const numChildren = 3
-    const numSurvivors = 4
+    //can't have more survivors then members of the generation
+    numSurvivors = Math.min(numSurvivors,this.state.musicData.length)
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
     console.log(this.state.musicData)
@@ -114,6 +139,14 @@ export default class Demo extends Component {
           this.state.musicData[dadIndex][0]["score"]
           )/2
         console.log(aveParentScore)
+        // If mom and dad have different beat lengths
+        if(this.state.musicData[momIndex][0].beat.length > this.state.musicData[momIndex][0].beat.length){
+          console.log("mom long")
+          this.state.musicData[dadIndex] = normalizeSubdivisions(this.state.musicData[dadIndex], this.state.musicData[momIndex][0].beat.length)
+        }else{
+          this.state.musicData[momIndex] = normalizeSubdivisions(this.state.musicData[momIndex], this.state.musicData[dadIndex][0].beat.length)
+        }
+
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
           this.state.allSamples.forEach(
@@ -179,7 +212,6 @@ export default class Demo extends Component {
     console.log("setting score: " + this.state.currentScore)
     this.state.musicData[this.state.beatNum][0]["score"] = parseInt(this.state.inputScore)
     this.state.inputScore = ""
-
     this.nextBeat()
   }
 
@@ -196,11 +228,11 @@ export default class Demo extends Component {
       <div style={{ paddingTop: "30px" }}>
         <Song
           playing={this.state.playing}
-          tempo={90}
+          tempo={110}
         >
 
             <Sequencer
-              resolution={16}
+              resolution={this.state.musicData[this.state.beatNum][0]["beat"].length}
               bars={1}
             >
               {generateSamplers(this.state.musicData[this.state.beatNum])}
