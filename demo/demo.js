@@ -17,6 +17,8 @@ import Polysynth from "./polysynth"
 import Visualization from "./visualization"
 import initialMusicData from "./initialMusicData"
 
+import Beat from "./components/beat"
+
 import "./index.css"
 
 
@@ -198,7 +200,6 @@ export default class Demo extends Component {
           playing={this.state.playing}
           tempo={90}
         >
-
             <Sequencer
               resolution={16}
               bars={1}
@@ -207,13 +208,17 @@ export default class Demo extends Component {
             </Sequencer>
         </Song>
 
+        <div style={{textAlign: "center"}}>
+          <Beat beat={this.state.musicData[this.state.beatNum]} />
+        </div>
+
         <div className="buttons">
           <button
             className="react-music-button"
             type="button"
             onClick={this.reset}
           >
-            Reset 
+            Reset
           </button>
           <button
             className="react-music-button"
@@ -248,7 +253,6 @@ export default class Demo extends Component {
               <input type="text" value={this.state.inputScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
             </label>
           </form>
-          
         </div>
       </div>
     )
