@@ -30,11 +30,13 @@ const generateSamplers = (data) => {
    })
 
    return (<Sampler
+     gain = {sample.gain}
      sample = {sample.sample}
      steps  = {convertedBeat}
    />)
  })
 }
+//will be config
 var numSurvivors = 4
 
 const normalizeSubdivisions = (beat, newSubdivisions) => {
@@ -224,7 +226,13 @@ export default class Demo extends Component {
   reset = () => {
     window.location.reload()
   }
-
+  setGain(gain,beatNum,trackNum){
+    var updatedMusicData = this.state.musicData
+    updatedMusicData[beatNum][trackNum]["gain"] = gain
+    this.setState({
+      musicData : updatedMusicData
+    })
+  }
   render() {
     return (
       <div style={{ paddingTop: "30px" }}>
@@ -241,7 +249,7 @@ export default class Demo extends Component {
         </Song>
 
         <div style={{textAlign: "center"}}>
-          <Beat beat={this.state.musicData[this.state.beatNum]} />
+          <Beat beat={this.state.musicData[this.state.beatNum]} key = {this.state.beatNum}/>
         </div>
 
         <div className="buttons">
