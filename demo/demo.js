@@ -35,13 +35,10 @@ const generateSamplers = (data) => {
    />)
  })
 }
+var numInitialSurvivors = 4
 var numSurvivors = 4
-
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   let subdivisionRatio = newSubdivisions/beat[0].beat.length
-  console.log("Normalizing to " + newSubdivisions)
-  console.log("ratio = " + subdivisionRatio)
-  console.log(beat)
   for (let i = 0; i < beat.length; i++) {
     var newSequence = []
     beat[i].beat.forEach(
@@ -100,9 +97,6 @@ export default class Demo extends Component {
   }
 
   updateScoreThreshold = () => {
-    //can't have more survivors then members of the generation
-    numSurvivors = Math.min(numSurvivors,this.state.musicData.length)
-
     var allScores = []
     this.state.musicData.forEach(
       function(beat){
@@ -117,13 +111,13 @@ export default class Demo extends Component {
   generateChildren = () => {
     //Will become config
     const numChildren = 3
-    //can't have more survivors then members of the generation
-    numSurvivors = Math.min(numSurvivors,this.state.musicData.length)
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
     console.log(this.state.musicData)
+
     this.updateScoreThreshold()
     this.updateUniqueSampleList()
+
     // For all mom, dad pairs for all children in number of children per generation
     for (let momIndex = 0; momIndex < this.state.musicData.length; momIndex++) {
       for (let dadIndex = momIndex+1; dadIndex < this.state.musicData.length; dadIndex++) {
@@ -151,6 +145,7 @@ export default class Demo extends Component {
 
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
+          console.log("child # " + childIndex)
           this.state.allSamples.forEach(
             function(sample){
 
@@ -185,17 +180,25 @@ export default class Demo extends Component {
     }
 
     //so generations don't get huge.
+    console.log("done mating, next generation:")
     console.log(nextGeneration)
+    console.log(nextGeneration.length)
+
+    numSurvivors = Math.min(numInitialSurvivors,nextGeneration.length)
+
     let randomIntegerArray = arrayOfRandomIntegers(numSurvivors,nextGeneration.length)
     console.log("random ints")
     console.log(randomIntegerArray)
     nextGeneration = arrayFromIndexList(nextGeneration,randomIntegerArray)
+    console.log(nextGeneration)
     this.setState({
       beatNum    : 0,
       musicData  : nextGeneration,
       totalBeats : nextGeneration.length,
       generation : this.state.generation + 1,
     })
+    //can't have more survivors then members of the generation
+
   }
 
 

@@ -1,11 +1,19 @@
 const arrayOfRandomIntegers = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
+
   for (let i = 0; i < numIntegers; i++) {
     var randomInteger = Math.floor(Math.random() * arrayLength)
+    if(randomIntegerArray.indexOf(randomInteger) == -1){
+      randomIntegerArray.push(randomInteger)
+      continue
+    }
     while (randomIntegerArray.indexOf(randomInteger) > -1) {
       randomInteger = Math.floor(Math.random() * arrayLength)
+      if(randomIntegerArray.indexOf(randomInteger) == -1){
+        randomIntegerArray.push(randomInteger)
+        break
+      }
     }
-    randomIntegerArray.push(randomInteger)
   }
   return randomIntegerArray
 }
@@ -24,26 +32,10 @@ const findInJSON = (object, key, value) => {
   return result
 }
 
-const normalizeSubdivisions = (sequence, newSubdivisions) => {
-  let newSequence = []
-  let subdivisionRatio = newSubdivisions/sequence.length
-  console.log("Normalizing")
-  console.log(sequence)
-  sequence.forEach(
-    function(note){
-      newSequence.push(note)
-      for(let i = 0; i < subdivisionRatio-1; i++) {
-        newSequence.push(0)
-      }
-  })
-  console.log(newSequence)
-  return newSequence
-}
+
 
 const mateCurrentPair = (mom,dad) => {
   console.log("mating current pair")
-  console.log(mom)
-  console.log(dad)
   let percentDifference = 0
   const mutationRate = .15
 
