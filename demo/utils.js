@@ -1,4 +1,4 @@
-const arrayOfRandomIntegers = (numIntegers, arrayLength) => {
+const getRandomIndices = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
 
   for (let i = 0; i < numIntegers; i++) {
@@ -18,7 +18,7 @@ const arrayOfRandomIntegers = (numIntegers, arrayLength) => {
   return randomIntegerArray
 }
 
-const arrayFromIndexList = (array, indexList) => {
+const getSubarray = (array, indexList) => {
   return indexList.map((i) => { return array[i] })
 }
 
@@ -37,7 +37,7 @@ const findInJSON = (object, key, value) => {
 const mateCurrentPair = (mom,dad) => {
   console.log("mating current pair")
   let percentDifference = 0
-  const mutationRate = .15
+  const mutationRate = .05
 
   if(Math.max(dad["score"],mom["score"]) > 0){
     percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
@@ -75,8 +75,8 @@ const mateCurrentPair = (mom,dad) => {
 
 
 export {
-  arrayOfRandomIntegers,
-  arrayFromIndexList,
+  getRandomIndices,
+  getSubarray,
   findInJSON,
   mateCurrentPair,
 }
