@@ -23,6 +23,8 @@ const getSubarray = (array, indexList) => {
 }
 
 const findInJSON = (object, key, value) => {
+  console.log("find in json")
+  console.log(object)
   let result = {}
   object.forEach((element) => {
     if (element[key] && element[key] == value ) {
@@ -70,6 +72,8 @@ const mateCurrentPair = (mom,dad) => {
     }
     childBeat.push(survivingNote)
   }
+  console.log("born child beat")
+  console.log(childBeat)
   return childBeat
 }
 

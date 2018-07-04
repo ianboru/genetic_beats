@@ -15,6 +15,10 @@
 .beat{
   margin-top: 20px;
 }
+.member{
+  display: inline-block;
+  padding-right: 5px;
+}
 .react-music-button {
   display: inline-block;
   text-decoration: none;
