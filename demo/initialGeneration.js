@@ -1,3 +1,5 @@
+// TODO: Rename beat to sequence
+
 export default [
   [
      {

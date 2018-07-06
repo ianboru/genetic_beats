@@ -19,6 +19,9 @@ import initialGeneration from "./initialGeneration"
 
 import Beat from "./components/beat"
 import FamilyTree from "./components/familyTree"
+import CreateBeat from "./components/createBeat"
+
+import samples from "./samples"
 
 import "./index.css"
 
@@ -29,14 +32,16 @@ const tempo = 100
 var numInitialSurvivors = 5
 var numSurvivors = 5
 var totalMembers = initialGeneration.length
+
 const generateSamplers = (data) => {
- return data.map((sample) => {
+ return data.map((sample, i) => {
    let convertedBeat = []
    sample.beat.forEach((note, i) => {
      if (note === 1) { convertedBeat.push(i) }
    })
 
    return (<Sampler
+     key    = {i}
      sample = {sample.sample}
      steps  = {convertedBeat}
    />)
@@ -64,7 +69,7 @@ const normalizeSubdivisions = (beat, newSubdivisions) => {
       })
     beat[i].beat = newSequence
   }
-  
+
   console.log(beat)
   return beat
 }
@@ -74,6 +79,7 @@ export default class Demo extends Component {
     super(props)
 
     this.state = {
+      newBeat        : null,
       playing        : false,
       beatNum        : 0,
       totalBeats     : initialGeneration.length,
@@ -129,7 +135,7 @@ export default class Demo extends Component {
   }
 
   generateChildren =   () => {
-    
+
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
     console.log(this.state.currentGeneration)
@@ -228,7 +234,6 @@ export default class Demo extends Component {
 
   }
 
-
   nextBeat = () => {
     console.log("next beat")
     var newBeatNum = 0
@@ -240,6 +245,7 @@ export default class Demo extends Component {
     }
     this.state.currentScore = this.state.currentGeneration[this.state.beatNum][0]["score"]
   }
+
   lastBeat = () => {
     console.log("last beat")
     var newBeatNum = 0
@@ -271,38 +277,59 @@ export default class Demo extends Component {
     window.location.reload()
   }
 
+  handlePlayBeat = (beat) => {
+    this.setState({ 
+      newBeat : beat,
+      playing : true,
+    })
+  }
+
   render() {
+    let beat
+    if (this.state.newBeat) {
+      beat = this.state.newBeat
+    } else {
+      beat = this.state.currentGeneration[this.state.beatNum]
+    }
+
     return (
-      <div style={{ paddingTop: "30px" }}>
+      <div style={{ paddingTop: "30px" }}> 
         <Song
           playing={this.state.playing}
           tempo={tempo}
         >
             <Sequencer
-              resolution={this.state.currentGeneration[this.state.beatNum][0]["beat"].length}
+              resolution={beat[0]["beat"].length}
               bars={1}
             >
-              {generateSamplers(this.state.currentGeneration[this.state.beatNum])}
+              {generateSamplers(beat)}
             </Sequencer>
         </Song>
+
         <FamilyTree familyTree={this.state.allGenerations}/>
+
         <div style ={{textAlign:"center"}}>
+          <CreateBeat samples={samples} handlePlayBeat={this.handlePlayBeat} />
+          <br /><br />
+
           <span>Generation: {this.state.generation}</span><br/>
           <span>Beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
-          <div>Score: {this.state.currentGeneration[this.state.beatNum][0]['score']}</div>
-          <div>Parents: {this.state.currentGeneration[this.state.beatNum][0]['parents']}</div>
+          <div>Score: {beat[0]['score']}</div>
+          <div>Parents: {beat[0]['parents']}</div>
         </div>
+
         <div style={{textAlign: "center"}}>
-          <Beat className="beat" beat={this.state.currentGeneration[this.state.beatNum]} />
+          <Beat beat={beat} />
         </div>
+
         <div className="rate-beat" style ={{textAlign:"center"}}>
-        
           <form onSubmit = {this.setScore}>
             <label>Rate Beat
               <input type="text" value={this.state.inputScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
             </label>
           </form>
         </div>
+
         <div className="buttons">
           <button
             className="react-music-button"
@@ -340,7 +367,6 @@ export default class Demo extends Component {
             Mate
           </button>
         </div>
-        
       </div>
     )
   }
