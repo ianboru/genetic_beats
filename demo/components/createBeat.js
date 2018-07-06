@@ -32,7 +32,9 @@ export default class CreateBeat extends Component {
   handlePlayBeat = () => {
     this.props.handlePlayBeat(this.state.beat)
   }
-
+  handleAddBeat = () => {
+    this.props.handleAddBeat(this.state.beat)
+  }
   render = () => {
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -55,20 +57,24 @@ export default class CreateBeat extends Component {
 
     return (
       <div>
-        {
-          beat.length > 0 ?
-            <Beat
-              beat     = {beat}
-              editable = {true}
-              onEdit   = {this.handleBeatEdit}
-            />
-              :
-            <div>No tracks yet</div>
-        }
-        <select defaultValue={16} disabled={beat.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
-        <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
-        <button onClick={this.handleAddTrack}>Add track</button>
-        <button onClick={this.handlePlayBeat}>Play beat</button>
+        <div>
+          {
+            beat.length > 0 ?
+              <Beat
+                beat     = {beat}
+                editable = {true}
+                onEdit   = {this.handleBeatEdit}
+              />
+                :
+              <div>No tracks yet</div>
+          }
+          <select defaultValue={16} disabled={beat.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
+          <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
+          <button onClick={this.handleAddTrack}>Add track</button>
+          <button onClick={this.handlePlayBeat}>Play beat</button>
+        </div>
+        <button onClick={this.handleAddBeat}>add beat to first generation</button>
+
       </div>
     )
   }

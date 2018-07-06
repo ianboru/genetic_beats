@@ -23,8 +23,6 @@ const getSubarray = (array, indexList) => {
 }
 
 const findInJSON = (object, key, value) => {
-  console.log("find in json")
-  console.log(object)
   let result = {}
   object.forEach((element) => {
     if (element[key] && element[key] == value ) {
@@ -37,7 +35,6 @@ const findInJSON = (object, key, value) => {
 
 
 const mateCurrentPair = (mom,dad) => {
-  console.log("mating current pair")
   let percentDifference = 0
   const mutationRate = .05
 

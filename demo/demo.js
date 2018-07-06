@@ -53,7 +53,6 @@ const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
     console.log("keeping the following random survivors")
     console.log(randomIntegerArray)
     nextGeneration = getSubarray(nextGeneration,randomIntegerArray)
-    console.log(nextGeneration)
     return nextGeneration
 }
 const normalizeSubdivisions = (beat, newSubdivisions) => {
@@ -70,7 +69,6 @@ const normalizeSubdivisions = (beat, newSubdivisions) => {
     beat[i].beat = newSequence
   }
 
-  console.log(beat)
   return beat
 }
 
@@ -80,7 +78,8 @@ export default class Demo extends Component {
 
     this.state = {
       newBeat        : null,
-      playing        : false,
+      playingCurrentBeat : false,
+      playingNewBeat : false,
       beatNum        : 0,
       totalBeats     : initialGeneration.length,
       currentScore   : 0,
@@ -96,8 +95,10 @@ export default class Demo extends Component {
   }
 
   handlePlayToggle = () => {
+    console.log("playing current beat ")
+    console.log(this.state.playingCurrentBeat)
     this.setState({
-      playing: !this.state.playing,
+      playingCurrentBeat: !this.state.playingCurrentBeat,
     })
   }
 
@@ -117,7 +118,22 @@ export default class Demo extends Component {
     console.log(this.state.allSamples)
 
   }
+  handleAddBeat = (beat) => {
+    console.log("adding beat")
+    this.state.currentGeneration.push(beat)
+    //initialGeneration.push(beat)
 
+    this.setState({
+      currentGeneration : this.state.currentGeneration,
+      totalBeats : this.state.totalBeats + 1
+    },()=>{
+      console.log("set state")
+      console.log(this.state.currentGeneration)
+      console.log(this.state.totalBeats)
+
+    })
+
+  }
   updateScoreThreshold = () => {
     var allScores = []
     this.state.currentGeneration.forEach(
@@ -138,7 +154,6 @@ export default class Demo extends Component {
 
     var nextGeneration = []
     console.log("generating " + numChildren + " children")
-    console.log(this.state.currentGeneration)
 
     this.updateScoreThreshold()
 
@@ -163,7 +178,6 @@ export default class Demo extends Component {
           )/2
         // If mom and dad have different beat lengths
         if(this.state.currentGeneration[momIndex][0].beat.length > this.state.currentGeneration[momIndex][0].beat.length){
-          console.log("mom long")
           this.state.currentGeneration[dadIndex] = normalizeSubdivisions(this.state.currentGeneration[dadIndex], this.state.currentGeneration[momIndex][0].beat.length)
         }else{
           this.state.currentGeneration[momIndex] = normalizeSubdivisions(this.state.currentGeneration[momIndex], this.state.currentGeneration[dadIndex][0].beat.length)
@@ -172,16 +186,10 @@ export default class Demo extends Component {
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
           console.log("child # " + childIndex)
-          console.log("samples")
-          console.log(this.state)
           this.state.allSamples.forEach(
             function(sample){
-              console.log(this.state)
               let momBeat = findInJSON(this.state.currentGeneration[momIndex],'sample',sample)
               let dadBeat = findInJSON(this.state.currentGeneration[dadIndex],'sample',sample)
-              console.log("momBeat")
-              console.log(momBeat)
-              console.log(dadBeat)
 
               //Handle case where mom and dad don't have the same samples
               if (momBeat["sample"] || dadBeat["sample"]) {
@@ -229,18 +237,19 @@ export default class Demo extends Component {
       totalBeats : nextGeneration.length,
       generation : this.state.generation + 1,
       mateButtonClass : "react-music-button",
-      allGenerations : this.state.allGenerations
+      allGenerations : this.state.allGenerations,
+
     })
 
   }
 
   nextBeat = () => {
     console.log("next beat")
-    var newBeatNum = 0
-    newBeatNum = (this.state.beatNum+1)%this.state.currentGeneration.length
-    console.log("beat num: " + newBeatNum )
-    this.setState({ beatNum: newBeatNum })
-    if(newBeatNum == 0){
+    var beatNum = 0
+    beatNum = (this.state.beatNum+1)%this.state.currentGeneration.length
+    console.log("beat num: " + beatNum )
+    this.setState({ beatNum: beatNum })
+    if(beatNum == 0){
       this.setState({ mateButtonClass : "react-music-mate-ready-button" })
     }
     this.state.currentScore = this.state.currentGeneration[this.state.beatNum][0]["score"]
@@ -248,17 +257,17 @@ export default class Demo extends Component {
 
   lastBeat = () => {
     console.log("last beat")
-    var newBeatNum = 0
+    var beatNum = 0
     if(this.state.beatNum == 0){
       // to go backwards from beat 0
-      newBeatNum = this.state.currentGeneration.length-1
+      beatNum = this.state.currentGeneration.length-1
     }else{
-      newBeatNum = (this.state.beatNum-1)%this.state.currentGeneration.length
+      beatNum = (this.state.beatNum-1)%this.state.currentGeneration.length
     }
-    console.log("beat num: " + newBeatNum )
-    this.setState({ beatNum: newBeatNum })
+    console.log("beat num: " + beatNum )
+    this.setState({ beatNum: beatNum })
 
-    this.state.currentScore = this.state.currentGeneration[this.state.newBeatNum][0]["score"]
+    this.state.currentScore = this.state.currentGeneration[this.state.beatNum][0]["score"]
   }
 
   setScore = (event) => {
@@ -277,10 +286,11 @@ export default class Demo extends Component {
     window.location.reload()
   }
 
-  handlePlayBeat = (beat) => {
+  handlePlayNewBeat = (beat) => {
+    console.log("playing new beat")
     this.setState({ 
       newBeat : beat,
-      playing : true,
+      playingNewBeat : !this.state.playingNewBeat,
     })
   }
 
@@ -291,11 +301,10 @@ export default class Demo extends Component {
     } else {
       beat = this.state.currentGeneration[this.state.beatNum]
     }
-
     return (
       <div style={{ paddingTop: "30px" }}> 
         <Song
-          playing={this.state.playing}
+          playing={this.state.playingNewBeat}
           tempo={tempo}
         >
             <Sequencer
@@ -305,21 +314,30 @@ export default class Demo extends Component {
               {generateSamplers(beat)}
             </Sequencer>
         </Song>
-
-        <FamilyTree familyTree={this.state.allGenerations}/>
+        <Song
+          playing={this.state.playingCurrentBeat}
+          tempo={tempo}
+        >
+            <Sequencer
+              resolution={this.state.currentGeneration[this.state.beatNum][0]["beat"].length}
+              bars={1}
+            >
+              {generateSamplers(this.state.currentGeneration[this.state.beatNum])}
+            </Sequencer>
+        </Song>
 
         <div style ={{textAlign:"center"}}>
-          <CreateBeat samples={samples} handlePlayBeat={this.handlePlayBeat} />
+          <CreateBeat samples={samples} handleAddBeat = {this.handleAddBeat} handlePlayBeat={this.handlePlayNewBeat} />
           <br /><br />
 
           <span>Generation: {this.state.generation}</span><br/>
           <span>Beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
-          <div>Score: {beat[0]['score']}</div>
-          <div>Parents: {beat[0]['parents']}</div>
+          <div>Score: {this.state.currentGeneration[this.state.beatNum][0]['score']}</div>
+          <div>Parents: {this.state.currentGeneration[this.state.beatNum][0]['parents']}</div>
         </div>
 
         <div style={{textAlign: "center"}}>
-          <Beat beat={beat} />
+          <Beat beat={this.state.currentGeneration[this.state.beatNum]} />
         </div>
 
         <div className="rate-beat" style ={{textAlign:"center"}}>
@@ -343,7 +361,7 @@ export default class Demo extends Component {
             type="button"
             onClick={this.handlePlayToggle}
           >
-            {this.state.playing ? 'Stop' : 'Play'}
+            {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
           </button>
           <button
             className="react-music-button"
