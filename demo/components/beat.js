@@ -13,8 +13,10 @@ class Note extends Component {
 
     return (
       <div
+        onClick   = {this.props.onClick}
         className = "note"
-        style = {{
+        style     = {{
+          cursor     : this.props.editable ? "pointer" : "default",
           margin     : 3,
           height     : 20,
           width      : 20,
@@ -33,12 +35,25 @@ const trackNameStyles = {
 
 
 class Track extends Component {
+  handleClick = (noteNumber) => {
+    const { handleEdit, number } = this.props
+    handleEdit(number, noteNumber)
+  }
+
   render = () => {
     const notes = this.props.track.beat.map( (note, i) => {
-      return <Note key={i} value={note} />
+      return (
+        <Note 
+          key      = {i}
+          value    = {note}
+          editable = {this.props.editable}
+          onClick  = {this.props.editable ? () => { this.handleClick(i) }: null}
+        />
+      )
     })
 
-    const trackNameParts = this.props.track.sample.split("/")
+    const { track } = this.props
+    const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
 
     return (
@@ -54,9 +69,23 @@ class Track extends Component {
 
 
 export default class Beat extends Component {
+  handleEdit = (track, note) => {
+    let beat = this.props.beat
+    beat[track].beat[note] = beat[track].beat[note] === 1 ? 0 : 1
+    this.props.onEdit(beat)
+  }
+
   render = () => {
     const tracks = this.props.beat.map( (track, i) => {
-      return <Track key={i} track={track} />
+      return (
+        <Track
+          key        = {i}
+          number     = {i}
+          track      = {track}
+          editable   = {this.props.editable}
+          handleEdit = {this.handleEdit}
+        />
+      )
     })
 
     return <div className="beat">{tracks}</div>
