@@ -7,13 +7,11 @@ import {
   mateCurrentPair,
 } from "./utils"
 
-import Polysynth from "./polysynth"
-import Visualization from "./visualization"
 import initialGeneration from "./initialGeneration"
 
 import Beat from "./components/beat"
-import FamilyTree from "./components/familyTree"
 import CreateBeat from "./components/createBeat"
+import FamilyTree from "./components/familyTree"
 import Player from "./components/player"
 
 import samples from "./samples"
@@ -262,7 +260,11 @@ export default class Demo extends Component {
 
         <GraphContainer familyTree={this.state.allGenerations}/>
         <div style ={{textAlign:"center"}}>
-          <CreateBeat samples={samples} handleAddBeat = {this.handleAddBeat} handlePlayBeat={this.handlePlayNewBeat} />
+          <CreateBeat 
+            samples        = {samples}
+            handleAddBeat  = {this.handleAddBeat}
+            handlePlayBeat = {this.handlePlayNewBeat}
+          />
           <br /><br />
 
           <span>Generation: {this.state.generation}</span>

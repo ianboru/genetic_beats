@@ -29,7 +29,8 @@ const generateSamplers = (data) => {
 export default class Player extends Component {
   render = () => {
     const { beat, playing } = this.props
-    const samplers = generateSamplers(beat)
+
+    if (!beat) { return null }
 
     return (
       <Song
@@ -40,7 +41,7 @@ export default class Player extends Component {
           bars       = {1}
           resolution = {beat[0]["beat"].length}
         >
-          {samplers}
+          {generateSamplers(beat)}
         </Sequencer>
       </Song>
     )

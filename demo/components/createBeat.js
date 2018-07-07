@@ -32,9 +32,11 @@ export default class CreateBeat extends Component {
   handlePlayBeat = () => {
     this.props.handlePlayBeat(this.state.beat)
   }
+
   handleAddBeat = () => {
     this.props.handleAddBeat(this.state.beat)
   }
+
   render = () => {
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -44,6 +46,7 @@ export default class CreateBeat extends Component {
         >{stepCount}</option>
       )
     })
+
     const sampleOptions = this.props.samples.map( (sample) => {
       return (
         <option
