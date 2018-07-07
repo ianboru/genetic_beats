@@ -21,29 +21,28 @@ import "./index.css"
 //Will become config
 const numChildren = 3
 const survivorPercentile = .75
-var numInitialSurvivors = 5
-var numSurvivors = 5
-var totalMembers = initialGeneration.length
+const numInitialSurvivors = 5
+let numSurvivors = 5
+let totalMembers = initialGeneration.length
 
 const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
     let randomIntegerArray = getRandomIndices(numSurvivors,nextGeneration.length)
     nextGeneration = getSubarray(nextGeneration,randomIntegerArray)
     return nextGeneration
 }
+
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   let subdivisionRatio = newSubdivisions/beat[0].sequence.length
   for (let i = 0; i < beat.length; i++) {
-    var newSequence = []
-    beat[i].sequence.forEach(
-        function(note){
-          newSequence.push(note)
-          for(let i = 0; i < subdivisionRatio-1; i++) {
-            newSequence.push(0)
-          }
-      })
+    let newSequence = []
+    beat[i].sequence.forEach( (note) => {
+      newSequence.push(note)
+      for (let i = 0; i < subdivisionRatio-1; i++) {
+        newSequence.push(0)
+      }
+    })
     beat[i].sequence = newSequence
   }
-
   return beat
 }
 
@@ -52,19 +51,18 @@ export default class Demo extends Component {
     super(props)
 
     this.state = {
-      newBeat        : null,
+      newBeat            : null,
       playingCurrentBeat : false,
-      playingNewBeat : false,
-      beatNum        : 0,
-      totalBeats     : initialGeneration.length,
-      currentScore   : 0,
-      currentGeneration : initialGeneration,
-      generation     : 0,
-      scoreThreshold : -1,
-      allSamples     : [],
-      inputScore     : "",
-      mateButtonClass : "react-music-button",
-      allGenerations : [initialGeneration]
+      playingNewBeat     : false,
+      beatNum            : 0,
+      currentScore       : 0,
+      currentGeneration  : initialGeneration,
+      generation         : 0,
+      scoreThreshold     : -1,
+      allSamples         : [],
+      inputScore         : "",
+      mateButtonClass    : "react-music-button",
+      allGenerations     : [initialGeneration]
     }
     this.updateUniqueSampleList()
   }
@@ -88,17 +86,15 @@ export default class Demo extends Component {
       })
     this.state.allSamples = allSamples
   }
+
   handleAddBeat = (beat) => {
-    this.state.currentGeneration.push(beat)
-
     this.setState({
-      currentGeneration : this.state.currentGeneration,
-      totalBeats : this.state.totalBeats + 1
-    },()=>{ })
-
+      currentGeneration : [ ...this.state.currentGeneration, beat ],
+    })
   }
+
   updateScoreThreshold = () => {
-    var allScores = []
+    let allScores = []
     this.state.currentGeneration.forEach(
       function(beat){
         allScores.push(beat[0]["score"])
@@ -110,7 +106,7 @@ export default class Demo extends Component {
   }
 
   generateChildren =   () => {
-    var nextGeneration = []
+    let nextGeneration = []
     this.updateScoreThreshold()
 
     const currentGen = this.state.currentGeneration
@@ -192,13 +188,10 @@ export default class Demo extends Component {
     this.setState({
       beatNum           : 0,
       currentGeneration : nextGeneration,
-      totalBeats        : nextGeneration.length,
       generation        : this.state.generation + 1,
       mateButtonClass   : "react-music-button",
       allGenerations    : this.state.allGenerations,
-
     })
-
   }
 
   nextBeat = () => {
@@ -269,7 +262,7 @@ export default class Demo extends Component {
 
           <span>Generation: {this.state.generation}</span>
           <br/>
-          <span>Beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
+          <span>Beat: {this.state.beatNum+1} / {this.state.currentGeneration.length}</span>
           <div>Score: {this.state.currentGeneration[this.state.beatNum][0]['score']}</div>
           <div>Parents: {this.state.currentGeneration[this.state.beatNum][0]['parents']}</div>
         </div>
