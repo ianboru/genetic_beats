@@ -1,12 +1,6 @@
 import React, { Component } from "react"
 
 import {
-  Song,
-  Sequencer,
-  Sampler,
-} from "../src"
-
-import {
   getRandomIndices,
   getSubarray,
   findInJSON,
@@ -20,6 +14,7 @@ import initialGeneration from "./initialGeneration"
 import Beat from "./components/beat"
 import FamilyTree from "./components/familyTree"
 import CreateBeat from "./components/createBeat"
+import Player from "./components/player"
 
 import samples from "./samples"
 import GraphContainer from "./components/graphContainer"
@@ -28,25 +23,9 @@ import "./index.css"
 //Will become config
 const numChildren = 3
 const survivorPercentile = .75
-const tempo = 100
 var numInitialSurvivors = 5
 var numSurvivors = 5
 var totalMembers = initialGeneration.length
-
-const generateSamplers = (data) => {
- return data.map((sample, i) => {
-   let convertedBeat = []
-   sample.beat.forEach((note, i) => {
-     if (note === 1) { convertedBeat.push(i) }
-   })
-
-   return (<Sampler
-     key    = {i}
-     sample = {sample.sample}
-     steps  = {convertedBeat}
-   />)
- })
-}
 
 const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
     let randomIntegerArray = getRandomIndices(numSurvivors,nextGeneration.length)
@@ -270,43 +249,24 @@ export default class Demo extends Component {
   }
 
   render() {
-    let beat
-    if (this.state.newBeat) {
-      beat = this.state.newBeat
-    } else {
-      beat = this.state.currentGeneration[this.state.beatNum]
-    }
-
     return (
       <div style={{ paddingTop: "30px" }}>
-        <Song
-          playing={this.state.playingNewBeat}
-          tempo={tempo}
-        >
-            <Sequencer
-              resolution={beat[0]["beat"].length}
-              bars={1}
-            >
-              {generateSamplers(beat)}
-            </Sequencer>
-        </Song>
-        <Song
-          playing={this.state.playingCurrentBeat}
-          tempo={tempo}
-        >
-            <Sequencer
-              resolution={this.state.currentGeneration[this.state.beatNum][0]["beat"].length}
-              bars={1}
-            >
-              {generateSamplers(this.state.currentGeneration[this.state.beatNum])}
-            </Sequencer>
-        </Song>
+        <Player
+          beat    = {this.state.newBeat}
+          playing = {this.state.playingNewBeat}
+        />
+        <Player
+          beat    = {this.state.currentGeneration[this.state.beatNum]}
+          playing = {this.state.playingCurrentBeat}
+        />
+
         <GraphContainer familyTree={this.state.allGenerations}/>
         <div style ={{textAlign:"center"}}>
           <CreateBeat samples={samples} handleAddBeat = {this.handleAddBeat} handlePlayBeat={this.handlePlayNewBeat} />
           <br /><br />
 
-          <span>Generation: {this.state.generation}</span><br/>
+          <span>Generation: {this.state.generation}</span>
+          <br/>
           <span>Beat: {this.state.beatNum+1} / {this.state.totalBeats}</span>
           <div>Score: {this.state.currentGeneration[this.state.beatNum][0]['score']}</div>
           <div>Parents: {this.state.currentGeneration[this.state.beatNum][0]['parents']}</div>
