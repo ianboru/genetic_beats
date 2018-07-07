@@ -41,9 +41,9 @@ class Track extends Component {
   }
 
   render = () => {
-    const notes = this.props.track.beat.map( (note, i) => {
+    const notes = this.props.track.sequence.map( (note, i) => {
       return (
-        <Note 
+        <Note
           key      = {i}
           value    = {note}
           editable = {this.props.editable}
@@ -71,7 +71,7 @@ class Track extends Component {
 export default class Beat extends Component {
   handleEdit = (track, note) => {
     let beat = this.props.beat
-    beat[track].beat[note] = beat[track].beat[note] === 1 ? 0 : 1
+    beat[track].sequence[note] = beat[track].sequence[note] === 1 ? 0 : 1
     this.props.onEdit(beat)
   }
 

@@ -20,7 +20,7 @@ export default class CreateBeat extends Component {
       beat: [ ...this.state.beat, {
         sample,
         score: 0,
-        beat: Array(steps).fill(0),
+        sequence: Array(steps).fill(0),
       } ]
     })
   }

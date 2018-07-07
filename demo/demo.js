@@ -31,17 +31,17 @@ const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
     return nextGeneration
 }
 const normalizeSubdivisions = (beat, newSubdivisions) => {
-  let subdivisionRatio = newSubdivisions/beat[0].beat.length
+  let subdivisionRatio = newSubdivisions/beat[0].sequence.length
   for (let i = 0; i < beat.length; i++) {
     var newSequence = []
-    beat[i].beat.forEach(
+    beat[i].sequence.forEach(
         function(note){
           newSequence.push(note)
           for(let i = 0; i < subdivisionRatio-1; i++) {
             newSequence.push(0)
           }
       })
-    beat[i].beat = newSequence
+    beat[i].sequence = newSequence
   }
 
   return beat
@@ -121,8 +121,8 @@ export default class Demo extends Component {
         //don't mate unfit pairs
         if(
             (
-              currentGen[momIndex][0]["score"] < this.state.scoreThreshold ||
-              currentGen[dadIndex][0]["score"] < this.state.scoreThreshold
+              currentGen[momIndex][0].score < this.state.scoreThreshold ||
+              currentGen[dadIndex][0].score < this.state.scoreThreshold
             ) &&
             nextGeneration.length > numSurvivors
           ){
@@ -130,8 +130,8 @@ export default class Demo extends Component {
         }
         //to pass on to children
         let aveParentScore = (
-          currentGen[momIndex][0]["score"] +
-          currentGen[dadIndex][0]["score"]
+          currentGen[momIndex][0].score +
+          currentGen[dadIndex][0].score
           )/2
         // If mom and dad have different beat lengths
         if(currentGen[momIndex][0].beat.length > currentGen[momIndex][0].beat.length){
@@ -148,12 +148,12 @@ export default class Demo extends Component {
               let dadBeat = findInJSON(currentGen[dadIndex],'sample',sample)
 
               //Handle case where mom and dad don't have the same samples
-              if (momBeat["sample"] || dadBeat["sample"]) {
+              if (momBeat.sample || dadBeat.sample) {
 
-                if (!momBeat["sample"]) {
+                if (!momBeat.sample) {
                   momBeat = dadBeat
                 }
-                if (!dadBeat["sample"]) {
+                if (!dadBeat.sample) {
                   dadBeat = momBeat
                 }
                 const childBeatForSample = mateCurrentPair(
@@ -162,18 +162,18 @@ export default class Demo extends Component {
                 )
                 let dadIndexString = dadIndex + totalMembers - initialGeneration.length
                 let momIndexString = momIndex + totalMembers - initialGeneration.length
-                let dadKey = currentGen[dadIndex]["key"] ?
-                            currentGen[dadIndex]["key"]: dadIndex
-                let momKey = currentGen[momIndex]["key"] ?
-                            currentGen[momIndex]["key"]: momIndex
+                let dadKey = currentGen[dadIndex].key ?
+                            currentGen[dadIndex].key : dadIndex
+                let momKey = currentGen[momIndex].key ?
+                            currentGen[momIndex].key : momIndex
                 currentBeat.push({
-                  "parents" : dadIndexString + " & " + momIndexString,
-                  "key" : this.state.generation + "." + childIndex,
-                  "momKey" : momKey,
-                  "dadKey" : dadKey,
-                  "score"   : aveParentScore,
-                  "sample"  : sample,
-                  "beat"    : childBeatForSample,
+                  parents : dadIndexString + " & " + momIndexString,
+                  key     : this.state.generation + "." + childIndex,
+                  momKey  : momKey,
+                  dadKey  : dadKey,
+                  score   : aveParentScore,
+                  sample  : sample,
+                  beat    : childBeatForSample,
                 })
               }
 
@@ -190,12 +190,12 @@ export default class Demo extends Component {
     nextGeneration = keepRandomSurvivors(numSurvivors, nextGeneration)
     this.state.allGenerations.push(nextGeneration)
     this.setState({
-      beatNum    : 0,
-      currentGeneration  : nextGeneration,
-      totalBeats : nextGeneration.length,
-      generation : this.state.generation + 1,
-      mateButtonClass : "react-music-button",
-      allGenerations : this.state.allGenerations,
+      beatNum           : 0,
+      currentGeneration : nextGeneration,
+      totalBeats        : nextGeneration.length,
+      generation        : this.state.generation + 1,
+      mateButtonClass   : "react-music-button",
+      allGenerations    : this.state.allGenerations,
 
     })
 
@@ -260,7 +260,7 @@ export default class Demo extends Component {
 
         <GraphContainer familyTree={this.state.allGenerations}/>
         <div style ={{textAlign:"center"}}>
-          <CreateBeat 
+          <CreateBeat
             samples        = {samples}
             handleAddBeat  = {this.handleAddBeat}
             handlePlayBeat = {this.handlePlayNewBeat}
