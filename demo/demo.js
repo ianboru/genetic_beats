@@ -50,8 +50,6 @@ const generateSamplers = (data) => {
 
 const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
     let randomIntegerArray = getRandomIndices(numSurvivors,nextGeneration.length)
-    console.log("keeping the following random survivors")
-    console.log(randomIntegerArray)
     nextGeneration = getSubarray(nextGeneration,randomIntegerArray)
     return nextGeneration
 }
@@ -95,8 +93,6 @@ export default class Demo extends Component {
   }
 
   handlePlayToggle = () => {
-    console.log("playing current beat ")
-    console.log(this.state.playingCurrentBeat)
     this.setState({
       playingCurrentBeat: !this.state.playingCurrentBeat,
     })
@@ -113,54 +109,39 @@ export default class Demo extends Component {
           }
         })
       })
-    console.log("all samples")
     this.state.allSamples = allSamples
-    console.log(this.state.allSamples)
 
   }
   handleAddBeat = (beat) => {
-    console.log("adding beat")
     this.state.currentGeneration.push(beat)
     //initialGeneration.push(beat)
 
     this.setState({
       currentGeneration : this.state.currentGeneration,
       totalBeats : this.state.totalBeats + 1
-    },()=>{
-      console.log("set state")
-      console.log(this.state.currentGeneration)
-      console.log(this.state.totalBeats)
-
-    })
+    },()=>{ })
 
   }
   updateScoreThreshold = () => {
     var allScores = []
     this.state.currentGeneration.forEach(
       function(beat){
-        console.log(beat[0]["score"])
         allScores.push(beat[0]["score"])
     })
     allScores = allScores.sort((a, b) => a - b)
-    console.log("all sorted scores")
-    console.log(allScores)
 
     let percentileIndex = Math.floor(allScores.length*survivorPercentile) - 1;
     this.state.scoreThreshold =  allScores[percentileIndex]
-    console.log("current score threshold: " + this.state.scoreThreshold)
   }
 
   generateChildren =   () => {
-
     var nextGeneration = []
-    console.log("generating " + numChildren + " children")
 
     this.updateScoreThreshold()
 
     // For all mom, dad pairs for all children in number of children per generation
     for (let momIndex = 0; momIndex < this.state.currentGeneration.length; momIndex++) {
       for (let dadIndex = momIndex+1; dadIndex < this.state.currentGeneration.length; dadIndex++) {
-        console.log("mating " + momIndex + " and " + dadIndex)
         //don't mate unfit pairs
         if(
             (
@@ -185,7 +166,6 @@ export default class Demo extends Component {
 
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
-          console.log("child # " + childIndex)
           this.state.allSamples.forEach(
             function(sample){
               let momBeat = findInJSON(this.state.currentGeneration[momIndex],'sample',sample)
@@ -206,10 +186,10 @@ export default class Demo extends Component {
                 )
                 let dadIndexString = dadIndex + totalMembers - initialGeneration.length
                 let momIndexString = momIndex + totalMembers - initialGeneration.length
-                let dadKey = this.state.currentGeneration[dadIndex]["key"] ? 
+                let dadKey = this.state.currentGeneration[dadIndex]["key"] ?
                             this.state.currentGeneration[dadIndex]["key"]: dadIndex
-                let momKey = this.state.currentGeneration[momIndex]["key"] ? 
-                            this.state.currentGeneration[momIndex]["key"]: momIndex          
+                let momKey = this.state.currentGeneration[momIndex]["key"] ?
+                            this.state.currentGeneration[momIndex]["key"]: momIndex
                 currentBeat.push({
                   "parents" : dadIndexString + " & " + momIndexString,
                   "key" : this.state.generation + "." + childIndex,
@@ -222,17 +202,12 @@ export default class Demo extends Component {
               }
 
           }, this)
-          console.log("adding")
-          console.log(currentBeat)
           nextGeneration.push(currentBeat)
         }
       }
     }
 
     //so generations don't get huge.
-    console.log("done mating, next generation:")
-    console.log(nextGeneration)
-    console.log(nextGeneration.length)
     totalMembers += nextGeneration.length
     //can't have more survivors then members of the generation
     numSurvivors = Math.min(numInitialSurvivors,nextGeneration.length)
@@ -251,10 +226,8 @@ export default class Demo extends Component {
   }
 
   nextBeat = () => {
-    console.log("next beat")
     var beatNum = 0
     beatNum = (this.state.beatNum+1)%this.state.currentGeneration.length
-    console.log("beat num: " + beatNum )
     this.setState({ beatNum: beatNum })
     if(beatNum == 0){
       this.setState({ mateButtonClass : "react-music-mate-ready-button" })
@@ -263,7 +236,6 @@ export default class Demo extends Component {
   }
 
   lastBeat = () => {
-    console.log("last beat")
     var beatNum = 0
     if(this.state.beatNum == 0){
       // to go backwards from beat 0
@@ -271,7 +243,6 @@ export default class Demo extends Component {
     }else{
       beatNum = (this.state.beatNum-1)%this.state.currentGeneration.length
     }
-    console.log("beat num: " + beatNum )
     this.setState({ beatNum: beatNum })
 
     this.state.currentScore = this.state.currentGeneration[this.state.beatNum][0]["score"]
@@ -279,7 +250,6 @@ export default class Demo extends Component {
 
   setScore = (event) => {
     event.preventDefault()
-    console.log("setting score: " + this.state.currentScore)
     this.state.currentGeneration[this.state.beatNum][0]["score"] = parseInt(this.state.inputScore)
     this.state.inputScore = ""
     this.nextBeat()
@@ -294,8 +264,7 @@ export default class Demo extends Component {
   }
 
   handlePlayNewBeat = (beat) => {
-    console.log("playing new beat")
-    this.setState({ 
+    this.setState({
       newBeat : beat,
       playingNewBeat : !this.state.playingNewBeat,
     })
@@ -309,7 +278,7 @@ export default class Demo extends Component {
       beat = this.state.currentGeneration[this.state.beatNum]
     }
     return (
-      <div style={{ paddingTop: "30px" }}> 
+      <div style={{ paddingTop: "30px" }}>
         <Song
           playing={this.state.playingNewBeat}
           tempo={tempo}
