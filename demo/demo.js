@@ -110,11 +110,9 @@ export default class Demo extends Component {
         })
       })
     this.state.allSamples = allSamples
-
   }
   handleAddBeat = (beat) => {
     this.state.currentGeneration.push(beat)
-    //initialGeneration.push(beat)
 
     this.setState({
       currentGeneration : this.state.currentGeneration,
@@ -136,17 +134,18 @@ export default class Demo extends Component {
 
   generateChildren =   () => {
     var nextGeneration = []
-
     this.updateScoreThreshold()
 
+    const currentGen = this.state.currentGeneration
+
     // For all mom, dad pairs for all children in number of children per generation
-    for (let momIndex = 0; momIndex < this.state.currentGeneration.length; momIndex++) {
-      for (let dadIndex = momIndex+1; dadIndex < this.state.currentGeneration.length; dadIndex++) {
+    for (let momIndex = 0; momIndex < currentGen.length; momIndex++) {
+      for (let dadIndex = momIndex+1; dadIndex < currentGen.length; dadIndex++) {
         //don't mate unfit pairs
         if(
             (
-              this.state.currentGeneration[momIndex][0]["score"] < this.state.scoreThreshold ||
-              this.state.currentGeneration[dadIndex][0]["score"] < this.state.scoreThreshold
+              currentGen[momIndex][0]["score"] < this.state.scoreThreshold ||
+              currentGen[dadIndex][0]["score"] < this.state.scoreThreshold
             ) &&
             nextGeneration.length > numSurvivors
           ){
@@ -154,22 +153,22 @@ export default class Demo extends Component {
         }
         //to pass on to children
         let aveParentScore = (
-          this.state.currentGeneration[momIndex][0]["score"] +
-          this.state.currentGeneration[dadIndex][0]["score"]
+          currentGen[momIndex][0]["score"] +
+          currentGen[dadIndex][0]["score"]
           )/2
         // If mom and dad have different beat lengths
-        if(this.state.currentGeneration[momIndex][0].beat.length > this.state.currentGeneration[momIndex][0].beat.length){
-          this.state.currentGeneration[dadIndex] = normalizeSubdivisions(this.state.currentGeneration[dadIndex], this.state.currentGeneration[momIndex][0].beat.length)
+        if(currentGen[momIndex][0].beat.length > currentGen[momIndex][0].beat.length){
+          currentGen[dadIndex] = normalizeSubdivisions(currentGen[dadIndex], currentGen[momIndex][0].beat.length)
         }else{
-          this.state.currentGeneration[momIndex] = normalizeSubdivisions(this.state.currentGeneration[momIndex], this.state.currentGeneration[dadIndex][0].beat.length)
+          currentGen[momIndex] = normalizeSubdivisions(currentGen[momIndex], currentGen[dadIndex][0].beat.length)
         }
 
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
           this.state.allSamples.forEach(
             function(sample){
-              let momBeat = findInJSON(this.state.currentGeneration[momIndex],'sample',sample)
-              let dadBeat = findInJSON(this.state.currentGeneration[dadIndex],'sample',sample)
+              let momBeat = findInJSON(currentGen[momIndex],'sample',sample)
+              let dadBeat = findInJSON(currentGen[dadIndex],'sample',sample)
 
               //Handle case where mom and dad don't have the same samples
               if (momBeat["sample"] || dadBeat["sample"]) {
@@ -186,10 +185,10 @@ export default class Demo extends Component {
                 )
                 let dadIndexString = dadIndex + totalMembers - initialGeneration.length
                 let momIndexString = momIndex + totalMembers - initialGeneration.length
-                let dadKey = this.state.currentGeneration[dadIndex]["key"] ?
-                            this.state.currentGeneration[dadIndex]["key"]: dadIndex
-                let momKey = this.state.currentGeneration[momIndex]["key"] ?
-                            this.state.currentGeneration[momIndex]["key"]: momIndex
+                let dadKey = currentGen[dadIndex]["key"] ?
+                            currentGen[dadIndex]["key"]: dadIndex
+                let momKey = currentGen[momIndex]["key"] ?
+                            currentGen[momIndex]["key"]: momIndex
                 currentBeat.push({
                   "parents" : dadIndexString + " & " + momIndexString,
                   "key" : this.state.generation + "." + childIndex,
@@ -277,6 +276,7 @@ export default class Demo extends Component {
     } else {
       beat = this.state.currentGeneration[this.state.beatNum]
     }
+
     return (
       <div style={{ paddingTop: "30px" }}>
         <Song
