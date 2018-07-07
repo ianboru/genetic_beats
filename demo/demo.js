@@ -22,7 +22,7 @@ import FamilyTree from "./components/familyTree"
 import CreateBeat from "./components/createBeat"
 
 import samples from "./samples"
-
+import GraphContainer from "./components/graphContainer"
 import "./index.css"
 
 //Will become config
@@ -206,8 +206,15 @@ export default class Demo extends Component {
                 )
                 let dadIndexString = dadIndex + totalMembers - initialGeneration.length
                 let momIndexString = momIndex + totalMembers - initialGeneration.length
+                let dadKey = this.state.currentGeneration[dadIndex]["key"] ? 
+                            this.state.currentGeneration[dadIndex]["key"]: dadIndex
+                let momKey = this.state.currentGeneration[momIndex]["key"] ? 
+                            this.state.currentGeneration[momIndex]["key"]: momIndex          
                 currentBeat.push({
                   "parents" : dadIndexString + " & " + momIndexString,
+                  "key" : this.state.generation + "." + childIndex,
+                  "momKey" : momKey,
+                  "dadKey" : dadKey,
                   "score"   : aveParentScore,
                   "sample"  : sample,
                   "beat"    : childBeatForSample,
@@ -325,7 +332,7 @@ export default class Demo extends Component {
               {generateSamplers(this.state.currentGeneration[this.state.beatNum])}
             </Sequencer>
         </Song>
-
+        <GraphContainer familyTree={this.state.allGenerations}/>
         <div style ={{textAlign:"center"}}>
           <CreateBeat samples={samples} handleAddBeat = {this.handleAddBeat} handlePlayBeat={this.handlePlayNewBeat} />
           <br /><br />

@@ -9,6 +9,51 @@ export default class GraphContainer extends React.Component{
         console.log("graph container constructed")
     }
 
+    
+    
+    componentDidUpdate(){
+        console.log("graph container mounted ")
+        this.familyTreeToGraph()
+
+    }
+    familyTreeToGraph(){
+        let nodes = []
+        let edges = []
+        let elements = []
+        console.log("current family tree")
+        console.log(this.props.familyTree)
+        this.props.familyTree.forEach(
+            function(currentGeneration){
+                let memberNum = 0
+                currentGeneration.forEach(
+                    function(currentMember){
+                        ++memberNum
+                        var name = ""
+                        console.log(currentMember)
+                        if(currentMember[0].key){
+                          name = currentMember[0].key
+                          edges.push({ data: { source: currentMember.momKey, target: currentMember.key } })
+                          edges.push({ data: { source: currentMember.dadKey, target: currentMember.key } })
+
+                        }else{
+                          name = memberNum
+                        }
+                        nodes.push({ data: { id: name } })
+                })
+        })
+        elements = { 
+                        "nodes":nodes,
+                        "edges":edges
+                        } 
+        
+        console.log("elements")
+        console.log(elements)
+        console.log(nodes)
+        console.log(edges)
+        this.renderCytoscapeElement(elements);
+
+    
+    }
     renderCytoscapeElement(elements){
 
         console.log('* Cytoscape.js is rendering the graph..');
@@ -50,53 +95,6 @@ export default class GraphContainer extends React.Component{
             }
             }); 
     }
-    
-    componentDidMount(){
-        console.log("graph container mounted ")
-        this.familyTreeToGraph()
-
-    }
-    familyTreeToGraph(){
-        let nodes = []
-        let edges = []
-        let elements = []
-        console.log("current family tree")
-        console.log(this.props.familyTree)
-        this.props.familyTree.forEach(
-            function(currentGeneration){
-                let memberNum = 0
-                currentGeneration.forEach(
-                    function(currentMember){
-                        ++memberNum
-                        var name = ""
-                        if(currentMember[0].parentsString){
-                          name = currentMember[0].parentsString
-                          parents = currentMember[0].parentsString.split("&")
-
-                          console.log(parents)
-                          edges.push({ data: { source: parents[0], target: currentMember.index } })
-                          edges.push({ data: { source: parents[1], target: currentMember.index } })
-
-                        }else{
-                          name = memberNum
-                        }
-                        nodes.push({ data: { id: name } })
-                })
-        })
-        elements = { 
-                        "nodes":nodes,
-                        "edges":edges
-                        } 
-        
-        console.log("elements")
-        console.log(elements)
-        console.log(nodes)
-        console.log(edges)
-        this.renderCytoscapeElement(elements);
-
-    
-    }
-
     render(){
 
         let cyStyle = {

@@ -1,5 +1,5 @@
 // TODO: Rename beat to sequence
-
+// Make score a property of parent beat rather than of track as it is now
 export default [
   [
      {
