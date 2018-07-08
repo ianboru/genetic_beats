@@ -29,7 +29,8 @@ const generateSamplers = (beat) => {
 export default class Player extends Component {
   render = () => {
     const { beat, playing } = this.props
-
+    console.log("player")
+    console.log(beat)
     if (!beat) { return null }
 
     return (

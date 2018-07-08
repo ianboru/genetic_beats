@@ -22,6 +22,7 @@ export default class GraphContainer extends React.Component{
         let elements = []
         console.log("current family tree")
         console.log(this.props.familyTree)
+        console.log("starting each member")
         this.props.familyTree.forEach(
             function(currentGeneration){
                 let memberNum = 0
@@ -30,29 +31,21 @@ export default class GraphContainer extends React.Component{
                         ++memberNum
                         var name = ""
                         console.log(currentMember)
-                        if(currentMember[0].key){
-                          name = currentMember[0].key
-                          edges.push({ data: { source: currentMember.momKey, target: currentMember.key } })
-                          edges.push({ data: { source: currentMember.dadKey, target: currentMember.key } })
-
-                        }else{
-                          name = memberNum
+                        if(currentMember[0].parents){
+                          edges.push({ data: { source: currentMember[0].key, target: currentMember[0].momKey } })
+                          edges.push({ data: { source: currentMember[0].key, target: currentMember[0].dadKey } })
+                          console.log("found key")
                         }
-                        nodes.push({ data: { id: name } })
+                        nodes.push({ data: { id: currentMember[0].key } })
                 })
         })
         elements = { 
-                        "nodes":nodes,
-                        "edges":edges
-                        } 
-        
+                    "nodes":nodes,
+                    "edges":edges
+                    } 
         console.log("elements")
         console.log(elements)
-        console.log(nodes)
-        console.log(edges)
         this.renderCytoscapeElement(elements);
-
-    
     }
     renderCytoscapeElement(elements){
 
@@ -93,7 +86,10 @@ export default class GraphContainer extends React.Component{
                 directed: true,
                 padding: 10
             }
-            }); 
+        }); 
+        this.cy.on('click', 'node', function(evt){
+            console.log( 'clicked ' + this.id() );
+        })
     }
     render(){
 

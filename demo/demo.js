@@ -110,7 +110,8 @@ export default class Demo extends Component {
     this.updateScoreThreshold()
 
     const currentGen = this.state.currentGeneration
-
+    console.log("generating children")
+    console.log(currentGen)
     // For all mom, dad pairs for all children in number of children per generation
     for (let momIndex = 0; momIndex < currentGen.length; momIndex++) {
       for (let dadIndex = momIndex+1; dadIndex < currentGen.length; dadIndex++) {
@@ -130,10 +131,10 @@ export default class Demo extends Component {
           currentGen[dadIndex][0].score
           )/2
         // If mom and dad have different beat lengths
-        if(currentGen[momIndex][0].beat.length > currentGen[momIndex][0].beat.length){
-          currentGen[dadIndex] = normalizeSubdivisions(currentGen[dadIndex], currentGen[momIndex][0].beat.length)
+        if(currentGen[momIndex][0].sequence.length > currentGen[momIndex][0].sequence.length){
+          currentGen[dadIndex] = normalizeSubdivisions(currentGen[dadIndex], currentGen[momIndex][0].sequence.length)
         }else{
-          currentGen[momIndex] = normalizeSubdivisions(currentGen[momIndex], currentGen[dadIndex][0].beat.length)
+          currentGen[momIndex] = normalizeSubdivisions(currentGen[momIndex], currentGen[dadIndex][0].sequence.length)
         }
 
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
@@ -169,7 +170,7 @@ export default class Demo extends Component {
                   dadKey  : dadKey,
                   score   : aveParentScore,
                   sample  : sample,
-                  beat    : childBeatForSample,
+                  sequence    : childBeatForSample,
                 })
               }
 

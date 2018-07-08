@@ -17,7 +17,7 @@ export default [
        sequence: [1, 0, 1, 0, 1, 0, 1, 0], 
      },
   ],
-  /*[
+  [
      {
        score: 0,
        sample: "samples/kick.wav",
@@ -34,7 +34,7 @@ export default [
        sequence: [1, 0, 1, 0, 1, 0, 1, 0], 
      },
   ],
-
+  /*
   [
      {
        score: 0,

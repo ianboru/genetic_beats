@@ -55,13 +55,13 @@ const mateCurrentPair = (mom,dad) => {
   }
 
   let childBeat = []
-  for (let noteIndex = 0; noteIndex < mom["beat"].length; noteIndex++) {
+  for (let noteIndex = 0; noteIndex < mom.sequence.length; noteIndex++) {
     let randomInteger = Math.floor(Math.random() * 100)
     let survivingNote = 0
     if (randomInteger > inheritanceComparitor) {
-      survivingNote = fittestBeat["beat"][noteIndex]
+      survivingNote = fittestBeat.sequence[noteIndex]
     } else {
-      survivingNote = weakestBeat["beat"][noteIndex]
+      survivingNote = weakestBeat.sequence[noteIndex]
     }
     randomInteger = Math.floor(Math.random() * 100)
     if(randomInteger < mutationComparitor){
@@ -69,8 +69,6 @@ const mateCurrentPair = (mom,dad) => {
     }
     childBeat.push(survivingNote)
   }
-  console.log("born child beat")
-  console.log(childBeat)
   return childBeat
 }
 

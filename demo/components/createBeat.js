@@ -6,7 +6,7 @@ import Beat from "./beat"
 export default class CreateBeat extends Component {
   constructor(props) {
     super(props)
-
+    console.log("constructing create beat")
     this.state = {
       beat: [],
     }
