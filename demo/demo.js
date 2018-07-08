@@ -230,17 +230,12 @@ export default class Demo extends Component {
       currentScore: this.state.currentGeneration[this.state.beatNum]["score"]
      })
   }
-
   setScore = (event) => {
     event.preventDefault()
     this.state.currentBeat[0]["score"] = parseInt(this.state.inputScore)
-    this.setState({ 
-      currentBeat:  this.state.currentBeat[0],
-      inputScore: "",
-     },()=>{
-      this.nextBeat()
-     })
-    
+    this.state.inputScore = ""
+    this.nextBeat()
+
   }
 
   handleInputChange = (e) => {

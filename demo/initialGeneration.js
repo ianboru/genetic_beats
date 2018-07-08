@@ -39,6 +39,7 @@ export default [
   
   [
      {
+       key: "0.2",
        score: 0,
        sample: "samples/kick.wav",
        sequence: [1, 1, 0, 0, 1, 1, 0, 0],
@@ -57,6 +58,7 @@ export default [
   ],
   [
      {
+       key: "0.3",
        score: 0,
        sample: "samples/kick.wav",
        sequence: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],

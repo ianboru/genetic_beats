@@ -10,7 +10,6 @@ export default class GraphContainer extends React.Component{
 
     
     handleSelectNode(id){
-        console.log("handling selected node " + id)
         this.props.handleSelectNode(id)
     }
     componentDidUpdate(){
@@ -36,7 +35,7 @@ export default class GraphContainer extends React.Component{
                           edges.push({ data: { source: currentMember[0].dadKey, target: id  } })
                         }
 
-                        nodes.push({ data: { id: id, name: id} })
+                        nodes.push({ data: { id: id, name: id,score: currentMember.score} })
                 })
         })
         elements = { 
@@ -48,8 +47,6 @@ export default class GraphContainer extends React.Component{
         this.renderCytoscapeElement(elements);
     }
     renderCytoscapeElement(elements){
-
-        console.log('* Cytoscape.js is rendering the graph..');
         this.cy = cytoscape(
         {
             container: document.getElementById('cy'),
@@ -62,14 +59,15 @@ export default class GraphContainer extends React.Component{
                 .css({
                     'height': 120,
                     'width': 120,
-                    'background-color': 'white',
+                    'background-color': 'mapData(score, 0, 20, white, red)',
                     'background-fit': 'cover',
                     'border-color': '#000',
                     'border-width': 3,
                     'border-opacity': 0.5,
                     'content': 'data(name)',
                     'text-valign': 'center',
-                    'label': 'data(id)'
+                    'label': 'data(id)',
+
                 })
                 .selector('edge')
                 .css({
@@ -90,9 +88,7 @@ export default class GraphContainer extends React.Component{
         }); 
         var that = this
         this.cy.on('click', 'node', function(evt){
-            console.log( 'clicked ' + this.id() );
             that.handleSelectNode(this.id())
-            console.log("handled")
         })
     }
     render(){
