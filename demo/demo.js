@@ -18,12 +18,17 @@ import samples from "./samples"
 import GraphContainer from "./components/graphContainer"
 import "./index.css"
 
-//Will become config
+/*TODO 
+make config
+fix mating after selecting
+move more functions to utilities
+fix beat labeling 
+*/
+
 const numChildren = 3
 const survivorPercentile = .75
 const numInitialSurvivors = 5
 let numSurvivors = 5
-let totalMembers = initialGeneration.length
 
 const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
     let randomIntegerArray = getRandomIndices(numSurvivors,nextGeneration.length)
@@ -57,7 +62,8 @@ export default class Demo extends Component {
       beatNum            : 0,
       currentScore       : 0,
       currentGeneration  : initialGeneration,
-      generation         : 0,
+      currentBeat        : initialGeneration[0],
+      generation         : 1,
       scoreThreshold     : -1,
       allSamples         : [],
       inputScore         : "",
@@ -110,9 +116,9 @@ export default class Demo extends Component {
     this.updateScoreThreshold()
 
     const currentGen = this.state.currentGeneration
-    console.log("generating children")
-    console.log(currentGen)
+    console.log("generating children of generation " + this.state.generation)
     // For all mom, dad pairs for all children in number of children per generation
+    let childNum = 0
     for (let momIndex = 0; momIndex < currentGen.length; momIndex++) {
       for (let dadIndex = momIndex+1; dadIndex < currentGen.length; dadIndex++) {
         //don't mate unfit pairs
@@ -157,31 +163,27 @@ export default class Demo extends Component {
                   momBeat,
                   dadBeat
                 )
-                let dadIndexString = dadIndex + totalMembers - initialGeneration.length
-                let momIndexString = momIndex + totalMembers - initialGeneration.length
-                let dadKey = currentGen[dadIndex].key ?
-                            currentGen[dadIndex].key : dadIndex
-                let momKey = currentGen[momIndex].key ?
-                            currentGen[momIndex].key : momIndex
+                console.log(this.state.generation + "." + childNum)
                 currentBeat.push({
-                  parents : dadIndexString + " & " + momIndexString,
-                  key     : this.state.generation + "." + childIndex,
-                  momKey  : momKey,
-                  dadKey  : dadKey,
+                  key     : this.state.generation + "." + childNum,
+                  momKey  : currentGen[momIndex][0].key,
+                  dadKey  : currentGen[dadIndex][0].key ,
                   score   : aveParentScore,
+                  childIndex : childNum,
                   sample  : sample,
                   sequence    : childBeatForSample,
+                  generation : this.state.generation
                 })
               }
 
           }, this)
           nextGeneration.push(currentBeat)
+          ++childNum
         }
       }
     }
 
     //so generations don't get huge.
-    totalMembers += nextGeneration.length
     //can't have more survivors then members of the generation
     numSurvivors = Math.min(numInitialSurvivors,nextGeneration.length)
     nextGeneration = keepRandomSurvivors(numSurvivors, nextGeneration)
@@ -198,11 +200,17 @@ export default class Demo extends Component {
   nextBeat = () => {
     var beatNum = 0
     beatNum = (this.state.beatNum+1)%this.state.currentGeneration.length
-    this.setState({ beatNum: beatNum })
+    this.setState({ 
+      beatNum: beatNum,
+      currentBeat: this.state.currentGeneration[this.state.beatNum],
+      currentScore: this.state.currentGeneration[this.state.beatNum]["score"]
+     })
     if(beatNum == 0){
-      this.setState({ mateButtonClass : "react-music-mate-ready-button" })
+      this.setState({ 
+        mateButtonClass : "react-music-mate-ready-button",
+      })
     }
-    this.state.currentScore = this.state.currentGeneration[this.state.beatNum][0]["score"]
+
   }
 
   lastBeat = () => {
@@ -213,22 +221,57 @@ export default class Demo extends Component {
     }else{
       beatNum = (this.state.beatNum-1)%this.state.currentGeneration.length
     }
-    this.setState({ beatNum: beatNum })
-
-    this.state.currentScore = this.state.currentGeneration[this.state.beatNum][0]["score"]
+    this.setState({ 
+      beatNum: beatNum,
+      currentBeat: this.state.currentGeneration[this.state.beatNum],
+      currentScore: this.state.currentGeneration[this.state.beatNum]["score"]
+     })
   }
 
   setScore = (event) => {
     event.preventDefault()
-    this.state.currentGeneration[this.state.beatNum][0]["score"] = parseInt(this.state.inputScore)
+    this.state.currentBeat[0]["score"] = parseInt(this.state.inputScore)
     this.state.inputScore = ""
+    this.setState({ 
+      currentBeat:  this.state.currentBeat[0],
+     })
     this.nextBeat()
   }
 
   handleInputChange = (e) => {
     this.setState({ inputScore: e.target.value })
   }
+  findBeatInGeneration = (id, generation) => {
+    let beat = {}
+    generation.forEach(
+      function(curBeat){
+        if(curBeat[0].key == id){
+          beat =curBeat
+        }
+    })
+    return beat
+  }
+  handleSelectNode = (id) => {
+    console.log("selected node " + id)
+    let idData = id.split(".")
+    let generation = parseInt(idData[0])
 
+    let currentGeneration = this.state.allGenerations[generation]
+    let currentBeat = this.findBeatInGeneration(id, currentGeneration)
+    let beatNum = currentBeat[0].childIndex
+  
+    console.log(currentGeneration)
+
+    this.setState({ 
+      currentBeat:  currentBeat,
+      generation: generation,
+      currentScore: currentBeat[0].score,
+      beatNum: beatNum,
+      currentGeneration: currentGeneration,
+
+     })
+   
+  }
   reset = () => {
     window.location.reload()
   }
@@ -248,11 +291,11 @@ export default class Demo extends Component {
           playing = {this.state.playingNewBeat}
         />
         <Player
-          beat    = {this.state.currentGeneration[this.state.beatNum]}
+          beat    = {this.state.currentBeat}
           playing = {this.state.playingCurrentBeat}
         />
 
-        <GraphContainer familyTree={this.state.allGenerations}/>
+        <GraphContainer handleSelectNode = {this.handleSelectNode} familyTree={this.state.allGenerations}/>
         <div style ={{textAlign:"center"}}>
           <CreateBeat
             samples        = {samples}
@@ -263,13 +306,13 @@ export default class Demo extends Component {
 
           <span>Generation: {this.state.generation}</span>
           <br/>
-          <span>Beat: {this.state.beatNum+1} / {this.state.currentGeneration.length}</span>
-          <div>Score: {this.state.currentGeneration[this.state.beatNum][0]['score']}</div>
-          <div>Parents: {this.state.currentGeneration[this.state.beatNum][0]['parents']}</div>
+          <span>Beat: {this.state.currentBeat[0].key}</span>
+          <div>Score: {this.state.currentBeat[0]['score']}</div>
+          <div>Parents: {this.state.currentBeat[0]['parents']}</div>
         </div>
 
         <div style={{textAlign: "center"}}>
-          <Beat beat={this.state.currentGeneration[this.state.beatNum]} />
+          <Beat beat={this.state.currentBeat} />
         </div>
 
         <div className="rate-beat" style ={{textAlign:"center"}}>

@@ -6,37 +6,37 @@ export default class GraphContainer extends React.Component{
     constructor(props){
         super(props);
         this.renderCytoscapeElement = this.renderCytoscapeElement.bind(this);
-        console.log("graph container constructed")
     }
 
     
-    
+    handleSelectNode(id){
+        console.log("handling selected node " + id)
+        this.props.handleSelectNode(id)
+    }
     componentDidUpdate(){
-        console.log("graph container mounted ")
         this.familyTreeToGraph()
 
     }
+
     familyTreeToGraph(){
         let nodes = []
         let edges = []
         let elements = []
-        console.log("current family tree")
-        console.log(this.props.familyTree)
-        console.log("starting each member")
+        
         this.props.familyTree.forEach(
             function(currentGeneration){
                 let memberNum = 0
                 currentGeneration.forEach(
                     function(currentMember){
                         ++memberNum
-                        var name = ""
-                        console.log(currentMember)
-                        if(currentMember[0].parents){
-                          edges.push({ data: { source: currentMember[0].key, target: currentMember[0].momKey } })
-                          edges.push({ data: { source: currentMember[0].key, target: currentMember[0].dadKey } })
-                          console.log("found key")
+                        let id = currentMember[0].key
+                        
+                        if(currentMember[0].momKey && currentMember[0].dadKey ){
+                          edges.push({ data: { source: currentMember[0].momKey, target: id  } })
+                          edges.push({ data: { source: currentMember[0].dadKey, target: id  } })
                         }
-                        nodes.push({ data: { id: currentMember[0].key } })
+
+                        nodes.push({ data: { id: id, name: id} })
                 })
         })
         elements = { 
@@ -50,7 +50,6 @@ export default class GraphContainer extends React.Component{
     renderCytoscapeElement(elements){
 
         console.log('* Cytoscape.js is rendering the graph..');
-        console.log(elements)
         this.cy = cytoscape(
         {
             container: document.getElementById('cy'),
@@ -61,14 +60,16 @@ export default class GraphContainer extends React.Component{
             style: cytoscape.stylesheet()
                 .selector('node')
                 .css({
-                    'height': 80,
-                    'width': 80,
+                    'height': 120,
+                    'width': 120,
+                    'background-color': 'white',
                     'background-fit': 'cover',
                     'border-color': '#000',
                     'border-width': 3,
                     'border-opacity': 0.5,
                     'content': 'data(name)',
                     'text-valign': 'center',
+                    'label': 'data(id)'
                 })
                 .selector('edge')
                 .css({
@@ -87,15 +88,18 @@ export default class GraphContainer extends React.Component{
                 padding: 10
             }
         }); 
+        var that = this
         this.cy.on('click', 'node', function(evt){
             console.log( 'clicked ' + this.id() );
+            that.handleSelectNode(this.id())
+            console.log("handled")
         })
     }
     render(){
 
         let cyStyle = {
-        height: '300px',
-        width: '300px',
+        height: '400px',
+        width: '400px',
         margin: '20px 0px'
       };
         return(

@@ -2,6 +2,7 @@ import React, { Component } from "react"
 
 class Generation extends Component {
   render = () => {
+    console.log("family tree generation")
     console.log(this.props.generation)
     const generation = this.props.generation.map( (member, i)=>{
       console.log(member)
