@@ -98,7 +98,6 @@ export default class GraphContainer extends React.Component{
     render(){
 
         let cyStyle = {
-        'padding-left': 50px,
         height: '400px',
         width: '400px',
         margin: '20px 0px'
