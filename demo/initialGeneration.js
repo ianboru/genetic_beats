@@ -36,7 +36,7 @@ export default [
        sequence: [1, 0, 1, 0, 1, 0, 1, 0], 
      },
   ],
-  /*
+  
   [
      {
        score: 0,
@@ -45,7 +45,7 @@ export default [
      },
      {
        score: 0,
-       sample: "samples/cowbell.wav",
+       sample: "samples/6581__ST_012.wav",
        sequence: [0, 0, 1, 0, 0, 1, 0, 0],
      },
      {
@@ -72,5 +72,5 @@ export default [
        sequence: [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0], 
      },
 
-  ],*/
+  ],
 ]

@@ -94,6 +94,7 @@ export default class Demo extends Component {
   }
 
   handleAddBeat = (beat) => {
+    beat[0].key = "0." + this.state.currentGeneration.length
     this.setState({
       currentGeneration : [ ...this.state.currentGeneration, beat ],
     })
@@ -108,7 +109,9 @@ export default class Demo extends Component {
     allScores = allScores.sort((a, b) => a - b)
 
     let percentileIndex = Math.floor(allScores.length*survivorPercentile) - 1;
-    this.state.scoreThreshold =  allScores[percentileIndex]
+    this.setState({
+      scoreThreshold: allScores[percentileIndex]
+    }) 
   }
 
   generateChildren =   () => {
@@ -231,11 +234,13 @@ export default class Demo extends Component {
   setScore = (event) => {
     event.preventDefault()
     this.state.currentBeat[0]["score"] = parseInt(this.state.inputScore)
-    this.state.inputScore = ""
     this.setState({ 
       currentBeat:  this.state.currentBeat[0],
+      inputScore: "",
+     },()=>{
+      this.nextBeat()
      })
-    this.nextBeat()
+    
   }
 
   handleInputChange = (e) => {
