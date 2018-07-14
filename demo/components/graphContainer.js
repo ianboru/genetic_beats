@@ -31,11 +31,11 @@ export default class GraphContainer extends React.Component {
           currentGeneration.forEach(
             function(currentMember){
               ++memberNum
-              let id = currentMember[0].key
+              let id = currentMember.key
 
-              if(currentMember[0].momKey && currentMember[0].dadKey ){
-                edges.push({ data: { source: currentMember[0].momKey, target: id  } })
-                edges.push({ data: { source: currentMember[0].dadKey, target: id  } })
+              if(currentMember.momKey && currentMember.dadKey ){
+                edges.push({ data: { source: currentMember.momKey, target: id  } })
+                edges.push({ data: { source: currentMember.dadKey, target: id  } })
               }
 
               nodes.push({ data: { id: id, name: id,score: currentMember.score} })

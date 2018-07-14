@@ -101,7 +101,7 @@ export default class Beat extends Component {
   }
 
   render = () => {
-    const tracks = this.props.beat.map( (track, i) => {
+    const tracks = this.props.beat["beat"].map( (track, i) => {
       return (
         <Track
           setGain   = {this.props.setGain}

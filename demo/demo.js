@@ -38,16 +38,16 @@ const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
 }
 
 const normalizeSubdivisions = (beat, newSubdivisions) => {
-  let subdivisionRatio = newSubdivisions/beat[0].sequence.length
+  let subdivisionRatio = newSubdivisions/beat["beat"][0].sequence.length
   for (let i = 0; i < beat.length; i++) {
     let newSequence = []
-    beat[i].sequence.forEach( (note) => {
+    beat["beat"][i].sequence.forEach( (note) => {
       newSequence.push(note)
       for (let i = 0; i < subdivisionRatio-1; i++) {
         newSequence.push(0)
       }
     })
-    beat[i].sequence = newSequence
+    beat["beat"][i].sequence = newSequence
   }
   return beat
 }
@@ -83,7 +83,7 @@ export default class Demo extends Component {
     let allSamples = []
     this.state.currentGeneration.forEach(
       function(parent){
-        parent.forEach(
+        parent["beat"].forEach(
         function(beat){
           if(allSamples.indexOf(beat["sample"]) == -1){
             allSamples.push(beat["sample"])
@@ -94,7 +94,7 @@ export default class Demo extends Component {
   }
 
   handleAddBeat = (beat) => {
-    beat[0].key = "0." + this.state.currentGeneration.length
+    beat.key = "0." + this.state.currentGeneration.length
     this.setState({
       currentGeneration : [ ...this.state.currentGeneration, beat ],
     })
@@ -104,7 +104,7 @@ export default class Demo extends Component {
     let allScores = []
     this.state.currentGeneration.forEach(
       function(beat){
-        allScores.push(beat[0]["score"])
+        allScores.push(beat["score"])
     })
     allScores = allScores.sort((a, b) => a - b)
 
@@ -127,8 +127,8 @@ export default class Demo extends Component {
         //don't mate unfit pairs
         if(
             (
-              currentGen[momIndex][0].score < this.state.scoreThreshold ||
-              currentGen[dadIndex][0].score < this.state.scoreThreshold
+              currentGen[momIndex].score < this.state.scoreThreshold ||
+              currentGen[dadIndex].score < this.state.scoreThreshold
             ) &&
             nextGeneration.length > numSurvivors
           ){
@@ -136,22 +136,22 @@ export default class Demo extends Component {
         }
         //to pass on to children
         let aveParentScore = (
-          currentGen[momIndex][0].score +
-          currentGen[dadIndex][0].score
+          currentGen[momIndex].score +
+          currentGen[dadIndex].score
           )/2
         // If mom and dad have different beat lengths
-        if(currentGen[momIndex][0].sequence.length > currentGen[momIndex][0].sequence.length){
-          currentGen[dadIndex] = normalizeSubdivisions(currentGen[dadIndex], currentGen[momIndex][0].sequence.length)
+        if(currentGen[momIndex]["beat"][0].sequence.length > currentGen[momIndex]["beat"][0].sequence.length){
+          currentGen[dadIndex] = normalizeSubdivisions(currentGen[dadIndex], currentGen[momIndex]["beat"][0].sequence.length)
         }else{
-          currentGen[momIndex] = normalizeSubdivisions(currentGen[momIndex], currentGen[dadIndex][0].sequence.length)
+          currentGen[momIndex] = normalizeSubdivisions(currentGen[momIndex], currentGen[dadIndex]["beat"][0].sequence.length)
         }
 
         for(let childIndex = 0; childIndex < numChildren; childIndex++){
           var currentBeat = []
           this.state.allSamples.forEach(
             function(sample){
-              let momBeat = findInJSON(currentGen[momIndex],'sample',sample)
-              let dadBeat = findInJSON(currentGen[dadIndex],'sample',sample)
+              let momBeat = findInJSON(currentGen[momIndex]["beat"],'sample',sample)
+              let dadBeat = findInJSON(currentGen[dadIndex]["beat"],'sample',sample)
 
               //Handle case where mom and dad don't have the same samples
               if (momBeat.sample || dadBeat.sample) {
@@ -168,19 +168,21 @@ export default class Demo extends Component {
                 )
                 console.log(this.state.generation + "." + childNum)
                 currentBeat.push({
-                  key     : this.state.generation + "." + childNum,
-                  momKey  : currentGen[momIndex][0].key,
-                  dadKey  : currentGen[dadIndex][0].key ,
-                  score   : aveParentScore,
-                  childIndex : childNum,
-                  sample  : sample,
-                  sequence    : childBeatForSample,
-                  generation : this.state.generation
+                    sample  : sample,
+                    sequence    : childBeatForSample,
                 })
               }
 
           }, this)
-          nextGeneration.push(currentBeat)
+          nextGeneration.push({
+                                "beat": currentBeat,
+                                key     : this.state.generation + "." + childNum,
+                                momKey  : currentGen[momIndex].key,
+                                dadKey  : currentGen[dadIndex].key,
+                                score   : aveParentScore,
+                                childIndex : childNum,
+                                generation : this.state.generation
+                              })
           ++childNum
         }
       }
@@ -190,6 +192,7 @@ export default class Demo extends Component {
     //can't have more survivors then members of the generation
     numSurvivors = Math.min(numInitialSurvivors,nextGeneration.length)
     nextGeneration = keepRandomSurvivors(numSurvivors, nextGeneration)
+    console.log(nextGeneration)
     this.state.allGenerations.push(nextGeneration)
     this.setState({
       beatNum           : 0,
@@ -230,7 +233,7 @@ export default class Demo extends Component {
   }
   setScore = (event) => {
     event.preventDefault()
-    this.state.currentBeat[0]["score"] = parseInt(this.state.inputScore)
+    this.state.currentBeat["score"] = parseInt(this.state.inputScore)
     this.state.inputScore = ""
     this.nextBeat()
 
@@ -244,7 +247,7 @@ export default class Demo extends Component {
     let beat = {}
     generation.forEach(
       function(curBeat){
-        if(curBeat[0].key == id){
+        if(curBeat.key == id){
           beat =curBeat
         }
     })
@@ -258,7 +261,7 @@ export default class Demo extends Component {
 
     let currentGeneration = this.state.allGenerations[generation]
     let currentBeat = this.findBeatInGeneration(id, currentGeneration)
-    let beatNum = currentBeat[0].childIndex
+    let beatNum = currentBeat.childIndex
   
     console.log(currentGeneration)
 
@@ -280,7 +283,7 @@ export default class Demo extends Component {
     console.log(beatNum)
     console.log(trackNum)
     var updatedGeneration = this.state.currentGeneration
-    updatedGeneration[beatNum][trackNum]["gain"] = gain/100
+    updatedGeneration[beatNum]["beat"][trackNum]["gain"] = gain/100
     console.log(updatedGeneration)
     this.setState({
       currentGeneration : updatedGeneration
@@ -317,9 +320,9 @@ export default class Demo extends Component {
 
             <span>Generation: {this.state.generation}</span>
             <br/>
-            <span>Beat: {this.state.currentBeat[0].key}</span>
-            <div>Score: {this.state.currentBeat[0]['score']}</div>
-            <div>Parents: {this.state.currentBeat[0]['parents']}</div>
+            <span>Beat: {this.state.currentBeat.key}</span>
+            <div>Score: {this.state.currentBeat['score']}</div>
+            <div>Parents: {this.state.currentBeat['parents']}</div>
           </div>
 
           <div>
