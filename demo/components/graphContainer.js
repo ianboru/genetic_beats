@@ -90,8 +90,9 @@ export default class GraphContainer extends React.Component {
               padding  : 10,
             }
         })
-        this.cy.on('click', 'node', (evt) => {
-            this.handleSelectNode(this.id())
+        var that = this
+        this.cy.on('click', 'node', function(evt){
+            that.handleSelectNode(this.id())
         })
     }
 
@@ -99,13 +100,10 @@ export default class GraphContainer extends React.Component {
       let cyStyle = {
         height : '400px',
         width  : '400px',
-        margin : '20px 0px'
+        margin : '20px 0px',
+        ...this.props.style
       }
-      return(
-          <div className="node_selected">
-              <div style={cyStyle}  id="cy"/>
-          </div>
-      )
+      return <div style={cyStyle}  id="cy"/>
     }
 }
 

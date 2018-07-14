@@ -241,6 +241,7 @@ export default class Demo extends Component {
   handleInputChange = (e) => {
     this.setState({ inputScore: e.target.value })
   }
+
   findBeatInGeneration = (id, generation) => {
     let beat = {}
     generation.forEach(
@@ -251,6 +252,7 @@ export default class Demo extends Component {
     })
     return beat
   }
+
   handleSelectNode = (id) => {
     console.log("selected node " + id)
     let idData = id.split(".")
@@ -272,6 +274,7 @@ export default class Demo extends Component {
      })
    
   }
+
   reset = () => {
     window.location.reload()
   }
@@ -295,71 +298,81 @@ export default class Demo extends Component {
           playing = {this.state.playingCurrentBeat}
         />
 
-        <GraphContainer handleSelectNode = {this.handleSelectNode} familyTree={this.state.allGenerations}/>
-        <div style ={{textAlign:"center"}}>
-          <CreateBeat
-            samples        = {samples}
-            handleAddBeat  = {this.handleAddBeat}
-            handlePlayBeat = {this.handlePlayNewBeat}
-          />
-          <br /><br />
+        <div style={{ display: "inline-block" }}>
+          <div>
+            <CreateBeat
+              samples        = {samples}
+              handleAddBeat  = {this.handleAddBeat}
+              handlePlayBeat = {this.handlePlayNewBeat}
+            />
+            <br /><br />
 
-          <span>Generation: {this.state.generation}</span>
-          <br/>
-          <span>Beat: {this.state.currentBeat[0].key}</span>
-          <div>Score: {this.state.currentBeat[0]['score']}</div>
-          <div>Parents: {this.state.currentBeat[0]['parents']}</div>
+            <span>Generation: {this.state.generation}</span>
+            <br/>
+            <span>Beat: {this.state.currentBeat[0].key}</span>
+            <div>Score: {this.state.currentBeat[0]['score']}</div>
+            <div>Parents: {this.state.currentBeat[0]['parents']}</div>
+          </div>
+
+          <div>
+            <Beat beat={this.state.currentBeat} />
+          </div>
+
+          <div className="rate-beat">
+            <form onSubmit = {this.setScore}>
+              <label>Rate Beat
+                <input type="text" value={this.state.inputScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
+              </label>
+            </form>
+          </div>
+
+          <div className="buttons">
+            <button
+              className="react-music-button"
+              type="button"
+              onClick={this.reset}
+            >
+              Reset
+            </button>
+            <button
+              className="react-music-button"
+              type="button"
+              onClick={this.handlePlayToggle}
+            >
+              {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
+            </button>
+            <button
+              className="react-music-button"
+              type="button"
+              onClick={this.nextBeat}
+            >
+              Next Beat
+            </button>
+            <button
+              className="react-music-button"
+              type="button"
+              onClick={this.lastBeat}
+            >
+              Last Beat
+            </button>
+            <button
+              className={this.state.mateButtonClass}
+              type="button"
+              onClick={this.generateChildren}
+            >
+              Mate
+            </button>
+          </div>
         </div>
 
-        <div style={{textAlign: "center"}}>
-          <Beat beat={this.state.currentBeat} />
-        </div>
-
-        <div className="rate-beat" style ={{textAlign:"center"}}>
-          <form onSubmit = {this.setScore}>
-            <label>Rate Beat
-              <input type="text" value={this.state.inputScore} onChange={ this.handleInputChange.bind(this) } placeholder="Enter Score"/>
-            </label>
-          </form>
-        </div>
-
-        <div className="buttons">
-          <button
-            className="react-music-button"
-            type="button"
-            onClick={this.reset}
-          >
-            Reset
-          </button>
-          <button
-            className="react-music-button"
-            type="button"
-            onClick={this.handlePlayToggle}
-          >
-            {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
-          </button>
-          <button
-            className="react-music-button"
-            type="button"
-            onClick={this.nextBeat}
-          >
-            Next Beat
-          </button>
-          <button
-            className="react-music-button"
-            type="button"
-            onClick={this.lastBeat}
-          >
-            Last Beat
-          </button>
-          <button
-            className={this.state.mateButtonClass}
-            type="button"
-            onClick={this.generateChildren}
-          >
-            Mate
-          </button>
-        </div>
+        <GraphContainer 
+          familyTree       = {this.state.allGenerations}
+          handleSelectNode = {this.handleSelectNode}
+          style = {{ 
+            display: "inline-block",
+            verticalAlign: "top",
+          }}
+        />
       </div>
     )
   }
