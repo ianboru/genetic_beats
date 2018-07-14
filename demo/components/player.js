@@ -21,6 +21,7 @@ const generateSamplers = (beat) => {
      key    = {i}
      sample = {track.sample}
      steps  = {convertedBeat}
+     gain = {track.gain}
    />)
  })
 }

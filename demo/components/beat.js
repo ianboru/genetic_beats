@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 
+// Using an ES6 transpiler like Babel
+import Slider from 'react-rangeslider'
 
 class Note extends Component {
   render = () => {
@@ -35,6 +37,21 @@ const trackNameStyles = {
 
 
 class Track extends Component {
+  constructor (props, context) {
+    super(props, context)
+    this.state = {
+      value: this.props.track.gain
+    }
+  }
+
+  handleChange = (evt) => {
+    console.log("beat props")
+    console.log(evt)
+    this.props.setGain(evt.target.value, this.props.trackNum,this.props.beatNum)
+    this.setState({
+      value: evt.target.value
+    })
+  };
   handleClick = (noteNumber) => {
     const { handleEdit, number } = this.props
     handleEdit(number, noteNumber)
@@ -55,13 +72,21 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-
+    const { value } = this.state
     return (
       <div className="track">
         <div style={trackNameStyles}>
           {trackName}
         </div>
         {notes}
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={50}
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
       </div>
     )
   }
@@ -79,8 +104,9 @@ export default class Beat extends Component {
     const tracks = this.props.beat.map( (track, i) => {
       return (
         <Track
-          key        = {i}
-          number     = {i}
+          setGain   = {this.props.setGain}
+          trackNum    = {i}
+          beatNum     = {this.props.beatNum}
           track      = {track}
           editable   = {this.props.editable}
           handleEdit = {this.handleEdit}

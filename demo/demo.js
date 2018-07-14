@@ -18,6 +18,7 @@ import samples from "./samples"
 import GraphContainer from "./components/graphContainer"
 import "./index.css"
 
+
 /*TODO 
 make config
 fix mating after selecting
@@ -273,6 +274,18 @@ export default class Demo extends Component {
   reset = () => {
     window.location.reload()
   }
+  setGain = (gain,beatNum,trackNum) =>{
+    console.log("setting gain in demo")
+    console.log(this.state)
+    console.log(beatNum)
+    console.log(trackNum)
+    var updatedGeneration = this.state.currentGeneration
+    updatedGeneration[beatNum][trackNum]["gain"] = gain/100
+    console.log(updatedGeneration)
+    this.setState({
+      currentGeneration : updatedGeneration
+    })
+  }
 
   handlePlayNewBeat = (beat) => {
     this.setState({
@@ -310,7 +323,7 @@ export default class Demo extends Component {
           </div>
 
           <div>
-            <Beat beat={this.state.currentBeat} />
+            <Beat beatNum = {this.state.beatNum} setGain={this.setGain}  beat={this.state.currentBeat} />
           </div>
 
           <div className="rate-beat">
