@@ -17,11 +17,13 @@ export default class CreateBeat extends Component {
     const sample = this.sampleSelect.value
 
     this.setState( {
-      beat: [ ...this.state.beat, {
-        sample,
-        score: 0,
-        sequence: Array(steps).fill(0),
-      } ]
+      beat: [ ...this.state.beat,{ 
+        "beat": {
+                  sample,
+                  sequence: Array(steps).fill(0),
+                },
+        "score": 0,
+         }]
     })
   }
 

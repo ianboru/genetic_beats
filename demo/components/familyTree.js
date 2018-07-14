@@ -7,8 +7,8 @@ class Generation extends Component {
     const generation = this.props.generation.map( (member, i)=>{
       console.log(member)
       var name = ""
-      if(member[0].parents){
-        name = member[0].parents
+      if(member.parents){
+        name = member.parents
       }else{
         name = i
       }
