@@ -60,7 +60,6 @@ export default class Demo extends Component {
       playingCurrentBeat : false,
       playingNewBeat     : false,
       beatNum            : 0,
-      currentScore       : 0,
       currentGeneration  : initialGeneration,
       currentBeat        : initialGeneration[0],
       generation         : 1,
@@ -206,7 +205,6 @@ export default class Demo extends Component {
     this.setState({ 
       beatNum: beatNum,
       currentBeat: this.state.currentGeneration[this.state.beatNum],
-      currentScore: this.state.currentGeneration[this.state.beatNum]["score"]
      })
     if(beatNum == 0){
       this.setState({ 
@@ -227,7 +225,6 @@ export default class Demo extends Component {
     this.setState({ 
       beatNum: beatNum,
       currentBeat: this.state.currentGeneration[this.state.beatNum],
-      currentScore: this.state.currentGeneration[this.state.beatNum]["score"]
      })
   }
   setScore = (event) => {
@@ -264,15 +261,13 @@ export default class Demo extends Component {
   
     console.log(currentGeneration)
 
-    this.setState({ 
-      currentBeat:  currentBeat,
-      generation: generation,
-      currentScore: currentBeat[0].score,
-      beatNum: beatNum,
-      currentGeneration: currentGeneration,
 
-     })
-   
+    this.setState({
+      currentBeat       : currentBeat,
+      generation        : generation,
+      beatNum           : beatNum,
+      currentGeneration : currentGeneration,
+    })
   }
 
   reset = () => {
