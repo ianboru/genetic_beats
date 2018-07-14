@@ -1,16 +1,24 @@
-const arrayOfRandomIntegers = (numIntegers, arrayLength) => {
+const getRandomIndices = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
+
   for (let i = 0; i < numIntegers; i++) {
     var randomInteger = Math.floor(Math.random() * arrayLength)
+    if(randomIntegerArray.indexOf(randomInteger) == -1){
+      randomIntegerArray.push(randomInteger)
+      continue
+    }
     while (randomIntegerArray.indexOf(randomInteger) > -1) {
       randomInteger = Math.floor(Math.random() * arrayLength)
+      if(randomIntegerArray.indexOf(randomInteger) == -1){
+        randomIntegerArray.push(randomInteger)
+        break
+      }
     }
-    randomIntegerArray.push(randomInteger)
   }
   return randomIntegerArray
 }
 
-const arrayFromIndexList = (array, indexList) => {
+const getSubarray = (array, indexList) => {
   return indexList.map((i) => { return array[i] })
 }
 
@@ -24,28 +32,11 @@ const findInJSON = (object, key, value) => {
   return result
 }
 
-const normalizeSubdivisions = (sequence, newSubdivisions) => {
-  let newSequence = []
-  let subdivisionRatio = newSubdivisions/sequence.length
-  console.log("Normalizing")
-  console.log(sequence)
-  sequence.forEach(
-    function(note){
-      newSequence.push(note)
-      for(let i = 0; i < subdivisionRatio-1; i++) {
-        newSequence.push(0)
-      }
-  })
-  console.log(newSequence)
-  return newSequence
-}
+
 
 const mateCurrentPair = (mom,dad) => {
-  console.log("mating current pair")
-  console.log(mom)
-  console.log(dad)
   let percentDifference = 0
-  const mutationRate = .15
+  const mutationRate = .05
 
   if(Math.max(dad["score"],mom["score"]) > 0){
     percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
@@ -64,13 +55,13 @@ const mateCurrentPair = (mom,dad) => {
   }
 
   let childBeat = []
-  for (let noteIndex = 0; noteIndex < mom["beat"].length; noteIndex++) {
+  for (let noteIndex = 0; noteIndex < mom.sequence.length; noteIndex++) {
     let randomInteger = Math.floor(Math.random() * 100)
     let survivingNote = 0
     if (randomInteger > inheritanceComparitor) {
-      survivingNote = fittestBeat["beat"][noteIndex]
+      survivingNote = fittestBeat.sequence[noteIndex]
     } else {
-      survivingNote = weakestBeat["beat"][noteIndex]
+      survivingNote = weakestBeat.sequence[noteIndex]
     }
     randomInteger = Math.floor(Math.random() * 100)
     if(randomInteger < mutationComparitor){
@@ -83,8 +74,8 @@ const mateCurrentPair = (mom,dad) => {
 
 
 export {
-  arrayOfRandomIntegers,
-  arrayFromIndexList,
+  getRandomIndices,
+  getSubarray,
   findInJSON,
   mateCurrentPair,
 }

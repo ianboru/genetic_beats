@@ -15,8 +15,10 @@ class Note extends Component {
 
     return (
       <div
+        onClick   = {this.props.onClick}
         className = "note"
-        style = {{
+        style     = {{
+          cursor     : this.props.editable ? "pointer" : "default",
           margin     : 3,
           height     : 20,
           width      : 20,
@@ -42,18 +44,33 @@ class Track extends Component {
     }
   }
 
-  handleChange = value => {
-    this.props.setGain(this.props.track.gain, this.props.key,this.props.beatNum)
+  handleChange = (evt) => {
+    console.log("beat props")
+    console.log(evt)
+    this.props.setGain(evt.target.value, this.props.trackNum,this.props.beatNum)
     this.setState({
-      value: value
+      value: evt.target.value
     })
   };
+  handleClick = (noteNumber) => {
+    const { handleEdit, number } = this.props
+    handleEdit(number, noteNumber)
+  }
+
   render = () => {
-    const notes = this.props.track.beat.map( (note, i) => {
-      return <Note key={i} value={note} />
+    const notes = this.props.track.sequence.map( (note, i) => {
+      return (
+        <Note
+          key      = {i}
+          value    = {note}
+          editable = {this.props.editable}
+          onClick  = {this.props.editable ? () => { this.handleClick(i) }: null}
+        />
+      )
     })
 
-    const trackNameParts = this.props.track.sample.split("/")
+    const { track } = this.props
+    const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
     const { value } = this.state
     return (
@@ -62,13 +79,14 @@ class Track extends Component {
           {trackName}
         </div>
         {notes}
-          <Slider
+          <input
+            type="range"
             min={0}
             max={100}
-            value={value}
+            value={50}
+            value={this.state.value}
             onChange={this.handleChange}
           />
-          <div className='value'>{value}</div>
       </div>
     )
   }
@@ -76,9 +94,24 @@ class Track extends Component {
 
 
 export default class Beat extends Component {
+  handleEdit = (track, note) => {
+    let beat = this.props.beat
+    beat[track].sequence[note] = beat[track].sequence[note] === 1 ? 0 : 1
+    this.props.onEdit(beat)
+  }
+
   render = () => {
     const tracks = this.props.beat.map( (track, i) => {
-      return <Track key={i} track={track} beatNum = {this.props.beatNum}/>
+      return (
+        <Track
+          setGain   = {this.props.setGain}
+          trackNum    = {i}
+          beatNum     = {this.props.beatNum}
+          track      = {track}
+          editable   = {this.props.editable}
+          handleEdit = {this.handleEdit}
+        />
+      )
     })
 
     return <div className="beat">{tracks}</div>
