@@ -1,51 +1,55 @@
-import React,{Component} from 'react';
-import cytoscape from 'cytoscape';
+import React,{Component} from 'react'
+import cytoscape from 'cytoscape'
 
 
-export default class GraphContainer extends React.Component{
+export default class GraphContainer extends React.Component {
     constructor(props){
-        super(props);
-        this.renderCytoscapeElement = this.renderCytoscapeElement.bind(this);
+      super(props)
+      this.renderCytoscapeElement = this.renderCytoscapeElement.bind(this)
     }
 
-    
     handleSelectNode(id){
-        this.props.handleSelectNode(id)
+      this.props.handleSelectNode(id)
     }
-    componentDidUpdate(){
-        this.familyTreeToGraph()
 
+    componentDidMount() {
+      this.familyTreeToGraph()
+    }
+
+    componentDidUpdate() {
+      this.familyTreeToGraph()
     }
 
     familyTreeToGraph(){
-        let nodes = []
-        let edges = []
-        let elements = []
-        
-        this.props.familyTree.forEach(
-            function(currentGeneration){
-                let memberNum = 0
-                currentGeneration.forEach(
-                    function(currentMember){
-                        ++memberNum
-                        let id = currentMember[0].key
-                        
-                        if(currentMember[0].momKey && currentMember[0].dadKey ){
-                          edges.push({ data: { source: currentMember[0].momKey, target: id  } })
-                          edges.push({ data: { source: currentMember[0].dadKey, target: id  } })
-                        }
+      let nodes = []
+      let edges = []
+      let elements = []
 
-                        nodes.push({ data: { id: id, name: id,score: currentMember.score} })
-                })
-        })
-        elements = { 
-                    "nodes":nodes,
-                    "edges":edges
-                    } 
-        console.log("elements")
-        console.log(elements)
-        this.renderCytoscapeElement(elements);
+      this.props.familyTree.forEach(
+        function(currentGeneration){
+          let memberNum = 0
+          currentGeneration.forEach(
+            function(currentMember){
+              ++memberNum
+              let id = currentMember[0].key
+
+              if(currentMember[0].momKey && currentMember[0].dadKey ){
+                edges.push({ data: { source: currentMember[0].momKey, target: id  } })
+                edges.push({ data: { source: currentMember[0].dadKey, target: id  } })
+              }
+
+              nodes.push({ data: { id: id, name: id,score: currentMember.score} })
+          })
+      })
+      elements = {
+        "nodes" : nodes,
+        "edges" : edges,
+      }
+      console.log("elements")
+      console.log(elements)
+      this.renderCytoscapeElement(elements)
     }
+
     renderCytoscapeElement(elements){
         this.cy = cytoscape(
         {
@@ -81,28 +85,26 @@ export default class GraphContainer extends React.Component{
             elements: elements,
 
             layout: {
-                name: 'breadthfirst',
-                directed: true,
-                padding: 10
+              name     : 'breadthfirst',
+              directed : true,
+              padding  : 10,
             }
-        }); 
+        })
         var that = this
         this.cy.on('click', 'node', function(evt){
             that.handleSelectNode(this.id())
         })
     }
-    render(){
 
-        let cyStyle = {
-        height: '400px',
-        width: '400px',
-        margin: '20px 0px'
-      };
-        return(
-            <div className="node_selected">
-                <div style={cyStyle}  id="cy"/>
-            </div>
-        )
+    render() {
+      let cyStyle = {
+        border : '1px solid #333',
+        height : '400px',
+        width  : '400px',
+        margin : '20px 0px',
+        ...this.props.style
+      }
+      return <div style={cyStyle}  id="cy"/>
     }
 }
 

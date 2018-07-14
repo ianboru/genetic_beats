@@ -6,7 +6,6 @@
 }
 .buttons{
     margin: 0 auto 0;
-    text-align: center;
     margin-top: 20px
 }
 .rate-beat{
@@ -30,7 +29,6 @@
   width: 108px;
   height: 108px;
   position: relative;
-  text-align: center;
   line-height: 108px;
   border-radius: 50%;
   box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
@@ -75,7 +73,6 @@
   width: 108px;
   height: 108px;
   position: relative;
-  text-align: center;
   line-height: 108px;
   border-radius: 50%;
   box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
