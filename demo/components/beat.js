@@ -37,18 +37,11 @@ const trackNameStyles = {
 class Track extends Component {
   constructor (props, context) {
     super(props, context)
-    this.state = {
-      value: this.props.track.gain
-    }
   }
 
   handleChange = (evt) => {
-    console.log("beat props")
-    console.log(evt)
-    this.props.setGain(evt.target.value, this.props.trackNum,this.props.beatNum)
-    this.setState({
-      value: evt.target.value
-    })
+    const { beatNum, trackNum } = this.props
+    this.props.setGain(evt.target.value / 100, beatNum, trackNum)
   }
 
   handleClick = (noteNumber) => {
@@ -71,7 +64,6 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-    const { value } = this.state
     return (
       <div className="track">
         <div style={trackNameStyles}>
@@ -82,8 +74,7 @@ class Track extends Component {
           type="range"
           min={0}
           max={100}
-          value={50}
-          value={this.state.value}
+          defaultValue={50}
           onChange={this.handleChange}
         />
       </div>

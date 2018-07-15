@@ -272,17 +272,11 @@ class Demo extends Component {
   reset = () => {
     window.location.reload()
   }
-  setGain = (gain,beatNum,trackNum) =>{
-    console.log("setting gain in demo")
-    console.log(this.state)
-    console.log(beatNum)
-    console.log(trackNum)
-    var updatedGeneration = this.state.currentGeneration
-    updatedGeneration[beatNum]["beat"][trackNum]["gain"] = gain/100
-    console.log(updatedGeneration)
-    this.setState({
-      currentGeneration : updatedGeneration
-    })
+
+  setGain = (gain, beatNum, trackNum) => {
+    let newGeneration = this.state.currentGeneration
+    newGeneration[beatNum].beat[trackNum].gain = gain
+    this.setState({ currentGeneration : newGeneration })
   }
 
   handlePlayNewBeat = (beat) => {
