@@ -26,6 +26,9 @@
     "cytoscape": "^3.2.14",
     "note-parser": "^2.0.0",
     "prop-types": "^15.6.0",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-actions": "^2.4.0",
     "tunajs": "^0.4.5",
     "uuid": "^2.0.2"
   },
@@ -55,6 +58,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^3.0.0-beta.2",
+    "redux-devtools": "^3.4.1",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
