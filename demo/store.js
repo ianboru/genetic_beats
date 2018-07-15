@@ -1,8 +1,10 @@
-import { createStore } = from "redux"
-import { createAction, handleActions } = from "redux-actions"
+import { createStore } from "redux"
+import { createActions, handleActions } from "redux-actions"
+
+import initialGeneration from "./initialGeneration"
 
 
-const defaultState = { 
+const defaultState = {
   newBeat            : null,
   playingCurrentBeat : false,
   playingNewBeat     : false,
@@ -14,23 +16,32 @@ const defaultState = {
   allSamples         : [],
   inputScore         : "",
   mateButtonClass    : "react-music-button",
-  allGenerations     : [initialGeneration]
+  allGenerations     : [initialGeneration],
 }
+
 
 
 const { increment, decrement } = createActions({
   INCREMENT: (amount = 1) => ({ amount }),
-  DECREMENT: (amount = 1) => ({ amount: -amount })
+  DECREMENT: (amount = 1) => ({ amount: -amount }),
 })
 
 const reducer = handleActions(
   {
     [increment]: (state, { payload: { amount } }) => {
-      return { ...state, counter: state.counter + amount };
+      return { ...state, counter: state.counter + amount }
     },
     [decrement]: (state, { payload: { amount } }) => {
-      return { ...state, counter: state.counter + amount };
-    }
+      return { ...state, counter: state.counter + amount }
+    },
   },
   defaultState
 )
+
+export {
+  increment,
+  decrement,
+}
+
+
+export default createStore(reducer)

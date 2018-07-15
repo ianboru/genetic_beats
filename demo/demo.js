@@ -20,11 +20,11 @@ import GraphContainer from "./components/graphContainer"
 import "./index.css"
 
 
-/*TODO 
+/*TODO
 make config
 fix mating after selecting
 move more functions to utilities
-fix beat labeling 
+fix beat labeling
 */
 
 const numChildren = 3
@@ -53,7 +53,8 @@ const normalizeSubdivisions = (beat, newSubdivisions) => {
   return beat
 }
 
-export default class Demo extends Component {
+
+class Demo extends Component {
   constructor(props) {
     super(props)
 
@@ -112,7 +113,7 @@ export default class Demo extends Component {
     let percentileIndex = Math.floor(allScores.length*survivorPercentile) - 1;
     this.setState({
       scoreThreshold: allScores[percentileIndex]
-    }) 
+    })
   }
 
   generateChildren =   () => {
@@ -120,7 +121,6 @@ export default class Demo extends Component {
     this.updateScoreThreshold()
 
     const currentGen = this.state.currentGeneration
-    console.log("generating children of generation " + this.state.generation)
     // For all mom, dad pairs for all children in number of children per generation
     let childNum = 0
     for (let momIndex = 0; momIndex < currentGen.length; momIndex++) {
@@ -167,7 +167,6 @@ export default class Demo extends Component {
                   momBeat,
                   dadBeat
                 )
-                console.log(this.state.generation + "." + childNum)
                 currentBeat.push({
                     sample  : sample,
                     sequence    : childBeatForSample,
@@ -193,7 +192,6 @@ export default class Demo extends Component {
     //can't have more survivors then members of the generation
     numSurvivors = Math.min(numInitialSurvivors,nextGeneration.length)
     nextGeneration = keepRandomSurvivors(numSurvivors, nextGeneration)
-    console.log(nextGeneration)
     this.state.allGenerations.push(nextGeneration)
     this.setState({
       beatNum           : 0,
@@ -207,12 +205,12 @@ export default class Demo extends Component {
   nextBeat = () => {
     var beatNum = 0
     beatNum = (this.state.beatNum+1)%this.state.currentGeneration.length
-    this.setState({ 
+    this.setState({
       beatNum: beatNum,
       currentBeat: this.state.currentGeneration[this.state.beatNum],
      })
     if(beatNum == 0){
-      this.setState({ 
+      this.setState({
         mateButtonClass : "react-music-mate-ready-button",
       })
     }
@@ -227,17 +225,17 @@ export default class Demo extends Component {
     }else{
       beatNum = (this.state.beatNum-1)%this.state.currentGeneration.length
     }
-    this.setState({ 
+    this.setState({
       beatNum: beatNum,
       currentBeat: this.state.currentGeneration[this.state.beatNum],
      })
   }
+
   setScore = (event) => {
     event.preventDefault()
     this.state.currentBeat["score"] = parseInt(this.state.inputScore)
     this.state.inputScore = ""
     this.nextBeat()
-
   }
 
   handleInputChange = (e) => {
@@ -256,16 +254,12 @@ export default class Demo extends Component {
   }
 
   handleSelectNode = (id) => {
-    console.log("selected node " + id)
     let idData = id.split(".")
     let generation = parseInt(idData[0])
 
     let currentGeneration = this.state.allGenerations[generation]
     let currentBeat = this.findBeatInGeneration(id, currentGeneration)
     let beatNum = currentBeat.childIndex
-  
-    console.log(currentGeneration)
-
 
     this.setState({
       currentBeat       : currentBeat,
@@ -297,6 +291,7 @@ export default class Demo extends Component {
       playingNewBeat : !this.state.playingNewBeat,
     })
   }
+
 
   render() {
     return (
@@ -377,10 +372,10 @@ export default class Demo extends Component {
           </div>
         </div>
 
-        <GraphContainer 
+        <GraphContainer
           familyTree       = {this.state.allGenerations}
           handleSelectNode = {this.handleSelectNode}
-          style = {{ 
+          style = {{
             display: "inline-block",
             verticalAlign: "top",
           }}
@@ -389,3 +384,12 @@ export default class Demo extends Component {
     )
   }
 }
+
+
+export default connect(
+  (state) => {
+    return {
+      newBeat: state.newBeat,
+    }
+  }
+)(Demo)
