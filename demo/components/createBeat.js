@@ -82,7 +82,7 @@ export default class CreateBeat extends Component {
           <button onClick={this.handleAddTrack}>Add track</button>
           <button onClick={this.handlePlayBeat}>Play beat</button>
         </div>
-        <button onClick={this.handleAddBeat}>add beat to first generation</button>
+        <button onClick={this.handleAddBeat}>add beat to current generation</button>
 
       </div>
     )

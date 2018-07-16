@@ -89,11 +89,10 @@ export default (currentGen, generation) => {
         })
 
         nextGeneration.push({
-          score      : aveParentScore,
-          tracks     : newBeatTracks,
-          momKey     : momBeat.key,
-          dadKey     : dadBeat.key,
-          generation : generation,
+          score  : aveParentScore,
+          tracks : newBeatTracks,
+          momKey : momBeat.key,
+          dadKey : dadBeat.key,
         })
       }
     })
@@ -104,7 +103,6 @@ export default (currentGen, generation) => {
   nextGeneration = nextGeneration.map( (beat, i) => {
     return { ...beat,
       key: `${generation + 1}.${i}`,
-      childIndex: i,
     }
   })
 

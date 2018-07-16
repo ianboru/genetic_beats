@@ -28,9 +28,20 @@ const actions = createActions({
 
 const reducer = handleActions({
   [actions.addBeat]: (state, { payload: { newBeat }}) => {
-    return { ...state,
-      allGenerations: [ ...state.allGenerations, newGeneration ],
+    const currentGeneration = state.allGenerations[state.generation]
+
+    newBeat = { ...newBeat,
+      key: `${state.generation}.${currentGeneration.length}`,
+      score: 0,
     }
+
+    const newAllGenerations = updateObjectInArray(
+      state.allGenerations,
+      state.generation,
+      [...currentGeneration, newBeat]
+    )
+
+    return { ...state, allGenerations: newAllGenerations}
   },
 
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
