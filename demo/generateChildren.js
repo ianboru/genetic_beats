@@ -46,7 +46,6 @@ export default (currentGen, generation) => {
   const threshold = getScoreThreshold(currentGen)
 
   // For all mom, dad pairs for all children in number of children per generation
-  let childNum = 0
   currentGen.forEach( (momBeat, momIndex) => {
     currentGen.forEach( (dadBeat, dadIndex) => {
       // Don't mate beat with itself
@@ -90,23 +89,24 @@ export default (currentGen, generation) => {
         })
 
         nextGeneration.push({
-          key        : `${generation + 1}.${childNum}`,
           score      : aveParentScore,
           tracks     : newBeatTracks,
           momKey     : momBeat.key,
           dadKey     : dadBeat.key,
-          childIndex : childNum,
           generation : generation,
         })
-
-        ++childNum
       }
     })
   })
 
-  //so generations don't get huge.
-  //can't have more survivors then members of the generation
+  // Can't have more survivors than members of the generation so generations don't get huge.
   nextGeneration = keepRandomSurvivors(Math.min(numInitialSurvivors, nextGeneration.length), nextGeneration)
+  nextGeneration = nextGeneration.map( (beat, i) => {
+    return { ...beat,
+      key: `${generation + 1}.${i}`,
+      childIndex: i,
+    }
+  })
 
   return nextGeneration
 }

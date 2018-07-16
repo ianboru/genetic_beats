@@ -1,7 +1,7 @@
 const updateObjectInArray = (arr, index, update) => {
   return [
     ...arr.slice(0, index),
-    Object.assign({}, arr[index], update),
+    update,
     ...arr.slice(index + 1),
   ]
 }
@@ -30,17 +30,6 @@ const getRandomIndices = (numIntegers, arrayLength) => {
 
 const getSubarray = (array, indexList) => {
   return indexList.map((i) => { return array[i] })
-}
-
-
-const findBeatInGeneration = (id, generation) => {
-  let beat = {}
-  generation.forEach( (curBeat) => {
-    if (curBeat.key == id) {
-      beat = curBeat
-    }
-  })
-  return beat
 }
 
 
@@ -99,7 +88,6 @@ export {
   updateObjectInArray,
   getRandomIndices,
   getSubarray,
-  findBeatInGeneration,
   findInJSON,
   matePair,
 }

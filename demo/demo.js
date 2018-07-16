@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import { actions } from "./store"
-import { findBeatInGeneration } from "./utils"
 import generateChildren from "./generateChildren"
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
@@ -42,10 +41,7 @@ class Demo extends Component {
   }
 
   handleAddBeat = (beat) => {
-    beat.key = "0." + this.props.currentGeneration.length
-    this.setState({
-      currentGeneration : [ ...this.props.currentGeneration, beat ],
-    })
+    this.props.addBeat(beat)
   }
 
   setScore = (e) => {
@@ -60,11 +56,9 @@ class Demo extends Component {
   }
 
   handleSelectNode = (id) => {
-    let idData = id.split(".")
-    let generation = parseInt(idData[0])
-    let beat = findBeatInGeneration(id, this.props.currentGeneration)
-    let beatNum = beat.childIndex
-
+    const idData = id.split(".")
+    const generation = parseInt(idData[0])
+    const beatNum = parseInt(idData[1])
     this.props.selectBeat(generation, beatNum)
   }
 

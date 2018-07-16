@@ -44,8 +44,8 @@ class Track extends Component {
   }
 
   handleNoteToggle = (noteNumber) => {
-    const { handleEdit, number } = this.props
-    handleEdit(number, noteNumber)
+    const { handleEdit, trackNum } = this.props
+    handleEdit(trackNum, noteNumber)
   }
 
   render = () => {
@@ -69,13 +69,16 @@ class Track extends Component {
           {trackName}
         </div>
         {notes}
-        <input
-          type         = "range"
-          min          = {0}
-          max          = {100}
-          defaultValue = {50}
-          onChange     = {this.handleGainChange}
-        />
+        {
+          this.props.editable ? null :
+            <input
+              type         = "range"
+              min          = {0}
+              max          = {100}
+              defaultValue = {50}
+              onChange     = {this.handleGainChange}
+            />
+        }
       </div>
     )
   }

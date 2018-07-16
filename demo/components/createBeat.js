@@ -6,8 +6,11 @@ import Beat from "./beat"
 export default class CreateBeat extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      beat: {},
+      beat: {
+        tracks: [],
+      },
     }
   }
 
@@ -28,7 +31,7 @@ export default class CreateBeat extends Component {
     })
   }
 
-  handleBeatEdit = (beat) => {
+  handleEditBeat = (beat) => {
     this.setState({beat: beat})
   }
 
@@ -65,16 +68,16 @@ export default class CreateBeat extends Component {
       <div>
         <div>
           {
-            beat.length > 0 ?
+            beat.tracks.length > 0 ?
               <Beat
                 beat     = {beat}
                 editable = {true}
-                onEdit   = {this.handleBeatEdit}
+                onEdit   = {this.handleEditBeat}
               />
                 :
               <div>No tracks yet</div>
           }
-          <select defaultValue={16} disabled={beat.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
+          <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
           <button onClick={this.handlePlayBeat}>Play beat</button>
