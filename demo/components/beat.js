@@ -39,12 +39,12 @@ class Track extends Component {
     super(props, context)
   }
 
-  handleChange = (evt) => {
+  handleGainChange = (evt) => {
     const { beatNum, trackNum } = this.props
     this.props.setGain(evt.target.value / 100, beatNum, trackNum)
   }
 
-  handleClick = (noteNumber) => {
+  handleNoteToggle = (noteNumber) => {
     const { handleEdit, number } = this.props
     handleEdit(number, noteNumber)
   }
@@ -56,7 +56,7 @@ class Track extends Component {
           key      = {i}
           value    = {note}
           editable = {this.props.editable}
-          onClick  = {this.props.editable ? () => { this.handleClick(i) }: null}
+          onClick  = {this.props.editable ? () => { this.handleNoteToggle(i) }: null}
         />
       )
     })
@@ -71,11 +71,11 @@ class Track extends Component {
         </div>
         {notes}
         <input
-          type="range"
-          min={0}
-          max={100}
-          defaultValue={50}
-          onChange={this.handleChange}
+          type         = "range"
+          min          = {0}
+          max          = {100}
+          defaultValue = {50}
+          onChange     = {this.handleGainChange}
         />
       </div>
     )
