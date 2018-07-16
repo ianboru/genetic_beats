@@ -4,8 +4,9 @@ import { connect } from "react-redux"
 import {
   getRandomIndices,
   getSubarray,
+  findBeatInGeneration,
   findInJSON,
-  mateCurrentPair,
+  matePair,
 } from "./utils"
 
 import initialGeneration from "./initialGeneration"
@@ -24,30 +25,18 @@ import { actions } from "./store"
 
 /*TODO
 make config
+rename "beat" attribute on beats to "tracks"
 fix mating after selecting
 move more functions to utilities
 fix beat labeling
 */
 
-const numChildren = 3
-const survivorPercentile = .75
-const numInitialSurvivors = 5
 let numSurvivors = 5
 
 const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
-  let randomIntegerArray = getRandomIndices(numSurvivors,nextGeneration.length)
-  nextGeneration = getSubarray(nextGeneration,randomIntegerArray)
+  let randomIntegerArray = getRandomIndices(numSurvivors, nextGeneration.length)
+  nextGeneration = getSubarray(nextGeneration, randomIntegerArray)
   return nextGeneration
-}
-
-const findBeatInGeneration = (id, generation) => {
-  let beat = {}
-  generation.forEach( (curBeat) => {
-    if (curBeat.key == id) {
-      beat = curBeat
-    }
-  })
-  return beat
 }
 
 
@@ -79,10 +68,7 @@ class Demo extends Component {
       newBeat            : null,
       playingCurrentBeat : false,
       playingNewBeat     : false,
-      currentGeneration  : initialGeneration,
-      scoreThreshold     : -1,
       inputScore         : "",
-      allGenerations     : [initialGeneration]
     }
   }
 
@@ -93,82 +79,63 @@ class Demo extends Component {
   }
 
   handleAddBeat = (beat) => {
-    beat.key = "0." + this.state.currentGeneration.length
+    beat.key = "0." + this.props.currentGeneration.length
     this.setState({
-      currentGeneration : [ ...this.state.currentGeneration, beat ],
+      currentGeneration : [ ...this.props.currentGeneration, beat ],
     })
   }
 
-  updateScoreThreshold = () => {
-    let allScores = []
-    this.state.currentGeneration.forEach(
-      function(beat){
-        allScores.push(beat["score"])
-    })
-    allScores = allScores.sort((a, b) => a - b)
-
-    let percentileIndex = Math.floor(allScores.length*survivorPercentile) - 1;
-    this.setState({
-      scoreThreshold: allScores[percentileIndex]
-    })
-  }
-
-  generateChildren =   () => {
+  generateChildren = (numChildren = 3, numInitialSurvivors = 5) => {
     let nextGeneration = []
-    this.updateScoreThreshold()
+    const currentGen = this.props.currentGeneration
 
-    const currentGen = this.state.currentGeneration
+    const getScoreThreshold = (generation, survivorPercentile = 0.75) => {
+      let allScores = generation.map((beat) => { return beat.score })
+      allScores = allScores.sort( (a, b) => (a - b) )
+
+      let percentileIndex = Math.floor(allScores.length * survivorPercentile) - 1
+      return allScores[percentileIndex]
+    }
+
+    const threshold = getScoreThreshold(currentGen)
+
     // For all mom, dad pairs for all children in number of children per generation
     let childNum = 0
-    for (let momIndex = 0; momIndex < currentGen.length; momIndex++) {
-      for (let dadIndex = momIndex+1; dadIndex < currentGen.length; dadIndex++) {
+    currentGen.forEach( (momBeat, momIndex) => {
+      currentGen.forEach( (dadBeat, dadIndex) => {
         //don't mate unfit pairs
-        if (
-            (
-              currentGen[momIndex].score < this.state.scoreThreshold ||
-              currentGen[dadIndex].score < this.state.scoreThreshold
-            ) &&
-            nextGeneration.length > numSurvivors
-          ) {
-          continue
-        }
-        //to pass on to children
-        let aveParentScore = (
-          currentGen[momIndex].score +
-          currentGen[dadIndex].score
-          ) / 2
-        // If mom and dad have different beat lengths
-        if (currentGen[momIndex].beat[0].sequence.length > currentGen[momIndex].beat[0].sequence.length) {
-          currentGen[dadIndex] = normalizeSubdivisions(currentGen[dadIndex], currentGen[momIndex].beat[0].sequence.length)
-        } else {
-          currentGen[momIndex] = normalizeSubdivisions(currentGen[momIndex], currentGen[dadIndex].beat[0].sequence.length)
+        if ( (momBeat.score < threshold || dadBeat.score < threshold) &&
+             nextGeneration.length > numSurvivors ) {
+          return
         }
 
-        for (let childIndex = 0; childIndex < numChildren; childIndex++) {
+        //to pass on to children
+        let aveParentScore = (momBeat.score + dadBeat.score) / 2
+
+        // If mom and dad have different beat lengths
+        if (momBeat.beat[0].sequence.length > momBeat.beat[0].sequence.length) {
+          dadBeat = normalizeSubdivisions(dadBeat, momBeat.beat[0].sequence.length)
+        } else {
+          momBeat = normalizeSubdivisions(momBeat, dadBeat.beat[0].sequence.length)
+        }
+
+        for (let i=0; i < numChildren; i++) {
           let currentBeat = []
           samples.forEach((sample) => {
             // `sample` on a track comes from the `path` attribute of a
             // given sample in samples.js
             const path = sample.path
 
-            let momBeat = findInJSON(currentGen[momIndex].beat, 'sample', path)
-            let dadBeat = findInJSON(currentGen[dadIndex].beat, 'sample', path)
+            let momBeat = findInJSON(momBeat.beat, 'sample', path)
+            let dadBeat = findInJSON(dadBeat.beat, 'sample', path)
 
             // Handle case where mom and dad don't have the same samples
             if (momBeat.sample || dadBeat.sample) {
-              if (!momBeat.sample) {
-                momBeat = dadBeat
-              }
-              if (!dadBeat.sample) {
-                dadBeat = momBeat
-              }
-              const childBeatForSample = mateCurrentPair(
-                momBeat,
-                dadBeat
-              )
+              if (!momBeat.sample) { momBeat = dadBeat }
+              if (!dadBeat.sample) { dadBeat = momBeat }
               currentBeat.push({
-                  sample   : path,
-                  sequence : childBeatForSample,
+                sample   : path,
+                sequence : matePair(momBeat, dadBeat),
               })
             }
           })
@@ -176,29 +143,23 @@ class Demo extends Component {
           nextGeneration.push({
             beat       : currentBeat,
             key        : this.props.generation + "." + childNum,
-            momKey     : currentGen[momIndex].key,
-            dadKey     : currentGen[dadIndex].key,
+            momKey     : momBeat.key,
+            dadKey     : dadBeat.key,
             score      : aveParentScore,
             childIndex : childNum,
             generation : this.props.generation,
           })
           ++childNum
         }
-      }
-    }
+      })
+    })
 
     //so generations don't get huge.
     //can't have more survivors then members of the generation
     numSurvivors = Math.min(numInitialSurvivors, nextGeneration.length)
     nextGeneration = keepRandomSurvivors(numSurvivors, nextGeneration)
-    this.state.allGenerations.push(nextGeneration)
 
-    this.props.setBeatNum(0)
-    this.setState({
-      currentGeneration : nextGeneration,
-      generation        : this.props.generation + 1,
-      allGenerations    : this.state.allGenerations,
-    })
+    this.props.addGeneration(nextGeneration)
   }
 
   setScore = (e) => {
@@ -215,17 +176,10 @@ class Demo extends Component {
   handleSelectNode = (id) => {
     let idData = id.split(".")
     let generation = parseInt(idData[0])
+    let beat = findBeatInGeneration(id, this.props.currentGeneration)
+    let beatNum = beat.childIndex
 
-    let currentGeneration = this.state.allGenerations[generation]
-    let currentBeat = findBeatInGeneration(id, currentGeneration)
-    let beatNum = currentBeat.childIndex
-
-    this.props.setBeatNum(beatNum)
-    this.setState({
-      currentBeat       : currentBeat,
-      generation        : generation,
-      currentGeneration : currentGeneration,
-    })
+    this.props.selectBeat(generation, beatNum)
   }
 
   reset = () => {
@@ -234,7 +188,7 @@ class Demo extends Component {
 
   handlePlayNewBeat = (beat) => {
     this.setState({
-      newBeat : beat,
+      newBeat        : beat,
       playingNewBeat : !this.state.playingNewBeat,
     })
   }
@@ -270,7 +224,6 @@ class Demo extends Component {
           <div>
             <Beat
               beat    = {this.props.currentBeat}
-              beatNum = {this.props.beatNum}
               setGain = {this.props.setGain}
             />
           </div>
@@ -278,7 +231,7 @@ class Demo extends Component {
           <div className="rate-beat">
             <form onSubmit={this.setScore}>
               <label>Rate Beat
-                <input 
+                <input
                   type        = "text"
                   value       = {this.state.inputScore}
                   onChange    = {this.handleInputChange}
@@ -323,7 +276,7 @@ class Demo extends Component {
         </div>
 
         <GraphContainer
-          familyTree       = {this.state.allGenerations}
+          familyTree       = {this.props.allGenerations}
           handleSelectNode = {this.handleSelectNode}
           style = {{
             display: "inline-block",
@@ -338,13 +291,15 @@ class Demo extends Component {
 
 export default connect(
   (state) => {
-    const currentBeat = state.currentGeneration[state.beatNum]
+    const currentGeneration = state.allGenerations[state.generation]
+    const currentBeat = currentGeneration[state.beatNum]
 
     return {
       currentBeat,
+      currentGeneration,
+      allGenerations: state.allGenerations,
       beatNum: state.beatNum,
       newBeat: state.newBeat,
-      allGenerations: state.allGenerations,
     }
   }, actions
 )(Demo)

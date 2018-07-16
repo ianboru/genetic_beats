@@ -40,8 +40,7 @@ class Track extends Component {
   }
 
   handleGainChange = (evt) => {
-    const { beatNum, trackNum } = this.props
-    this.props.setGain(evt.target.value / 100, beatNum, trackNum)
+    this.props.setGain(evt.target.value / 100, this.props.trackNum)
   }
 
   handleNoteToggle = (noteNumber) => {
@@ -97,7 +96,6 @@ export default class Beat extends Component {
           key        = {i}
           setGain    = {this.props.setGain}
           trackNum   = {i}
-          beatNum    = {this.props.beatNum}
           track      = {track}
           editable   = {this.props.editable}
           handleEdit = {this.handleEdit}

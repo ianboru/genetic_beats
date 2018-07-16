@@ -2,24 +2,22 @@ import { createStore } from "redux"
 import { createActions, handleActions } from "redux-actions"
 
 import initialGeneration from "./initialGeneration"
+import { updateObjectInArray } from "./utils"
 
 
 const defaultState = {
-  newBeat            : null,
-  playingCurrentBeat : false,
-  playingNewBeat     : false,
-  beatNum            : 0,
-  currentGeneration  : initialGeneration,
-  generation         : 1,
-  scoreThreshold     : -1,
-  allSamples         : [],
-  allGenerations     : [initialGeneration],
+  beatNum        : 0,
+  generation     : 0,
+  allSamples     : [],
+  allGenerations : [initialGeneration],
 }
 
 
 const actions = createActions({
+  ADD_BEAT       : (newBeat) => ({ newBeat }),
   ADD_GENERATION : (newGeneration) => ({ newGeneration }),
-  SET_GAIN       : (gain, beatNum, trackNum) => ({ gain, beatNum, trackNum }),
+  SELECT_BEAT    : (generation, beatNum) => ({ generation, beatNum }),
+  SET_GAIN       : (gain, trackNum) => ({ gain, trackNum }),
   SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
   SET_GENERATION : (generation) => ({ generation }),
   SET_SCORE      : (score) => ({ score }),
@@ -28,9 +26,24 @@ const actions = createActions({
 })
 
 
+
 const reducer = handleActions({
+  [actions.addBeat]: (state, { payload: { newBeat }}) => {
+    return { ...state,
+      allGenerations: [ ...state.allGenerations, newGeneration ],
+    }
+  },
+
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
-    return { ...state, allGenerations: [ ...state.allGenerations, newGeneration ] }
+    return { ...state,
+      allGenerations: [ ...state.allGenerations, newGeneration ],
+      generation: state.generation + 1,
+      beatNum: 0,
+    }
+  },
+
+  [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
+    return { ...state, generation, beatNum }
   },
 
   [actions.setGeneration]: (state, { payload: { generation }}) => {
@@ -41,29 +54,49 @@ const reducer = handleActions({
     return { ...state, beatNum }
   },
 
-  [actions.setGain]: (state, { payload: { gain, beatNum, trackNum }}) => {
-    let updatedCurrentGeneration = state.currentGeneration
-    updatedCurrentGeneration[beatNum].beat[trackNum].gain = gain
-    return { ...state, currentGeneration: updatedCurrentGeneration }
+  [actions.setGain]: (state, { payload: { gain, trackNum }}) => {
+    let updatedGeneration = state.allGenerations(state.generation)
+    // FIXME: This is a mutable operation
+    updatedGeneration[state.beatNum].beat[trackNum].gain = gain
+
+    const newAllGenerations = updateObjectInArray(
+      state.allGenerations,
+      state.generation,
+      updatedGeneration
+    )
+
+    return { ...state, allGenerations: newAllGenerations}
   },
 
   [actions.setScore]: (state, { payload: { score }}) => {
-    let updatedCurrentGeneration = state.currentGeneration
-    updatedCurrentGeneration[state.beatNum].score = score
-    return { ...state, currentGeneration: updatedCurrentGeneration }
+    let updatedGeneration = state.allGenerations(state.generation)
+    // FIXME: This is a mutable operation
+    updatedGeneration[state.beatNum].score = score
+
+    const newAllGenerations = updateObjectInArray(
+      state.allGenerations,
+      state.generation,
+      updatedGeneration
+    )
+
+    return { ...state, allGenerations: newAllGenerations}
   },
 
   [actions.nextBeat]: (state) => {
-    const beatNum = (state.beatNum + 1) % state.currentGeneration.length
+    let currentGeneration = state.allGenerations(state.generation)
+
+    const beatNum = (state.beatNum + 1) % currentGeneration.length
     return { ...state, beatNum }
   },
 
   [actions.prevBeat]: (state) => {
+    let currentGeneration = state.allGenerations(state.generation)
+
     let beatNum = state.beatNum
     if (beatNum == 0) {
-      beatNum = state.currentGeneration.length - 1
+      beatNum = currentGeneration.length - 1
     } else {
-      beatNum = (state.beatNum - 1) % state.currentGeneration.length
+      beatNum = (state.beatNum - 1) % currentGeneration.length
     }
     return { ...state, beatNum }
   },

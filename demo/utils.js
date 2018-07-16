@@ -1,3 +1,12 @@
+const updateObjectInArray = (arr, index, update) => {
+  return [
+    ...arr.slice(0, index),
+    Object.assign({}, arr[index], update),
+    ...arr.slice(index + 1),
+  ]
+}
+
+
 const getRandomIndices = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
 
@@ -18,9 +27,22 @@ const getRandomIndices = (numIntegers, arrayLength) => {
   return randomIntegerArray
 }
 
+
 const getSubarray = (array, indexList) => {
   return indexList.map((i) => { return array[i] })
 }
+
+
+const findBeatInGeneration = (id, generation) => {
+  let beat = {}
+  generation.forEach( (curBeat) => {
+    if (curBeat.key == id) {
+      beat = curBeat
+    }
+  })
+  return beat
+}
+
 
 const findInJSON = (object, key, value) => {
   let result = {}
@@ -33,20 +55,19 @@ const findInJSON = (object, key, value) => {
 }
 
 
-
-const mateCurrentPair = (mom,dad) => {
+const matePair = (mom, dad) => {
   let percentDifference = 0
   const mutationRate = .05
 
-  if(Math.max(dad["score"],mom["score"]) > 0){
-    percentDifference = Math.abs((dad["score"] - mom["score"])/Math.max(dad["score"],mom["score"]))
+  if (Math.max(dad.score, mom.score) > 0) {
+    percentDifference = Math.abs((dad.score - mom.score) / Math.max(dad.score, mom.score))
   }
-  const inheritanceComparitor = 100*(.5 - percentDifference)
-  const mutationComparitor = 100*mutationRate
-  
+  const inheritanceComparitor = 100 * (0.5 - percentDifference)
+  const mutationComparitor = 100 * mutationRate
+
   let fittestBeat = {}
   let weakestBeat = {}
-  if (dad["score"] > mom["score"]) {
+  if (dad.score > mom.score) {
     fittestBeat = dad
     weakestBeat = mom
   } else {
@@ -55,7 +76,7 @@ const mateCurrentPair = (mom,dad) => {
   }
 
   let childBeat = []
-  for (let noteIndex = 0; noteIndex < mom.sequence.length; noteIndex++) {
+  mom.sequence.forEach( (note, noteIndex) => {
     let randomInteger = Math.floor(Math.random() * 100)
     let survivingNote = 0
     if (randomInteger > inheritanceComparitor) {
@@ -68,14 +89,17 @@ const mateCurrentPair = (mom,dad) => {
       survivingNote = 1 - survivingNote
     }
     childBeat.push(survivingNote)
-  }
+  })
+
   return childBeat
 }
 
 
 export {
+  updateObjectInArray,
   getRandomIndices,
   getSubarray,
+  findBeatInGeneration,
   findInJSON,
-  mateCurrentPair,
+  matePair,
 }
