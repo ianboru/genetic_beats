@@ -45,8 +45,6 @@ export default class GraphContainer extends React.Component {
         "nodes" : nodes,
         "edges" : edges,
       }
-      console.log("elements")
-      console.log(elements)
       this.renderCytoscapeElement(elements)
     }
 

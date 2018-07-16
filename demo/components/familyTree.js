@@ -2,10 +2,7 @@ import React, { Component } from "react"
 
 class Generation extends Component {
   render = () => {
-    console.log("family tree generation")
-    console.log(this.props.generation)
     const generation = this.props.generation.map( (member, i)=>{
-      console.log(member)
       var name = ""
       if(member.parents){
         name = member.parents
@@ -22,8 +19,6 @@ class Generation extends Component {
 }
 class Member extends Component {
   render = () => {
-    console.log("member")
-    console.log(this.props)
     return (
       <div className="member">{this.props.name} | </div>
     )
@@ -31,8 +26,6 @@ class Member extends Component {
 }
 export default class FamilyTree extends Component {
   render = () => {
-    console.log("making family tree")
-    console.log(this.props.familyTree)
     const allGenerations = this.props.familyTree.map( (generation, i) => {
       return <Generation key={i} generation={generation}/>
     })

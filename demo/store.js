@@ -8,7 +8,6 @@ import { updateObjectInArray } from "./utils"
 const defaultState = {
   beatNum        : 0,
   generation     : 0,
-  allSamples     : [],
   allGenerations : [initialGeneration],
 }
 
@@ -35,7 +34,8 @@ const reducer = handleActions({
   },
 
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
-    return { ...state,
+    return {
+      ...state,
       allGenerations: [ ...state.allGenerations, newGeneration ],
       generation: state.generation + 1,
       beatNum: 0,
@@ -55,9 +55,9 @@ const reducer = handleActions({
   },
 
   [actions.setGain]: (state, { payload: { gain, trackNum }}) => {
-    let updatedGeneration = state.allGenerations(state.generation)
+    let updatedGeneration = state.allGenerations[state.generation]
     // FIXME: This is a mutable operation
-    updatedGeneration[state.beatNum].beat[trackNum].gain = gain
+    updatedGeneration[state.beatNum].tracks[trackNum].gain = gain
 
     const newAllGenerations = updateObjectInArray(
       state.allGenerations,
@@ -69,7 +69,7 @@ const reducer = handleActions({
   },
 
   [actions.setScore]: (state, { payload: { score }}) => {
-    let updatedGeneration = state.allGenerations(state.generation)
+    let updatedGeneration = state.allGenerations[state.generation]
     // FIXME: This is a mutable operation
     updatedGeneration[state.beatNum].score = score
 
@@ -83,14 +83,14 @@ const reducer = handleActions({
   },
 
   [actions.nextBeat]: (state) => {
-    let currentGeneration = state.allGenerations(state.generation)
+    let currentGeneration = state.allGenerations[state.generation]
 
     const beatNum = (state.beatNum + 1) % currentGeneration.length
     return { ...state, beatNum }
   },
 
   [actions.prevBeat]: (state) => {
-    let currentGeneration = state.allGenerations(state.generation)
+    let currentGeneration = state.allGenerations[state.generation]
 
     let beatNum = state.beatNum
     if (beatNum == 0) {
