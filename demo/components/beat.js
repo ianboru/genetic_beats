@@ -84,8 +84,8 @@ class Track extends Component {
 
 export default class Beat extends Component {
   handleEdit = (track, note) => {
-    let beat = this.props.beat
-    beat[track].sequence[note] = beat[track].sequence[note] === 1 ? 0 : 1
+    let { beat } = this.props
+    beat.tracks[track].sequence[note] = beat.tracks[track].sequence[note] === 1 ? 0 : 1
     this.props.onEdit(beat)
   }
 

@@ -7,7 +7,7 @@ export default class CreateBeat extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      beat: [],
+      beat: {},
     }
   }
 
@@ -16,13 +16,15 @@ export default class CreateBeat extends Component {
     const sample = this.sampleSelect.value
 
     this.setState( {
-      beat: [ ...this.state.beat, {
-        score: 0,
-        beat: {
-          sample,
-          sequence: Array(steps).fill(0),
-        },
-      }]
+      beat: { ...this.state.beat,
+        tracks: [
+          ...this.state.beat.tracks,
+          {
+            sample,
+            sequence: Array(steps).fill(0),
+          },
+        ]
+      },
     })
   }
 
