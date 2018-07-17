@@ -101,6 +101,7 @@ class App extends Component {
             <Beat
               beat    = {this.props.currentBeat}
               setGain = {this.props.setGain}
+              samples = {this.props.samples}
             />
           </div>
 

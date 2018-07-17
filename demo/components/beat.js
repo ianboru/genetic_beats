@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import samples from "../samples"
-
 
 class Note extends Component {
   render = () => {
@@ -66,7 +64,7 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-    const gain = samples[track.sample].gain * 100
+    const gain = this.props.samples[track.sample].gain * 100
     return (
       <div className="track">
         <div style={trackNameStyles}>
@@ -106,6 +104,7 @@ export default class Beat extends Component {
           track      = {track}
           editable   = {this.props.editable}
           handleEdit = {this.handleEdit}
+          samples    = {this.props.samples}
         />
       )
     })

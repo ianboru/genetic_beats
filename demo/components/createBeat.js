@@ -75,6 +75,7 @@ class CreateBeat extends Component {
                 beat     = {beat}
                 editable = {true}
                 onEdit   = {this.handleEditBeat}
+                samples  = {this.props.samples}
               />
                 :
               <div>No tracks yet</div>
