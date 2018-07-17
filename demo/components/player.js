@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 
 import {
   Song,
@@ -10,7 +11,7 @@ import {
 const tempo = 100
 
 
-const generateSamplers = (beat) => {
+const generateSamplers = (beat, samples) => {
  return beat.tracks.map((track, i) => {
    let convertedBeat = []
    track.sequence.forEach((note, i) => {
@@ -21,13 +22,13 @@ const generateSamplers = (beat) => {
      key    = {i}
      sample = {track.sample}
      steps  = {convertedBeat}
-     gain = {track.gain}
+     gain   = {samples[track.sample].gain}
    />)
  })
 }
 
 
-export default class Player extends Component {
+class Player extends Component {
   render = () => {
     const { beat, playing } = this.props
     if (!beat) { return null }
@@ -41,9 +42,17 @@ export default class Player extends Component {
           bars       = {1}
           resolution = {beat.tracks[0].sequence.length}
         >
-          {generateSamplers(beat)}
+          {generateSamplers(beat, this.props.samples)}
         </Sequencer>
       </Song>
     )
   }
 }
+
+export default connect(
+  (state) => {
+    return {
+      samples: state.samples,
+    }
+  }
+)(Player)

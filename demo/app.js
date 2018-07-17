@@ -4,7 +4,6 @@ import { connect } from "react-redux"
 import { actions } from "./store"
 import generateChildren from "./generateChildren"
 import initialGeneration from "./initialGeneration"
-import samples from "./samples"
 import "./index.css"
 
 import Beat from "./components/beat"
@@ -67,7 +66,7 @@ class App extends Component {
   }
 
   handleMate = () => {
-    const nextGeneration = generateChildren(this.props.currentGeneration, this.props.generation)
+    const nextGeneration = generateChildren(this.props.currentGeneration, this.props.generation, this.props.samples)
     this.props.addGeneration(nextGeneration)
   }
 
@@ -93,7 +92,6 @@ class App extends Component {
         <div style={{ display: "inline-block" }}>
           <div>
             <CreateBeat
-              samples        = {samples}
               handleAddBeat  = {this.handleAddBeat}
               handlePlayBeat = {this.handlePlayNewBeat}
             />
@@ -185,6 +183,7 @@ export default connect(
       beatNum: state.beatNum,
       generation: state.generation,
       allGenerations: state.allGenerations,
+      samples: state.samples,
     }
   }, actions
 )(App)

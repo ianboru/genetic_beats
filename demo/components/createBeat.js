@@ -1,9 +1,10 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 
 import Beat from "./beat"
 
 
-export default class CreateBeat extends Component {
+class CreateBeat extends Component {
   constructor(props) {
     super(props)
 
@@ -89,3 +90,12 @@ export default class CreateBeat extends Component {
     )
   }
 }
+
+
+export default connect(
+  (state) => {
+    return {
+      samples: state.samples,
+    }
+  }
+)(CreateBeat)

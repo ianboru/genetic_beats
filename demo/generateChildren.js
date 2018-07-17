@@ -5,10 +5,8 @@ import {
   matePair,
 } from "./utils"
 
-import samples from "./samples"
 
-
-export default (currentGen, generation) => {
+export default (currentGen, generation, samples) => {
   const numChildren = 3
   const numInitialSurvivors = 5
 

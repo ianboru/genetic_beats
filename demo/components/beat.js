@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 
 
 class Note extends Component {
@@ -40,7 +41,7 @@ class Track extends Component {
   }
 
   handleGainChange = (evt) => {
-    this.props.setGain(evt.target.value / 100, this.props.trackNum)
+    this.props.setGain(evt.target.value / 100, this.props.track.sample)
   }
 
   handleNoteToggle = (noteNumber) => {
@@ -63,6 +64,7 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
+    const gain = this.props.samples[track.sample].gain * 100
     return (
       <div className="track">
         <div style={trackNameStyles}>
@@ -75,7 +77,7 @@ class Track extends Component {
               type         = "range"
               min          = {0}
               max          = {100}
-              defaultValue = {50}
+              defaultValue = {gain}
               onChange     = {this.handleGainChange}
             />
         }
@@ -85,7 +87,7 @@ class Track extends Component {
 }
 
 
-export default class Beat extends Component {
+class Beat extends Component {
   handleEdit = (track, note) => {
     let { beat } = this.props
     beat.tracks[track].sequence[note] = beat.tracks[track].sequence[note] === 1 ? 0 : 1
@@ -96,12 +98,13 @@ export default class Beat extends Component {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
-          key        = {i}
+          key        = {`${this.props.beat.key}.${i}`}
           setGain    = {this.props.setGain}
           trackNum   = {i}
           track      = {track}
           editable   = {this.props.editable}
           handleEdit = {this.handleEdit}
+          samples    = {this.props.samples}
         />
       )
     })
@@ -109,3 +112,12 @@ export default class Beat extends Component {
     return <div className="beat">{tracks}</div>
   }
 }
+
+
+export default connect(
+  (state) => {
+    return {
+      samples: state.samples,
+    }
+  }
+)(Beat)

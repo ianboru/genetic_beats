@@ -2,6 +2,7 @@ import { createStore } from "redux"
 import { createActions, handleActions } from "redux-actions"
 
 import initialGeneration from "./initialGeneration"
+import samples from "./samples"
 import { updateObjectInArray } from "./utils"
 
 
@@ -9,6 +10,7 @@ const defaultState = {
   beatNum        : 0,
   generation     : 0,
   allGenerations : [initialGeneration],
+  samples        : samples,
 }
 
 
@@ -16,7 +18,7 @@ const actions = createActions({
   ADD_BEAT       : (newBeat) => ({ newBeat }),
   ADD_GENERATION : (newGeneration) => ({ newGeneration }),
   SELECT_BEAT    : (generation, beatNum) => ({ generation, beatNum }),
-  SET_GAIN       : (gain, trackNum) => ({ gain, trackNum }),
+  SET_GAIN       : (gain, sample) => ({ gain, sample }),
   SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
   SET_GENERATION : (generation) => ({ generation }),
   SET_SCORE      : (score) => ({ score }),
@@ -65,18 +67,12 @@ const reducer = handleActions({
     return { ...state, beatNum }
   },
 
-  [actions.setGain]: (state, { payload: { gain, trackNum }}) => {
-    let updatedGeneration = state.allGenerations[state.generation]
-    // FIXME: This is a mutable operation
-    updatedGeneration[state.beatNum].tracks[trackNum].gain = gain
+  [actions.setGain]: (state, { payload: { gain, sample }}) => {
+    console.log(state.samples)
+    const samples = { ...state.samples, [sample]: { ...state.samples[sample], gain }}
+    console.log(samples)
 
-    const newAllGenerations = updateObjectInArray(
-      state.allGenerations,
-      state.generation,
-      updatedGeneration
-    )
-
-    return { ...state, allGenerations: newAllGenerations}
+    return { ...state, samples }
   },
 
   [actions.setScore]: (state, { payload: { score }}) => {
