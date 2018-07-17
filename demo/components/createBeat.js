@@ -53,7 +53,8 @@ export default class CreateBeat extends Component {
       )
     })
 
-    const sampleOptions = this.props.samples.map( (sample) => {
+    const sampleOptions = Object.keys(this.props.samples).map( (key) => {
+      let sample = this.props.samples[key]
       return (
         <option
           key   = {sample.path}

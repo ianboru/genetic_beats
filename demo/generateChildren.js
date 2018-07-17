@@ -69,10 +69,10 @@ export default (currentGen, generation) => {
 
       for (let i=0; i < numChildren; i++) {
         let newBeatTracks = []
-        samples.forEach( (sample) => {
+        Object.keys(samples).forEach( (key) => {
           // `sample` on a track comes from the `path` attribute of a
           // given sample in samples.js
-          const path = sample.path
+          const path = samples[key].path
 
           let momTrack = findInJSON(momBeat.tracks, 'sample', path)
           let dadTrack = findInJSON(dadBeat.tracks, 'sample', path)
