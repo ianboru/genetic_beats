@@ -17,6 +17,7 @@ const defaultState = {
 const actions = createActions({
   ADD_BEAT       : (newBeat) => ({ newBeat }),
   ADD_GENERATION : (newGeneration) => ({ newGeneration }),
+  KILL_SUBSEQUENT_GENERATIONS : (generation) => ({ generation }),
   SELECT_BEAT    : (generation, beatNum) => ({ generation, beatNum }),
   SET_GAIN       : (gain, sample) => ({ gain, sample }),
   SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
@@ -47,6 +48,7 @@ const reducer = handleActions({
   },
 
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
+    console.log("adding generation to ", state.allGenerations, newGeneration)
     return {
       ...state,
       allGenerations: [ ...state.allGenerations, newGeneration ],
@@ -54,7 +56,10 @@ const reducer = handleActions({
       beatNum: 0,
     }
   },
-
+  [actions.killSubsequentGenerations]: (state, { payload: { generation }}) => {
+    console.log("action slicing after " + generation, state.allGenerations)
+    return { ...state, allGenerations: state.allGenerations.slice(0,generation+1)}
+  },
   [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
     return { ...state, generation, beatNum }
   },

@@ -59,6 +59,11 @@ class App extends Component {
   }
 
   handleMate = () => {
+    if(this.props.generation < this.props.allGenerations.length-1){
+      console.log("killing subs after " + this.props.generation)
+      this.props.killSubsequentGenerations(this.props.generation)
+    }
+    console.log("generating children for ", this.props.currentGeneration)
     const nextGeneration = generateChildren(this.props.currentGeneration, this.props.generation, this.props.samples)
     this.props.addGeneration(nextGeneration)
   }
