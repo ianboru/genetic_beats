@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
+import { throttle } from "throttle-debounce"
+
 
 class Note extends Component {
   render = () => {
@@ -38,10 +40,12 @@ const trackNameStyles = {
 class Track extends Component {
   constructor (props, context) {
     super(props, context)
+
+    this.setGain = throttle(200, this.props.setGain)
   }
 
   handleGainChange = (evt) => {
-    this.props.setGain(evt.target.value / 100, this.props.track.sample)
+    this.setGain(evt.target.value / 100, this.props.track.sample)
   }
 
   handleNoteToggle = (noteNumber) => {

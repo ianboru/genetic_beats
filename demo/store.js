@@ -68,9 +68,7 @@ const reducer = handleActions({
   },
 
   [actions.setGain]: (state, { payload: { gain, sample }}) => {
-    console.log(state.samples)
     const samples = { ...state.samples, [sample]: { ...state.samples[sample], gain }}
-    console.log(samples)
 
     return { ...state, samples }
   },
