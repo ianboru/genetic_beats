@@ -3,26 +3,26 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import { Provider } from 'react-redux'
 
-import Demo from './demo'
+import App from './app'
 import store from './store'
 
 
 ReactDOM.render(
   <AppContainer>
     <Provider store={store}>
-      <Demo />
+      <App />
     </Provider>
   </AppContainer>,
   document.getElementById('root')
 )
 
-module.hot.accept('./demo', () => {
-  const NextDemo = require('./demo').default
+module.hot.accept('./app', () => {
+  const NextApp = require('./app').default
 
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        <Demo />
+        <App />
       </Provider>
     </AppContainer>,
     document.getElementById('root')

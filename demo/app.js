@@ -22,7 +22,7 @@ import Player from "./components/player"
 */
 
 
-class Demo extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
 
@@ -187,4 +187,4 @@ export default connect(
       allGenerations: state.allGenerations,
     }
   }, actions
-)(Demo)
+)(App)
