@@ -4,14 +4,15 @@ import { connect } from "react-redux"
 import Beat from "./beat"
 
 
+const freshBeat = { tracks: [] }
+
+
 class CreateBeat extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      beat: {
-        tracks: [],
-      },
+      beat: freshBeat,
     }
   }
 
@@ -42,6 +43,7 @@ class CreateBeat extends Component {
 
   handleAddBeat = () => {
     this.props.handleAddBeat(this.state.beat)
+    this.setState({ beat: freshBeat })
   }
 
   render = () => {
