@@ -54,13 +54,6 @@ class App extends Component {
     this.setState({ inputScore: e.target.value })
   }
 
-  handleSelectNode = (id) => {
-    const idData = id.split(".")
-    const generation = parseInt(idData[0])
-    const beatNum = parseInt(idData[1])
-    this.props.selectBeat(generation, beatNum)
-  }
-
   reset = () => {
     window.location.reload()
   }
@@ -159,8 +152,7 @@ class App extends Component {
         </div>
 
         <GraphContainer
-          familyTree       = {this.props.allGenerations}
-          handleSelectNode = {this.handleSelectNode}
+          familyTree = {this.props.allGenerations}
           style = {{
             display: "inline-block",
             verticalAlign: "top",

@@ -1,8 +1,12 @@
 import React,{Component} from 'react'
+import { connect } from 'react-redux'
+
+import { actions } from "../store"
+
 import cytoscape from 'cytoscape'
 
 
-export default class GraphContainer extends React.Component {
+class GraphContainer extends React.Component {
     handleSelectNode(id){
       this.props.handleSelectNode(id)
     }
@@ -20,13 +24,20 @@ export default class GraphContainer extends React.Component {
       let nodes = []
 
       this.props.familyTree.forEach((generation) => {
+        const key = `${this.props.generation}.${this.props.beatNum}`
+
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
             edges.push({ data: { source: beat.momKey, target: beat.key  } })
             edges.push({ data: { source: beat.dadKey, target: beat.key  } })
           }
 
-          nodes.push({ data: { id: beat.key, name: beat.key, score: beat.score} })
+          nodes.push({ data: {
+            selected : (key === beat.key ? 1 : 0),
+            id       : beat.key,
+            name     : beat.key,
+            score    : beat.score,
+          }})
         })
       })
 
@@ -52,7 +63,7 @@ export default class GraphContainer extends React.Component {
             'width'            : 120,
             'background-color' : 'mapData(score, 0, 20, white, red)',
             'background-fit'   : 'cover',
-            'border-color'     : '#000',
+            'border-color'     : 'mapData(selected, 0, 1, black, red)',
             'border-width'     : 3,
             'border-opacity'   : 0.5,
             'content'          : 'data(name)',
@@ -71,19 +82,38 @@ export default class GraphContainer extends React.Component {
       })
       var that = this
       this.cy.on('click', 'node', function(evt){
-        that.handleSelectNode(this.id())
+        that.props.selectNode(this.id())
       })
     }
 
     render() {
       let cyStyle = {
-        border : '1px solid #333',
-        height : '400px',
-        width  : '400px',
-        margin : '20px 0px',
+        'border' : '1px solid #333',
+        'height' : '400px',
+        'width'  : '400px',
+        'margin' : '20px 0px',
         ...this.props.style
       }
 
       return <div style={cyStyle}  id="cy"/>
     }
 }
+
+
+export default connect(
+  (state) => {
+    return {
+      beatNum: state.beatNum,
+      generation: state.generation,
+    }
+  }, (dispatch) => {
+    return {
+      selectNode: (id) => {
+        const idData = id.split(".")
+        const generation = parseInt(idData[0])
+        const beatNum = parseInt(idData[1])
+        dispatch(actions.selectBeat(generation, beatNum))
+      }
+    }
+  }
+)(GraphContainer)
