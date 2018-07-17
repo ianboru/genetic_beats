@@ -11,7 +11,7 @@ const tempo = 100
 
 
 const generateSamplers = (beat) => {
- return beat["beat"].map((track, i) => {
+ return beat.tracks.map((track, i) => {
    let convertedBeat = []
    track.sequence.forEach((note, i) => {
      if (note === 1) { convertedBeat.push(i) }
@@ -39,7 +39,7 @@ export default class Player extends Component {
       >
         <Sequencer
           bars       = {1}
-          resolution = {beat["beat"][0].sequence.length}
+          resolution = {beat.tracks[0].sequence.length}
         >
           {generateSamplers(beat)}
         </Sequencer>

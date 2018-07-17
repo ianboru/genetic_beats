@@ -1,7 +1,5 @@
 import React, { Component } from "react"
 
-// Using an ES6 transpiler like Babel
-import Slider from 'react-rangeslider'
 
 class Note extends Component {
   render = () => {
@@ -39,22 +37,15 @@ const trackNameStyles = {
 class Track extends Component {
   constructor (props, context) {
     super(props, context)
-    this.state = {
-      value: this.props.track.gain
-    }
   }
 
-  handleChange = (evt) => {
-    console.log("beat props")
-    console.log(evt)
-    this.props.setGain(evt.target.value, this.props.trackNum,this.props.beatNum)
-    this.setState({
-      value: evt.target.value
-    })
-  };
-  handleClick = (noteNumber) => {
-    const { handleEdit, number } = this.props
-    handleEdit(number, noteNumber)
+  handleGainChange = (evt) => {
+    this.props.setGain(evt.target.value / 100, this.props.trackNum)
+  }
+
+  handleNoteToggle = (noteNumber) => {
+    const { handleEdit, trackNum } = this.props
+    handleEdit(trackNum, noteNumber)
   }
 
   render = () => {
@@ -64,7 +55,7 @@ class Track extends Component {
           key      = {i}
           value    = {note}
           editable = {this.props.editable}
-          onClick  = {this.props.editable ? () => { this.handleClick(i) }: null}
+          onClick  = {this.props.editable ? () => { this.handleNoteToggle(i) }: null}
         />
       )
     })
@@ -72,21 +63,22 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-    const { value } = this.state
     return (
       <div className="track">
         <div style={trackNameStyles}>
           {trackName}
         </div>
         {notes}
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={50}
-            value={this.state.value}
-            onChange={this.handleChange}
-          />
+        {
+          this.props.editable ? null :
+            <input
+              type         = "range"
+              min          = {0}
+              max          = {100}
+              defaultValue = {50}
+              onChange     = {this.handleGainChange}
+            />
+        }
       </div>
     )
   }
@@ -95,18 +87,18 @@ class Track extends Component {
 
 export default class Beat extends Component {
   handleEdit = (track, note) => {
-    let beat = this.props.beat
-    beat[track].sequence[note] = beat[track].sequence[note] === 1 ? 0 : 1
+    let { beat } = this.props
+    beat.tracks[track].sequence[note] = beat.tracks[track].sequence[note] === 1 ? 0 : 1
     this.props.onEdit(beat)
   }
 
   render = () => {
-    const tracks = this.props.beat["beat"].map( (track, i) => {
+    const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
-          setGain   = {this.props.setGain}
-          trackNum    = {i}
-          beatNum     = {this.props.beatNum}
+          key        = {i}
+          setGain    = {this.props.setGain}
+          trackNum   = {i}
           track      = {track}
           editable   = {this.props.editable}
           handleEdit = {this.handleEdit}

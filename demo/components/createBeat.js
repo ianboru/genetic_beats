@@ -6,9 +6,11 @@ import Beat from "./beat"
 export default class CreateBeat extends Component {
   constructor(props) {
     super(props)
-    console.log("constructing create beat")
+
     this.state = {
-      beat: [],
+      beat: {
+        tracks: [],
+      },
     }
   }
 
@@ -17,17 +19,19 @@ export default class CreateBeat extends Component {
     const sample = this.sampleSelect.value
 
     this.setState( {
-      beat: [ ...this.state.beat,{ 
-        "beat": {
-                  sample,
-                  sequence: Array(steps).fill(0),
-                },
-        "score": 0,
-         }]
+      beat: { ...this.state.beat,
+        tracks: [
+          ...this.state.beat.tracks,
+          {
+            sample,
+            sequence: Array(steps).fill(0),
+          },
+        ]
+      },
     })
   }
 
-  handleBeatEdit = (beat) => {
+  handleEditBeat = (beat) => {
     this.setState({beat: beat})
   }
 
@@ -64,21 +68,21 @@ export default class CreateBeat extends Component {
       <div>
         <div>
           {
-            beat.length > 0 ?
+            beat.tracks.length > 0 ?
               <Beat
                 beat     = {beat}
                 editable = {true}
-                onEdit   = {this.handleBeatEdit}
+                onEdit   = {this.handleEditBeat}
               />
                 :
               <div>No tracks yet</div>
           }
-          <select defaultValue={16} disabled={beat.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
+          <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
           <button onClick={this.handlePlayBeat}>Play beat</button>
         </div>
-        <button onClick={this.handleAddBeat}>add beat to first generation</button>
+        <button onClick={this.handleAddBeat}>add beat to current generation</button>
 
       </div>
     )
