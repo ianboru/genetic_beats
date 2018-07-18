@@ -1,4 +1,14 @@
 export default {
+  "samples/cmin9.wav": {
+    name: "cmin9",
+    path: "samples/cmin9.wav",
+    gain: 0.5,
+  },
+  "samples/emin9.wav": {
+    name: "emin9",
+    path: "samples/emin9.wav",
+    gain: 0.5,
+  },
   "samples/6581__ST_012.wav": {
     name: "6581__ST_012",
     path: "samples/6581__ST_012.wav",

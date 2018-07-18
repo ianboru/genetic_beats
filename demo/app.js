@@ -66,22 +66,23 @@ class App extends Component {
         return
       }
     }
-    let currentGeneration = []
+    let newCurrentGeneration = []
     let nextGeneration = []
     if (this.props.selectPairMode) {
       this.props.selectedBeats.forEach( (currentKey) =>{
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
-        currentGeneration.push(this.props.allGenerations[generation][beatNum])
+        newCurrentGeneration.push(this.props.allGenerations[generation][beatNum])
       })
-      nextGeneration = generateChildren(currentGeneration, this.props.allGenerations.length-1, this.props.samples)
+      nextGeneration = generateChildren(newCurrentGeneration, this.props.allGenerations.length-1, this.props.samples)
+      this.handleSelectPair()
+
     } else {
-      currentGeneration = this.props.allGenerations[this.props.generation]
-      nextGeneration = generateChildren(currentGeneration, this.props.generation, this.props.samples)
+      newCurrentGeneration = this.props.allGenerations[this.props.generation]
+      nextGeneration = generateChildren(newCurrentGeneration, this.props.generation, this.props.samples)
     }
     this.props.addGeneration(nextGeneration)
-    this.handleSelectPair()
   }
 
   handleSelectPair = () => {
@@ -205,6 +206,7 @@ class App extends Component {
 
 export default connect(
   (state) => {
+    console.log(state)
     const currentGeneration = state.allGenerations[state.generation]
     const currentBeat = currentGeneration[state.beatNum]
 
