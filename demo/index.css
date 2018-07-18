@@ -167,6 +167,24 @@ input{
 .slider.round:before {
   border-radius: 50%;
 }
-.block-input{
-  display: block
+.block-input {
+  display: block;
+}
+
+.remove-track {
+  font-size: 13px;
+  display: inline-block;
+  color: red;
+  border: 1px solid red;
+  border-radius: 3px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  width: 40px;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+.remove-track:hover {
+  background: red;
+  color: white;
 }

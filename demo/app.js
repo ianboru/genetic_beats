@@ -39,10 +39,6 @@ class App extends Component {
     })
   }
 
-  handleAddBeat = (beat) => {
-    this.props.addBeat(beat)
-  }
-
   setScore = (e) => {
     this.props.setScore(parseInt(this.state.inputScore))
     this.props.nextBeat()
@@ -88,7 +84,7 @@ class App extends Component {
     this.props.toggleSelectPairMode()
   }
 
-  handlePlayNewBeat = (beat) => {
+  handlePlayNewBeat = () => {
     this.setState({
       playingNewBeat : !this.state.playingNewBeat,
     })
@@ -116,7 +112,6 @@ class App extends Component {
         <div style={{ display: "inline-block" }}>
           <div>
             <CreateBeat
-              handleAddBeat  = {this.handleAddBeat}
               handlePlayBeat = {this.handlePlayNewBeat}
             />
             <br /><br />

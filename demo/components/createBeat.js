@@ -5,47 +5,12 @@ import { actions } from "../store"
 import Beat from "./beat"
 
 
-const freshBeat = { tracks: [] }
-
-
 class CreateBeat extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      beat: freshBeat,
-    }
-  }
-
   handleAddTrack = () => {
     const steps = parseInt(this.stepsSelect.value)
     const sample = this.sampleSelect.value
-
-    this.setState( {
-      beat: { ...this.state.beat,
-        tracks: [
-          ...this.state.beat.tracks,
-          {
-            sample,
-            sequence: Array(steps).fill(0),
-          },
-        ]
-      },
-    })
-  }
-
-  handleEditBeat = (beat) => {
-    this.props.setNewBeat(beat)
-    this.setState({beat: beat})
-  }
-
-  handlePlayBeat = () => {
-    this.props.handlePlayBeat(this.state.beat)
-  }
-
-  handleAddBeat = () => {
-    this.props.handleAddBeat(this.state.beat)
-    this.setState({ beat: freshBeat })
+    const sequence = Array(steps).fill(0)
+    this.props.addTrackToNewBeat(sample, sequence)
   }
 
   render = () => {
@@ -68,7 +33,7 @@ class CreateBeat extends Component {
       )
     })
 
-    const { beat } = this.state
+    const { beat } = this.props
 
     return (
       <div>
@@ -78,8 +43,9 @@ class CreateBeat extends Component {
               <Beat
                 beat     = {beat}
                 editable = {true}
-                onEdit   = {this.handleEditBeat}
                 samples  = {this.props.samples}
+                onEdit   = {this.props.setNewBeat}
+                handleRemoveTrack = {this.props.removeTrackFromNewBeat}
               />
                 :
               <div>No tracks yet</div>
@@ -87,9 +53,9 @@ class CreateBeat extends Component {
           <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
-          <button onClick={this.handlePlayBeat}>Play beat</button>
+          <button onClick={this.props.handlePlayBeat}>Play beat</button>
         </div>
-        <button onClick={this.handleAddBeat}>add beat to current generation</button>
+        <button onClick={this.props.addNewBeatToCurrentGen}>add beat to current generation</button>
 
       </div>
     )
@@ -100,6 +66,7 @@ class CreateBeat extends Component {
 export default connect(
   (state) => {
     return {
+      beat: state.newBeat,
       samples: state.samples,
     }
   }, actions
