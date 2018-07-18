@@ -17,6 +17,7 @@ const defaultState = {
 const actions = createActions({
   ADD_BEAT       : (newBeat) => ({ newBeat }),
   ADD_GENERATION : (newGeneration) => ({ newGeneration }),
+  KILL_SUBSEQUENT_GENERATIONS : (generation) => ({ generation }),
   SELECT_BEAT    : (generation, beatNum) => ({ generation, beatNum }),
   SET_GAIN       : (gain, sample) => ({ gain, sample }),
   SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
@@ -54,7 +55,9 @@ const reducer = handleActions({
       beatNum: 0,
     }
   },
-
+  [actions.killSubsequentGenerations]: (state, { payload: { generation }}) => {
+    return { ...state, allGenerations: state.allGenerations.slice(0,generation+1)}
+  },
   [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
     return { ...state, generation, beatNum }
   },
