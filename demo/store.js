@@ -12,7 +12,7 @@ const defaultState = {
   allGenerations : [initialGeneration],
   samples        : samples,
   selectPairMode : false,
-  selectedBeats : []
+  selectedBeats  : [],
 }
 
 
@@ -61,32 +61,27 @@ const reducer = handleActions({
   [actions.killSubsequentGenerations]: (state, { payload: { generation }}) => {
     return { ...state, allGenerations: state.allGenerations.slice(0,generation+1)}
   },
+
   [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
     const selectedKey = `${generation}.${beatNum}`
-    if(state.selectPairMode &&  !state.selectedBeats.includes(selectedKey)){
-      console.log("doesnt include " + selectedKey)
-      return { 
-        ...state, generation, beatNum, selectedBeats : [...state.selectedBeats,  selectedKey],
-      }
-    
-    }else if(state.selectPairMode &&  state.selectedBeats.includes(selectedKey)){
-      console.log("includes " + selectedKey)
 
-      const newSelectedBeats = state.selectedBeats
-      newSelectedBeats.splice(
-        newSelectedBeats.indexOf(selectedKey), 
-        newSelectedBeats.indexOf(selectedKey) +1 
-      )
-      
-      return { ...state, generation, beatNum, selectedBeats :  newSelectedBeats  }
+    let newState = { ...state, generation, beatNum }
 
-
-    }else{
-      return { ...state, generation, beatNum, selectedBeats : [`${generation}.${beatNum}` ] }
-    
-
+    if (state.selectPairMode && !state.selectedBeats.includes(selectedKey)) {
+      newState.selectedBeats = [...state.selectedBeats, selectedKey]
+      return newState
+    } else if (state.selectPairMode && state.selectedBeats.includes(selectedKey)) {
+      const newSelectedBeats = [...state.selectedBeats]
+      newSelectedBeats.splice( newSelectedBeats.indexOf(selectedKey), 1 )
+      newState.selectedBeats = newSelectedBeats
+      return newState
+    } else {
+      newState.selectedBeats = [selectedKey]
+      console.log(newState.selectedBeats === state.selectedBeats)
+      return newState
     }
   },
+
   [actions.toggleSelectPairMode]: (state) => {
     return { ...state,  selectPairMode: !state.selectPairMode, selectedBeats: []}
   },

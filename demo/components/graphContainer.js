@@ -102,7 +102,7 @@ class GraphContainer extends React.Component {
 export default connect(
   (state) => {
     const selectedBeats = state.selectPairMode ? state.selectedBeats : [`${state.generation}.${state.beatNum}`]
-    
+
     return {
       beatNum: state.beatNum,
       generation: state.generation,
