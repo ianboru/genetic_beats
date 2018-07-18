@@ -15,6 +15,8 @@ const defaultState = {
   generation     : 0,
   allGenerations : [initialGeneration],
   samples        : samples,
+  selectPairMode : false,
+  selectedBeats  : [],
 }
 
 
@@ -23,6 +25,7 @@ const actions = createActions({
   ADD_GENERATION : (newGeneration) => ({ newGeneration }),
   KILL_SUBSEQUENT_GENERATIONS : (generation) => ({ generation }),
   SELECT_BEAT    : (generation, beatNum) => ({ generation, beatNum }),
+  TOGGLE_SELECT_PAIR_MODE : null,
   SET_GAIN       : (gain, sample) => ({ gain, sample }),
   SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
   SET_NEW_BEAT   : (newBeat) => ({ newBeat }),
@@ -63,10 +66,29 @@ const reducer = handleActions({
   [actions.killSubsequentGenerations]: (state, { payload: { generation }}) => {
     return { ...state, allGenerations: state.allGenerations.slice(0,generation+1)}
   },
+
   [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
-    return { ...state, generation, beatNum }
+    const selectedKey = `${generation}.${beatNum}`
+
+    let newState = { ...state, generation, beatNum }
+
+    if (state.selectPairMode && !state.selectedBeats.includes(selectedKey)) {
+      newState.selectedBeats = [...state.selectedBeats, selectedKey]
+      return newState
+    } else if (state.selectPairMode && state.selectedBeats.includes(selectedKey)) {
+      const newSelectedBeats = [...state.selectedBeats]
+      newSelectedBeats.splice( newSelectedBeats.indexOf(selectedKey), 1 )
+      newState.selectedBeats = newSelectedBeats
+      return newState
+    } else {
+      newState.selectedBeats = [selectedKey]
+      return newState
+    }
   },
 
+  [actions.toggleSelectPairMode]: (state) => {
+    return { ...state,  selectPairMode: !state.selectPairMode, selectedBeats: []}
+  },
   [actions.setGeneration]: (state, { payload: { generation }}) => {
     return { ...state, generation }
   },

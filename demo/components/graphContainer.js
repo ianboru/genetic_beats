@@ -24,8 +24,6 @@ class GraphContainer extends React.Component {
       let nodes = []
 
       this.props.familyTree.forEach((generation) => {
-        const key = `${this.props.generation}.${this.props.beatNum}`
-
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
             edges.push({ data: { source: beat.momKey, target: beat.key  } })
@@ -33,7 +31,7 @@ class GraphContainer extends React.Component {
           }
 
           nodes.push({ data: {
-            selected : (key === beat.key ? 1 : 0),
+            selected : (this.props.selectedBeats.includes(beat.key) ? 1 : 0),
             id       : beat.key,
             name     : beat.key,
             score    : beat.score,
@@ -102,9 +100,12 @@ class GraphContainer extends React.Component {
 
 export default connect(
   (state) => {
+    const selectedBeats = state.selectPairMode ? state.selectedBeats : [`${state.generation}.${state.beatNum}`]
+
     return {
       beatNum: state.beatNum,
       generation: state.generation,
+      selectedBeats: selectedBeats,
     }
   }, (dispatch) => {
     return {

@@ -50,7 +50,7 @@ const findInJSON = (object, key, value) => {
 
 const matePair = (mom, dad) => {
   let percentDifference = 0
-  const mutationRate = .05
+  const mutationRate = .02
 
   if (Math.max(dad.score, mom.score) > 0) {
     percentDifference = Math.abs((dad.score - mom.score) / Math.max(dad.score, mom.score))

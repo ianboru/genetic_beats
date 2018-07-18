@@ -42,7 +42,7 @@ export default (currentGen, generation, samples) => {
 
   let nextGeneration = []
   const threshold = getScoreThreshold(currentGen)
-
+  
   // For all mom, dad pairs for all children in number of children per generation
   currentGen.forEach( (momBeat, momIndex) => {
     currentGen.forEach( (dadBeat, dadIndex) => {
