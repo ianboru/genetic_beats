@@ -30,6 +30,7 @@ class App extends Component {
       playingCurrentBeat : false,
       playingNewBeat     : false,
       inputScore         : "",
+      selectText         : ""
     }
   }
 
@@ -62,10 +63,35 @@ class App extends Component {
     if(this.props.generation < this.props.allGenerations.length-1){
       this.props.killSubsequentGenerations(this.props.generation)
     }
-    const nextGeneration = generateChildren(this.props.currentGeneration, this.props.generation, this.props.samples)
-    this.props.addGeneration(nextGeneration)
-  }
+    let currentGeneration = []
+    let nextGeneration = []
+    if (this.props.selectPairMode) {
+      console.log("mating selected " ,this.props.selectedBeats)
 
+      this.props.selectedBeats.forEach( (currentKey) =>{
+        console.log(currentKey)
+        const currentKeyInfo = currentKey.split(".")
+        const generation = currentKeyInfo[0]
+        const beatNum = currentKeyInfo[1]
+        console.log(currentKeyInfo)
+        currentGeneration.push(this.props.allGenerations[generation][beatNum])
+      })
+      nextGeneration = generateChildren(currentGeneration, this.props.allGenerations.length-1, this.props.samples)
+
+    } else {
+
+      currentGeneration = this.props.allGenerations[this.props.generation]
+      console.log("mating current " , this.props.generation)
+
+      nextGeneration = generateChildren(currentGeneration, this.props.generation, this.props.samples)
+    }
+    this.props.addGeneration(nextGeneration)
+    this.handleSelectPair()
+  }
+  handleSelectPair = () => {
+    
+    this.props.toggleSelectPairMode()
+  }
   handlePlayNewBeat = (beat) => {
     this.setState({
       newBeat        : beat,
@@ -74,6 +100,12 @@ class App extends Component {
   }
 
   render() {
+    let selectText = ""
+    if(this.props.selectPairMode){
+        selectText = "In Select Mode. Selecting beats : " + this.props.selectedBeats.join(' , ')  
+    }else{
+        selectText = ""
+    }
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player
@@ -152,6 +184,12 @@ class App extends Component {
             >
               Mate
             </button>
+            <button
+              className="react-music-button"
+              onClick={this.handleSelectPair}
+            >
+              Select
+            </button>
           </div>
         </div>
 
@@ -162,6 +200,7 @@ class App extends Component {
             verticalAlign: "top",
           }}
         />
+        <p>{selectText}</p>
       </div>
     )
   }
@@ -180,6 +219,8 @@ export default connect(
       generation: state.generation,
       allGenerations: state.allGenerations,
       samples: state.samples,
+      selectedBeats: state.selectedBeats,
+      selectPairMode: state.selectPairMode,
     }
   }, actions
 )(App)
