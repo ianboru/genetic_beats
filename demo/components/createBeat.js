@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
+import { actions } from "../store"
 import Beat from "./beat"
 
 
@@ -34,6 +35,7 @@ class CreateBeat extends Component {
   }
 
   handleEditBeat = (beat) => {
+    this.props.setNewBeat(beat)
     this.setState({beat: beat})
   }
 
@@ -100,5 +102,5 @@ export default connect(
     return {
       samples: state.samples,
     }
-  }
+  }, actions
 )(CreateBeat)

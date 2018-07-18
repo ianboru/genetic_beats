@@ -1,3 +1,7 @@
+const deepClone = (obj) => {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 const updateObjectInArray = (arr, index, update) => {
   return [
     ...arr.slice(0, index),
@@ -85,6 +89,7 @@ const matePair = (mom, dad) => {
 
 
 export {
+  deepClone,
   updateObjectInArray,
   getRandomIndices,
   getSubarray,

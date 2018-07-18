@@ -3,10 +3,14 @@ import { createActions, handleActions } from "redux-actions"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
-import { updateObjectInArray } from "./utils"
+import {
+  deepClone,
+  updateObjectInArray,
+} from "./utils"
 
 
 const defaultState = {
+  newBeat        : null,
   beatNum        : 0,
   generation     : 0,
   allGenerations : [initialGeneration],
@@ -24,6 +28,7 @@ const actions = createActions({
   TOGGLE_SELECT_PAIR_MODE : null,
   SET_GAIN       : (gain, sample) => ({ gain, sample }),
   SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
+  SET_NEW_BEAT   : (newBeat) => ({ newBeat }),
   SET_GENERATION : (generation) => ({ generation }),
   SET_SCORE      : (score) => ({ score }),
   NEXT_BEAT      : null,
@@ -90,6 +95,10 @@ const reducer = handleActions({
 
   [actions.setBeatNum]: (state, { payload: { beatNum }}) => {
     return { ...state, beatNum }
+  },
+
+  [actions.setNewBeat]: (state,  { payload: { newBeat }}) => {
+    return { ...state, newBeat: deepClone(newBeat) }
   },
 
   [actions.setGain]: (state, { payload: { gain, sample }}) => {

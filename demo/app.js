@@ -26,7 +26,6 @@ class App extends Component {
     super(props)
 
     this.state = {
-      newBeat            : null,
       playingCurrentBeat : false,
       playingNewBeat     : false,
       inputScore         : "",
@@ -60,8 +59,12 @@ class App extends Component {
   }
 
   handleMate = () => {
-    if (this.props.generation < this.props.allGenerations.length-1) {
-      this.props.killSubsequentGenerations(this.props.generation)
+    if (this.props.generation < this.props.allGenerations.length - 1) {
+      if (confirm(`Mating now will clear all generations after the currently selected one (${this.props.generation}).`)) {
+        this.props.killSubsequentGenerations(this.props.generation)
+      } else {
+        return
+      }
     }
     let currentGeneration = []
     let nextGeneration = []
@@ -87,7 +90,6 @@ class App extends Component {
 
   handlePlayNewBeat = (beat) => {
     this.setState({
-      newBeat        : beat,
       playingNewBeat : !this.state.playingNewBeat,
     })
   }
@@ -103,7 +105,7 @@ class App extends Component {
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player
-          beat    = {this.state.newBeat}
+          beat    = {this.props.newBeat}
           playing = {this.state.playingNewBeat}
         />
         <Player
@@ -209,6 +211,7 @@ export default connect(
     return {
       currentBeat,
       currentGeneration,
+      newBeat: state.newBeat,
       beatNum: state.beatNum,
       generation: state.generation,
       allGenerations: state.allGenerations,
