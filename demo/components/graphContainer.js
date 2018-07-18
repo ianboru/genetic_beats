@@ -24,7 +24,6 @@ class GraphContainer extends React.Component {
       let nodes = []
 
       this.props.familyTree.forEach((generation) => {
-
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
             edges.push({ data: { source: beat.momKey, target: beat.key  } })

@@ -77,7 +77,6 @@ const reducer = handleActions({
       return newState
     } else {
       newState.selectedBeats = [selectedKey]
-      console.log(newState.selectedBeats === state.selectedBeats)
       return newState
     }
   },

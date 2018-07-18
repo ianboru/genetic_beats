@@ -60,38 +60,31 @@ class App extends Component {
   }
 
   handleMate = () => {
-    if(this.props.generation < this.props.allGenerations.length-1){
+    if (this.props.generation < this.props.allGenerations.length-1) {
       this.props.killSubsequentGenerations(this.props.generation)
     }
     let currentGeneration = []
     let nextGeneration = []
     if (this.props.selectPairMode) {
-      console.log("mating selected " ,this.props.selectedBeats)
-
       this.props.selectedBeats.forEach( (currentKey) =>{
-        console.log(currentKey)
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
-        console.log(currentKeyInfo)
         currentGeneration.push(this.props.allGenerations[generation][beatNum])
       })
       nextGeneration = generateChildren(currentGeneration, this.props.allGenerations.length-1, this.props.samples)
-
     } else {
-
       currentGeneration = this.props.allGenerations[this.props.generation]
-      console.log("mating current " , this.props.generation)
-
       nextGeneration = generateChildren(currentGeneration, this.props.generation, this.props.samples)
     }
     this.props.addGeneration(nextGeneration)
     this.handleSelectPair()
   }
+
   handleSelectPair = () => {
-    
     this.props.toggleSelectPairMode()
   }
+
   handlePlayNewBeat = (beat) => {
     this.setState({
       newBeat        : beat,
@@ -101,11 +94,12 @@ class App extends Component {
 
   render() {
     let selectText = ""
-    if(this.props.selectPairMode){
-        selectText = "In Select Mode. Selecting beats : " + this.props.selectedBeats.join(' , ')  
-    }else{
-        selectText = ""
+    if (this.props.selectPairMode) {
+      selectText = "In Select Mode. Selecting beats : " + this.props.selectedBeats.join(' , ')
+    } else {
+      selectText = ""
     }
+
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player
