@@ -59,8 +59,12 @@ class App extends Component {
   }
 
   handleMate = () => {
-    if(this.props.generation < this.props.allGenerations.length-1){
-      this.props.killSubsequentGenerations(this.props.generation)
+    if (this.props.generation < this.props.allGenerations.length - 1) {
+      if (confirm(`Mating now will clear all generations after the currently selected one (${this.props.generation}).`)) {
+        this.props.killSubsequentGenerations(this.props.generation)
+      } else {
+        return
+      }
     }
     const nextGeneration = generateChildren(this.props.currentGeneration, this.props.generation, this.props.samples)
     this.props.addGeneration(nextGeneration)
