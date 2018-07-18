@@ -48,7 +48,6 @@ const reducer = handleActions({
   },
 
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
-    console.log("adding generation to ", state.allGenerations, newGeneration)
     return {
       ...state,
       allGenerations: [ ...state.allGenerations, newGeneration ],
@@ -57,7 +56,6 @@ const reducer = handleActions({
     }
   },
   [actions.killSubsequentGenerations]: (state, { payload: { generation }}) => {
-    console.log("action slicing after " + generation, state.allGenerations)
     return { ...state, allGenerations: state.allGenerations.slice(0,generation+1)}
   },
   [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
