@@ -114,7 +114,7 @@ const reducer = handleActions({
   [actions.addNewBeatToCurrentGen]: (state) => {
     const currentGeneration = state.allGenerations[state.generation]
 
-    newBeat = { ...state.newBeat,
+    const newBeat = { ...state.newBeat,
       key: `${state.generation}.${currentGeneration.length}`,
       score: 0,
     }
