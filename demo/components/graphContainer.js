@@ -22,12 +22,22 @@ class GraphContainer extends React.Component {
     familyTreeToGraph = () => {
       let edges = []
       let nodes = []
-
+      let intermediateNodes = []
       this.props.familyTree.forEach((generation) => {
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
-            edges.push({ data: { source: beat.momKey, target: beat.key  } })
-            edges.push({ data: { source: beat.dadKey, target: beat.key  } })
+            const intermediateNodeKey = beat.momKey + "|" + beat.dadKey
+            nodes.push({ data: {
+              id       : intermediateNodeKey,
+              score    : beat.score,
+              size     : 0
+            }})
+            edges.push({ data: { source: intermediateNodeKey, target: beat.key  } })
+            if(!intermediateNodes.includes(intermediateNodeKey)){
+              edges.push({ data: { source: beat.momKey, target: intermediateNodeKey  } })
+              edges.push({ data: { source: beat.dadKey, target: intermediateNodeKey  } })
+            }
+            intermediateNodes.push(intermediateNodeKey)
           }
 
           nodes.push({ data: {
@@ -35,6 +45,7 @@ class GraphContainer extends React.Component {
             id       : beat.key,
             name     : beat.key,
             score    : beat.score,
+            size     : 1
           }})
         })
       })
@@ -57,8 +68,8 @@ class GraphContainer extends React.Component {
         style: cytoscape.stylesheet()
           .selector('node')
           .css({
-            'height'           : 120,
-            'width'            : 120,
+            'height'           : 'mapData(size, 0, 1, 5, 120)',
+            'width'            : 'mapData(size, 0, 1, 5, 120)',
             'background-color' : 'mapData(score, 0, 20, white, red)',
             'background-fit'   : 'cover',
             'border-color'     : 'mapData(selected, 0, 1, black, red)',
@@ -70,11 +81,12 @@ class GraphContainer extends React.Component {
           })
           .selector('edge')
           .css({
-            'width'              : 6,
+            'width'              : 5,
             'target-arrow-shape' : 'triangle',
-            'line-color'         : '#ffaaaa',
-            'target-arrow-color' : '#ffaaaa',
-            'curve-style'        : 'bezier'
+            'line-color'         : '#000000',
+            'target-arrow-color' : '#000000',
+            'curve-style': 'bezier',
+            'control-point-step-size' : 0,  
           })
           ,
       })
