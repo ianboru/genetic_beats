@@ -10,7 +10,7 @@ import {
 
 
 const defaultState = {
-  newBeat        : null,
+  newBeat        : { tracks: [] },
   beatNum        : 0,
   generation     : 0,
   allGenerations : [initialGeneration],
@@ -21,18 +21,24 @@ const defaultState = {
 
 
 const actions = createActions({
-  ADD_BEAT       : (newBeat) => ({ newBeat }),
-  ADD_GENERATION : (newGeneration) => ({ newGeneration }),
+  ADD_BEAT                    : (newBeat) => ({ newBeat }),
+  ADD_GENERATION              : (newGeneration) => ({ newGeneration }),
   KILL_SUBSEQUENT_GENERATIONS : (generation) => ({ generation }),
-  SELECT_BEAT    : (generation, beatNum) => ({ generation, beatNum }),
-  TOGGLE_SELECT_PAIR_MODE : null,
-  SET_GAIN       : (gain, sample) => ({ gain, sample }),
-  SET_BEAT_NUM   : (beatNum) => ({ beatNum }),
-  SET_NEW_BEAT   : (newBeat) => ({ newBeat }),
-  SET_GENERATION : (generation) => ({ generation }),
-  SET_SCORE      : (score) => ({ score }),
-  NEXT_BEAT      : null,
-  PREV_BEAT      : null,
+  SELECT_BEAT                 : (generation, beatNum) => ({ generation, beatNum }),
+  TOGGLE_SELECT_PAIR_MODE     : null,
+  SET_GAIN                    : (gain, sample) => ({ gain, sample }),
+  SET_BEAT_NUM                : (beatNum) => ({ beatNum }),
+
+  SET_NEW_BEAT                : (newBeat) => ({ newBeat }),
+  RESET_NEW_BEAT              : null,
+  ADD_NEW_BEAT_TO_CURRENT_GEN : null,
+  ADD_TRACK_TO_NEW_BEAT       : (sample, sequence) => ({ sample, sequence }),
+  REMOVE_TRACK_FROM_NEW_BEAT  : (trackNum) => ({ trackNum }),
+
+  SET_GENERATION              : (generation) => ({ generation }),
+  SET_SCORE                   : (score) => ({ score }),
+  NEXT_BEAT                   : null,
+  PREV_BEAT                   : null,
 })
 
 
@@ -99,6 +105,47 @@ const reducer = handleActions({
 
   [actions.setNewBeat]: (state,  { payload: { newBeat }}) => {
     return { ...state, newBeat: deepClone(newBeat) }
+  },
+
+  [actions.resetNewBeat]: (state) => {
+    return { ...state, newBeat: { tracks: [] } }
+  },
+
+  [actions.addNewBeatToCurrentGen]: (state) => {
+    const currentGeneration = state.allGenerations[state.generation]
+
+    newBeat = { ...state.newBeat,
+      key: `${state.generation}.${currentGeneration.length}`,
+      score: 0,
+    }
+
+    const newAllGenerations = updateObjectInArray(
+      state.allGenerations,
+      state.generation,
+      [...currentGeneration, newBeat]
+    )
+
+    return { ...state, allGenerations: newAllGenerations, newBeat: { tracks: [] } }
+  },
+
+  [actions.addTrackToNewBeat]: (state, { payload: { sample, sequence }}) => {
+    const newBeat = { ...state.newBeat,
+      tracks: [
+        ...state.newBeat.tracks,
+        { sample, sequence },
+      ]
+    }
+    return { ...state, newBeat }
+  },
+
+  [actions.removeTrackFromNewBeat]: (state, { payload: { trackNum }} ) => {
+    const newBeat = { ...state.newBeat,
+      tracks: [
+        ...state.newBeat.tracks.slice(0, trackNum),
+        ...state.newBeat.tracks.slice(trackNum+1),
+      ]
+    }
+    return { ...state, newBeat }
   },
 
   [actions.setGain]: (state, { payload: { gain, sample }}) => {

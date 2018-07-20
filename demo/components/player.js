@@ -31,7 +31,7 @@ const generateSamplers = (beat, samples) => {
 class Player extends Component {
   render = () => {
     const { beat, playing } = this.props
-    if (!beat) { return null }
+    if (!beat || !beat.tracks || beat.tracks.length < 1) { return null }
 
     return (
       <Song

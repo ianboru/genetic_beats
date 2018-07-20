@@ -36,7 +36,6 @@ const trackNameStyles = {
   width   : 160,
 }
 
-
 class Track extends Component {
   constructor (props, context) {
     super(props, context)
@@ -51,6 +50,10 @@ class Track extends Component {
   handleNoteToggle = (noteNumber) => {
     const { handleEdit, trackNum } = this.props
     handleEdit(trackNum, noteNumber)
+  }
+
+  handleRemoveTrack = () => {
+    this.props.handleRemoveTrack(this.props.trackNum)
   }
 
   render = () => {
@@ -76,7 +79,12 @@ class Track extends Component {
         </div>
         {notes}
         {
-          this.props.editable ? null :
+          this.props.editable ?
+            <span
+              className = "remove-track"
+              onClick   = {this.handleRemoveTrack}
+            >remove track</span>
+            :
             <input
               type         = "range"
               min          = {0}
@@ -108,6 +116,7 @@ export default class Beat extends Component {
           track      = {track}
           editable   = {this.props.editable}
           handleEdit = {this.handleEdit}
+          handleRemoveTrack = {this.props.handleRemoveTrack}
           samples    = {this.props.samples}
         />
       )
