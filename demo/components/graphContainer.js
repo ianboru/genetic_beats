@@ -26,7 +26,8 @@ class GraphContainer extends React.Component {
       this.props.familyTree.forEach((generation) => {
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
-            const intermediateNodeKey = beat.momKey + "|" + beat.dadKey
+            const parentKeys = [beat.momKey, beat.dadKey]
+            const intermediateNodeKey = parentKeys.sort().join("|")
             nodes.push({ data: {
               id       : intermediateNodeKey,
               score    : beat.score,
