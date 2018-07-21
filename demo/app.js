@@ -65,13 +65,7 @@ class App extends Component {
       }
     }
 
-    const options = {
-      samples        : this.props.samples,
-      numSurvivors   : this.props.numSurvivors,
-      numChildren    : this.props.numChildren,
-      mutationRate   : this.props.mutationRate,
-      scoreThreshold : this.props.scoreThreshold,
-    }
+    let options = {}
 
     if (this.props.selectPairMode) {
       options.newCurrentGeneration = this.props.selectedBeats.map( (currentKey) => {
@@ -81,7 +75,7 @@ class App extends Component {
         return this.props.allGenerations[generation][beatNum]
       })
       options.numGeneration = this.props.allGenerations.length - 1
-      this.handleSelectPair()
+      this.props.toggleSelectPairMode()
     } else {
       options.newCurrentGeneration = this.props.allGenerations[this.props.generation]
       options.numGeneration = this.props.generation
@@ -90,11 +84,11 @@ class App extends Component {
     const nextGeneration = generateChildren(
       options.newCurrentGeneration,
       options.numGeneration,
-      options.samples,
-      options.numSurvivors,
-      options.numChildren,
-      options.mutationRate,
-      options.scoreThreshold,
+      this.props.samples,
+      this.props.numSurvivors,
+      this.props.numChildren,
+      this.props.mutationRate,
+      this.props.scoreThreshold,
     )
 
     this.props.addGeneration(nextGeneration)
@@ -274,18 +268,17 @@ export default connect(
     return {
       currentBeat,
       currentGeneration,
-      newBeat: state.newBeat,
-      beatNum: state.beatNum,
-      generation: state.generation,
-      allGenerations: state.allGenerations,
-      samples: state.samples,
-      selectedBeats: state.selectedBeats,
-      selectPairMode: state.selectPairMode,
+      newBeat        : state.newBeat,
+      beatNum        : state.beatNum,
+      generation     : state.generation,
+      allGenerations : state.allGenerations,
+      samples        : state.samples,
+      selectedBeats  : state.selectedBeats,
+      selectPairMode : state.selectPairMode,
       mutationRate   : state.mutationRate,
       numSurvivors   : state.numSurvivors,
       numChildren    : state.numChildren,
       scoreThreshold : state.scoreThreshold,
-
     }
   }, actions
 )(App)
