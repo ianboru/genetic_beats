@@ -51,7 +51,9 @@ class App extends Component {
   }
 
   reset = () => {
-    window.location.reload()
+    if (confirm("Are you sure you want to reset?")) {
+      window.location.reload()
+    }
   }
 
   handleMate = () => {
