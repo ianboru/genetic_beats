@@ -71,18 +71,48 @@ class App extends Component {
         const beatNum = currentKeyInfo[1]
         newCurrentGeneration.push(this.props.allGenerations[generation][beatNum])
       })
-      nextGeneration = generateChildren(newCurrentGeneration, this.props.allGenerations.length-1, this.props.samples)
+      nextGeneration = generateChildren(
+          newCurrentGeneration, 
+          this.props.allGenerations.length-1, 
+          this.props.samples,
+          this.props.mutationRate,
+          this.props.numSurvivors,
+          this.props.numChildren,
+          this.props.scoreThreshold,
+      )
       this.handleSelectPair()
 
     } else {
       newCurrentGeneration = this.props.allGenerations[this.props.generation]
-      nextGeneration = generateChildren(newCurrentGeneration, this.props.generation, this.props.samples)
+      nextGeneration = generateChildren(
+        newCurrentGeneration, 
+        this.props.generation, 
+        this.props.samples,
+        this.props.numSurvivors,
+        this.props.numChildren,
+        this.props.mutationRate,
+        this.props.scoreThreshold,
+
+      )
     }
     this.props.addGeneration(nextGeneration)
   }
 
   handleSelectPair = () => {
     this.props.toggleSelectPairMode()
+  }
+
+  handleSetMutationRate  = (evt) => {
+    this.props.setMutationRate(evt.target.value)
+  }
+  handleSetNumChildren = (evt) => {
+    this.props.setNumChildren(evt.target.value)
+  }
+  handleSetNumSurvivors = (evt) => {
+    this.props.setNumSurvivors(evt.target.value)
+  }
+  handleSetScoreThreshold = (evt) => {
+    this.props.setScoreThreshold(evt.target.value)
   }
 
   handlePlayNewBeat = () => {
@@ -109,7 +139,40 @@ class App extends Component {
           beat    = {this.props.currentBeat}
           playing = {this.state.playingCurrentBeat}
         />
-
+        <div>
+          Mutation Rate:
+          <input
+                type         = "range"
+                min          = {0}
+                max          = {100}
+                defaultValue = {this.props.mutationRate}
+                onChange     = {this.handleSetMutationRate}
+          /><br/>
+          Number of Children:
+          <input
+            type         = "range"
+            min          = {1}
+            max          = {20}
+            defaultValue = {this.props.numChildren}
+            onChange     = {this.handleSetNumChildren}
+          /><br/>
+          Number of Survivors:
+          <input
+              type         = "range"
+              min          = {1}
+              max          = {20}
+              defaultValue = {this.props.numSurvivors}
+              onChange     = {this.handleSetNumSurvivors}
+          /><br/>
+          Top Percentile of Survivors:
+          <input
+              type         = "range"
+              min          = {0}
+              max          = {100}
+              defaultValue = {this.props.scoreThreshold}
+              onChange     = {this.handleSetScoreThreshold}
+          /><br/>
+        </div>
         <div style={{ display: "inline-block" }}>
           <div>
             <CreateBeat
@@ -146,12 +209,7 @@ class App extends Component {
           </div>
 
           <div className="buttons">
-            <button
-              className="react-music-button"
-              onClick={this.reset}
-            >
-              Reset
-            </button>
+            
             <button
               className="react-music-button"
               onClick={this.handlePlayToggle}
@@ -169,7 +227,7 @@ class App extends Component {
               onClick={this.props.prevBeat}
             >
               Last Beat
-            </button>
+            </button><br/>
             <button
               className="react-music-button"
               onClick={this.handleMate}
@@ -182,7 +240,14 @@ class App extends Component {
             >
               Select
             </button>
+            <button
+              className="react-music-button"
+              onClick={this.reset}
+            >
+              Reset
+            </button>
           </div>
+
         </div>
 
         <GraphContainer
@@ -201,7 +266,6 @@ class App extends Component {
 
 export default connect(
   (state) => {
-    console.log(state)
     const currentGeneration = state.allGenerations[state.generation]
     const currentBeat = currentGeneration[state.beatNum]
 
@@ -215,6 +279,11 @@ export default connect(
       samples: state.samples,
       selectedBeats: state.selectedBeats,
       selectPairMode: state.selectPairMode,
+      mutationRate   : state.mutationRate,
+      numSurvivors   : state.numSurvivors,
+      numChildren    : state.numChildren,
+      scoreThreshold : state.scoreThreshold,
+
     }
   }, actions
 )(App)

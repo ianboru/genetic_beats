@@ -17,6 +17,10 @@ const defaultState = {
   samples        : samples,
   selectPairMode : false,
   selectedBeats  : [],
+  mutationRate   : 5,
+  numSurvivors   : 5,
+  numChildren    : 3,
+  scoreThreshold : 75,
 }
 
 
@@ -39,6 +43,13 @@ const actions = createActions({
   SET_SCORE                   : (score) => ({ score }),
   NEXT_BEAT                   : null,
   PREV_BEAT                   : null,
+  SET_MUTATION_RATE           : (mutationRate) => ({mutationRate}),
+  SET_NUM_CHILDREN            : (numChildren) => ({numChildren}),
+  SET_NUM_SURVIVORS           : (numSurvivors) => ({numSurvivors}),
+  SET_SCORE_THRESHOLD         : (scoreThreshold) => ({scoreThreshold}),
+
+
+
 })
 
 
@@ -98,6 +109,22 @@ const reducer = handleActions({
   [actions.setGeneration]: (state, { payload: { generation }}) => {
     return { ...state, generation }
   },
+
+
+  [actions.setMutationRate]: (state, { payload: { mutationRate }}) => {
+    return { ...state, mutationRate }
+  },
+
+  [actions.setNumChildren]: (state, { payload: { numChildren }}) => {
+    return { ...state, numChildren }
+  },
+  [actions.setNumSurvivors]: (state, { payload: { numSurvivors }}) => {
+    return { ...state, numSurvivors }
+  },
+  [actions.setScoreThreshold]: (state, { payload: { setScoreThreshold }}) => {
+    return { ...state, setScoreThreshold }
+  },
+
 
   [actions.setBeatNum]: (state, { payload: { beatNum }}) => {
     return { ...state, beatNum }

@@ -82,12 +82,13 @@ class GraphContainer extends React.Component {
           })
           .selector('edge')
           .css({
-            'width'              : 5,
+            'width'              : 4,
             'target-arrow-shape' : 'triangle',
             'line-color'         : '#000000',
             'target-arrow-color' : '#000000',
             'curve-style': 'bezier',
             'control-point-step-size' : 0,  
+            'opacity' : .4,
           })
           ,
       })

@@ -6,11 +6,9 @@ import {
 } from "./utils"
 
 
-export default (currentGen, generation, samples) => {
-  const numChildren = 3
-  const numInitialSurvivors = 5
-
-  const getScoreThreshold = (generation, survivorPercentile = 0.75) => {
+export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, scoreThresholdInteger) => {
+  const getScoreThreshold = (generation, survivorPercentile = scoreThresholdInteger) => {
+    let scoreThreshold = scoreThresholdInteger/100
     let allScores = generation.map((beat) => { return beat.score })
     allScores = allScores.sort( (a, b) => (a - b) )
 
@@ -81,7 +79,7 @@ export default (currentGen, generation, samples) => {
             if (!dadTrack.sample) { dadTrack = momTrack }
             newBeatTracks.push({
               sample   : path,
-              sequence : matePair(momTrack, dadTrack),
+              sequence : matePair(momTrack, dadTrack, mutationRate),
             })
           }
         })
