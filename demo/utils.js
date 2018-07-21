@@ -87,6 +87,39 @@ const matePair = (mom, dad, mutationRateInteger) => {
   return childBeat
 }
 
+function generateFamilyName(){
+  let code = ""
+
+  const words = [
+    "ball",
+    "belt",
+    "blouse",
+    "boot",
+    "camp",
+    "club",
+    "day",
+    "hat",
+    "house",
+    "jacket",
+    "pant",
+    "plant",
+    "pocket",
+    "scarf",
+    "shirt",
+    "sleeve",
+    "sock",
+    "space",
+    "town",
+    "trouser",
+    "vest",
+  ]
+
+  code = words[Math.floor(Math.random() * words.length)]
+  code += "-"
+  code += words[Math.floor(Math.random() * words.length)]
+
+  return code
+}
 
 export {
   deepClone,
@@ -94,5 +127,6 @@ export {
   getRandomIndices,
   getSubarray,
   findInJSON,
-  matePair,
+  matePair,generateFamilyName,
+
 }

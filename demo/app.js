@@ -12,7 +12,6 @@ import FamilyTree from "./components/familyTree"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
 
-
 /*TODO
 * fix mating after selecting
 * Mark "Mate" button as ready to mate after
@@ -29,7 +28,8 @@ class App extends Component {
       playingCurrentBeat : false,
       playingNewBeat     : false,
       inputScore         : "",
-      selectText         : ""
+      selectText         : "",
+
     }
   }
 
@@ -92,6 +92,15 @@ class App extends Component {
     )
 
     this.props.addGeneration(nextGeneration)
+    localStorage.setItem(this.props.familyName,JSON.stringify(this.props.allGenerations))
+    let familyNames = JSON.parse(localStorage.getItem("familyNames"))
+    if(familyNames && !familyNames.includes(this.props.familyName)){
+      familyNames.push(this.props.familyName)
+    }else if(!familyNames){
+      familyNames = [this.props.familyName]
+    }
+    localStorage.setItem("familyNames",JSON.stringify(familyNames))
+
   }
 
   handleSelectPair = () => {
@@ -116,7 +125,9 @@ class App extends Component {
       playingNewBeat : !this.state.playingNewBeat,
     })
   }
-
+  handleSelectFamily = (evt) => {
+    this.props.setFamilyName(evt.target.value)
+  }
   render() {
     let selectText = ""
     if (this.props.selectPairMode) {
@@ -124,7 +135,20 @@ class App extends Component {
     } else {
       selectText = ""
     }
-
+    const tempFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
+    let familyNames = []
+    if(tempFamilyNames){
+      familyNames = tempFamilyNames
+    }
+    console.log("family names", familyNames)
+    const familyNamesOptions = familyNames.map( (key) => {
+      return (
+        <option
+          key   = {key}
+          value = {key}
+        >{key}</option>
+      )
+    })
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player
@@ -136,6 +160,13 @@ class App extends Component {
           playing = {this.state.playingCurrentBeat}
         />
         <div>
+          <div>
+            Family:
+            {this.props.familyName}
+            
+            <select onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
+
+          </div>
           Mutation Rate:
           <input
                 type         = "range"
@@ -279,6 +310,7 @@ export default connect(
       numSurvivors   : state.numSurvivors,
       numChildren    : state.numChildren,
       scoreThreshold : state.scoreThreshold,
+      familyName     : state.familyName,
     }
   }, actions
 )(App)

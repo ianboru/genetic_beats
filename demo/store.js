@@ -8,6 +8,7 @@ import {
   updateObjectInArray,
 } from "./utils"
 
+import {generateFamilyName} from "./utils"
 
 const defaultState = {
   newBeat        : { tracks: [] },
@@ -21,6 +22,7 @@ const defaultState = {
   numSurvivors   : 5,
   numChildren    : 3,
   scoreThreshold : 75,
+  familyName : generateFamilyName(),
 }
 
 
@@ -47,9 +49,7 @@ const actions = createActions({
   SET_NUM_CHILDREN            : (numChildren) => ({numChildren}),
   SET_NUM_SURVIVORS           : (numSurvivors) => ({numSurvivors}),
   SET_SCORE_THRESHOLD         : (scoreThreshold) => ({scoreThreshold}),
-
-
-
+  SET_FAMILY_NAME             : (familyName) => ({familyName}),
 })
 
 
@@ -109,7 +109,10 @@ const reducer = handleActions({
   [actions.setGeneration]: (state, { payload: { generation }}) => {
     return { ...state, generation }
   },
-
+  [actions.setFamilyName]: (state, { payload: { familyName }}) => {
+    console.log("family name set ", familyName)
+    return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0 }
+  },
 
   [actions.setMutationRate]: (state, { payload: { mutationRate }}) => {
     return { ...state, mutationRate }
