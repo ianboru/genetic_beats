@@ -9,7 +9,7 @@ import {
 } from "./utils"
 
 import {generateFamilyName} from "./utils"
-
+const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const defaultState = {
   newBeat        : { tracks: [] },
   beatNum        : 0,
@@ -23,6 +23,7 @@ const defaultState = {
   numChildren    : 3,
   scoreThreshold : 75,
   familyName : generateFamilyName(),
+  familyNames : originalFamilyNames ? originalFamilyNames : [],
 }
 
 
@@ -71,7 +72,11 @@ const reducer = handleActions({
 
     return { ...state, allGenerations: newAllGenerations}
   },
-
+  [actions.saveFamily]: (state, {payload: {newFamilyName, newFamily}}) => {
+    return {
+      ...state,
+    }
+  },  
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
     return {
       ...state,
@@ -111,7 +116,7 @@ const reducer = handleActions({
   },
   [actions.setFamilyName]: (state, { payload: { familyName }}) => {
     console.log("family name set ", familyName)
-    return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0 }
+    return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0, generation: 0 }
   },
 
   [actions.setMutationRate]: (state, { payload: { mutationRate }}) => {

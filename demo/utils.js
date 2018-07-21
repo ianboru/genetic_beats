@@ -117,6 +117,8 @@ function generateFamilyName(){
   code = words[Math.floor(Math.random() * words.length)]
   code += "-"
   code += words[Math.floor(Math.random() * words.length)]
+  code += "-"
+  code += words[Math.floor(Math.random() * words.length)]
 
   return code
 }

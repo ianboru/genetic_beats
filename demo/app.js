@@ -135,13 +135,8 @@ class App extends Component {
     } else {
       selectText = ""
     }
-    const tempFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
-    let familyNames = []
-    if(tempFamilyNames){
-      familyNames = tempFamilyNames
-    }
-    console.log("family names", familyNames)
-    const familyNamesOptions = familyNames.map( (key) => {
+
+    const familyNamesOptions = this.props.familyNames.map( (key) => {
       return (
         <option
           key   = {key}
@@ -311,6 +306,7 @@ export default connect(
       numChildren    : state.numChildren,
       scoreThreshold : state.scoreThreshold,
       familyName     : state.familyName,
+      familyNames    : state.familyNames
     }
   }, actions
 )(App)
