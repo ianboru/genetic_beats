@@ -51,6 +51,7 @@ const actions = createActions({
   SET_NUM_SURVIVORS           : (numSurvivors) => ({numSurvivors}),
   SET_SCORE_THRESHOLD         : (scoreThreshold) => ({scoreThreshold}),
   SET_FAMILY_NAME             : (familyName) => ({familyName}),
+  UPDATE_FAMILY_IN_STORAGE    : null,
 })
 
 
@@ -116,9 +117,23 @@ const reducer = handleActions({
   },
   [actions.setFamilyName]: (state, { payload: { familyName }}) => {
     console.log("family name set ", familyName)
+
     return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0, generation: 0 }
   },
 
+  [actions.updateFamilyInStorage]: (state) => {
+    console.log("family updated ", state.familyName, state.allGenerations)
+    let newFamilyNames = state.familyNames
+    if(state.familyNames.length > 0 && !state.familyNames.includes(state.familyName)){
+      newFamilyNames.push(state.familyName)
+    }else if(state.familyNames.length == 0){
+      newFamilyNames = [state.familyName]
+    }
+    //MOVE OUT
+    localStorage.setItem("familyNames",JSON.stringify(newFamilyNames))
+    localStorage.setItem(state.familyName,JSON.stringify(state.allGenerations))
+    return { ...state, familyNames: newFamilyNames}
+  },
   [actions.setMutationRate]: (state, { payload: { mutationRate }}) => {
     return { ...state, mutationRate }
   },

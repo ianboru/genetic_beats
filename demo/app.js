@@ -23,7 +23,7 @@ import Player from "./components/player"
 class App extends Component {
   constructor(props) {
     super(props)
-
+    this.props.updateFamilyInStorage()
     this.state = {
       playingCurrentBeat : false,
       playingNewBeat     : false,
@@ -92,15 +92,7 @@ class App extends Component {
     )
 
     this.props.addGeneration(nextGeneration)
-    localStorage.setItem(this.props.familyName,JSON.stringify(this.props.allGenerations))
-    let familyNames = JSON.parse(localStorage.getItem("familyNames"))
-    if(familyNames && !familyNames.includes(this.props.familyName)){
-      familyNames.push(this.props.familyName)
-    }else if(!familyNames){
-      familyNames = [this.props.familyName]
-    }
-    localStorage.setItem("familyNames",JSON.stringify(familyNames))
-
+    this.props.updateFamilyInStorage()
   }
 
   handleSelectPair = () => {
@@ -128,6 +120,7 @@ class App extends Component {
   handleSelectFamily = (evt) => {
     this.props.setFamilyName(evt.target.value)
   }
+  
   render() {
     let selectText = ""
     if (this.props.selectPairMode) {
@@ -135,7 +128,6 @@ class App extends Component {
     } else {
       selectText = ""
     }
-
     const familyNamesOptions = this.props.familyNames.map( (key) => {
       return (
         <option
@@ -159,7 +151,7 @@ class App extends Component {
             Family:
             {this.props.familyName}
             
-            <select onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
+            <select defaultValue={this.props.familyName} onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
 
           </div>
           Mutation Rate:
@@ -306,7 +298,7 @@ export default connect(
       numChildren    : state.numChildren,
       scoreThreshold : state.scoreThreshold,
       familyName     : state.familyName,
-      familyNames    : state.familyNames
+      familyNames    : state.familyNames,
     }
   }, actions
 )(App)
