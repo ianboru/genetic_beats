@@ -64,39 +64,39 @@ class App extends Component {
         return
       }
     }
-    let newCurrentGeneration = []
-    let nextGeneration = []
+
+    const options = {
+      samples        : this.props.samples,
+      numSurvivors   : this.props.numSurvivors,
+      numChildren    : this.props.numChildren,
+      mutationRate   : this.props.mutationRate,
+      scoreThreshold : this.props.scoreThreshold,
+    }
+
     if (this.props.selectPairMode) {
-      this.props.selectedBeats.forEach( (currentKey) =>{
+      options.newCurrentGeneration = this.props.selectedBeats.map( (currentKey) => {
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
-        newCurrentGeneration.push(this.props.allGenerations[generation][beatNum])
+        return this.props.allGenerations[generation][beatNum]
       })
-      nextGeneration = generateChildren(
-          newCurrentGeneration, 
-          this.props.allGenerations.length-1, 
-          this.props.samples,
-          this.props.mutationRate,
-          this.props.numSurvivors,
-          this.props.numChildren,
-          this.props.scoreThreshold,
-      )
+      options.numGeneration = this.props.allGenerations.length - 1
       this.handleSelectPair()
-
     } else {
-      newCurrentGeneration = this.props.allGenerations[this.props.generation]
-      nextGeneration = generateChildren(
-        newCurrentGeneration, 
-        this.props.generation, 
-        this.props.samples,
-        this.props.numSurvivors,
-        this.props.numChildren,
-        this.props.mutationRate,
-        this.props.scoreThreshold,
-
-      )
+      options.newCurrentGeneration = this.props.allGenerations[this.props.generation]
+      options.numGeneration = this.props.generation
     }
+
+    const nextGeneration = generateChildren(
+      options.newCurrentGeneration,
+      options.numGeneration,
+      options.samples,
+      options.numSurvivors,
+      options.numChildren,
+      options.mutationRate,
+      options.scoreThreshold,
+    )
+
     this.props.addGeneration(nextGeneration)
   }
 
