@@ -144,8 +144,8 @@ const reducer = handleActions({
   [actions.setNumSurvivors]: (state, { payload: { numSurvivors }}) => {
     return { ...state, numSurvivors }
   },
-  [actions.setScoreThreshold]: (state, { payload: { setScoreThreshold }}) => {
-    return { ...state, setScoreThreshold }
+  [actions.setScoreThreshold]: (state, { payload: { scoreThreshold }}) => {
+    return { ...state, scoreThreshold }
   },
 
 
