@@ -12,7 +12,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     let allScores = generation.map((beat) => { return beat.score })
     allScores = allScores.sort( (a, b) => (a - b) )
 
-    let percentileIndex = Math.floor(allScores.length * survivorPercentile) - 1
+    let percentileIndex = Math.floor(allScores.length * scoreThreshold) - 1
     return allScores[percentileIndex]
   }
 
@@ -48,8 +48,10 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       if (momIndex === dadIndex) { return }
 
       // Don't mate unfit pairs
+
       if ( (momBeat.score < threshold || dadBeat.score < threshold) &&
             nextGeneration.length > 5 ) {
+
         return
       }
 
