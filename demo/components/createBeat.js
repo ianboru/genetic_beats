@@ -14,6 +14,8 @@ class CreateBeat extends Component {
   }
 
   render = () => {
+    const { beat } = this.props
+
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
         <option
@@ -23,8 +25,14 @@ class CreateBeat extends Component {
       )
     })
 
-    const sampleOptions = Object.keys(this.props.samples).map( (key) => {
-      let sample = this.props.samples[key]
+    const beatSamples = beat.tracks.map( (track) => { return track.sample } )
+    const unusedSampleKeys = Object.keys(this.props.samples).filter( (key) => {
+      const sample = this.props.samples[key]
+      return !beatSamples.includes(sample.path)
+    })
+
+    const sampleOptions = unusedSampleKeys.map( (key) => {
+      const sample = this.props.samples[key]
       return (
         <option
           key   = {sample.path}
@@ -32,8 +40,6 @@ class CreateBeat extends Component {
         >{sample.name}</option>
       )
     })
-
-    const { beat } = this.props
 
     return (
       <div>
