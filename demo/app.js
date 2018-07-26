@@ -88,6 +88,7 @@ class App extends Component {
       this.props.numSurvivors,
       this.props.numChildren,
       this.props.mutationRate,
+      this.props.sampleMutationRate,
       this.props.scoreThreshold,
     )
 
@@ -101,6 +102,9 @@ class App extends Component {
 
   handleSetMutationRate  = (evt) => {
     this.props.setMutationRate(evt.target.value)
+  }
+  handleSetSampleMutationRate  = (evt) => {
+    this.props.setSampleMutationRate(evt.target.value)
   }
   handleSetNumChildren = (evt) => {
     this.props.setNumChildren(evt.target.value)
@@ -154,13 +158,21 @@ class App extends Component {
             <select defaultValue={this.props.familyName} onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
 
           </div>
-          Mutation Rate:
+          Note Mutation Rate:
           <input
                 type         = "range"
                 min          = {0}
                 max          = {100}
                 defaultValue = {this.props.mutationRate}
                 onChange     = {this.handleSetMutationRate}
+          /><br/>
+          Sample Mutation Rate:
+          <input
+                type         = "range"
+                min          = {0}
+                max          = {100}
+                defaultValue = {this.props.sampleMutationRate}
+                onChange     = {this.handleSetSampleMutationRate}
           /><br/>
           Number of Children:
           <input
@@ -296,6 +308,7 @@ export default connect(
       selectedBeats  : state.selectedBeats,
       selectPairMode : state.selectPairMode,
       mutationRate   : state.mutationRate,
+      sampleMutationRate: state.sampleMutationRate,
       numSurvivors   : state.numSurvivors,
       numChildren    : state.numChildren,
       scoreThreshold : state.scoreThreshold,

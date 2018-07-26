@@ -5,7 +5,7 @@ import {
   matePair,
 } from "./utils"
 
-export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, scoreThresholdInteger) => {
+export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, sampleMutationRate,scoreThresholdInteger) => {
   const getScoreThreshold = (generation, survivorPercentile = scoreThresholdInteger) => {
     let scoreThreshold = scoreThresholdInteger/100
     let allScores = generation.map((beat) => { return beat.score })
@@ -22,9 +22,8 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
   }
   const makeChildFromNewSample = (samples, currentBeatSampleKeys, numSteps) => {
     let randomInteger = Math.floor(Math.random() * 100)
-    const sampleMutationRateInteger = 40
-    const sampleMutationRate = sampleMutationRateInteger/100
-    const sampleMutationComparitor = 100 * sampleMutationRate
+    const sampleMutationRateDecimal = sampleMutationRate/100
+    const sampleMutationComparitor = 100 * sampleMutationRateDecimal
     if(randomInteger < sampleMutationComparitor){
 
       let validSampleKeys = Object.keys(samples)
@@ -35,12 +34,10 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       const randomSampleKey = validSampleKeys[randomIndex]
 
       const newSamplePath = samples[randomSampleKey].path
-      console.log("adding sample " + newSamplePath)
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
       newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(100,mutationRate*2))
       if(newSampleSequence.includes(1)){
-        console.log("added mutant")
         return {
                   sample   : newSamplePath,
                   sequence : newSampleSequence,
@@ -49,6 +46,8 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         return null
       }
       
+    }else{
+        return null
     }
   }
   const normalizeSubdivisions = (beat, newSubdivisions) => {
@@ -120,13 +119,9 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         
         const newSampleChild = makeChildFromNewSample(samples, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
         if(newSampleChild){
-            console.log("added mutant")
-
             newBeatTracks.push(newSampleChild)
         }
           
-        
-        console.log(newBeatTracks )
         nextGeneration.push({
           score  : aveParentScore,
           tracks : newBeatTracks,
