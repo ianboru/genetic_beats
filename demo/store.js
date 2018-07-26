@@ -19,7 +19,7 @@ const defaultState = {
   selectPairMode : false,
   selectedBeats  : [],
   mutationRate   : 5,
-  numSurvivors   : 5,
+  numSurvivors   : 7,
   numChildren    : 3,
   scoreThreshold : 75,
   familyName : generateFamilyName(),
