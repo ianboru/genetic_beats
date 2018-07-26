@@ -204,8 +204,10 @@ class App extends Component {
           <div>
             <Beat
               beat    = {this.props.currentBeat}
-              setGain = {this.props.setGain}
               samples = {this.props.samples}
+              setGain = {this.props.setGain}
+              onEdit  = {this.props.setCurrentBeat}
+              handleRemoveTrack = {this.props.removeTrackFromCurrentBeat}
             />
           </div>
 

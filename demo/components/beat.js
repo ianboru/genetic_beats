@@ -19,7 +19,7 @@ class Note extends Component {
         onClick   = {this.props.onClick}
         className = "note"
         style     = {{
-          cursor     : this.props.editable ? "pointer" : "default",
+          cursor     : "pointer",
           margin     : 3,
           height     : 20,
           width      : 20,
@@ -60,10 +60,9 @@ class Track extends Component {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
-          key      = {i}
-          value    = {note}
-          editable = {this.props.editable}
-          onClick  = {this.props.editable ? () => { this.handleNoteToggle(i) }: null}
+          key     = {i}
+          value   = {note}
+          onClick = {() => { this.handleNoteToggle(i) }}
         />
       )
     })
@@ -78,21 +77,17 @@ class Track extends Component {
           {trackName}
         </div>
         {notes}
-        {
-          this.props.editable ?
-            <span
-              className = "remove-track"
-              onClick   = {this.handleRemoveTrack}
-            >remove track</span>
-            :
-            <input
-              type         = "range"
-              min          = {0}
-              max          = {100}
-              defaultValue = {gain}
-              onChange     = {this.handleGainChange}
-            />
-        }
+          <span
+            className = "remove-track"
+            onClick   = {this.handleRemoveTrack}
+          >remove track</span>
+          <input
+            type         = "range"
+            min          = {0}
+            max          = {100}
+            value        = {gain}
+            onChange     = {this.handleGainChange}
+          />
       </div>
     )
   }
@@ -107,6 +102,7 @@ export default class Beat extends Component {
   }
 
   render = () => {
+    console.log("BEAT RENDER")
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
@@ -114,7 +110,6 @@ export default class Beat extends Component {
           setGain    = {this.props.setGain}
           trackNum   = {i}
           track      = {track}
-          editable   = {this.props.editable}
           handleEdit = {this.handleEdit}
           handleRemoveTrack = {this.props.handleRemoveTrack}
           samples    = {this.props.samples}

@@ -42,6 +42,11 @@ const actions = createActions({
   ADD_TRACK_TO_NEW_BEAT       : (sample, sequence) => ({ sample, sequence }),
   REMOVE_TRACK_FROM_NEW_BEAT  : (trackNum) => ({ trackNum }),
 
+  REMOVE_TRACK_FROM_BEAT      : (generation, beatNum, trackNum) => ({ generation, beatNum, trackNum }),
+
+  REMOVE_TRACK_FROM_CURRENT_BEAT : (trackNum) => ({ trackNum }),
+  SET_CURRENT_BEAT            : (newBeat) => ({ newBeat }),
+
   SET_GENERATION              : (generation) => ({ generation }),
   SET_SCORE                   : (score) => ({ score }),
   NEXT_BEAT                   : null,
@@ -116,13 +121,10 @@ const reducer = handleActions({
     return { ...state, generation }
   },
   [actions.setFamilyName]: (state, { payload: { familyName }}) => {
-    console.log("family name set ", familyName)
-
     return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0, generation: 0 }
   },
 
   [actions.updateFamilyInStorage]: (state) => {
-    console.log("family updated ", state.familyName, state.allGenerations)
     let newFamilyNames = state.familyNames
     if(state.familyNames.length > 0 && !state.familyNames.includes(state.familyName)){
       newFamilyNames.push(state.familyName)
@@ -155,6 +157,22 @@ const reducer = handleActions({
 
   [actions.setNewBeat]: (state,  { payload: { newBeat }}) => {
     return { ...state, newBeat: deepClone(newBeat) }
+  },
+
+  [actions.setCurrentBeat]: (state, { payload: { newBeat }} ) => {
+    const beat = state.allGenerations[state.generation][state.beatNum]
+
+    const allGenerations = updateObjectInArray(
+      state.allGenerations,
+      state.generation,
+      updateObjectInArray(
+        state.allGenerations[state.generation],
+        state.beatNum,
+        deepClone(newBeat)
+      )
+    )
+
+    return { ...state, allGenerations }
   },
 
   [actions.resetNewBeat]: (state) => {
@@ -196,6 +214,50 @@ const reducer = handleActions({
       ]
     }
     return { ...state, newBeat }
+  },
+
+  [actions.removeTrackFromBeat]: (state, { payload: { generation, beatNum, trackNum }} ) => {
+    const beat = state.allGenerations[generation][beatNum]
+    const newBeat = { ...beat,
+      tracks: [
+        ...beat.tracks.slice(0, trackNum),
+        ...beat.tracks.slice(trackNum+1),
+      ]
+    }
+
+    const allGenerations = updateObjectInArray(
+      state.allGenerations,
+      generation,
+      updateObjectInArray(
+        state.allGenerations[generation],
+        beatNum,
+        newBeat
+      )
+    )
+
+    return { ...state, allGenerations }
+  },
+
+  [actions.removeTrackFromCurrentBeat]: (state, { payload: { trackNum }} ) => {
+    const beat = state.allGenerations[state.generation][state.beatNum]
+    const newBeat = { ...beat,
+      tracks: [
+        ...beat.tracks.slice(0, trackNum),
+        ...beat.tracks.slice(trackNum+1),
+      ]
+    }
+
+    const allGenerations = updateObjectInArray(
+      state.allGenerations,
+      state.generation,
+      updateObjectInArray(
+        state.allGenerations[state.generation],
+        state.beatNum,
+        newBeat
+      )
+    )
+
+    return { ...state, allGenerations }
   },
 
   [actions.setGain]: (state, { payload: { gain, sample }}) => {

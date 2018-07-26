@@ -47,10 +47,10 @@ class CreateBeat extends Component {
           {
             beat.tracks.length > 0 ?
               <Beat
-                beat     = {beat}
-                editable = {true}
-                samples  = {this.props.samples}
-                onEdit   = {this.props.setNewBeat}
+                beat    = {beat}
+                samples = {this.props.samples}
+                setGain = {this.props.setGain}
+                onEdit  = {this.props.setNewBeat}
                 handleRemoveTrack = {this.props.removeTrackFromNewBeat}
               />
                 :
