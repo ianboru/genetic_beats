@@ -61,8 +61,10 @@ class CreateBeat extends Component {
           <button onClick={this.handleAddTrack}>Add track</button>
           <button onClick={this.props.handlePlayBeat}>Play beat</button>
         </div>
-        <button onClick={this.props.addNewBeatToCurrentGen}>add beat to current generation</button>
-
+        <button
+          onClick  = {this.props.addNewBeatToCurrentGen}
+          disabled = {beat.tracks.length === 0}
+        >add beat to current generation</button>
       </div>
     )
   }
