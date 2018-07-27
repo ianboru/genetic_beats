@@ -62,7 +62,12 @@ class App extends Component {
       window.location.reload()
     }
   }
-
+  clearSavedFamilies = () => {
+    if (confirm("Are you sure you want to clear all families?")) {
+      this.props.clearSavedFamilies()
+      window.location.reload()
+    }
+  }
   handleMate = () => {
     if (this.props.generation < this.props.allGenerations.length - 1) {
       if (confirm(`Mating now will clear all generations after the currently selected one (${this.props.generation}).`)) {
@@ -312,6 +317,12 @@ class App extends Component {
               onClick={this.reset}
             >
               Reset
+            </button>
+            <button
+              className="react-music-button"
+              onClick={this.clearSavedFamilies}
+            >
+              Clear
             </button>
           </div>
 

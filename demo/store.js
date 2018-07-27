@@ -61,6 +61,7 @@ const actions = createActions({
   SET_SCORE_THRESHOLD         : (scoreThreshold) => ({scoreThreshold}),
   SET_FAMILY_NAME             : (familyName) => ({familyName}),
   UPDATE_FAMILY_IN_STORAGE    : null,
+  CLEAR_SAVED_FAMILIES        : null
 })
 
 
@@ -127,7 +128,10 @@ const reducer = handleActions({
   [actions.setFamilyName]: (state, { payload: { familyName }}) => {
     return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0, generation: 0 }
   },
-
+  [actions.clearSavedFamilies]: (state) => {
+    localStorage.clear()
+    return { ...state}
+  },
   [actions.updateFamilyInStorage]: (state) => {
     let newFamilyNames = state.familyNames
     if(state.familyNames.length > 0 && !state.familyNames.includes(state.familyName)){
