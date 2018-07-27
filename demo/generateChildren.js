@@ -87,7 +87,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       let aveParentScore = (momBeat.score + dadBeat.score) / 2
 
       // If mom and dad have different beat lengths
-      if (momBeat.tracks[0].sequence.length > momBeat.tracks[0].sequence.length) {
+      if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
         dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
       } else {
         momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)

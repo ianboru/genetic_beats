@@ -26,7 +26,10 @@ const generateSamplers = (beat, samples) => {
    />)
  })
 }
-const generateMetronomeSampler = (resolution) => {
+const generateMetronomeSampler = (resolution, on) => {
+ if(!on){
+  return (null)
+ }
  let sample =  "samples/clave.wav"
                  
   let sequence = []
@@ -63,7 +66,7 @@ class Player extends Component {
           resolution = {beat.tracks[0].sequence.length}
         >
           {generateSamplers(beat, this.props.samples)}
-          {generateMetronomeSampler(beat.tracks[0].sequence.length)}
+          {generateMetronomeSampler(beat.tracks[0].sequence.length,this.props.metronome)}
         </Sequencer>
       </Song>
     )
