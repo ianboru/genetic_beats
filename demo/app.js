@@ -29,8 +29,16 @@ class App extends Component {
       playingNewBeat     : false,
       inputScore         : "",
       selectText         : "",
-
+      showthing          : 0,
     }
+  }
+
+  handleAudioProcess = (analyser) => {
+    if (this.state.showthing % 40 === 0) {
+      const array = new Uint8Array(analyser.frequencyBinCount)
+      console.log(analyser.getByteFrequencyData(array))
+    }
+    this.setState({showthing: this.state.showthing + 1})
   }
 
   handlePlayToggle = () => {
@@ -103,15 +111,19 @@ class App extends Component {
   handleSetMutationRate  = (evt) => {
     this.props.setMutationRate(evt.target.value)
   }
+
   handleSetSampleMutationRate  = (evt) => {
     this.props.setSampleMutationRate(evt.target.value)
   }
+
   handleSetNumChildren = (evt) => {
     this.props.setNumChildren(evt.target.value)
   }
+
   handleSetNumSurvivors = (evt) => {
     this.props.setNumSurvivors(evt.target.value)
   }
+
   handleSetScoreThreshold = (evt) => {
     this.props.setScoreThreshold(evt.target.value)
   }
@@ -121,6 +133,7 @@ class App extends Component {
       playingNewBeat : !this.state.playingNewBeat,
     })
   }
+
   handleSelectFamily = (evt) => {
     this.props.setFamilyName(evt.target.value)
   }
@@ -143,60 +156,87 @@ class App extends Component {
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player
-          beat    = {this.props.newBeat}
-          playing = {this.state.playingNewBeat}
+          beat               = {this.props.newBeat}
+          playing            = {this.state.playingNewBeat}
+          handleAudioProcess = {this.handleAudioProcess}
         />
         <Player
-          beat    = {this.props.currentBeat}
-          playing = {this.state.playingCurrentBeat}
+          beat               = {this.props.currentBeat}
+          playing            = {this.state.playingCurrentBeat}
+          handleAudioProcess = {this.handleAudioProcess}
         />
         <div>
           <div>
             Family:
             {this.props.familyName}
-            
-            <select defaultValue={this.props.familyName} onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
 
+            <select defaultValue={this.props.familyName} onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
           </div>
+
           Note Mutation Rate:
+          <input 
+            type     = "text"
+            value    = {this.props.mutationRate}
+            onChange = {this.handleSetMutationRate}
+          />
           <input
-                type         = "range"
-                min          = {0}
-                max          = {100}
-                defaultValue = {this.props.mutationRate}
-                onChange     = {this.handleSetMutationRate}
+            type     = "range"
+            min      = {0}
+            max      = {100}
+            value    = {this.props.mutationRate}
+            onChange = {this.handleSetMutationRate}
           /><br/>
           Sample Mutation Rate:
+          <input 
+            type     = "text"
+            value    = {this.props.sampleMutationRate}
+            onChange = {this.handleSetSampleMutationRate}
+          />
           <input
-                type         = "range"
-                min          = {0}
-                max          = {100}
-                defaultValue = {this.props.sampleMutationRate}
-                onChange     = {this.handleSetSampleMutationRate}
+            type     = "range"
+            min      = {0}
+            max      = {100}
+            value    = {this.props.sampleMutationRate}
+            onChange = {this.handleSetSampleMutationRate}
           /><br/>
           Number of Children:
+          <input 
+            type     = "text"
+            value    = {this.props.numChildren}
+            onChange = {this.handleSetNumChildren}
+          />
           <input
-            type         = "range"
-            min          = {1}
-            max          = {20}
-            defaultValue = {this.props.numChildren}
-            onChange     = {this.handleSetNumChildren}
+            type     = "range"
+            min      = {1}
+            max      = {20}
+            value    = {this.props.numChildren}
+            onChange = {this.handleSetNumChildren}
           /><br/>
           Number of Survivors:
+          <input 
+            type     = "text"
+            value    = {this.props.numSurvivors}
+            onChange = {this.handleSetNumSurvivors}
+          />
           <input
-              type         = "range"
-              min          = {1}
-              max          = {20}
-              defaultValue = {this.props.numSurvivors}
-              onChange     = {this.handleSetNumSurvivors}
+            type     = "range"
+            min      = {1}
+            max      = {20}
+            value    = {this.props.numSurvivors}
+            onChange = {this.handleSetNumSurvivors}
           /><br/>
           Top Percentile of Survivors:
+          <input 
+            type     = "text"
+            value    = {this.props.scoreThreshold}
+            onChange = {this.handleSetScoreThreshold}
+          />
           <input
-              type         = "range"
-              min          = {0}
-              max          = {100}
-              defaultValue = {this.props.scoreThreshold}
-              onChange     = {this.handleSetScoreThreshold}
+            type         = "range"
+            min          = {0}
+            max          = {100}
+            value = {this.props.scoreThreshold}
+            onChange     = {this.handleSetScoreThreshold}
           /><br/>
         </div>
         <div style={{ display: "inline-block" }}>

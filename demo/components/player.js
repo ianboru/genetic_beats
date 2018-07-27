@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 
 import {
+  Analyser,
   Song,
   Sequencer,
   Sampler,
@@ -38,12 +39,14 @@ class Player extends Component {
         playing = {playing}
         tempo   = {tempo}
       >
-        <Sequencer
-          bars       = {1}
-          resolution = {beat.tracks[0].sequence.length}
-        >
-          {generateSamplers(beat, this.props.samples)}
-        </Sequencer>
+        <Analyser onAudioProcess={this.props.handleAudioProcess}>
+          <Sequencer
+            bars       = {1}
+            resolution = {beat.tracks[0].sequence.length}
+          >
+            {generateSamplers(beat, this.props.samples)}
+          </Sequencer>
+        </Analyser>
       </Song>
     )
   }
