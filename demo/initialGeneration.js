@@ -5,15 +5,15 @@ export default [
     tracks : [
       {
         sample   : "samples/kick.wav",
-        sequence : [1, 0, 0, 0, 0, 0, 1, 0],
+        sequence : [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
       },
       {
-        sample   : "samples/8580__ST_060.wav",
-        sequence : [0, 0, 0, 0, 1, 0, 0, 0],
+        sample   : "samples/clave.wav",
+        sequence : [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
       },
       {
         sample   : "samples/hihat.wav",
-        sequence : [1, 1, 1, 1, 1, 1, 1, 1],
+        sequence : [1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       },
     ],
   },

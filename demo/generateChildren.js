@@ -36,7 +36,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       const newSamplePath = samples[randomSampleKey].path
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
-      newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(100,mutationRate*2))
+      newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate*2))
       if(newSampleSequence.includes(1)){
         return {
                   sample   : newSamplePath,
