@@ -36,7 +36,6 @@ class App extends Component {
   handleAudioProcess = (analyser) => {
     if (this.state.showthing % 40 === 0) {
       const array = new Uint8Array(analyser.frequencyBinCount)
-      console.log(analyser.getByteFrequencyData(array))
     }
     this.setState({showthing: this.state.showthing + 1})
   }
