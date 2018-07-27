@@ -32,8 +32,10 @@ class Note extends Component {
 }
 
 const trackNameStyles = {
-  display : "inline-block",
-  width   : 160,
+  display       : "inline-block",
+  width         : 160,
+  textAlign     : "center",
+  verticalAlign : "top",
 }
 
 class Track extends Component {
@@ -56,6 +58,10 @@ class Track extends Component {
     this.props.handleRemoveTrack(this.props.trackNum)
   }
 
+  handleSampleChange = (e) => {
+    this.props.handleSampleChange(this.props.trackNum, e.target.value)
+  }
+
   render = () => {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
@@ -71,10 +77,23 @@ class Track extends Component {
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
     const gain = this.props.samples[track.sample].gain * 100
+
+    const sampleOptions = Object.keys(this.props.samples).map( (key) => {
+      const sample = this.props.samples[key]
+      return (
+        <option
+          key   = {sample.path}
+          value = {sample.path}
+        >{sample.name}</option>
+      )
+    })
+
     return (
       <div className="track">
         <div style={trackNameStyles}>
-          {trackName}
+          <select value={this.props.track.sample} onChange={this.handleSampleChange}>
+            {sampleOptions}
+          </select>
         </div>
         {notes}
           <span
@@ -101,6 +120,12 @@ export default class Beat extends Component {
     this.props.onEdit(beat)
   }
 
+  handleSampleChange = (track, sample) => {
+    let { beat } = this.props
+    beat.tracks[track].sample = sample
+    this.props.onEdit(beat)
+  }
+
   render = () => {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
@@ -112,6 +137,7 @@ export default class Beat extends Component {
           handleEdit = {this.handleEdit}
           handleRemoveTrack = {this.props.handleRemoveTrack}
           samples    = {this.props.samples}
+          handleSampleChange = {this.handleSampleChange}
         />
       )
     })
