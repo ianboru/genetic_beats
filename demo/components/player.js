@@ -36,7 +36,7 @@ class Player extends Component {
     return (
       <Song
         playing = {playing}
-        tempo   = {tempo}
+        tempo   = {this.props.tempo}
       >
         <Sequencer
           bars       = {1}
@@ -53,6 +53,7 @@ export default connect(
   (state) => {
     return {
       samples: state.samples,
+      tempo : state.tempo,
     }
   }
 )(Player)

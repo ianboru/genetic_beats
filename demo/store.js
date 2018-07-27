@@ -23,9 +23,9 @@ const defaultState = {
   numSurvivors   : 7,
   numChildren    : 3,
   scoreThreshold : 75,
-  familyName : generateFamilyName(),
-  familyNames : originalFamilyNames ? originalFamilyNames : [],
-
+  familyName     : generateFamilyName(),
+  familyNames    : originalFamilyNames ? originalFamilyNames : [],
+  tempo          : 90, 
 }
 
 
@@ -61,7 +61,8 @@ const actions = createActions({
   SET_SCORE_THRESHOLD         : (scoreThreshold) => ({scoreThreshold}),
   SET_FAMILY_NAME             : (familyName) => ({familyName}),
   UPDATE_FAMILY_IN_STORAGE    : null,
-  CLEAR_SAVED_FAMILIES        : null
+  CLEAR_SAVED_FAMILIES        : null,
+  SET_TEMPO                   :(tempo) => ({tempo}),
 })
 
 
@@ -146,6 +147,9 @@ const reducer = handleActions({
   },
   [actions.setMutationRate]: (state, { payload: { mutationRate }}) => {
     return { ...state, mutationRate }
+  },
+  [actions.setTempo]: (state, { payload: { tempo }}) => {
+    return { ...state, tempo }
   },
   [actions.setSampleMutationRate]: (state, { payload: { sampleMutationRate }}) => {
     return { ...state, sampleMutationRate }

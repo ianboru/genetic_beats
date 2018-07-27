@@ -103,7 +103,9 @@ class App extends Component {
   handleSelectPair = () => {
     this.props.toggleSelectPairMode()
   }
-
+  handleSetTempo  = (evt) => {
+    this.props.setTempo(evt.target.value)
+  }
   handleSetMutationRate  = (evt) => {
     this.props.setMutationRate(evt.target.value)
   }
@@ -166,8 +168,20 @@ class App extends Component {
 
             <select defaultValue={this.props.familyName} onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
           </div>
-
-          Note Mutation Rate:
+          Tempo
+          <input 
+            type     = "text"
+            value    = {this.props.tempo}
+            onChange = {this.handleSetTempo}
+          />
+          <input
+            type     = "range"
+            min      = {0}
+            max      = {200}
+            value    = {this.props.tempo}
+            onChange = {this.handleSetTempo}
+          /><br/>
+          Note Mutation Rate
           <input 
             type     = "text"
             value    = {this.props.mutationRate}
@@ -180,7 +194,7 @@ class App extends Component {
             value    = {this.props.mutationRate}
             onChange = {this.handleSetMutationRate}
           /><br/>
-          Sample Mutation Rate:
+          Sample Mutation Rate
           <input 
             type     = "text"
             value    = {this.props.sampleMutationRate}
@@ -193,7 +207,7 @@ class App extends Component {
             value    = {this.props.sampleMutationRate}
             onChange = {this.handleSetSampleMutationRate}
           /><br/>
-          Number of Children:
+          Number of Children
           <input 
             type     = "text"
             value    = {this.props.numChildren}
@@ -206,7 +220,7 @@ class App extends Component {
             value    = {this.props.numChildren}
             onChange = {this.handleSetNumChildren}
           /><br/>
-          Number of Survivors:
+          Number of Survivors
           <input 
             type     = "text"
             value    = {this.props.numSurvivors}
@@ -219,7 +233,7 @@ class App extends Component {
             value    = {this.props.numSurvivors}
             onChange = {this.handleSetNumSurvivors}
           /><br/>
-          Top Percentile of Survivors:
+          Top Percentile of Survivors
           <input 
             type     = "text"
             value    = {this.props.scoreThreshold}
@@ -354,6 +368,7 @@ export default connect(
       scoreThreshold : state.scoreThreshold,
       familyName     : state.familyName,
       familyNames    : state.familyNames,
+      tempo          : state.tempo,
     }
   }, actions
 )(App)
