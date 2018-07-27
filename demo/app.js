@@ -29,15 +29,7 @@ class App extends Component {
       playingNewBeat     : false,
       inputScore         : "",
       selectText         : "",
-      showthing          : 0,
     }
-  }
-
-  handleAudioProcess = (analyser) => {
-    if (this.state.showthing % 40 === 0) {
-      const array = new Uint8Array(analyser.frequencyBinCount)
-    }
-    this.setState({showthing: this.state.showthing + 1})
   }
 
   handlePlayToggle = () => {
@@ -160,14 +152,12 @@ class App extends Component {
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player
-          beat               = {this.props.newBeat}
-          playing            = {this.state.playingNewBeat}
-          handleAudioProcess = {this.handleAudioProcess}
+          beat    = {this.props.newBeat}
+          playing = {this.state.playingNewBeat}
         />
         <Player
-          beat               = {this.props.currentBeat}
-          playing            = {this.state.playingCurrentBeat}
-          handleAudioProcess = {this.handleAudioProcess}
+          beat    = {this.props.currentBeat}
+          playing = {this.state.playingCurrentBeat}
         />
         <div>
           <div>
