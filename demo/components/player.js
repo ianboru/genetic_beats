@@ -8,23 +8,43 @@ import {
 } from "../../src"
 
 
-const tempo = 100
 
 
 const generateSamplers = (beat, samples) => {
  return beat.tracks.map((track, i) => {
-   let convertedBeat = []
+   let convertedSequence = []
+
    track.sequence.forEach((note, i) => {
-     if (note === 1) { convertedBeat.push(i) }
+     if (note === 1) { convertedSequence.push(i) }
    })
 
    return (<Sampler
      key    = {i}
      sample = {track.sample}
-     steps  = {convertedBeat}
+     steps  = {convertedSequence}
      gain   = {samples[track.sample].gain}
    />)
  })
+}
+const generateMetronomeSampler = (resolution) => {
+ let sample =  "samples/clave.wav"
+                 
+  let sequence = []
+  for (let i = 0; i < (resolution); i++) {
+    let comparitor = resolution/4
+    if(resolution == 2){
+      comparitor = 1
+    }
+    if(i % comparitor == 0){
+      sequence.push(i)
+    }
+  }
+ return (<Sampler
+     key    = {100}
+     sample = {sample}
+     steps  = {sequence}
+     gain   = {.5}
+  />)
 }
 
 
@@ -43,6 +63,7 @@ class Player extends Component {
           resolution = {beat.tracks[0].sequence.length}
         >
           {generateSamplers(beat, this.props.samples)}
+          {generateMetronomeSampler(beat.tracks[0].sequence.length)}
         </Sequencer>
       </Song>
     )
@@ -54,6 +75,7 @@ export default connect(
     return {
       samples: state.samples,
       tempo : state.tempo,
+      metronome : state.metronome,
     }
   }
 )(Player)

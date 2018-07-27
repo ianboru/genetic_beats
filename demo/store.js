@@ -26,6 +26,7 @@ const defaultState = {
   familyName     : generateFamilyName(),
   familyNames    : originalFamilyNames ? originalFamilyNames : [],
   tempo          : 90, 
+  metronome      : false,
 }
 
 
@@ -63,6 +64,7 @@ const actions = createActions({
   UPDATE_FAMILY_IN_STORAGE    : null,
   CLEAR_SAVED_FAMILIES        : null,
   SET_TEMPO                   :(tempo) => ({tempo}),
+  SET_METRONOME               : null
 })
 
 
@@ -164,7 +166,9 @@ const reducer = handleActions({
     return { ...state, scoreThreshold }
   },
 
-
+  [actions.setMetronome]: (state) => {
+    return { ...state, metronome : !state.metronome }
+  },
   [actions.setBeatNum]: (state, { payload: { beatNum }}) => {
     return { ...state, beatNum }
   },

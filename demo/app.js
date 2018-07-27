@@ -328,6 +328,12 @@ class App extends Component {
             >
               Clear
             </button>
+            <button
+              className="react-music-button"
+              onClick={this.props.setMetronome}
+            >
+              Metronome
+            </button>
           </div>
 
         </div>
