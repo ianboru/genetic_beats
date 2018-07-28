@@ -19,6 +19,26 @@ import Player from "./components/player"
   and reset it when a new generation is created.
 */
 
+class ConfigControl extends Component {
+  render = () => {
+    const { name, value, changeHandler, min, max } = this.props
+
+    return (
+      <div>
+        {name}
+        <input type="text" value={value} onChange={changeHandler} />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={value}
+          onChange={changeHandler}
+        />
+      </div>
+    )
+  }
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -93,169 +113,127 @@ class App extends Component {
       this.props.numChildren,
       this.props.mutationRate,
       this.props.sampleMutationRate,
-      this.props.scoreThreshold,
+      this.props.scoreThreshold
     )
 
     this.props.addGeneration(nextGeneration)
     this.props.updateFamilyInStorage()
   }
-
   handleSelectPair = () => {
     this.props.toggleSelectPairMode()
   }
-  handleSetTempo  = (evt) => {
+  handleSetTempo = (evt) => {
     this.props.setTempo(evt.target.value)
   }
-  handleSetMutationRate  = (evt) => {
+  handleSetMutationRate = (evt) => {
     this.props.setMutationRate(evt.target.value)
   }
-
-  handleSetSampleMutationRate  = (evt) => {
+  handleSetSampleMutationRate = (evt) => {
     this.props.setSampleMutationRate(evt.target.value)
   }
-
   handleSetNumChildren = (evt) => {
     this.props.setNumChildren(evt.target.value)
   }
-
   handleSetNumSurvivors = (evt) => {
     this.props.setNumSurvivors(evt.target.value)
   }
-
   handleSetScoreThreshold = (evt) => {
     this.props.setScoreThreshold(evt.target.value)
   }
-
   handlePlayNewBeat = () => {
     this.setState({
-      playingNewBeat : !this.state.playingNewBeat,
+      playingNewBeat: !this.state.playingNewBeat,
     })
   }
-
   handleSelectFamily = (evt) => {
     this.props.setFamilyName(evt.target.value)
   }
-  
+
   render() {
     let selectText = ""
     if (this.props.selectPairMode) {
-      selectText = "In Select Mode. Selecting beats : " + this.props.selectedBeats.join(' , ')
+      selectText =
+        "In Select Mode. Selecting beats : " +
+        this.props.selectedBeats.join(" , ")
     } else {
       selectText = ""
     }
-    const familyNamesOptions = this.props.familyNames.map( (key) => {
+    const familyNamesOptions = this.props.familyNames.map((key) => {
       return (
-        <option
-          key   = {key}
-          value = {key}
-        >{key}</option>
+        <option key={key} value={key}>
+          {key}
+        </option>
       )
     })
     return (
       <div style={{ paddingTop: "30px" }}>
+        <Player beat={this.props.newBeat} playing={this.state.playingNewBeat} />
         <Player
-          beat    = {this.props.newBeat}
-          playing = {this.state.playingNewBeat}
-        />
-        <Player
-          beat    = {this.props.currentBeat}
-          playing = {this.state.playingCurrentBeat}
+          beat={this.props.currentBeat}
+          playing={this.state.playingCurrentBeat}
         />
         <div>
           <div>
             Family:
             {this.props.familyName}
-
-            <select defaultValue={this.props.familyName} onChange={this.handleSelectFamily}>{familyNamesOptions}</select>
+            <select
+              defaultValue={this.props.familyName}
+              onChange={this.handleSelectFamily}
+            >
+              {familyNamesOptions}
+            </select>
           </div>
-          Tempo
-          <input 
-            type     = "text"
-            value    = {this.props.tempo}
-            onChange = {this.handleSetTempo}
+          <ConfigControl
+            name          = "Tempo"
+            value         = {this.props.tempo}
+            changeHandler = {this.handleSetTempo}
+            min           = {0}
+            max           = {200}
           />
-          <input
-            type     = "range"
-            min      = {0}
-            max      = {200}
-            value    = {this.props.tempo}
-            onChange = {this.handleSetTempo}
-          /><br/>
-          Note Mutation Rate
-          <input 
-            type     = "text"
-            value    = {this.props.mutationRate}
-            onChange = {this.handleSetMutationRate}
+          <ConfigControl
+            name          = "Note Mutation Rate"
+            value         = {this.props.mutationRate}
+            changeHandler = {this.handleSetMutationRate}
+            min           = {0}
+            max           = {100}
           />
-          <input
-            type     = "range"
-            min      = {0}
-            max      = {100}
-            value    = {this.props.mutationRate}
-            onChange = {this.handleSetMutationRate}
-          /><br/>
-          Sample Mutation Rate
-          <input 
-            type     = "text"
-            value    = {this.props.sampleMutationRate}
-            onChange = {this.handleSetSampleMutationRate}
+          <ConfigControl
+            name          = "Sample Mutation Rate"
+            value         = {this.props.sampleMutationRate}
+            changeHandler = {this.handleSetSampleMutationRate}
+            min           = {0}
+            max           = {100}
           />
-          <input
-            type     = "range"
-            min      = {0}
-            max      = {100}
-            value    = {this.props.sampleMutationRate}
-            onChange = {this.handleSetSampleMutationRate}
-          /><br/>
-          Number of Children
-          <input 
-            type     = "text"
-            value    = {this.props.numChildren}
-            onChange = {this.handleSetNumChildren}
+          <ConfigControl
+            name          = "Number of Children"
+            value         = {this.props.numChildren}
+            changeHandler = {this.handleSetNumChildren}
+            min           = {1}
+            max           = {20}
           />
-          <input
-            type     = "range"
-            min      = {1}
-            max      = {20}
-            value    = {this.props.numChildren}
-            onChange = {this.handleSetNumChildren}
-          /><br/>
-          Number of Survivors
-          <input 
-            type     = "text"
-            value    = {this.props.numSurvivors}
-            onChange = {this.handleSetNumSurvivors}
+          <ConfigControl
+            name          = "Number of Survivors"
+            value         = {this.props.numSurvivors}
+            changeHandler = {this.handleSetNumSurvivors}
+            min           = {1}
+            max           = {20}
           />
-          <input
-            type     = "range"
-            min      = {1}
-            max      = {20}
-            value    = {this.props.numSurvivors}
-            onChange = {this.handleSetNumSurvivors}
-          /><br/>
-          Top Percentile of Survivors
-          <input 
-            type     = "text"
-            value    = {this.props.scoreThreshold}
-            onChange = {this.handleSetScoreThreshold}
+          <ConfigControl
+            name          = "Top Percentile of Survivors"
+            value         = {this.props.scoreThreshold}
+            changeHandler = {this.handleSetScoreThreshold}
+            min           = {0}
+            max           = {100}
           />
-          <input
-            type         = "range"
-            min          = {0}
-            max          = {100}
-            value = {this.props.scoreThreshold}
-            onChange     = {this.handleSetScoreThreshold}
-          /><br/>
         </div>
         <div style={{ display: "inline-block" }}>
           <div>
-            <CreateBeat
-              handlePlayBeat = {this.handlePlayNewBeat}
-            />
-            <br /><br />
+            <CreateBeat handlePlayBeat={this.handlePlayNewBeat} />
+            <br />
+            <br />
 
             <span>Generation: {this.props.generation}</span>
-            <br/>
+            <br />
             <span>Beat: {this.props.currentBeat.key}</span>
             <div>Score: {this.props.currentBeat.score}</div>
             <div>Parents: {this.props.currentBeat.parents}</div>
