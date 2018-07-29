@@ -26,6 +26,7 @@
     "cytoscape": "^3.2.14",
     "note-parser": "^2.0.0",
     "prop-types": "^15.6.0",
+    "react-file-reader": "^1.1.4",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-actions": "^2.4.0",
