@@ -1,0 +1,5 @@
+---
+# Used to deploy the site
+site_host: genetic-beats.com
+site_name: genetic_beats
+site_path: /var/www/genetic_beats/genetic_beats/

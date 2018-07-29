@@ -1,13 +1,38 @@
 syntax: glob
 
+
+# NOTE: Delete this and commit production-compiled assets before deploying
+dist
+
 # Directories
 node_modules
-lib
-umd
-
+site_media
+search_index
+.sass-cache
+.vagrant
+CACHE
+__pycache__
 
 # Files
-*.asd
-.sass-cache
-.DS_Store
+*~
+*.bak
+*.db
+*.kpf
+*.old
+*.pyc
+*.retry
+*.sassc
+*.swp
+*.tmproj
+.vagrant
+local_settings.py
 npm-debug.log
+pip-log.txt
+
+# Mac stuff
+.DS_Store
+
+# Other SCM
+.svn
+.CVS
+.hg*

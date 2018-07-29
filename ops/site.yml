@@ -1,0 +1,13 @@
+---
+- hosts: all
+  #remote_user: ubuntu
+  remote_user: "{{ deploy_user }}"
+  become: yes
+  gather_facts: no
+  vars:
+    enable_nginx_default_site: True
+
+  roles:
+    - common
+    - dbserver
+    - webserver

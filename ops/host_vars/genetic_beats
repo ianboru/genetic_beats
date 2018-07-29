@@ -1,0 +1,6 @@
+---
+# Used to configure the machine
+hostname: genetic-beats.com
+ansible_ssh_host:
+ansible_ssh_user: ubuntu
+user: ubuntu

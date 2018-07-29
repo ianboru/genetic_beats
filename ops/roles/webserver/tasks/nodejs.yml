@@ -1,0 +1,30 @@
+---
+- name: Check if node is already installed
+  stat: path=/usr/bin/node
+  register: node_installed
+
+- block:
+    - name: Add nodesource apt key
+      apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+              state=present
+
+    - name: Add nodesource apt repository
+      apt_repository: repo="deb https://deb.nodesource.com/node_8.x xenial main"
+                      state=present update_cache=yes
+
+    - name: Install node.js
+      apt: name=nodejs state=present
+
+  when: node_installed.stat.exists == false
+
+- name: Check if yarn is already installed
+  stat: path=/usr/bin/yarn
+  register: yarn_installed
+
+- name: Install yarn
+  shell: npm install --global yarn@{{ nodejs_yarn_version }}
+  when: yarn_installed.stat.exists == false
+
+- name: Install global packages
+  shell: npm install -g {{ " ".join(nodejs_global_packages) }}
+  when: nodejs_global_packages|length > 0

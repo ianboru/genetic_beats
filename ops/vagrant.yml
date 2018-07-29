@@ -1,0 +1,16 @@
+---
+- hosts: default
+  remote_user: "{{ deploy_user }}"
+  become: yes
+  gather_facts: no
+  vars:
+    env: development
+
+  pre_tasks:
+    - name: "Install python2"
+      raw: sudo apt-get -y install python
+
+  roles:
+    - common
+    - dbserver
+    - webserver
