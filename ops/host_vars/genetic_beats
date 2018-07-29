@@ -1,6 +1,6 @@
 ---
 # Used to configure the machine
-hostname: genetic-beats.com
-ansible_ssh_host:
-ansible_ssh_user: ubuntu
-user: ubuntu
+hostname: geneticbeats.com
+ansible_ssh_host: 209.97.151.3
+ansible_python_interpreter: "/usr/bin/python3"
+user: deploy
