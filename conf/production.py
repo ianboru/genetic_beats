@@ -24,7 +24,7 @@ RAVEN_CONFIG = {
 }
 
 ALLOWED_HOSTS = [
-    #".example.com",
+    "geneticbeats.com",
 ]
 
 AUTH_PASSWORD_VALIDATORS = [
