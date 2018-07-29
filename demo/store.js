@@ -27,8 +27,8 @@ const defaultState = {
   familyNames    : originalFamilyNames ? originalFamilyNames : [],
   tempo          : 90, 
   metronome      : false,
-}
 
+}
 
 const actions = createActions({
   ADD_BEAT                    : (newBeat) => ({ newBeat }),
@@ -64,7 +64,53 @@ const actions = createActions({
   UPDATE_FAMILY_IN_STORAGE    : null,
   CLEAR_SAVED_FAMILIES        : null,
   SET_TEMPO                   :(tempo) => ({tempo}),
-  SET_METRONOME               : null
+  SET_METRONOME               : null,
+  UPLOAD_SAMPLE               : (file) => {
+    postData(`//localhost:8080/upload_sample/${file}`)
+    .then(data => console.log(data)) // JSON from `response.json()` call
+    .catch(error => console.error(error));
+
+    const postData = (url = ``, data = {}) => {
+      let newSample = []
+      // Default options are marked with *
+      fetch(url, {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, cors, *same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, same-origin, *omit
+          headers: {
+              "Content-Type": "application/json; charset=utf-8",
+              // "Content-Type": "application/x-www-form-urlencoded",
+          },
+          redirect: "follow", // manual, *follow, error
+          referrer: "no-referrer", // no-referrer, *client
+          body: JSON.stringify(data), // body data type must match "Content-Type" header
+      })
+      .then((response) => {
+        newSample = response.json()
+        this.ADD_SAMPLE(newSample)
+      }) // parses response to JSON
+      .catch(error => console.error(`SAMPLE Fetch Error =\n`, error));
+    };
+  },
+  ADD_SAMPLE : (file) => ({file}),
+  FETCH_SAMPLE : (file) => {
+
+    let allSamples = []
+    fetch('//localhost:8080/samples/'+file)
+    .then((response) => {
+      sample = response.json()
+      this.SET_ALL_SAMPLES(allSamples)
+    })
+  },
+  FETCH_ALL_SAMPLES             : () => {
+    fetch('//localhost:8080/samples')
+    .then((response) => {
+      allSamples = response.json()
+      this.SET_ALL_SAMPLES(allSamples)
+    })
+  },
+  SET_ALL_SAMPLES : (samples) => ({ samples }),
 })
 
 
@@ -86,6 +132,20 @@ const reducer = handleActions({
 
     return { ...state, allGenerations: newAllGenerations}
   },
+  [actions.addSample]: (state, {payload: {newSample}}) => {
+    let newSamples = state.samples
+    newSamples.push(newSample)
+    return {
+      ...state, samples: newSamples
+    }
+  },  
+  [actions.setAllSamples]: (state, {payload: {samples}}) => {
+    console.log("setting all samples")
+
+    return {
+      ...state, samples
+    }
+  },  
   [actions.saveFamily]: (state, {payload: {newFamilyName, newFamily}}) => {
     return {
       ...state,

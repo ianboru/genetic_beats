@@ -11,7 +11,7 @@ import CreateBeat from "./components/createBeat"
 import FamilyTree from "./components/familyTree"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
-
+import ReactFileReader from 'react-file-reader';
 /*TODO
 * fix mating after selecting
 * Mark "Mate" button as ready to mate after
@@ -50,6 +50,7 @@ class App extends Component {
       inputScore         : "",
       selectText         : "",
     }
+    this.props.fetchAllSamples()
   }
 
   handlePlayToggle = () => {
@@ -119,6 +120,19 @@ class App extends Component {
     this.props.addGeneration(nextGeneration)
     this.props.updateFamilyInStorage()
   }
+  handleUploadSample = (files) => {
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+    }, false);
+
+    if (file) {
+      console.log(file)
+      reader.readAsDataURL(file);
+      console.log(reader)
+    }
+  }
   handleSelectPair = () => {
     this.props.toggleSelectPairMode()
   }
@@ -174,6 +188,8 @@ class App extends Component {
         />
         <div>
           <div>
+            <input type="file" onChange={this.handleUploadSample} ></input>
+
             Family:
             {this.props.familyName}
             <select
@@ -238,7 +254,7 @@ class App extends Component {
             <div>Score: {this.props.currentBeat.score}</div>
             <div>Parents: {this.props.currentBeat.parents}</div>
           </div>
-
+          
           <div>
             <Beat
               beat    = {this.props.currentBeat}
