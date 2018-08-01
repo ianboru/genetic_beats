@@ -50,7 +50,7 @@ class App extends Component {
       inputScore         : "",
       selectText         : "",
     }
-    this.props.fetchAllSamples()
+    //this.props.fetchAllSamples()
   }
 
   handlePlayToggle = () => {

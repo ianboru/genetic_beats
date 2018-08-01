@@ -20,28 +20,36 @@ const generateSamplers = (beat, samples) => {
 
    return (<Sampler
      key    = {i}
-     sample = {track.sample}
+     sample = {samples[track.sample].path}
      steps  = {convertedSequence}
      gain   = {samples[track.sample].gain}
    />)
  })
 }
+
 const generateMetronomeSampler = (resolution, on) => {
- if(!on){
-  return (null)
+ if (!on) {
+  return null
  }
- let sample =  "samples/clave.wav"
-                 
-  let sequence = []
-  for (let i = 0; i < (resolution); i++) {
-    let comparitor = resolution/4
-    if(resolution == 2){
-      comparitor = 1
-    }
-    if(i % comparitor == 0){
-      sequence.push(i)
-    }
+
+  let staticFilePath = ""
+  if (process.env.NODE_ENV) {
+    staticFilePath = "/static/"
   }
+
+ let sample = staticFilePath + "samples/clave.wav"
+
+ let sequence = []
+ for (let i = 0; i < (resolution); i++) {
+   let comparitor = resolution/4
+   if(resolution == 2){
+     comparitor = 1
+   }
+   if(i % comparitor == 0){
+     sequence.push(i)
+   }
+ }
+
  return (<Sampler
      key    = {100}
      sample = {sample}

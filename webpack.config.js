@@ -17,6 +17,8 @@ module.exports = {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
+    // Remove this line to troubleshoot in production
+    new webpack.optimize.UglifyJsPlugin(),
   ],
   module: {
     loaders: [{

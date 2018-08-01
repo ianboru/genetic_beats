@@ -36,7 +36,7 @@ class CreateBeat extends Component {
       return (
         <option
           key   = {sample.path}
-          value = {sample.path}
+          value = {key}
         >{sample.name}</option>
       )
     })

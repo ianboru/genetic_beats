@@ -16,15 +16,17 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
-module.hot.accept('./app', () => {
-  const NextApp = require('./app').default
+if (!process.env.NODE_ENV === "production") {
+  module.hot.accept('./app', () => {
+    const NextApp = require('./app').default
 
-  ReactDOM.render(
-    <AppContainer>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </AppContainer>,
-    document.getElementById('root')
-  )
-})
+    ReactDOM.render(
+      <AppContainer>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </AppContainer>,
+      document.getElementById('root')
+    )
+  })
+}
