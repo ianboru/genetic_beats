@@ -23,22 +23,27 @@ class GraphContainer extends React.Component {
       let edges = []
       let nodes = []
       let intermediateNodes = []
+      let genNum = 0
+      let intermediateNodeKey = ""
       this.props.familyTree.forEach((generation) => {
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
             const parentKeys = [beat.momKey, beat.dadKey]
-            const intermediateNodeKey = parentKeys.sort().join("|")
+            intermediateNodeKey = parentKeys.sort().join("|")
             nodes.push({ data: {
               id       : intermediateNodeKey,
               score    : beat.score,
               size     : 0
             }})
-            edges.push({ data: { source: intermediateNodeKey, target: beat.key  } })
+            edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 1  } })
             if(!intermediateNodes.includes(intermediateNodeKey)){
-              edges.push({ data: { source: beat.momKey, target: intermediateNodeKey  } })
-              edges.push({ data: { source: beat.dadKey, target: intermediateNodeKey  } })
+              edges.push({ data: { source: beat.momKey, target: intermediateNodeKey, visible: 1 } })
+              edges.push({ data: { source: beat.dadKey, target: intermediateNodeKey, visible: 1  } })
             }
             intermediateNodes.push(intermediateNodeKey)
+          }else if(!(beat.momKey && beat.dadKey) && genNum > 0){
+
+              edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 0  } })
           }
 
           nodes.push({ data: {
@@ -49,6 +54,7 @@ class GraphContainer extends React.Component {
             size     : 1
           }})
         })
+        ++genNum
       })
 
       this.renderCytoscapeElement({ edges, nodes })
@@ -84,7 +90,7 @@ class GraphContainer extends React.Component {
           .css({
             'width'              : 4,
             'target-arrow-shape' : 'triangle',
-            'line-color'         : '#000000',
+            'line-color'         : 'mapData(visible, 0, 1, white, black)',
             'target-arrow-color' : '#000000',
             'curve-style': 'bezier',
             'control-point-step-size' : 0,  
