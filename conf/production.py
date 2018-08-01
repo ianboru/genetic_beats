@@ -17,7 +17,7 @@ IPYTHON_ARGUMENTS = [
 ]
 
 RAVEN_CONFIG = {
-    "dsn": "",
+    "dsn": "https://5125fd0c601c463a85976cd45ad7360e:db18e17beb944145b573cb9d0d3af5b0@sentry.io/1253638",
     # If you are using git, you can also automatically configure the
     # release based on the git info.
     "release": raven.fetch_git_sha(os.path.dirname(__file__)),
