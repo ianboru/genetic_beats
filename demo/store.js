@@ -90,26 +90,24 @@ const actions = createActions({
         newSample = response.json()
         this.ADD_SAMPLE(newSample)
       }) // parses response to JSON
-      .catch(error => console.error(`SAMPLE Fetch Error =\n`, error));
+      .catch(error => console.error("SAMPLE Fetch Error =\n", error));
     };
   },
   ADD_SAMPLE : (file) => ({file}),
-  FETCH_SAMPLE : (file) => {
-
-    let allSamples = []
-    fetch('//localhost:8080/samples/'+file)
-    .then((response) => {
-      sample = response.json()
-      this.SET_ALL_SAMPLES(allSamples)
-    })
-  },
-  FETCH_ALL_SAMPLES             : () => {
-    fetch('//localhost:8080/samples')
-    .then((response) => {
-      allSamples = response.json()
-      this.SET_ALL_SAMPLES(allSamples)
-    })
-  },
+  //FETCH_SAMPLE : (file) => {
+    //fetch("//localhost:8080/samples/"+file)
+    //.then((response) => {
+      //const sample = response.json()
+      //this.SET_ALL_SAMPLES(sample)
+    //})
+  //},
+  //FETCH_ALL_SAMPLES             : () => {
+    //fetch("//localhost:8080/samples")
+    //.then((response) => {
+      //const allSamples = response.json()
+      //this.SET_ALL_SAMPLES(allSamples)
+    //})
+  //},
   SET_ALL_SAMPLES : (samples) => ({ samples }),
 })
 

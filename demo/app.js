@@ -1,3 +1,4 @@
+import Raven from 'raven-js'
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
@@ -18,6 +19,12 @@ import ReactFileReader from 'react-file-reader';
   reviewing all beats in the current generation
   and reset it when a new generation is created.
 */
+
+if (process.env.SENTRY_PUBLIC_DSN) {
+  Raven.config(process.env.SENTRY_PUBLIC_DSN)
+}
+
+
 
 class ConfigControl extends Component {
   render = () => {
@@ -50,7 +57,7 @@ class App extends Component {
       inputScore         : "",
       selectText         : "",
     }
-    this.props.fetchAllSamples()
+    //this.props.fetchAllSamples()
   }
 
   handlePlayToggle = () => {

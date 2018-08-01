@@ -112,9 +112,12 @@ with database "{}" from host "{}"?""".format(
 @task
 def install_requirements():
     """
-    Install the project's python requirements
+    Install the project's node & python requirements
     """
     run("%(virtualenv_dir)sbin/pip install -r %(project_dir)srequirements.txt --exists-action=w" % env)
+
+    with cd(env.project_dir):
+        run("npm install && npm run dist --production ")
 
 
 @task
