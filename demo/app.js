@@ -20,9 +20,14 @@ import ReactFileReader from 'react-file-reader';
   and reset it when a new generation is created.
 */
 
+import { observer } from "mobx-react"
+
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
+
+
+import appState from "./appState"
 
 
 
@@ -47,6 +52,7 @@ class ConfigControl extends Component {
 }
 
 
+@observer
 class App extends Component {
   constructor(props) {
     super(props)
@@ -206,6 +212,14 @@ class App extends Component {
               {familyNamesOptions}
             </select>
           </div>
+          hello world
+          {appState.beatNum}
+          <button onClick={appState.nextBeat}>
+            next
+          </button>
+          <button onClick={appState.prevBeat}>
+            prev
+          </button>
           <ConfigControl
             name          = "Tempo"
             value         = {this.props.tempo}

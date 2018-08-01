@@ -5,10 +5,10 @@ import initialGeneration from "./initialGeneration"
 import samples from "./samples"
 import {
   deepClone,
+  generateFamilyName,
   updateObjectInArray,
 } from "./utils"
 
-import {generateFamilyName} from "./utils"
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const defaultState = {
   newBeat        : { tracks: [] },
@@ -142,11 +142,6 @@ const reducer = handleActions({
 
     return {
       ...state, samples
-    }
-  },  
-  [actions.saveFamily]: (state, {payload: {newFamilyName, newFamily}}) => {
-    return {
-      ...state,
     }
   },  
   [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
