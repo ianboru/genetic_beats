@@ -37,16 +37,15 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
       newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate*2))
-      if(newSampleSequence.includes(1)){
+      if (newSampleSequence.includes(1)) {
         return {
-                  sample   : newSamplePath,
-                  sequence : newSampleSequence,
-                }
-      }else{
+          sample   : newSamplePath,
+          sequence : newSampleSequence,
+        }
+      } else {
         return null
       }
-      
-    }else{
+    } else {
         return null
     }
   }

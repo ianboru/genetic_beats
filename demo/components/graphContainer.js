@@ -3,9 +3,14 @@ import { connect } from 'react-redux'
 
 import { actions } from "../store"
 
+import { observer } from "mobx-react"
+
+import appState from "../appState"
+
 import cytoscape from 'cytoscape'
 
 
+@observer
 class GraphContainer extends React.Component {
     handleSelectNode(id){
       this.props.handleSelectNode(id)
@@ -42,16 +47,17 @@ class GraphContainer extends React.Component {
             }
             intermediateNodes.push(intermediateNodeKey)
           }else if(!(beat.momKey && beat.dadKey) && genNum > 0){
-
               edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 0  } })
           }
 
+          const selectedBeats = appState.selectPairMode ? appState.selectedBeats : [`${appState.generation}.${appState.beatNum}`]
+
           nodes.push({ data: {
-            selected : (this.props.selectedBeats.includes(beat.key) ? 1 : 0),
+            selected : (selectedBeats.includes(beat.key) ? 1 : 0),
             id       : beat.key,
             name     : beat.key,
             score    : beat.score,
-            size     : 1
+            size     : 1,
           }})
         })
         ++genNum
@@ -100,11 +106,20 @@ class GraphContainer extends React.Component {
       })
       var that = this
       this.cy.on('click', 'node', function(evt){
-        that.props.selectNode(this.id())
+        const idData = this.id().split(".")
+        const generation = parseInt(idData[0])
+        const beatNum = parseInt(idData[1])
+        appState.selectBeat(generation, beatNum)
       })
     }
 
     render() {
+      // Mobx will only respond to state used in react components' render methods
+      // This is a hack so that this component re-renders when it's supposed to
+      appState.selectedBeats
+      appState.generation
+      appState.beatNum
+
       let cyStyle = {
         'border' : '1px solid #333',
         'height' : '400px',
@@ -118,23 +133,4 @@ class GraphContainer extends React.Component {
 }
 
 
-export default connect(
-  (state) => {
-    const selectedBeats = state.selectPairMode ? state.selectedBeats : [`${state.generation}.${state.beatNum}`]
-
-    return {
-      beatNum: state.beatNum,
-      generation: state.generation,
-      selectedBeats: selectedBeats,
-    }
-  }, (dispatch) => {
-    return {
-      selectNode: (id) => {
-        const idData = id.split(".")
-        const generation = parseInt(idData[0])
-        const beatNum = parseInt(idData[1])
-        dispatch(actions.selectBeat(generation, beatNum))
-      }
-    }
-  }
-)(GraphContainer)
+export default GraphContainer

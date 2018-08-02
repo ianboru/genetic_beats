@@ -46,7 +46,7 @@ class Track extends Component {
   }
 
   handleGainChange = (evt) => {
-    this.setGain(evt.target.value / 100, this.props.track.sample)
+    this.setGain(this.props.track.sample, evt.target.value / 100)
   }
 
   handleNoteToggle = (noteNumber) => {

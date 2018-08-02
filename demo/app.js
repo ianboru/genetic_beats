@@ -12,8 +12,8 @@ import CreateBeat from "./components/createBeat"
 import FamilyTree from "./components/familyTree"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
-import ReactFileReader from 'react-file-reader';
 import ConfigControl from "./components/configControl"
+import ReactFileReader from 'react-file-reader'
 /*TODO
 * fix mating after selecting
 * Mark "Mate" button as ready to mate after
@@ -35,14 +35,14 @@ import appState from "./appState"
 class App extends Component {
   constructor(props) {
     super(props)
-    this.props.updateFamilyInStorage()
+    appState.updateFamilyInStorage()
     this.state = {
       playingCurrentBeat : false,
       playingNewBeat     : false,
       inputScore         : "",
       selectText         : "",
     }
-    //this.props.fetchAllSamples()
+    //appState.fetchAllSamples()
   }
 
   handlePlayToggle = () => {
@@ -52,8 +52,8 @@ class App extends Component {
   }
 
   setScore = (e) => {
-    this.props.setScore(parseInt(this.state.inputScore))
-    this.props.nextBeat()
+    appState.setScore(parseInt(this.state.inputScore))
+    appState.nextBeat()
     this.setState({inputScore: ""})
     e.preventDefault()
   }
@@ -69,14 +69,14 @@ class App extends Component {
   }
   clearSavedFamilies = () => {
     if (confirm("Are you sure you want to clear all families?")) {
-      this.props.clearSavedFamilies()
+      appState.clearSavedFamilies()
       window.location.reload()
     }
   }
   handleMate = () => {
-    if (this.props.generation < this.props.allGenerations.length - 1) {
-      if (confirm(`Mating now will clear all generations after the currently selected one (${this.props.generation}).`)) {
-        this.props.killSubsequentGenerations(this.props.generation)
+    if (appState.generation < appState.allGenerations.length - 1) {
+      if (confirm(`Mating now will clear all generations after the currently selected one (${appState.generation}).`)) {
+        appState.killSubsequentGenerations()
       } else {
         return
       }
@@ -84,33 +84,33 @@ class App extends Component {
 
     let options = {}
 
-    if (this.props.selectPairMode) {
-      options.newCurrentGeneration = this.props.selectedBeats.map( (currentKey) => {
+    if (appState.selectPairMode) {
+      options.newCurrentGeneration = appState.selectedBeats.map( (currentKey) => {
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
-        return this.props.allGenerations[generation][beatNum]
+        return appState.allGenerations[generation][beatNum]
       })
-      options.numGeneration = this.props.allGenerations.length - 1
-      this.props.toggleSelectPairMode()
+      options.numGeneration = appState.allGenerations.length - 1
+      appState.toggleSelectPairMode()
     } else {
-      options.newCurrentGeneration = this.props.allGenerations[this.props.generation]
-      options.numGeneration = this.props.generation
+      options.newCurrentGeneration = appState.currentGeneration
+      options.numGeneration = appState.generation
     }
 
     const nextGeneration = generateChildren(
       options.newCurrentGeneration,
       options.numGeneration,
-      this.props.samples,
-      this.props.numSurvivors,
-      this.props.numChildren,
-      this.props.mutationRate,
-      this.props.sampleMutationRate,
-      this.props.scoreThreshold
+      appState.samples,
+      appState.numSurvivors,
+      appState.numChildren,
+      appState.mutationRate,
+      appState.sampleMutationRate,
+      appState.scoreThreshold
     )
 
-    this.props.addGeneration(nextGeneration)
-    this.props.updateFamilyInStorage()
+    appState.addGeneration(nextGeneration)
+    appState.updateFamilyInStorage()
   }
   handleUploadSample = (files) => {
     var file    = document.querySelector('input[type=file]').files[0];
@@ -126,25 +126,25 @@ class App extends Component {
     }
   }
   handleSelectPair = () => {
-    this.props.toggleSelectPairMode()
+    appState.toggleSelectPairMode()
   }
   handleSetTempo = (evt) => {
-    this.props.setTempo(evt.target.value)
+    appState.setTempo(evt.target.value)
   }
   handleSetMutationRate = (evt) => {
-    this.props.setMutationRate(evt.target.value)
+    appState.setMutationRate(evt.target.value)
   }
   handleSetSampleMutationRate = (evt) => {
-    this.props.setSampleMutationRate(evt.target.value)
+    appState.setSampleMutationRate(evt.target.value)
   }
   handleSetNumChildren = (evt) => {
-    this.props.setNumChildren(evt.target.value)
+    appState.setNumChildren(evt.target.value)
   }
   handleSetNumSurvivors = (evt) => {
-    this.props.setNumSurvivors(evt.target.value)
+    appState.setNumSurvivors(evt.target.value)
   }
   handleSetScoreThreshold = (evt) => {
-    this.props.setScoreThreshold(evt.target.value)
+    appState.setScoreThreshold(evt.target.value)
   }
   handlePlayNewBeat = () => {
     this.setState({
@@ -152,19 +152,19 @@ class App extends Component {
     })
   }
   handleSelectFamily = (evt) => {
-    this.props.setFamilyName(evt.target.value)
+    appState.selectFamily(evt.target.value)
   }
 
   render() {
     let selectText = ""
-    if (this.props.selectPairMode) {
+    if (appState.selectPairMode) {
       selectText =
         "In Select Mode. Selecting beats : " +
-        this.props.selectedBeats.join(" , ")
+        appState.selectedBeats.join(" , ")
     } else {
       selectText = ""
     }
-    const familyNamesOptions = this.props.familyNames.map((key) => {
+    const familyNamesOptions = appState.familyNames.map((key) => {
       return (
         <option key={key} value={key}>
           {key}
@@ -173,9 +173,9 @@ class App extends Component {
     })
     return (
       <div style={{ paddingTop: "30px" }}>
-        <Player beat={this.props.newBeat} playing={this.state.playingNewBeat} />
+        <Player beat={appState.newBeat} playing={this.state.playingNewBeat} />
         <Player
-          beat={this.props.currentBeat}
+          beat={appState.currentBeat}
           playing={this.state.playingCurrentBeat}
         />
         <div>
@@ -183,60 +183,52 @@ class App extends Component {
             <input type="file" onChange={this.handleUploadSample} ></input>
 
             Family:
-            {this.props.familyName}
+            {appState.familyName}
             <select
-              defaultValue={this.props.familyName}
+              defaultValue={appState.familyName}
               onChange={this.handleSelectFamily}
             >
               {familyNamesOptions}
             </select>
           </div>
-          hello world
-          {appState.beatNum}
-          <button onClick={appState.nextBeat}>
-            next
-          </button>
-          <button onClick={appState.prevBeat}>
-            prev
-          </button>
           <ConfigControl
             name          = "Tempo"
-            value         = {this.props.tempo}
+            value         = {appState.tempo}
             changeHandler = {this.handleSetTempo}
             min           = {0}
             max           = {200}
           />
           <ConfigControl
             name          = "Note Mutation Rate"
-            value         = {this.props.mutationRate}
+            value         = {appState.mutationRate}
             changeHandler = {this.handleSetMutationRate}
             min           = {0}
             max           = {100}
           />
           <ConfigControl
             name          = "Sample Mutation Rate"
-            value         = {this.props.sampleMutationRate}
+            value         = {appState.sampleMutationRate}
             changeHandler = {this.handleSetSampleMutationRate}
             min           = {0}
             max           = {100}
           />
           <ConfigControl
             name          = "Number of Children"
-            value         = {this.props.numChildren}
+            value         = {appState.numChildren}
             changeHandler = {this.handleSetNumChildren}
             min           = {1}
             max           = {20}
           />
           <ConfigControl
             name          = "Number of Survivors"
-            value         = {this.props.numSurvivors}
+            value         = {appState.numSurvivors}
             changeHandler = {this.handleSetNumSurvivors}
             min           = {1}
             max           = {20}
           />
           <ConfigControl
             name          = "Top Percentile of Survivors"
-            value         = {this.props.scoreThreshold}
+            value         = {appState.scoreThreshold}
             changeHandler = {this.handleSetScoreThreshold}
             min           = {0}
             max           = {100}
@@ -248,19 +240,19 @@ class App extends Component {
             <br />
             <br />
 
-            <span>Generation: {this.props.generation}</span>
+            <span>Generation: {appState.generation}</span>
             <br />
-            <span>Beat: {this.props.currentBeat.key}</span>
-            <div>Score: {this.props.currentBeat.score}</div>
-            <div>Parents: {this.props.currentBeat.parents}</div>
+            <span>Beat: {appState.currentBeat.key}</span>
+            <div>Score: {appState.currentBeat.score}</div>
+            <div>Parents: {appState.currentBeat.parents}</div>
           </div>
-          
+
           <div>
             <Beat
-              beat    = {this.props.currentBeat}
-              samples = {this.props.samples}
-              setGain = {this.props.setGain}
-              onEdit  = {this.props.setCurrentBeat}
+              beat    = {appState.currentBeat}
+              samples = {appState.samples}
+              setGain = {appState.setGain}
+              onEdit  = {appState.setCurrentBeat}
               handleRemoveTrack = {this.props.removeTrackFromCurrentBeat}
             />
           </div>
@@ -279,7 +271,7 @@ class App extends Component {
           </div>
 
           <div className="buttons">
-            
+
             <button
               className="react-music-button"
               onClick={this.handlePlayToggle}
@@ -288,13 +280,13 @@ class App extends Component {
             </button>
             <button
               className="react-music-button"
-              onClick={this.props.nextBeat}
+              onClick={appState.nextBeat}
             >
               Next Beat
             </button>
             <button
               className="react-music-button"
-              onClick={this.props.prevBeat}
+              onClick={appState.prevBeat}
             >
               Last Beat
             </button><br/>
@@ -324,7 +316,7 @@ class App extends Component {
             </button>
             <button
               className="react-music-button"
-              onClick={this.props.setMetronome}
+              onClick={appState.toggleMetronome}
             >
               Metronome
             </button>
@@ -333,7 +325,7 @@ class App extends Component {
         </div>
 
         <GraphContainer
-          familyTree = {this.props.allGenerations}
+          familyTree = {appState.allGenerations}
           style = {{
             display: "inline-block",
             verticalAlign: "top",
@@ -355,7 +347,6 @@ export default connect(
       currentBeat,
       currentGeneration,
       newBeat        : state.newBeat,
-      beatNum        : state.beatNum,
       generation     : state.generation,
       allGenerations : state.allGenerations,
       samples        : state.samples,
