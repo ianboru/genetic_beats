@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 
 import cytoscape from 'cytoscape'
 
-import appState from "../appState"
+import store from "../store"
 
 
 @observer
@@ -42,7 +42,7 @@ class GraphContainer extends React.Component {
               edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 0  } })
           }
 
-          const selectedBeats = appState.selectPairMode ? appState.selectedBeats : [`${appState.generation}.${appState.beatNum}`]
+          const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
 
           nodes.push({ data: {
             selected : (selectedBeats.includes(beat.key) ? 1 : 0),
@@ -101,16 +101,16 @@ class GraphContainer extends React.Component {
         const idData = this.id().split(".")
         const generation = parseInt(idData[0])
         const beatNum = parseInt(idData[1])
-        appState.selectBeat(generation, beatNum)
+        store.selectBeat(generation, beatNum)
       })
     }
 
     render() {
       // Mobx will only respond to state used in react components' render methods
       // This is a hack so that this component re-renders when it's supposed to
-      appState.selectedBeats
-      appState.generation
-      appState.beatNum
+      store.selectedBeats
+      store.generation
+      store.beatNum
 
       let cyStyle = {
         'border' : '1px solid #333',

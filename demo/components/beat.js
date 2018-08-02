@@ -1,8 +1,10 @@
 import React, { Component } from "react"
+import { observer } from "mobx-react"
 
 import { throttle } from "throttle-debounce"
 
 
+@observer
 class Note extends Component {
   render = () => {
     let color
@@ -37,6 +39,7 @@ const trackNameStyles = {
   verticalAlign : "top",
 }
 
+@observer
 class Track extends Component {
   constructor (props, context) {
     super(props, context)
@@ -112,6 +115,7 @@ class Track extends Component {
 }
 
 
+@observer
 class Beat extends Component {
   handleEdit = (track, note) => {
     let { beat } = this.props

@@ -7,7 +7,7 @@ import {
   Sampler,
 } from "../../src"
 
-import appState from "../appState"
+import store from "../store"
 
 
 const generateSamplers = (beat, samples) => {
@@ -68,14 +68,14 @@ class Player extends Component {
     return (
       <Song
         playing = {playing}
-        tempo   = {appState.tempo}
+        tempo   = {store.tempo}
       >
         <Sequencer
           bars       = {1}
           resolution = {beat.tracks[0].sequence.length}
         >
-          {generateSamplers(beat, appState.samples)}
-          {generateMetronomeSampler(beat.tracks[0].sequence.length, appState.metronome)}
+          {generateSamplers(beat, store.samples)}
+          {generateMetronomeSampler(beat.tracks[0].sequence.length, store.metronome)}
         </Sequencer>
       </Song>
     )

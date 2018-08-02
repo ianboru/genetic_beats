@@ -1,377 +1,211 @@
-import { createStore } from "redux"
-import { createActions, handleActions } from "redux-actions"
+import { action, configure, computed, observable } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
-import {
-  deepClone,
-  generateFamilyName,
-  updateObjectInArray,
-} from "./utils"
+import { generateFamilyName } from "./utils"
+
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
-const defaultState = {
-  newBeat        : { tracks: [] },
-  beatNum        : 0,
-  generation     : 0,
-  allGenerations : [initialGeneration],
-  samples        : samples,
-  selectPairMode : false,
-  selectedBeats  : [],
-  sampleMutationRate : 30,
-  mutationRate   : 5,
-  numSurvivors   : 7,
-  numChildren    : 3,
-  scoreThreshold : 75,
-  familyName     : generateFamilyName(),
-  familyNames    : originalFamilyNames ? originalFamilyNames : [],
-  tempo          : 90, 
-  metronome      : false,
-
-}
-
-const actions = createActions({
-  ADD_BEAT                    : (newBeat) => ({ newBeat }),
-  ADD_GENERATION              : (newGeneration) => ({ newGeneration }),
-  KILL_SUBSEQUENT_GENERATIONS : (generation) => ({ generation }),
-  SELECT_BEAT                 : (generation, beatNum) => ({ generation, beatNum }),
-  TOGGLE_SELECT_PAIR_MODE     : null,
-  SET_GAIN                    : (gain, sample) => ({ gain, sample }),
-  SET_BEAT_NUM                : (beatNum) => ({ beatNum }),
-
-  SET_NEW_BEAT                : (newBeat) => ({ newBeat }),
-  RESET_NEW_BEAT              : null,
-  ADD_NEW_BEAT_TO_CURRENT_GEN : null,
-  ADD_TRACK_TO_NEW_BEAT       : (sample, sequence) => ({ sample, sequence }),
-  REMOVE_TRACK_FROM_NEW_BEAT  : (trackNum) => ({ trackNum }),
-
-  REMOVE_TRACK_FROM_BEAT      : (generation, beatNum, trackNum) => ({ generation, beatNum, trackNum }),
-
-  REMOVE_TRACK_FROM_CURRENT_BEAT : (trackNum) => ({ trackNum }),
-  SET_CURRENT_BEAT            : (newBeat) => ({ newBeat }),
-
-  SET_GENERATION              : (generation) => ({ generation }),
-  SET_SCORE                   : (score) => ({ score }),
-  NEXT_BEAT                   : null,
-  PREV_BEAT                   : null,
-  SET_MUTATION_RATE           : (mutationRate) => ({mutationRate}),
-  SET_SAMPLE_MUTATION_RATE    : (sampleMutationRate) => ({sampleMutationRate}),
-
-  SET_NUM_CHILDREN            : (numChildren) => ({numChildren}),
-  SET_NUM_SURVIVORS           : (numSurvivors) => ({numSurvivors}),
-  SET_SCORE_THRESHOLD         : (scoreThreshold) => ({scoreThreshold}),
-  SET_FAMILY_NAME             : (familyName) => ({familyName}),
-  UPDATE_FAMILY_IN_STORAGE    : null,
-  CLEAR_SAVED_FAMILIES        : null,
-  SET_TEMPO                   :(tempo) => ({tempo}),
-  SET_METRONOME               : null,
-  UPLOAD_SAMPLE               : (file) => {
-    postData(`//localhost:8080/upload_sample/${file}`)
-    .then(data => console.log(data)) // JSON from `response.json()` call
-    .catch(error => console.error(error));
-
-    const postData = (url = ``, data = {}) => {
-      let newSample = []
-      // Default options are marked with *
-      fetch(url, {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "cors", // no-cors, cors, *same-origin
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, same-origin, *omit
-          headers: {
-              "Content-Type": "application/json; charset=utf-8",
-              // "Content-Type": "application/x-www-form-urlencoded",
-          },
-          redirect: "follow", // manual, *follow, error
-          referrer: "no-referrer", // no-referrer, *client
-          body: JSON.stringify(data), // body data type must match "Content-Type" header
-      })
-      .then((response) => {
-        newSample = response.json()
-        this.ADD_SAMPLE(newSample)
-      }) // parses response to JSON
-      .catch(error => console.error("SAMPLE Fetch Error =\n", error));
-    };
-  },
-  ADD_SAMPLE : (file) => ({file}),
-  //FETCH_SAMPLE : (file) => {
-    //fetch("//localhost:8080/samples/"+file)
-    //.then((response) => {
-      //const sample = response.json()
-      //this.SET_ALL_SAMPLES(sample)
-    //})
-  //},
-  //FETCH_ALL_SAMPLES             : () => {
-    //fetch("//localhost:8080/samples")
-    //.then((response) => {
-      //const allSamples = response.json()
-      //this.SET_ALL_SAMPLES(allSamples)
-    //})
-  //},
-  SET_ALL_SAMPLES : (samples) => ({ samples }),
-})
 
 
+configure({ enforceActions: true })
 
-const reducer = handleActions({
-  [actions.addBeat]: (state, { payload: { newBeat }}) => {
-    const currentGeneration = state.allGenerations[state.generation]
 
-    newBeat = { ...newBeat,
-      key: `${state.generation}.${currentGeneration.length}`,
-      score: 0,
-    }
+class Store {
+  @observable newBeat            = { tracks: [] }
+  @observable beatNum            = 0
+  @observable generation         = 0
+  @observable allGenerations     = [initialGeneration]
+  @observable samples            = samples
+  @observable selectPairMode     = false
+  @observable selectedBeats      = []
+  @observable sampleMutationRate = 30
+  @observable mutationRate       = 5
+  @observable numSurvivors       = 7
+  @observable numChildren        = 3
+  @observable scoreThreshold     = 75
+  @observable familyName         = generateFamilyName()
+  @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
+  @observable tempo              = 90
+  @observable metronome          = false
 
-    const newAllGenerations = updateObjectInArray(
-      state.allGenerations,
-      state.generation,
-      [...currentGeneration, newBeat]
-    )
+  @computed get currentGeneration() {
+    return this.allGenerations[this.generation]
+  }
 
-    return { ...state, allGenerations: newAllGenerations}
-  },
-  [actions.addSample]: (state, {payload: {newSample}}) => {
-    let newSamples = state.samples
-    newSamples.push(newSample)
-    return {
-      ...state, samples: newSamples
-    }
-  },  
-  [actions.setAllSamples]: (state, {payload: {samples}}) => {
-    console.log("setting all samples")
+  @computed get currentBeat() {
+    return this.currentGeneration[this.beatNum]
+  }
 
-    return {
-      ...state, samples
-    }
-  },  
-  [actions.addGeneration]: (state, { payload: { newGeneration }}) => {
-    return {
-      ...state,
-      allGenerations: [ ...state.allGenerations, newGeneration ],
-      generation: state.generation + 1,
-      beatNum: 0,
-    }
-  },
-  [actions.killSubsequentGenerations]: (state, { payload: { generation }}) => {
-    return { ...state, allGenerations: state.allGenerations.slice(0,generation+1)}
-  },
 
-  [actions.selectBeat]: (state, { payload: { generation, beatNum }}) => {
+  @action addSample = (newSample) => {
+    this.samples.push(newSample)
+  }
+
+  @action setAllSamples = (samples) => {
+    this.samples = samples
+  }
+
+  @action addGeneration = (newGeneration) => {
+    this.allGenerations.push(newGeneration)
+    this.generation++
+    this.beatNum = 0
+  }
+
+  @action killSubsequentGenerations = () => {
+    this.allGenerations = this.allGenerations.slice(0, this.generation+1)
+  }
+
+  @action selectBeat = (generation, beatNum) => {
     const selectedKey = `${generation}.${beatNum}`
 
-    let newState = { ...state, generation, beatNum }
+    this.generation = generation
+    this.beatNum = beatNum
 
-    if (state.selectPairMode && !state.selectedBeats.includes(selectedKey)) {
-      newState.selectedBeats = [...state.selectedBeats, selectedKey]
-      return newState
-    } else if (state.selectPairMode && state.selectedBeats.includes(selectedKey)) {
-      const newSelectedBeats = [...state.selectedBeats]
-      newSelectedBeats.splice( newSelectedBeats.indexOf(selectedKey), 1 )
-      newState.selectedBeats = newSelectedBeats
-      return newState
+    if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.push(selectedKey)
+    } else if (this.selectPairMode && this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.splice( this.selectedBeats.indexOf(selectedKey), 1 )
     } else {
-      newState.selectedBeats = [selectedKey]
-      return newState
+      this.selectedBeats = [selectedKey]
     }
-  },
+  }
 
-  [actions.toggleSelectPairMode]: (state) => {
-    return { ...state,  selectPairMode: !state.selectPairMode, selectedBeats: []}
-  },
-  [actions.setGeneration]: (state, { payload: { generation }}) => {
-    return { ...state, generation }
-  },
-  [actions.setFamilyName]: (state, { payload: { familyName }}) => {
-    return { ...state, familyName, allGenerations:JSON.parse(localStorage.getItem(familyName)), beatNum : 0, generation: 0 }
-  },
-  [actions.clearSavedFamilies]: (state) => {
+  @action toggleSelectPairMode = () => {
+    this.selectPairMode = !this.selectPairMode
+    this.selectedBeats = []
+  }
+
+  @action setGeneration = (generation) => {
+    this.generation = generation
+  }
+
+  @action selectFamily = (familyName) => {
+    this.familyName = familyName
+    // SIDE EFFECT
+    this.allGenerations = JSON.parse(localStorage.getItem(familyName))
+    this.beatNum = 0
+    this.generation = 0
+  }
+
+  @action clearSavedFamilies = (state) => {
+    // SIDE EFFECT
     localStorage.clear()
-    return { ...state}
-  },
-  [actions.updateFamilyInStorage]: (state) => {
-    let newFamilyNames = state.familyNames
-    if(state.familyNames.length > 0 && !state.familyNames.includes(state.familyName)){
-      newFamilyNames.push(state.familyName)
-    }else if(state.familyNames.length == 0){
-      newFamilyNames = [state.familyName]
+  }
+
+  @action updateFamilyInStorage = () => {
+    let newFamilyNames = this.familyNames
+    if (this.familyNames.length > 0 && !this.familyNames.includes(this.familyName)) {
+      newFamilyNames.push(this.familyName)
+    } else if (this.familyNames.length === 0) {
+      newFamilyNames = [this.familyName]
     }
-    //MOVE OUT
-    localStorage.setItem("familyNames",JSON.stringify(newFamilyNames))
-    localStorage.setItem(state.familyName,JSON.stringify(state.allGenerations))
-    return { ...state, familyNames: newFamilyNames}
-  },
-  [actions.setMutationRate]: (state, { payload: { mutationRate }}) => {
-    return { ...state, mutationRate }
-  },
-  [actions.setTempo]: (state, { payload: { tempo }}) => {
-    return { ...state, tempo }
-  },
-  [actions.setSampleMutationRate]: (state, { payload: { sampleMutationRate }}) => {
-    return { ...state, sampleMutationRate }
-  },
-  [actions.setNumChildren]: (state, { payload: { numChildren }}) => {
-    return { ...state, numChildren }
-  },
-  [actions.setNumSurvivors]: (state, { payload: { numSurvivors }}) => {
-    return { ...state, numSurvivors }
-  },
-  [actions.setScoreThreshold]: (state, { payload: { scoreThreshold }}) => {
-    return { ...state, scoreThreshold }
-  },
 
-  [actions.setMetronome]: (state) => {
-    return { ...state, metronome : !state.metronome }
-  },
-  [actions.setBeatNum]: (state, { payload: { beatNum }}) => {
-    return { ...state, beatNum }
-  },
+    this.familyNames = newFamilyNames
 
-  [actions.setNewBeat]: (state,  { payload: { newBeat }}) => {
-    return { ...state, newBeat: deepClone(newBeat) }
-  },
+    // SIDE EFFECT
+    localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
+    localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
+  }
 
-  [actions.setCurrentBeat]: (state, { payload: { newBeat }} ) => {
-    const beat = state.allGenerations[state.generation][state.beatNum]
+  @action setMutationRate = (mutationRate) => {
+    this.mutationRate = mutationRate
+  }
 
-    const allGenerations = updateObjectInArray(
-      state.allGenerations,
-      state.generation,
-      updateObjectInArray(
-        state.allGenerations[state.generation],
-        state.beatNum,
-        deepClone(newBeat)
-      )
-    )
+  @action setTempo = (tempo) => {
+    this.tempo = tempo
+  }
 
-    return { ...state, allGenerations }
-  },
+  @action setSampleMutationRate = (sampleMutationRate) => {
+    this.sampleMutationRate = sampleMutationRate
+  }
 
-  [actions.resetNewBeat]: (state) => {
-    return { ...state, newBeat: { tracks: [] } }
-  },
+  @action setNumChildren = (numChildren) => {
+    this.numChildren = numChildren
+  }
 
-  [actions.addNewBeatToCurrentGen]: (state) => {
-    const currentGeneration = state.allGenerations[state.generation]
+  @action setNumSurvivors = (numSurvivors) => {
+    this.numSurvivors = numSurvivors
+  }
 
-    const newBeat = { ...state.newBeat,
-      key: `${state.generation}.${currentGeneration.length}`,
+  @action setScoreThreshold = (scoreThreshold) => {
+    this.scoreThreshold = scoreThreshold
+  }
+
+  @action toggleMetronome = () => {
+    this.metronome = !this.metronome
+  }
+
+  @action setNewBeat = (newBeat) => {
+    // TODO: probably doesn't work based on setCurrentBeat not working
+    this.newBeat = newBeat
+  }
+
+  @action setCurrentBeat = (newBeat) => {
+    // TODO: This is broken
+    this.allGenerations[this.generation][this.beatNum] = newBeat
+  }
+
+  @action resetNewBeat = () => {
+    this.newBeat = { tracks: [] }
+  }
+
+  @action addNewBeatToCurrentGen = () => {
+    this.allGenerations[this.generation].push({
+      ...newBeat,
+      key: `${this.generation}.${this.currentGeneration.length}`,
       score: 0,
-    }
+    })
 
-    const newAllGenerations = updateObjectInArray(
-      state.allGenerations,
-      state.generation,
-      [...currentGeneration, newBeat]
-    )
+    this.resetNewBeat()
+  }
 
-    return { ...state, allGenerations: newAllGenerations, newBeat: { tracks: [] } }
-  },
+  @action addTrackToNewBeat = (sample, sequence) => {
+    this.newBeat.tracks.push({ sample, sequence })
+  }
 
-  [actions.addTrackToNewBeat]: (state, { payload: { sample, sequence }}) => {
-    const newBeat = { ...state.newBeat,
-      tracks: [
-        ...state.newBeat.tracks,
-        { sample, sequence },
-      ]
-    }
-    return { ...state, newBeat }
-  },
+  @action removeTrackFromNewBeat = (trackNum) => {
+    // TODO: Splice instead
+    this.newBeat.tracks = [
+      ...this.newBeat.tracks.slice(0, trackNum),
+      ...this.newBeat.tracks.slice(trackNum+1),
+    ]
+  }
 
-  [actions.removeTrackFromNewBeat]: (state, { payload: { trackNum }} ) => {
-    const newBeat = { ...state.newBeat,
-      tracks: [
-        ...state.newBeat.tracks.slice(0, trackNum),
-        ...state.newBeat.tracks.slice(trackNum+1),
-      ]
-    }
-    return { ...state, newBeat }
-  },
+  @action removeTrackFromCurrentBeat = (trackNum) => {
+    // TODO: Splice instead
+    this.allGenerations[this.generation][this.beatNum].tracks = [
+      ...this.currentBeat.tracks.slice(0, trackNum),
+      ...this.currentBeat.tracks.slice(trackNum+1),
+    ]
+  }
 
-  [actions.removeTrackFromBeat]: (state, { payload: { generation, beatNum, trackNum }} ) => {
-    const beat = state.allGenerations[generation][beatNum]
-    const newBeat = { ...beat,
-      tracks: [
-        ...beat.tracks.slice(0, trackNum),
-        ...beat.tracks.slice(trackNum+1),
-      ]
-    }
+  @action setGain = (sample, gain) => {
+    this.samples[sample].gain = gain
+  }
 
-    const allGenerations = updateObjectInArray(
-      state.allGenerations,
-      generation,
-      updateObjectInArray(
-        state.allGenerations[generation],
-        beatNum,
-        newBeat
-      )
-    )
+  @action setScore = (score) => {
+    this.currentBeat.score = score
+  }
 
-    return { ...state, allGenerations }
-  },
+  @action nextBeat = () => {
+    const currentGeneration = this.allGenerations[this.generation]
+    this.beatNum = (this.beatNum + 1) % currentGeneration.length
+  }
 
-  [actions.removeTrackFromCurrentBeat]: (state, { payload: { trackNum }} ) => {
-    const beat = state.allGenerations[state.generation][state.beatNum]
-    const newBeat = { ...beat,
-      tracks: [
-        ...beat.tracks.slice(0, trackNum),
-        ...beat.tracks.slice(trackNum+1),
-      ]
-    }
+  @action prevBeat = () => {
+    const currentGeneration = this.allGenerations[this.generation]
 
-    const allGenerations = updateObjectInArray(
-      state.allGenerations,
-      state.generation,
-      updateObjectInArray(
-        state.allGenerations[state.generation],
-        state.beatNum,
-        newBeat
-      )
-    )
-
-    return { ...state, allGenerations }
-  },
-
-  [actions.setGain]: (state, { payload: { gain, sample }}) => {
-    const samples = { ...state.samples, [sample]: { ...state.samples[sample], gain }}
-
-    return { ...state, samples }
-  },
-
-  [actions.setScore]: (state, { payload: { score }}) => {
-    let updatedGeneration = state.allGenerations[state.generation]
-    // FIXME: This is a mutable operation
-    updatedGeneration[state.beatNum].score = score
-
-    const newAllGenerations = updateObjectInArray(
-      state.allGenerations,
-      state.generation,
-      updatedGeneration
-    )
-
-    return { ...state, allGenerations: newAllGenerations}
-  },
-
-  [actions.nextBeat]: (state) => {
-    let currentGeneration = state.allGenerations[state.generation]
-
-    const beatNum = (state.beatNum + 1) % currentGeneration.length
-    return { ...state, beatNum }
-  },
-
-  [actions.prevBeat]: (state) => {
-    let currentGeneration = state.allGenerations[state.generation]
-
-    let beatNum = state.beatNum
-    if (beatNum == 0) {
-      beatNum = currentGeneration.length - 1
+    if (this.beatNum == 0) {
+      this.beatNum = currentGeneration.length - 1
     } else {
-      beatNum = (state.beatNum - 1) % currentGeneration.length
+      this.beatNum = (this.beatNum - 1) % currentGeneration.length
     }
-    return { ...state, beatNum }
-  },
-}, defaultState)
+  }
+}
+
+const store = new Store()
 
 
-export { actions }
 
-export default createStore(reducer)
+export default store

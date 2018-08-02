@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 
-import appState from "../appState"
+import store from "../store"
 
 import Beat from "./beat"
 
@@ -12,12 +12,12 @@ class CreateBeat extends Component {
     const steps = parseInt(this.stepsSelect.value)
     const sample = this.sampleSelect.value
     const sequence = Array(steps).fill(0)
-    appState.addTrackToNewBeat(sample, sequence)
+    store.addTrackToNewBeat(sample, sequence)
   }
 
   render = () => {
-    const beat = appState.newBeat
-    appState.newBeat.tracks
+    const beat = store.newBeat
+    store.newBeat.tracks
 
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -29,13 +29,13 @@ class CreateBeat extends Component {
     })
 
     const beatSamples = beat.tracks.map( (track) => { return track.sample } )
-    const unusedSampleKeys = Object.keys(appState.samples).filter( (key) => {
-      const sample = appState.samples[key]
+    const unusedSampleKeys = Object.keys(store.samples).filter( (key) => {
+      const sample = store.samples[key]
       return !beatSamples.includes(sample.path)
     })
 
     const sampleOptions = unusedSampleKeys.map( (key) => {
-      const sample = appState.samples[key]
+      const sample = store.samples[key]
       return (
         <option
           key   = {sample.path}
@@ -51,10 +51,10 @@ class CreateBeat extends Component {
             beat.tracks.length > 0 ?
               <Beat
                 beat    = {beat}
-                samples = {appState.samples}
-                setGain = {appState.setGain}
-                onEdit  = {appState.setNewBeat}
-                handleRemoveTrack = {appState.removeTrackFromNewBeat}
+                samples = {store.samples}
+                setGain = {store.setGain}
+                onEdit  = {store.setNewBeat}
+                handleRemoveTrack = {store.removeTrackFromNewBeat}
               />
                 :
               <div>No tracks yet</div>
@@ -62,10 +62,10 @@ class CreateBeat extends Component {
           <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
-          <button onClick={appState.handlePlayBeat}>Play beat</button>
+          <button onClick={store.handlePlayBeat}>Play beat</button>
         </div>
         <button
-          onClick  = {appState.addNewBeatToCurrentGen}
+          onClick  = {store.addNewBeatToCurrentGen}
           disabled = {beat.tracks.length === 0}
         >add beat to current generation</button>
       </div>
