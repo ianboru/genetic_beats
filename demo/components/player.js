@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
+import { observer } from "mobx-react"
 
 import {
   Song,
@@ -7,24 +7,24 @@ import {
   Sampler,
 } from "../../src"
 
-
+import appState from "../appState"
 
 
 const generateSamplers = (beat, samples) => {
- return beat.tracks.map((track, i) => {
-   let convertedSequence = []
+  return beat.tracks.map((track, i) => {
+    let convertedSequence = []
 
-   track.sequence.forEach((note, i) => {
-     if (note === 1) { convertedSequence.push(i) }
-   })
+    track.sequence.forEach((note, i) => {
+      if (note === 1) { convertedSequence.push(i) }
+    })
 
-   return (<Sampler
-     key    = {i}
-     sample = {samples[track.sample].path}
-     steps  = {convertedSequence}
-     gain   = {samples[track.sample].gain}
-   />)
- })
+    return (<Sampler
+      key    = {i}
+      sample = {samples[track.sample].path}
+      steps  = {convertedSequence}
+      gain   = {samples[track.sample].gain}
+    />)
+  })
 }
 
 const generateMetronomeSampler = (resolution, on) => {
@@ -40,12 +40,12 @@ const generateMetronomeSampler = (resolution, on) => {
  let sample = staticFilePath + "samples/clave.wav"
 
  let sequence = []
- for (let i = 0; i < (resolution); i++) {
-   let comparitor = resolution/4
-   if(resolution == 2){
+ for (let i = 0; i < resolution; i++) {
+   let comparitor = resolution / 4
+   if (resolution == 2) {
      comparitor = 1
    }
-   if(i % comparitor == 0){
+   if (i % comparitor == 0) {
      sequence.push(i)
    }
  }
@@ -54,11 +54,12 @@ const generateMetronomeSampler = (resolution, on) => {
      key    = {100}
      sample = {sample}
      steps  = {sequence}
-     gain   = {.5}
+     gain   = {0.5}
   />)
 }
 
 
+@observer
 class Player extends Component {
   render = () => {
     const { beat, playing } = this.props
@@ -67,26 +68,19 @@ class Player extends Component {
     return (
       <Song
         playing = {playing}
-        tempo   = {this.props.tempo}
+        tempo   = {appState.tempo}
       >
         <Sequencer
           bars       = {1}
           resolution = {beat.tracks[0].sequence.length}
         >
-          {generateSamplers(beat, this.props.samples)}
-          {generateMetronomeSampler(beat.tracks[0].sequence.length,this.props.metronome)}
+          {generateSamplers(beat, appState.samples)}
+          {generateMetronomeSampler(beat.tracks[0].sequence.length, appState.metronome)}
         </Sequencer>
       </Song>
     )
   }
 }
 
-export default connect(
-  (state) => {
-    return {
-      samples: state.samples,
-      tempo : state.tempo,
-      metronome : state.metronome,
-    }
-  }
-)(Player)
+
+export default Player

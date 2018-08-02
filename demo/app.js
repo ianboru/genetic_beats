@@ -1,19 +1,20 @@
 import Raven from 'raven-js'
 import React, { Component } from "react"
-import { connect } from "react-redux"
+import ReactFileReader from 'react-file-reader'
+import { observer } from "mobx-react"
 
-import { actions } from "./store"
+import appState from "./appState"
 import generateChildren from "./generateChildren"
-import initialGeneration from "./initialGeneration"
 import "./index.css"
 
 import Beat from "./components/beat"
+import ConfigControl from "./components/configControl"
 import CreateBeat from "./components/createBeat"
 import FamilyTree from "./components/familyTree"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
-import ConfigControl from "./components/configControl"
-import ReactFileReader from 'react-file-reader'
+
+
 /*TODO
 * fix mating after selecting
 * Mark "Mate" button as ready to mate after
@@ -21,14 +22,10 @@ import ReactFileReader from 'react-file-reader'
   and reset it when a new generation is created.
 */
 
-import { observer } from "mobx-react"
 
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
-
-
-import appState from "./appState"
 
 
 @observer
@@ -253,7 +250,7 @@ class App extends Component {
               samples = {appState.samples}
               setGain = {appState.setGain}
               onEdit  = {appState.setCurrentBeat}
-              handleRemoveTrack = {this.props.removeTrackFromCurrentBeat}
+              handleRemoveTrack = {appState.removeTrackFromCurrentBeat}
             />
           </div>
 
@@ -338,28 +335,4 @@ class App extends Component {
 }
 
 
-export default connect(
-  (state) => {
-    const currentGeneration = state.allGenerations[state.generation]
-    const currentBeat = currentGeneration[state.beatNum]
-
-    return {
-      currentBeat,
-      currentGeneration,
-      newBeat        : state.newBeat,
-      generation     : state.generation,
-      allGenerations : state.allGenerations,
-      samples        : state.samples,
-      selectedBeats  : state.selectedBeats,
-      selectPairMode : state.selectPairMode,
-      mutationRate   : state.mutationRate,
-      sampleMutationRate: state.sampleMutationRate,
-      numSurvivors   : state.numSurvivors,
-      numChildren    : state.numChildren,
-      scoreThreshold : state.scoreThreshold,
-      familyName     : state.familyName,
-      familyNames    : state.familyNames,
-      tempo          : state.tempo,
-    }
-  }, actions
-)(App)
+export default App

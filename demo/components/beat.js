@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
 
 import { throttle } from "throttle-debounce"
 
@@ -113,7 +112,7 @@ class Track extends Component {
 }
 
 
-export default class Beat extends Component {
+class Beat extends Component {
   handleEdit = (track, note) => {
     let { beat } = this.props
     beat.tracks[track].sequence[note] = beat.tracks[track].sequence[note] === 1 ? 0 : 1
@@ -145,3 +144,6 @@ export default class Beat extends Component {
     return <div className="beat">{tracks}</div>
   }
 }
+
+
+export default Beat

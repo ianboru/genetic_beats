@@ -1,4 +1,4 @@
-import { computed, observable } from "mobx"
+import { action, computed, observable } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
@@ -35,25 +35,25 @@ class AppState {
   }
 
 
-  addSample = (newSample) => {
+  @action addSample = (newSample) => {
     this.samples.push(newSample)
   }
 
-  setAllSamples = (samples) => {
+  @action setAllSamples = (samples) => {
     this.samples = samples
   }
 
-  addGeneration = (newGeneration) => {
+  @action addGeneration = (newGeneration) => {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
   }
 
-  killSubsequentGenerations = () => {
+  @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
   }
 
-  selectBeat = (generation, beatNum) => {
+  @action selectBeat = (generation, beatNum) => {
     const selectedKey = `${generation}.${beatNum}`
 
     this.generation = generation
@@ -68,16 +68,16 @@ class AppState {
     }
   }
 
-  toggleSelectPairMode = () => {
+  @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
   }
 
-  setGeneration = (generation) => {
+  @action setGeneration = (generation) => {
     this.generation = generation
   }
 
-  selectFamily = (familyName) => {
+  @action selectFamily = (familyName) => {
     this.familyName = familyName
     // SIDE EFFECT
     this.allGenerations = JSON.parse(localStorage.getItem(familyName))
@@ -85,12 +85,12 @@ class AppState {
     this.generation = 0
   }
 
-  clearSavedFamilies = (state) => {
+  @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
     localStorage.clear()
   }
 
-  updateFamilyInStorage = () => {
+  @action updateFamilyInStorage = () => {
     let newFamilyNames = this.familyNames
     if (this.familyNames.length > 0 && !this.familyNames.includes(this.familyName)) {
       newFamilyNames.push(this.familyName)
@@ -105,49 +105,49 @@ class AppState {
     localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
   }
 
-  setMutationRate = (mutationRate) => {
+  @action setMutationRate = (mutationRate) => {
     this.mutationRate = mutationRate
   }
 
-  setTempo = (tempo) => {
+  @action setTempo = (tempo) => {
     this.tempo = tempo
   }
 
-  setSampleMutationRate = (sampleMutationRate) => {
+  @action setSampleMutationRate = (sampleMutationRate) => {
     this.sampleMutationRate = sampleMutationRate
   }
 
-  setNumChildren = (numChildren) => {
+  @action setNumChildren = (numChildren) => {
     this.numChildren = numChildren
   }
 
-  setNumSurvivors = (numSurvivors) => {
+  @action setNumSurvivors = (numSurvivors) => {
     this.numSurvivors = numSurvivors
   }
 
-  setScoreThreshold = (scoreThreshold) => {
+  @action setScoreThreshold = (scoreThreshold) => {
     this.scoreThreshold = scoreThreshold
   }
 
-  toggleMetronome = () => {
+  @action toggleMetronome = () => {
     this.metronome = !this.metronome
   }
 
-  setNewBeat = (newBeat) => {
+  @action setNewBeat = (newBeat) => {
     // TODO: probably doesn't work based on setCurrentBeat not working
     this.newBeat = newBeat
   }
 
-  setCurrentBeat = (newBeat) => {
+  @action setCurrentBeat = (newBeat) => {
     // TODO: This is broken
     this.allGenerations[this.generation][this.beatNum] = newBeat
   }
 
-  resetNewBeat = () => {
+  @action resetNewBeat = () => {
     this.newBeat = { tracks: [] }
   }
 
-  addNewBeatToCurrentGen = () => {
+  @action addNewBeatToCurrentGen = () => {
     this.allGenerations[this.generation].push({
       ...newBeat,
       key: `${this.generation}.${this.currentGeneration.length}`,
@@ -157,11 +157,11 @@ class AppState {
     this.resetNewBeat()
   }
 
-  addTrackToNewBeat = (sample, sequence) => {
+  @action addTrackToNewBeat = (sample, sequence) => {
     this.newBeat.tracks.push({ sample, sequence })
   }
 
-  removeTrackFromNewBeat = (trackNum) => {
+  @action removeTrackFromNewBeat = (trackNum) => {
     // TODO: Splice instead
     this.newBeat.tracks = [
       ...this.newBeat.tracks.slice(0, trackNum),
@@ -169,28 +169,28 @@ class AppState {
     ]
   }
 
-  removeTrackFromCurrentBeat = (trackNum) => {
+  @action removeTrackFromCurrentBeat = (trackNum) => {
     // TODO: Splice instead
     this.allGenerations[this.generation][this.beatNum].tracks = [
-      ...beat.tracks.slice(0, trackNum),
-      ...beat.tracks.slice(trackNum+1),
+      ...this.currentBeat.tracks.slice(0, trackNum),
+      ...this.currentBeat.tracks.slice(trackNum+1),
     ]
   }
 
-  setGain = (sample, gain) => {
+  @action setGain = (sample, gain) => {
     this.samples[sample].gain = gain
   }
 
-  setScore = (score) => {
+  @action setScore = (score) => {
     this.currentBeat.score = score
   }
 
-  nextBeat = () => {
+  @action nextBeat = () => {
     const currentGeneration = this.allGenerations[this.generation]
     this.beatNum = (this.beatNum + 1) % currentGeneration.length
   }
 
-  prevBeat = () => {
+  @action prevBeat = () => {
     const currentGeneration = this.allGenerations[this.generation]
 
     if (this.beatNum == 0) {

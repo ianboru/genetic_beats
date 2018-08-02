@@ -1,21 +1,13 @@
 import React,{Component} from 'react'
-import { connect } from 'react-redux'
-
-import { actions } from "../store"
-
 import { observer } from "mobx-react"
 
-import appState from "../appState"
-
 import cytoscape from 'cytoscape'
+
+import appState from "../appState"
 
 
 @observer
 class GraphContainer extends React.Component {
-    handleSelectNode(id){
-      this.props.handleSelectNode(id)
-    }
-
     componentDidMount() {
       this.familyTreeToGraph()
     }

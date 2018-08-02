@@ -1,20 +1,23 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
+import { observer } from "mobx-react"
 
-import { actions } from "../store"
+import appState from "../appState"
+
 import Beat from "./beat"
 
 
+@observer
 class CreateBeat extends Component {
   handleAddTrack = () => {
     const steps = parseInt(this.stepsSelect.value)
     const sample = this.sampleSelect.value
     const sequence = Array(steps).fill(0)
-    this.props.addTrackToNewBeat(sample, sequence)
+    appState.addTrackToNewBeat(sample, sequence)
   }
 
   render = () => {
-    const { beat } = this.props
+    const beat = appState.newBeat
+    appState.newBeat.tracks
 
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -26,13 +29,13 @@ class CreateBeat extends Component {
     })
 
     const beatSamples = beat.tracks.map( (track) => { return track.sample } )
-    const unusedSampleKeys = Object.keys(this.props.samples).filter( (key) => {
-      const sample = this.props.samples[key]
+    const unusedSampleKeys = Object.keys(appState.samples).filter( (key) => {
+      const sample = appState.samples[key]
       return !beatSamples.includes(sample.path)
     })
 
     const sampleOptions = unusedSampleKeys.map( (key) => {
-      const sample = this.props.samples[key]
+      const sample = appState.samples[key]
       return (
         <option
           key   = {sample.path}
@@ -48,10 +51,10 @@ class CreateBeat extends Component {
             beat.tracks.length > 0 ?
               <Beat
                 beat    = {beat}
-                samples = {this.props.samples}
-                setGain = {this.props.setGain}
-                onEdit  = {this.props.setNewBeat}
-                handleRemoveTrack = {this.props.removeTrackFromNewBeat}
+                samples = {appState.samples}
+                setGain = {appState.setGain}
+                onEdit  = {appState.setNewBeat}
+                handleRemoveTrack = {appState.removeTrackFromNewBeat}
               />
                 :
               <div>No tracks yet</div>
@@ -59,10 +62,10 @@ class CreateBeat extends Component {
           <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
-          <button onClick={this.props.handlePlayBeat}>Play beat</button>
+          <button onClick={appState.handlePlayBeat}>Play beat</button>
         </div>
         <button
-          onClick  = {this.props.addNewBeatToCurrentGen}
+          onClick  = {appState.addNewBeatToCurrentGen}
           disabled = {beat.tracks.length === 0}
         >add beat to current generation</button>
       </div>
@@ -70,12 +73,4 @@ class CreateBeat extends Component {
   }
 }
 
-
-export default connect(
-  (state) => {
-    return {
-      beat: state.newBeat,
-      samples: state.samples,
-    }
-  }, actions
-)(CreateBeat)
+export default CreateBeat
