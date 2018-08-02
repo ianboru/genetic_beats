@@ -13,6 +13,7 @@ import FamilyTree from "./components/familyTree"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
 import ReactFileReader from 'react-file-reader';
+import ConfigControl from "./components/configControl"
 /*TODO
 * fix mating after selecting
 * Mark "Mate" button as ready to mate after
@@ -28,28 +29,6 @@ if (process.env.SENTRY_PUBLIC_DSN) {
 
 
 import appState from "./appState"
-
-
-
-class ConfigControl extends Component {
-  render = () => {
-    const { name, value, changeHandler, min, max } = this.props
-
-    return (
-      <div>
-        {name}
-        <input type="text" value={value} onChange={changeHandler} />
-        <input
-          type="range"
-          min={min}
-          max={max}
-          value={value}
-          onChange={changeHandler}
-        />
-      </div>
-    )
-  }
-}
 
 
 @observer
