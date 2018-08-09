@@ -337,7 +337,6 @@ class App extends Component {
         <p>{selectText}</p>
 
         {typeof DevTools !== "undefined" ? <DevTools /> : null}
-        <Arrangement/>
 
       </div>
     )
