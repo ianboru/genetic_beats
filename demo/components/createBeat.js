@@ -15,7 +15,7 @@ class CreateBeat extends Component {
     store.addTrackToNewBeat(sample, sequence)
   }
 
-  render = () => {
+  render() {
     const beat = store.newBeat
     store.newBeat.tracks
 
@@ -53,8 +53,9 @@ class CreateBeat extends Component {
                 beat    = {beat}
                 samples = {store.samples}
                 setGain = {store.setGain}
-                onEdit  = {store.setNewBeat}
                 handleRemoveTrack = {store.removeTrackFromNewBeat}
+                handleToggleNote  = {store.toggleNoteOnNewBeat}
+                handleSetSample   = {store.setSampleOnNewBeat}
               />
                 :
               <div>No tracks yet</div>

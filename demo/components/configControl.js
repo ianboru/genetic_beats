@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 
 export default class ConfigControl extends Component {
-  render = () => {
+  render() {
     const { name, value, changeHandler, min, max } = this.props
 
     return (

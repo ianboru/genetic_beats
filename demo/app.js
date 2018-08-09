@@ -2,7 +2,6 @@ import Raven from 'raven-js'
 import React, { Component } from "react"
 import ReactFileReader from 'react-file-reader'
 import { observer } from "mobx-react"
-import { trace } from "mobx"
 
 import store from "./store"
 import generateChildren from "./generateChildren"
@@ -13,6 +12,8 @@ import ConfigControl from "./components/configControl"
 import CreateBeat from "./components/createBeat"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
+
+import DevTools from "mobx-react-devtools"
 
 
 /*TODO
@@ -126,22 +127,22 @@ class App extends Component {
     store.toggleSelectPairMode()
   }
   handleSetTempo = (evt) => {
-    store.setTempo(evt.target.value)
+    store.setTempo(parseInt(evt.target.value))
   }
   handleSetMutationRate = (evt) => {
-    store.setMutationRate(evt.target.value)
+    store.setMutationRate(parseInt(evt.target.value))
   }
   handleSetSampleMutationRate = (evt) => {
-    store.setSampleMutationRate(evt.target.value)
+    store.setSampleMutationRate(parseInt(evt.target.value))
   }
   handleSetNumChildren = (evt) => {
-    store.setNumChildren(evt.target.value)
+    store.setNumChildren(parseInt(evt.target.value))
   }
   handleSetNumSurvivors = (evt) => {
-    store.setNumSurvivors(evt.target.value)
+    store.setNumSurvivors(parseInt(evt.target.value))
   }
   handleSetScoreThreshold = (evt) => {
-    store.setScoreThreshold(evt.target.value)
+    store.setScoreThreshold(parseInt(evt.target.value))
   }
   handlePlayNewBeat = () => {
     this.setState({
@@ -168,6 +169,8 @@ class App extends Component {
         </option>
       )
     })
+
+
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player beat={store.newBeat} playing={this.state.playingNewBeat} />
@@ -246,11 +249,13 @@ class App extends Component {
 
           <div>
             <Beat
-              beat    = {store.currentBeat}
-              samples = {store.samples}
-              setGain = {store.setGain}
-              onEdit  = {store.setCurrentBeat}
+              beat              = {store.currentBeat}
+              samples           = {store.samples}
+              setGain           = {store.setGain}
               handleRemoveTrack = {store.removeTrackFromCurrentBeat}
+              handleToggleNote  = {store.toggleNoteOnCurrentBeat}
+              handleSetSample   = {store.setSampleOnCurrentBeat}
+              onEdit            = {store.setCurrentBeat}
             />
           </div>
 
@@ -329,6 +334,8 @@ class App extends Component {
           }}
         />
         <p>{selectText}</p>
+
+        {typeof DevTools !== "undefined" ? <DevTools /> : null}
       </div>
     )
   }

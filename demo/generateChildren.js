@@ -24,7 +24,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     let randomInteger = Math.floor(Math.random() * 100)
     const sampleMutationRateDecimal = sampleMutationRate/100
     const sampleMutationComparitor = 100 * sampleMutationRateDecimal
-    if(randomInteger < sampleMutationComparitor){
+    if (randomInteger < sampleMutationComparitor) {
 
       let validSampleKeys = Object.keys(samples)
       currentBeatSampleKeys.forEach(key =>{
@@ -33,7 +33,13 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
       const randomSampleKey = validSampleKeys[randomIndex]
 
+      if (!samples[randomSampleKey]) {
+        // Uncomment this debugger statement and mate a bunch of times
+        // to reproduce a bug
+        //debugger
+      }
       const newSamplePath = samples[randomSampleKey].path
+
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
       newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate*2))
@@ -49,10 +55,14 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         return null
     }
   }
-  const normalizeSubdivisions = (beat, newSubdivisions) => {
-    const subdivisionRatio = newSubdivisions / beat.tracks[0].sequence.length
 
-    beat.tracks.forEach( (track, i) => {
+  const normalizeSubdivisions = (beat, newSubdivisions) => {
+    // Deep clone beat object
+    let newBeat = JSON.parse(JSON.stringify(beat))
+
+    const subdivisionRatio = newSubdivisions / newBeat.tracks[0].sequence.length
+
+    newBeat.tracks.forEach( (track, i) => {
       let newSequence = []
       track.sequence.forEach( (note) => {
         newSequence.push(note)
@@ -60,14 +70,14 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
           newSequence.push(0)
         }
       })
-      beat.tracks[i].sequence = newSequence
+      newBeat.tracks[i].sequence = newSequence
     })
-    return beat
+    return newBeat
   }
 
   let nextGeneration = []
   const threshold = getScoreThreshold(currentGen)
-  
+
   // For all mom, dad pairs for all children in number of children per generation
   currentGen.forEach( (momBeat, momIndex) => {
     currentGen.forEach( (dadBeat, dadIndex) => {
@@ -115,12 +125,12 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
             })
           }
         })
-        
+
         const newSampleChild = makeChildFromNewSample(samples, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
         if(newSampleChild){
             newBeatTracks.push(newSampleChild)
         }
-          
+
         nextGeneration.push({
           score  : aveParentScore,
           tracks : newBeatTracks,

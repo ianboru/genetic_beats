@@ -80,9 +80,9 @@ export default {
     path: staticFilePath + "samples/Eb.wav",
     gain: 0.5,
   },
-  "samples/F#.wav": {
-    name: "F#",
-    path: staticFilePath + "samples/F#.wav",
+  "samples/Fsharp.wav": {
+    name: "Fsharp",
+    path: staticFilePath + "samples/Fsharp.wav",
     gain: 0.5,
   },
   "samples/G.wav": {

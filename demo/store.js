@@ -12,6 +12,9 @@ configure({ enforceActions: true })
 
 
 class Store {
+  //
+  // STATE
+  //
   @observable newBeat            = { tracks: [] }
   @observable beatNum            = 0
   @observable generation         = 0
@@ -29,6 +32,10 @@ class Store {
   @observable tempo              = 90
   @observable metronome          = false
 
+  //
+  // COMPUTED VALUES
+  //
+
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
@@ -37,6 +44,10 @@ class Store {
     return this.currentGeneration[this.beatNum]
   }
 
+
+  //
+  // ACTIONS
+  //
 
   @action addSample = (newSample) => {
     this.samples.push(newSample)
@@ -136,16 +147,6 @@ class Store {
     this.metronome = !this.metronome
   }
 
-  @action setNewBeat = (newBeat) => {
-    // TODO: probably doesn't work based on setCurrentBeat not working
-    this.newBeat = newBeat
-  }
-
-  @action setCurrentBeat = (newBeat) => {
-    // TODO: This is broken
-    this.allGenerations[this.generation][this.beatNum] = newBeat
-  }
-
   @action resetNewBeat = () => {
     this.newBeat = { tracks: [] }
   }
@@ -164,20 +165,30 @@ class Store {
     this.newBeat.tracks.push({ sample, sequence })
   }
 
+  @action toggleNoteOnNewBeat = (trackNum, note) => {
+    const newNote = this.newBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    this.newBeat.tracks[trackNum].sequence[note] = newNote
+  }
+
+  @action setSampleOnNewBeat = (trackNum, sample) => {
+    this.newBeat.tracks[trackNum].sample = sample
+  }
+
   @action removeTrackFromNewBeat = (trackNum) => {
-    // TODO: Splice instead
-    this.newBeat.tracks = [
-      ...this.newBeat.tracks.slice(0, trackNum),
-      ...this.newBeat.tracks.slice(trackNum+1),
-    ]
+    this.newBeat.tracks.splice(trackNum, 1)
+  }
+
+  @action toggleNoteOnCurrentBeat = (trackNum, note) => {
+    const newNote = this.currentBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    this.currentBeat.tracks[trackNum].sequence[note] = newNote
+  }
+
+  @action setSampleOnCurrentBeat = (trackNum, sample) => {
+    this.currentBeat.tracks[trackNum].sample = sample
   }
 
   @action removeTrackFromCurrentBeat = (trackNum) => {
-    // TODO: Splice instead
-    this.allGenerations[this.generation][this.beatNum].tracks = [
-      ...this.currentBeat.tracks.slice(0, trackNum),
-      ...this.currentBeat.tracks.slice(trackNum+1),
-    ]
+    this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
   }
 
   @action setGain = (sample, gain) => {

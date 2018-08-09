@@ -61,7 +61,7 @@ const generateMetronomeSampler = (resolution, on) => {
 
 @observer
 class Player extends Component {
-  render = () => {
+  render() {
     const { beat, playing } = this.props
     if (!beat || !beat.tracks || beat.tracks.length < 1) { return null }
 

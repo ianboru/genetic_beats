@@ -1,12 +1,10 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 
-import { throttle } from "throttle-debounce"
-
 
 @observer
 class Note extends Component {
-  render = () => {
+  render() {
     let color
 
     if (this.props.value === 1) {
@@ -17,9 +15,9 @@ class Note extends Component {
 
     return (
       <div
-        onClick   = {this.props.onClick}
-        className = "note"
-        style     = {{
+        onMouseDown = {this.props.onClick}
+        className   = "note"
+        style       = {{
           cursor     : "pointer",
           margin     : 3,
           height     : 20,
@@ -44,7 +42,7 @@ class Track extends Component {
   constructor (props, context) {
     super(props, context)
 
-    this.setGain = throttle(200, this.props.setGain)
+    this.setGain = this.props.setGain
   }
 
   handleGainChange = (evt) => {
@@ -64,11 +62,11 @@ class Track extends Component {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
 
-  render = () => {
+  render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
-          key     = {i}
+          key     = {`${i}.${note}`}
           value   = {note}
           onClick = {() => { this.handleNoteToggle(i) }}
         />
@@ -119,17 +117,15 @@ class Track extends Component {
 class Beat extends Component {
   handleEdit = (track, note) => {
     let { beat } = this.props
-    beat.tracks[track].sequence[note] = beat.tracks[track].sequence[note] === 1 ? 0 : 1
-    this.props.onEdit(beat)
+    this.props.handleToggleNote(track, note)
   }
 
   handleSampleChange = (track, sample) => {
     let { beat } = this.props
-    beat.tracks[track].sample = sample
-    this.props.onEdit(beat)
+    this.props.handleSetSample(track, sample)
   }
 
-  render = () => {
+  render() {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
