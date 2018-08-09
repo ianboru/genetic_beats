@@ -1,5 +1,5 @@
 let staticFilePath = ""
-if (process.env.NODE_ENV) {
+if (process.env.NODE_ENV === "PRODUCTION") {
   staticFilePath = "/static/"
 }
 

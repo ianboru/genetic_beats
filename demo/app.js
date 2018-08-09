@@ -275,7 +275,7 @@ class App extends Component {
           <div className="buttons">
 
             <button
-              className="react-music-button"
+              className={`react-music-${this.state.playingCurrentBeat ? "mate-ready-" : ""}button`}
               onClick={this.handlePlayToggle}
             >
               {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
@@ -299,7 +299,7 @@ class App extends Component {
               Mate
             </button>
             <button
-              className="react-music-button"
+              className={`react-music-${store.selectPairMode ? "mate-ready-" : ""}button`}
               onClick={this.handleSelectPair}
             >
               Select
@@ -317,7 +317,7 @@ class App extends Component {
               Clear
             </button>
             <button
-              className="react-music-button"
+              className={`react-music-${store.metronome ? "mate-ready-" : ""}button`}
               onClick={store.toggleMetronome}
             >
               Metronome
