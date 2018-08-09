@@ -16,6 +16,7 @@ import Player from "./components/player"
 import DevTools from "mobx-react-devtools"
 
 
+import Arrangement from "./components/arrangement"
 /*TODO
 * fix mating after selecting
 * Mark "Mate" button as ready to mate after
@@ -336,6 +337,8 @@ class App extends Component {
         <p>{selectText}</p>
 
         {typeof DevTools !== "undefined" ? <DevTools /> : null}
+        <Arrangement/>
+
       </div>
     )
   }

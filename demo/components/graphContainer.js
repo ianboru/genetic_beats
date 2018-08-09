@@ -3,8 +3,16 @@ import { observer } from "mobx-react"
 
 import cytoscape from 'cytoscape'
 
+<<<<<<< HEAD
 import store from "../store"
 
+=======
+let nodes = [] 
+class GraphContainer extends React.Component {
+    handleSelectNode(id){
+      this.props.handleSelectNode(id)
+    }
+>>>>>>> testing node styling and started arrangement view
 
 @observer
 class GraphContainer extends React.Component {
@@ -51,6 +59,8 @@ class GraphContainer extends React.Component {
             score    : beat.score,
             size     : 1,
           }})
+
+
         })
         ++genNum
       })
@@ -103,8 +113,11 @@ class GraphContainer extends React.Component {
         const beatNum = parseInt(idData[1])
         store.selectBeat(generation, beatNum)
       })
+      nodes = this.cy.nodes()
+
     }
 
+<<<<<<< HEAD
     render() {
       // Mobx will only respond to state used in react components' render methods
       // This is a hack so that this component re-renders when it's supposed to
@@ -112,16 +125,39 @@ class GraphContainer extends React.Component {
       store.generation
       store.beatNum
 
+=======
+      
+
+    render = () => {
+>>>>>>> testing node styling and started arrangement view
       let cyStyle = {
         'border' : '1px solid #333',
         'height' : '400px',
         'width'  : '400px',
         'margin' : '20px 0px',
         ...this.props.style
-      }
+      }      
+      
+      console.log(nodes)
+      let styles = []
+      nodes.map(node => {
 
-      return <div style={cyStyle}  id="cy"/>
+        styles.push(
+          {
+            'position' : 'absolute',
+            left: node.position()[0],
+            top: node.position()[1]
+          }
+        )
+      });
+      return (
+        <div>
+          <div style={cyStyle}  id="cy"/>
+          <div style={styles[0]}/>
+        </div>
+      )
     }
+    
 }
 
 
