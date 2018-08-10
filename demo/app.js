@@ -171,13 +171,22 @@ class App extends Component {
       )
     })
 
+    let newBeatResolution = null
 
+    if(store.newBeat.tracks[0]){
+       newBeatResolution = store.newBeat.tracks[0].sequence.length
+    }
     return (
       <div style={{ paddingTop: "30px" }}>
-        <Player beat={store.newBeat} playing={this.state.playingNewBeat} />
+        <Player 
+          beat={store.newBeat} 
+          playing={this.state.playingNewBeat} 
+          resolution = {newBeatResolution}
+          />
         <Player
           beat={store.currentBeat}
           playing={this.state.playingCurrentBeat}
+          resolution = {newBeatResolution}
         />
         <div>
           <div>
@@ -337,7 +346,7 @@ class App extends Component {
         <p>{selectText}</p>
 
         {typeof DevTools !== "undefined" ? <DevTools /> : null}
-
+        <Arrangement/>
       </div>
     )
   }

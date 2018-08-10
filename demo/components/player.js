@@ -62,7 +62,7 @@ const generateMetronomeSampler = (resolution, on) => {
 @observer
 class Player extends Component {
   render() {
-    const { beat, playing } = this.props
+    const { beat, playing, resolution, bars } = this.props
     if (!beat || !beat.tracks || beat.tracks.length < 1) { return null }
 
     return (
@@ -71,11 +71,11 @@ class Player extends Component {
         tempo   = {store.tempo}
       >
         <Sequencer
-          bars       = {1}
-          resolution = {beat.tracks[0].sequence.length}
+          bars       = {bars ? bars : 1}
+          resolution = {resolution}
         >
           {generateSamplers(beat, store.samples)}
-          {generateMetronomeSampler(beat.tracks[0].sequence.length, store.metronome)}
+          {generateMetronomeSampler(resolution, store.metronome)}
         </Sequencer>
       </Song>
     )

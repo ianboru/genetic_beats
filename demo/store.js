@@ -1,4 +1,4 @@
-import { action, configure, computed, observable } from "mobx"
+import { action, configure, computed, observable, toJS } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
@@ -31,6 +31,7 @@ class Store {
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
   @observable tempo              = 90
   @observable metronome          = false
+  @observable arrangementBeats = ["0.0","0.1"]
 
   //
   // COMPUTED VALUES
@@ -43,12 +44,24 @@ class Store {
   @computed get currentBeat() {
     return this.currentGeneration[this.beatNum]
   }
-
+  @computed get allBeatKeys() {
+    let beatKeys = []
+    this.allGenerations.forEach((generation)=>{
+      generation.forEach((beat)=>{
+        beatKeys.push(beat.key)
+      })
+    })
+    console.log("beatKeys")
+    console.log(toJS(beatKeys))
+    return beatKeys
+  }
 
   //
   // ACTIONS
   //
-
+ @action addBeatToArrangement = (beatKey) => {
+    this.arrangementBeats.push(beatKey)
+  }
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }

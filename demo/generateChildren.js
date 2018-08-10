@@ -3,6 +3,7 @@ import {
   getSubarray,
   findInJSON,
   matePair,
+  normalizeSubdivisions
 } from "./utils"
 
 export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, sampleMutationRate,scoreThresholdInteger) => {
@@ -56,24 +57,6 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     }
   }
 
-  const normalizeSubdivisions = (beat, newSubdivisions) => {
-    // Deep clone beat object
-    let newBeat = JSON.parse(JSON.stringify(beat))
-
-    const subdivisionRatio = newSubdivisions / newBeat.tracks[0].sequence.length
-
-    newBeat.tracks.forEach( (track, i) => {
-      let newSequence = []
-      track.sequence.forEach( (note) => {
-        newSequence.push(note)
-        for (let j = 0; j < subdivisionRatio-1; j++) {
-          newSequence.push(0)
-        }
-      })
-      newBeat.tracks[i].sequence = newSequence
-    })
-    return newBeat
-  }
 
   let nextGeneration = []
   const threshold = getScoreThreshold(currentGen)
