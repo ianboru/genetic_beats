@@ -50,10 +50,8 @@ class Arrangement extends Component {
     }
   }
   
-  deleteBlock(index, beatList){
-    beatList.splice(index,1)
-    console.log(beatList)
-
+  deleteBlock(index){
+    store.deleteBeatFromArrangement(index)
   }
   addBlock(beatKey){
     store.addBeatToArrangement(beatKey)
@@ -103,7 +101,7 @@ class Arrangement extends Component {
           beatSamples.push(sample)
         }
       })
-
+      // fill one measure of zeros if samples weren't in current beat
       for (var sample in uniqueSamples){
         const sampleIndex = uniqueSamples[sample]
 
@@ -150,7 +148,7 @@ class Arrangement extends Component {
         <Block
           beatKey = {beatKey}
           index = {i}
-          deleteBlock = {()=>{this.deleteBlock(i, beatList)}}
+          deleteBlock = {()=>{this.deleteBlock(i)}}
         />
       )
     })

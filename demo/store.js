@@ -62,6 +62,9 @@ class Store {
  @action addBeatToArrangement = (beatKey) => {
     this.arrangementBeats.push(beatKey)
   }
+  @action deleteBeatFromArrangement = (index) => {
+    this.arrangementBeats.splice(index,1)
+  }
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }
