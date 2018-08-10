@@ -177,6 +177,8 @@ class App extends Component {
     if(store.newBeat.tracks[0]){
        newBeatResolution = store.newBeat.tracks[0].sequence.length
     }
+    //<input type="file" onChange={this.handleUploadSample} ></input>
+    const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
     return (
       <div style={{ paddingTop: "30px" }}>
         <Player 
@@ -187,11 +189,10 @@ class App extends Component {
         <Player
           beat={store.currentBeat}
           playing={this.state.playingCurrentBeat}
-          resolution = {newBeatResolution}
+          resolution = {currentBeatResolution}
         />
         <div>
           <div>
-            <input type="file" onChange={this.handleUploadSample} ></input>
 
             Family:
             {store.familyName}

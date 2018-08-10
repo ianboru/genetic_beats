@@ -65,6 +65,41 @@ class Store {
   @action deleteBeatFromArrangement = (index) => {
     this.arrangementBeats.splice(index,1)
   }
+  @action randomizeBestBeats = () => {
+    this.arrangementBeats = []
+    const repeatRateInteger = 40
+    let repeatRate = repeatRateInteger/100
+    let scoreThreshold = this.scoreThreshold/100
+
+    let allScores = []
+    this.allGenerations.forEach((generation)=>{
+      generation.forEach((beat)=>{
+        allScores.push(beat.score)
+      })
+    })
+    allScores = allScores.sort( (a, b) => (a - b) )
+
+    let percentileIndex = Math.floor(allScores.length * scoreThreshold) - 1
+    console.log(percentileIndex)
+    this.allGenerations.forEach((generation)=>{
+      generation.forEach((beat)=>{
+
+        if(beat.score >= allScores[percentileIndex]){
+          // roll a dice to repeat the beat
+          let randomInteger = Math.floor(Math.random() * 100)
+          const repeatRateComparitor = 100 * repeatRate
+          let numRepeats = 1
+          if(randomInteger > repeatRateComparitor){
+            numRepeats = Math.floor(Math.random() * 3) + 1
+          }
+          console.log("num reapeats" + numRepeats, randomInteger)
+          for (let i=0; i < numRepeats; i++) {
+            this.arrangementBeats.push(beat.key)
+          }
+        }
+      })
+    })
+  }
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }

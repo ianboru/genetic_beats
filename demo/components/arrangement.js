@@ -141,8 +141,9 @@ class Arrangement extends Component {
     })
     return normalizedBeats
   }
-  render() {
 
+  render() {
+    console.log("render arrangement")
     const beats = store.arrangementBeats.map( (beatKey, i) => {
       return (
         <Block
@@ -164,7 +165,9 @@ class Arrangement extends Component {
       )
     })
     return <div className="arrangement-div">
-            
+            <Controls
+              togglePlayArrangement = {this.togglePlayArrangement}
+              />
             {beats}
             <div className="arrangement-block">
               <p className="arrangement-block-text" onClick={()=>{this.addBlock(this.state.beatToAdd)}} >+</p>
@@ -176,9 +179,8 @@ class Arrangement extends Component {
                 {beatKeyOptions}
               </select>
             </div>
-            <Controls
-              togglePlayArrangement = {this.togglePlayArrangement}
-              />
+            <button onClick={store.randomizeBestBeats}>Randomize Best Beats</button>
+            
             <Player 
               beat={finalArrangementBeat} 
               playing={this.state.playArrangement} 
