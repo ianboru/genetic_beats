@@ -1,6 +1,31 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 
+import store from "../store"
+
+
+@observer
+class GainSlider extends Component {
+  handleGainChange = (e) => {
+    store.setGain(this.props.sample, e.target.value / 100)
+  }
+
+  render() {
+    const { sample } = this.props
+    const gain = store.samples[sample].gain * 100
+
+    return (
+      <input
+        type     = "range"
+        min      = {0}
+        max      = {100}
+        value    = {gain}
+        onChange = {this.handleGainChange}
+      />
+    )
+  }
+}
+
 
 @observer
 class Note extends Component {
@@ -37,18 +62,9 @@ const trackNameStyles = {
   verticalAlign : "top",
 }
 
+
 @observer
 class Track extends Component {
-  constructor (props, context) {
-    super(props, context)
-
-    this.setGain = this.props.setGain
-  }
-
-  handleGainChange = (evt) => {
-    this.setGain(this.props.track.sample, evt.target.value / 100)
-  }
-
   handleNoteToggle = (noteNumber) => {
     const { handleEdit, trackNum } = this.props
     handleEdit(trackNum, noteNumber)
@@ -76,10 +92,9 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-    const gain = this.props.samples[track.sample].gain * 100
 
-    const sampleOptions = Object.keys(this.props.samples).map( (key) => {
-      const sample = this.props.samples[key]
+    const sampleOptions = Object.keys(store.samples).map( (key) => {
+      const sample = store.samples[key]
       return (
         <option
           key   = {sample.path}
@@ -100,13 +115,7 @@ class Track extends Component {
             className = "remove-track"
             onClick   = {this.handleRemoveTrack}
           >remove track</span>
-          <input
-            type         = "range"
-            min          = {0}
-            max          = {100}
-            value        = {gain}
-            onChange     = {this.handleGainChange}
-          />
+          <GainSlider sample={track.sample} />
       </div>
     )
   }
@@ -130,12 +139,10 @@ class Beat extends Component {
       return (
         <Track
           key        = {`${this.props.beat.key}.${i}`}
-          setGain    = {this.props.setGain}
           trackNum   = {i}
           track      = {track}
           handleEdit = {this.handleEdit}
           handleRemoveTrack = {this.props.handleRemoveTrack}
-          samples    = {this.props.samples}
           handleSampleChange = {this.handleSampleChange}
         />
       )

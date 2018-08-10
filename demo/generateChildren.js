@@ -1,9 +1,11 @@
 import {
+  deepClone,
   getRandomIndices,
   getSubarray,
   findInJSON,
   matePair,
 } from "./utils"
+
 
 export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, sampleMutationRate,scoreThresholdInteger) => {
   const getScoreThreshold = (generation, survivorPercentile = scoreThresholdInteger) => {
@@ -38,6 +40,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         // to reproduce a bug
         //debugger
       }
+
       const newSamplePath = samples[randomSampleKey].path
 
       let newSampleSequence = Array(numSteps).fill(0)
@@ -57,8 +60,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
   }
 
   const normalizeSubdivisions = (beat, newSubdivisions) => {
-    // Deep clone beat object
-    let newBeat = JSON.parse(JSON.stringify(beat))
+    let newBeat = deepClone(beat)
 
     const subdivisionRatio = newSubdivisions / newBeat.tracks[0].sequence.length
 

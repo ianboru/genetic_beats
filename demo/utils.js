@@ -2,14 +2,6 @@ const deepClone = (obj) => {
   return JSON.parse(JSON.stringify(obj))
 }
 
-const updateObjectInArray = (arr, index, update) => {
-  return [
-    ...arr.slice(0, index),
-    update,
-    ...arr.slice(index + 1),
-  ]
-}
-
 
 const getRandomIndices = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
@@ -88,8 +80,6 @@ const matePair = (mom, dad, mutationRateInteger) => {
 }
 
 function generateFamilyName(){
-  let code = ""
-
   const words = [
     "ball",
     "belt",
@@ -114,21 +104,16 @@ function generateFamilyName(){
     "vest",
   ]
 
-  code = words[Math.floor(Math.random() * words.length)]
-  code += "-"
-  code += words[Math.floor(Math.random() * words.length)]
-  code += "-"
-  code += words[Math.floor(Math.random() * words.length)]
-
-  return code
+  return Array(3).fill().map(() => {
+    return words[Math.floor(Math.random() * words.length)]
+  }).join("-")
 }
 
 export {
   deepClone,
-  updateObjectInArray,
   getRandomIndices,
   getSubarray,
   findInJSON,
-  matePair,generateFamilyName,
-
+  matePair,
+  generateFamilyName,
 }

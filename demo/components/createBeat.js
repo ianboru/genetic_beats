@@ -51,8 +51,6 @@ class CreateBeat extends Component {
             beat.tracks.length > 0 ?
               <Beat
                 beat    = {beat}
-                samples = {store.samples}
-                setGain = {store.setGain}
                 handleRemoveTrack = {store.removeTrackFromNewBeat}
                 handleToggleNote  = {store.toggleNoteOnNewBeat}
                 handleSetSample   = {store.setSampleOnNewBeat}
