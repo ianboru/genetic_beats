@@ -51,8 +51,6 @@ class CreateBeat extends Component {
             beat.tracks.length > 0 ?
               <Beat
                 beat    = {beat}
-                samples = {store.samples}
-                setGain = {store.setGain}
                 handleRemoveTrack = {store.removeTrackFromNewBeat}
                 handleToggleNote  = {store.toggleNoteOnNewBeat}
                 handleSetSample   = {store.setSampleOnNewBeat}
@@ -63,7 +61,7 @@ class CreateBeat extends Component {
           <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
-          <button onClick={store.handlePlayBeat}>Play beat</button>
+          <button onClick={this.props.handlePlayBeat}>Play beat</button>
         </div>
         <button
           onClick  = {store.addNewBeatToCurrentGen}

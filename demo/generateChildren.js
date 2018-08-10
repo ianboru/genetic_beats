@@ -1,10 +1,12 @@
 import {
+  deepClone,
   getRandomIndices,
   getSubarray,
   findInJSON,
   matePair,
   normalizeSubdivisions
 } from "./utils"
+
 
 export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, sampleMutationRate,scoreThresholdInteger) => {
   const getScoreThreshold = (generation, survivorPercentile = scoreThresholdInteger) => {
@@ -39,6 +41,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         // to reproduce a bug
         //debugger
       }
+
       const newSamplePath = samples[randomSampleKey].path
 
       let newSampleSequence = Array(numSteps).fill(0)

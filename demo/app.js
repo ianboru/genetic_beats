@@ -146,6 +146,7 @@ class App extends Component {
     store.setScoreThreshold(parseInt(evt.target.value))
   }
   handlePlayNewBeat = () => {
+    console.log("playing new beat")
     this.setState({
       playingNewBeat: !this.state.playingNewBeat,
     })
@@ -260,12 +261,9 @@ class App extends Component {
           <div>
             <Beat
               beat              = {store.currentBeat}
-              samples           = {store.samples}
-              setGain           = {store.setGain}
               handleRemoveTrack = {store.removeTrackFromCurrentBeat}
               handleToggleNote  = {store.toggleNoteOnCurrentBeat}
               handleSetSample   = {store.setSampleOnCurrentBeat}
-              onEdit            = {store.setCurrentBeat}
             />
           </div>
 
@@ -336,13 +334,7 @@ class App extends Component {
 
         </div>
 
-        <GraphContainer
-          familyTree = {store.allGenerations}
-          style = {{
-            display: "inline-block",
-            verticalAlign: "top",
-          }}
-        />
+        <GraphContainer familyTree={store.allGenerations} />
         <p>{selectText}</p>
 
         {typeof DevTools !== "undefined" ? <DevTools /> : null}

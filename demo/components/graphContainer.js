@@ -117,19 +117,15 @@ class GraphContainer extends React.Component {
       
 
       let cyStyle = {
-        'border' : '1px solid #333',
-        'height' : '400px',
-        'width'  : '400px',
-        'margin' : '20px 0px',
-        ...this.props.style
-      }      
-      
-     
-      return (
-        <div>
-          <div style={cyStyle}  id="cy"/>
-        </div>
-      )
+        border : "1px solid #333",
+        height : 400,
+        width  : 400,
+        margin : "20px 0px",
+        display: "inline-block",
+        verticalAlign: "top",
+      }
+
+      return <div style={cyStyle}  id="cy" />
     }
     
 }
