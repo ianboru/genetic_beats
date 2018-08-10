@@ -169,7 +169,7 @@ class Store {
 
   @action addNewBeatToCurrentGen = () => {
     this.allGenerations[this.generation].push({
-      ...newBeat,
+      ...this.newBeat,
       key: `${this.generation}.${this.currentGeneration.length}`,
       score: 0,
     })

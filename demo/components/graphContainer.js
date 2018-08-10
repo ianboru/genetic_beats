@@ -113,8 +113,8 @@ class GraphContainer extends React.Component {
       store.selectedBeats
       store.generation
       store.beatNum
-
-      
+      store.currentGeneration
+      store.newBeat
 
       let cyStyle = {
         border : "1px solid #333",
