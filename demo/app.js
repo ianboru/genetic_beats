@@ -12,6 +12,7 @@ import ConfigControl from "./components/configControl"
 import CreateBeat from "./components/createBeat"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
+import FamilySelect from "./components/familySelect"
 
 import DevTools from "mobx-react-devtools"
 
@@ -146,9 +147,6 @@ class App extends Component {
       playingNewBeat: !this.state.playingNewBeat,
     })
   }
-  handleSelectFamily = (e) => {
-    store.selectFamily(e.target.value)
-  }
 
   render() {
     let selectText = ""
@@ -159,13 +157,6 @@ class App extends Component {
     } else {
       selectText = ""
     }
-    const familyNamesOptions = store.familyNames.map((key) => {
-      return (
-        <option key={key} value={key}>
-          {key}
-        </option>
-      )
-    })
 
     let newBeatResolution = null
 
@@ -187,17 +178,7 @@ class App extends Component {
           resolution = {currentBeatResolution}
         />
         <div>
-          <div>
-
-            Family:
-            {store.familyName}
-            <select
-              defaultValue={store.familyName}
-              onChange={this.handleSelectFamily}
-            >
-              {familyNamesOptions}
-            </select>
-          </div>
+          <FamilySelect />
           <ConfigControl
             name          = "Tempo"
             value         = {store.tempo}
