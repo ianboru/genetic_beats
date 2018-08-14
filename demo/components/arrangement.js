@@ -27,16 +27,13 @@ class Block extends Component {
 
 @observer
 class Controls extends Component {
-
  render(){
-    return (
-      <div className="arrangement-controls">
-        <button onClick={this.props.togglePlayArrangement}>Play</button>
-        <button>Stop</button>
-        <button>Restart</button>
-
-      </div>
-    )
+   const buttonText = this.props.playArrangement ? "Stop" : "Play"
+   return (
+     <div className="arrangement-controls">
+       <button onClick={this.props.togglePlayArrangement}>{buttonText}</button>
+     </div>
+   )
   }
 }
 
@@ -49,13 +46,12 @@ class Arrangement extends Component {
       beatToAdd       : store.allBeatKeys[0]
     }
   }
-  
+
   deleteBlock(index){
     store.deleteBeatFromArrangement(index)
   }
   addBlock(beatKey){
     store.addBeatToArrangement(beatKey)
-    console.log("adding beatkey " + beatKey)
   }
   togglePlayArrangement =()=>{
     this.setState({
@@ -106,7 +102,7 @@ class Arrangement extends Component {
         const sampleIndex = uniqueSamples[sample]
 
         if(!beatSamples.includes(sample)){
-           finalBeat.tracks[sampleIndex].sequence = 
+           finalBeat.tracks[sampleIndex].sequence =
            finalBeat.tracks[sampleIndex].sequence.concat(
             new Array(resolution).fill(0)
            )
@@ -143,12 +139,11 @@ class Arrangement extends Component {
   }
 
   render() {
-    console.log("render arrangement")
     const beats = store.arrangementBeats.map( (beatKey, i) => {
       return (
         <Block
+          key = {i}
           beatKey = {beatKey}
-          index = {i}
           deleteBlock = {()=>{this.deleteBlock(i)}}
         />
       )
@@ -164,30 +159,33 @@ class Arrangement extends Component {
         </option>
       )
     })
-    return <div className="arrangement-div">
-            <Controls
-              togglePlayArrangement = {this.togglePlayArrangement}
-              />
-            {beats}
-            <div className="arrangement-block">
-              <p className="arrangement-block-text" onClick={()=>{this.addBlock(this.state.beatToAdd)}} >+</p>
-              <select
-                defaultValue={beatKeyOptions[0]}
-                onChange={this.handleSelectBeatToAdd}
-                
-              >
-                {beatKeyOptions}
-              </select>
-            </div>
-            <button onClick={store.randomizeBestBeats}>Randomize Best Beats</button>
-            
-            <Player 
-              beat={finalArrangementBeat} 
-              playing={this.state.playArrangement} 
-              resolution = {maxSubdivisions}
-              bars = {store.arrangementBeats.length}
-            />
-          </div>
+    return (
+      <div className="arrangement-div">
+        <Controls
+          playArrangement       = {this.state.playArrangement}
+          togglePlayArrangement = {this.togglePlayArrangement}
+        />
+        {beats}
+        <div className="arrangement-block">
+          <p className="arrangement-block-text" onClick={()=>{this.addBlock(this.state.beatToAdd)}} >+</p>
+          <select
+            defaultValue={beatKeyOptions[0]}
+            onChange={this.handleSelectBeatToAdd}
+
+          >
+            {beatKeyOptions}
+          </select>
+        </div>
+        <button onClick={store.randomizeBestBeats}>Randomize Best Beats</button>
+
+        <Player
+          beat={finalArrangementBeat}
+          playing={this.state.playArrangement}
+          resolution = {maxSubdivisions}
+          bars = {store.arrangementBeats.length}
+        />
+      </div>
+    )
   }
 }
 export default Arrangement
