@@ -112,47 +112,42 @@ class App extends Component {
     store.updateFamilyInStorage()
   }
   handleUploadSample = (files) => {
-    var file    = document.querySelector('input[type=file]').files[0];
-    var reader  = new FileReader();
+    var file    = document.querySelector('input[type=file]').files[0]
+    var reader  = new FileReader()
 
-    reader.addEventListener("load", function () {
-    }, false);
+    reader.addEventListener("load", function () { }, false)
 
     if (file) {
       console.log(file)
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
       console.log(reader)
     }
   }
-  handleSelectPair = () => {
-    store.toggleSelectPairMode()
+  handleSetTempo = (e) => {
+    store.setTempo(parseInt(e.target.value))
   }
-  handleSetTempo = (evt) => {
-    store.setTempo(parseInt(evt.target.value))
+  handleSetMutationRate = (e) => {
+    store.setMutationRate(parseInt(e.target.value))
   }
-  handleSetMutationRate = (evt) => {
-    store.setMutationRate(parseInt(evt.target.value))
+  handleSetSampleMutationRate = (e) => {
+    store.setSampleMutationRate(parseInt(e.target.value))
   }
-  handleSetSampleMutationRate = (evt) => {
-    store.setSampleMutationRate(parseInt(evt.target.value))
+  handleSetNumChildren = (e) => {
+    store.setNumChildren(parseInt(e.target.value))
   }
-  handleSetNumChildren = (evt) => {
-    store.setNumChildren(parseInt(evt.target.value))
+  handleSetNumSurvivors = (e) => {
+    store.setNumSurvivors(parseInt(e.target.value))
   }
-  handleSetNumSurvivors = (evt) => {
-    store.setNumSurvivors(parseInt(evt.target.value))
-  }
-  handleSetScoreThreshold = (evt) => {
-    store.setScoreThreshold(parseInt(evt.target.value))
+  handleSetScoreThreshold = (e) => {
+    store.setScoreThreshold(parseInt(e.target.value))
   }
   handlePlayNewBeat = () => {
-    console.log("playing new beat")
     this.setState({
       playingNewBeat: !this.state.playingNewBeat,
     })
   }
-  handleSelectFamily = (evt) => {
-    store.selectFamily(evt.target.value)
+  handleSelectFamily = (e) => {
+    store.selectFamily(e.target.value)
   }
 
   render() {
@@ -181,9 +176,9 @@ class App extends Component {
     const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
     return (
       <div style={{ paddingTop: "30px" }}>
-        <Player 
-          beat={store.newBeat} 
-          playing={this.state.playingNewBeat} 
+        <Player
+          beat={store.newBeat}
+          playing={this.state.playingNewBeat}
           resolution = {newBeatResolution}
           />
         <Player
@@ -309,7 +304,7 @@ class App extends Component {
             </button>
             <button
               className={`react-music-${store.selectPairMode ? "mate-ready-" : ""}button`}
-              onClick={this.handleSelectPair}
+              onClick={store.toggleSelectPairMode}
             >
               Select
             </button>
@@ -332,7 +327,6 @@ class App extends Component {
               Metronome
             </button>
           </div>
-
         </div>
 
         <GraphContainer familyTree={store.allGenerations} />
