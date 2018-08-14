@@ -1,19 +1,40 @@
 import React, { Component } from "react"
+import styled from "styled-components"
+
+
+const Label = styled.div`
+  width: 230px;
+  font-size: 20px;
+  display: inline-block;
+`
+
+const InputField = styled.input`
+  width: 60px;
+  font-size: 20px;
+  text-align: center;
+`
+
 
 export default class ConfigControl extends Component {
   render() {
-    const { name, value, changeHandler, min, max } = this.props
+    const { name, min, max, value, changeHandler } = this.props
 
     return (
       <div>
-        {name}
-        <input type="text" value={value} onChange={changeHandler} />
+        <Label>{name}</Label>
+        <InputField
+          type     = "number"
+          min      = {min}
+          max      = {max}
+          value    = {value}
+          onChange = {changeHandler}
+        />
         <input
-          type="range"
-          min={min}
-          max={max}
-          value={value}
-          onChange={changeHandler}
+          type     = "range"
+          min      = {min}
+          max      = {max}
+          value    = {value}
+          onChange = {changeHandler}
         />
       </div>
     )

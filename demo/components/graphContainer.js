@@ -1,8 +1,19 @@
 import React,{Component} from 'react'
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 import cytoscape from 'cytoscape'
+
 import store from "../store"
+
+const StyledGraphContainer = styled.div`
+  border: 1px solid #333;
+  height: 400px;
+  width: 400px;
+  margin: 20px 0px;
+  display: inline-block;
+  vertical-align: top;
+`
 
 
 @observer
@@ -50,8 +61,6 @@ class GraphContainer extends React.Component {
             score    : beat.score,
             size     : 1,
           }})
-
-
         })
         ++genNum
       })
@@ -92,10 +101,9 @@ class GraphContainer extends React.Component {
             'line-color'         : 'mapData(visible, 0, 1, white, black)',
             'target-arrow-color' : '#000000',
             'curve-style': 'bezier',
-            'control-point-step-size' : 0,  
+            'control-point-step-size' : 0,
             'opacity' : .4,
-          })
-          ,
+          }),
       })
       this.cy.maxZoom(2)
       this.cy.minZoom(0.2)
@@ -118,18 +126,9 @@ class GraphContainer extends React.Component {
       store.currentGeneration
       store.newBeat
 
-      let cyStyle = {
-        border : "1px solid #333",
-        height : 400,
-        width  : 400,
-        margin : "20px 0px",
-        display: "inline-block",
-        verticalAlign: "top",
-      }
-
-      return <div style={cyStyle}  id="cy" />
+      return <StyledGraphContainer id="cy" />
     }
-    
+
 }
 
 
