@@ -2,6 +2,7 @@ import Raven from 'raven-js'
 import React, { Component } from "react"
 import ReactFileReader from 'react-file-reader'
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 import store from "./store"
 import generateChildren from "./generateChildren"
@@ -29,6 +30,25 @@ import Arrangement from "./components/arrangement"
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
+
+
+const Button = styled.button`
+  background-color: ${props => props.active ? "#FF9254" : "white"};
+  border-radius: 3px;
+  border: 2px solid #FF9254;
+  color: ${props => props.active ? "white" : "#FF9254"};
+  cursor: pointer;
+  font-size: 18px;
+  margin: 10px;
+  padding: 6px;
+  transition: background-color 0.1s, color 0.1s;
+  width: 120px;
+
+  &:hover {
+    background: #FF9254;
+    color: white;
+  }
+`
 
 
 @observer
@@ -258,55 +278,42 @@ class App extends Component {
           </div>
 
           <div className="buttons">
-
-            <button
-              className={`react-music-${this.state.playingCurrentBeat ? "mate-ready-" : ""}button`}
-              onClick={this.handlePlayToggle}
+            <Button
+              active  = {this.state.playingCurrentBeat}
+              onClick = {this.handlePlayToggle}
             >
               {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
-            </button>
-            <button
-              className="react-music-button"
-              onClick={store.nextBeat}
-            >
+            </Button>
+            <Button onClick={store.nextBeat}>
               Next Beat
-            </button>
-            <button
-              className="react-music-button"
-              onClick={store.prevBeat}
-            >
+            </Button>
+            <Button onClick={store.prevBeat}>
               Last Beat
-            </button><br/>
-            <button
-              className="react-music-button"
-              onClick={this.handleMate}
-            >
+            </Button>
+            <Button onClick={this.handleMate} >
               Mate
-            </button>
-            <button
-              className={`react-music-${store.selectPairMode ? "mate-ready-" : ""}button`}
-              onClick={store.toggleSelectPairMode}
+            </Button>
+
+            <br/>
+
+            <Button
+              active  = {store.selectPairMode}
+              onClick = {store.toggleSelectPairMode}
             >
               Select
-            </button>
-            <button
-              className="react-music-button"
-              onClick={this.reset}
-            >
+            </Button>
+            <Button onClick={this.reset}>
               Reset
-            </button>
-            <button
-              className="react-music-button"
-              onClick={this.clearSavedFamilies}
-            >
+            </Button>
+            <Button onClick={this.clearSavedFamilies}>
               Clear
-            </button>
-            <button
-              className={`react-music-${store.metronome ? "mate-ready-" : ""}button`}
-              onClick={store.toggleMetronome}
+            </Button>
+            <Button
+              active  = {store.metronome}
+              onClick = {store.toggleMetronome}
             >
               Metronome
-            </button>
+            </Button>
           </div>
         </div>
 
