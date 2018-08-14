@@ -97,6 +97,8 @@ class GraphContainer extends React.Component {
           })
           ,
       })
+      this.cy.maxZoom(2)
+      this.cy.minZoom(0.2)
       var that = this
       this.cy.on('click', 'node', function(evt){
         const idData = this.id().split(".")
