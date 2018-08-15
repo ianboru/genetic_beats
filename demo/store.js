@@ -23,8 +23,8 @@ class Store {
   @observable synthGain          = 0.2
   @observable selectPairMode     = false
   @observable selectedBeats      = []
-  @observable sampleMutationRate = 10
-  @observable mutationRate       = 5
+  @observable sampleMutationRate = 15
+  @observable mutationRate       = 8
   @observable numSurvivors       = 7
   @observable numChildren        = 3
   @observable scoreThreshold     = 80

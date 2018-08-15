@@ -29,7 +29,6 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     const sampleMutationRateDecimal = sampleMutationRate/100
     const sampleMutationComparitor = 100 * sampleMutationRateDecimal
     if (randomInteger < sampleMutationComparitor) {
-      console.log("current beat keys", currentBeatSampleKeys)
 
       let trackType = ""
       let validSampleKeys = []
@@ -43,8 +42,6 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         trackType = "synth"
         validSampleKeys = allNotesInRange.slice(0)
       }
-      console.log("trackType",trackType)
-      console.log("valid keys", validSampleKeys)
 
       currentBeatSampleKeys.forEach(key =>{
         if(validSampleKeys.includes(key)){
@@ -54,7 +51,6 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
       const randomSampleKey = validSampleKeys[randomIndex]
       
-      console.log("KEYS", validSampleKeys)
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
       newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate))

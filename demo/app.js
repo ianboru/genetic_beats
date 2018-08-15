@@ -210,7 +210,6 @@ class App extends Component {
             />
 
             <div>Beat: {store.currentBeat.key} (score: {store.currentBeat.score})</div>
-            <div>Parents: {store.currentBeat.parents || "none"}</div>
             <form onSubmit={this.setScore}>
               <label>Rate Beat:
                 <input
