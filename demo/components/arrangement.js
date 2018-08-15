@@ -5,16 +5,22 @@ import {
   Sampler,
 } from "../../src"
 import {observer} from "mobx-react"
+import styled from "styled-components"
+
 import Player from "./player"
 import store from "../store"
-import { toJS  } from "mobx"
 import { normalizeSubdivisions } from "../utils"
+
+
+const StyledArrangement = styled.div`
+  height: 200px;
+  border: 1px solid black;
+`
 
 
 @observer
 class Block extends Component {
-
- render(){
+ render() {
     return (
       <div className="arrangement-block">
         <p className="arrangement-block-text">{this.props.beatKey}</p>
@@ -27,7 +33,7 @@ class Block extends Component {
 
 @observer
 class Controls extends Component {
- render(){
+ render() {
    const buttonText = this.props.playArrangement ? "Stop" : "Play"
    return (
      <div className="arrangement-controls">
@@ -36,6 +42,7 @@ class Controls extends Component {
    )
   }
 }
+
 
 @observer
 class Arrangement extends Component {
@@ -47,22 +54,26 @@ class Arrangement extends Component {
     }
   }
 
-  deleteBlock(index){
+  deleteBlock(index) {
     store.deleteBeatFromArrangement(index)
   }
-  addBlock(beatKey){
+
+  addBlock(beatKey) {
     store.addBeatToArrangement(beatKey)
   }
-  togglePlayArrangement =()=>{
+
+  togglePlayArrangement = () => {
     this.setState({
       playArrangement : !this.state.playArrangement
     })
   }
+
   handleSelectBeatToAdd = (evt) => {
     this.setState({
       beatToAdd : evt.target.value
     })
   }
+
   concatenateBeats(beats, resolution){
     let finalBeat = {"tracks":[]}
     let uniqueSamples = {}
@@ -83,7 +94,8 @@ class Arrangement extends Component {
         }
       })
     })
-    beats.forEach( (beat,i)=>{
+
+    beats.forEach( (beat, i) => {
       let beatSamples = []
       beat.tracks.forEach(( track, i )=>{
         const sample = track.sample
@@ -111,7 +123,8 @@ class Arrangement extends Component {
     })
     return finalBeat
   }
-  getMaxSubdivisions(beats){
+
+  getMaxSubdivisions(beats) {
     let maxSubdivisions = 0
     beats.forEach( (beatKey, i) => {
       const beatKeySplit = beatKey.split(".")
@@ -148,6 +161,7 @@ class Arrangement extends Component {
         />
       )
     })
+
     // get max subdivisions
     const maxSubdivisions = this.getMaxSubdivisions(store.arrangementBeats)
     const normalizedBeats = this.getNormalizedBeats(store.arrangementBeats, maxSubdivisions)
@@ -159,12 +173,14 @@ class Arrangement extends Component {
         </option>
       )
     })
+
     return (
-      <div className="arrangement-div">
+      <StyledArrangement>
         <Controls
           playArrangement       = {this.state.playArrangement}
           togglePlayArrangement = {this.togglePlayArrangement}
         />
+
         {beats}
         <div className="arrangement-block">
           <p className="arrangement-block-text" onClick={()=>{this.addBlock(this.state.beatToAdd)}} >+</p>
@@ -184,8 +200,10 @@ class Arrangement extends Component {
           resolution = {maxSubdivisions}
           bars = {store.arrangementBeats.length}
         />
-      </div>
+      </StyledArrangement>
     )
   }
 }
+
+
 export default Arrangement

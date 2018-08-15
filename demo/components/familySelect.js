@@ -1,8 +1,15 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
+import styled from "styled-components"
 
 import store from "../store"
 
+
+const StyledFamilySelect = styled.span`
+  select {
+    font-size: 16px;
+  }
+`
 
 @observer
 class FamilySelect extends Component {
@@ -20,16 +27,14 @@ class FamilySelect extends Component {
     })
 
     return (
-      <div>
-        Family:
-        {store.familyName}
+      <StyledFamilySelect>
         <select
-          defaultValue={store.familyName}
-          onChange={this.handleSelectFamily}
+          defaultValue = {store.familyName}
+          onChange     = {this.handleSelectFamily}
         >
           {familyNamesOptions}
         </select>
-      </div>
+      </StyledFamilySelect>
     )
   }
 }

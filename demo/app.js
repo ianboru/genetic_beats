@@ -37,17 +37,48 @@ const Button = styled.button`
   border-radius: 3px;
   border: 2px solid #FF9254;
   color: ${props => props.active ? "white" : "#FF9254"};
+  float: ${props => props.right ? "right" : props.left ? "left" : "auto" };
   cursor: pointer;
   font-size: 18px;
   margin: 10px;
   padding: 6px;
   transition: background-color 0.1s, color 0.1s;
-  width: 120px;
+  min-width: 120px;
 
   &:hover {
     background: #FF9254;
     color: white;
   }
+`
+
+const MainPanel = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 450px;
+  border: 1px solid black;
+`
+
+const FamilyPanel = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 450px;
+  border: 1px solid black;
+`
+
+const Header = styled.div`
+  width: 100%;
+`
+
+const Footer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
 `
 
 
@@ -186,142 +217,167 @@ class App extends Component {
     //<input type="file" onChange={this.handleUploadSample} ></input>
     const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
     return (
-      <div style={{ paddingTop: "30px" }}>
+      <div style={{ height: "100%" }}>
         <Player
-          beat={store.newBeat}
-          playing={this.state.playingNewBeat}
+          beat       = {store.newBeat}
+          playing    = {this.state.playingNewBeat}
           resolution = {newBeatResolution}
           />
         <Player
-          beat={store.currentBeat}
-          playing={this.state.playingCurrentBeat}
+          beat       = {store.currentBeat}
+          playing    = {this.state.playingCurrentBeat}
           resolution = {currentBeatResolution}
         />
-        <div>
-          <FamilySelect />
-          <ConfigControl
-            name          = "Tempo"
-            value         = {store.tempo}
-            changeHandler = {this.handleSetTempo}
-            min           = {0}
-            max           = {200}
-          />
-          <ConfigControl
-            name          = "Note Mutation Rate"
-            value         = {store.mutationRate}
-            changeHandler = {this.handleSetMutationRate}
-            min           = {0}
-            max           = {100}
-          />
-          <ConfigControl
-            name          = "Sample Mutation Rate"
-            value         = {store.sampleMutationRate}
-            changeHandler = {this.handleSetSampleMutationRate}
-            min           = {0}
-            max           = {100}
-          />
-          <ConfigControl
-            name          = "Number of Children"
-            value         = {store.numChildren}
-            changeHandler = {this.handleSetNumChildren}
-            min           = {1}
-            max           = {20}
-          />
-          <ConfigControl
-            name          = "Number of Survivors"
-            value         = {store.numSurvivors}
-            changeHandler = {this.handleSetNumSurvivors}
-            min           = {1}
-            max           = {20}
-          />
-          <ConfigControl
-            name          = "Top Percentile of Survivors"
-            value         = {store.scoreThreshold}
-            changeHandler = {this.handleSetScoreThreshold}
-            min           = {0}
-            max           = {100}
-          />
-        </div>
-        <div style={{ display: "inline-block" }}>
-          <div>
-            <CreateBeat handlePlayBeat={this.handlePlayNewBeat} />
-            <br />
-            <br />
 
-            <span>Generation: {store.generation}</span>
-            <br />
-            <span>Beat: {store.currentBeat.key}</span>
-            <div>Score: {store.currentBeat.score}</div>
-            <div>Parents: {store.currentBeat.parents}</div>
-          </div>
+        <MainPanel>
+          <Header>
+
+          </Header>
 
           <div>
-            <Beat
-              beat              = {store.currentBeat}
-              handleRemoveTrack = {store.removeTrackFromCurrentBeat}
-              handleToggleNote  = {store.toggleNoteOnCurrentBeat}
-              handleSetSample   = {store.setSampleOnCurrentBeat}
+            <ConfigControl
+              name          = "Tempo"
+              value         = {store.tempo}
+              changeHandler = {this.handleSetTempo}
+              min           = {0}
+              max           = {200}
+            />
+            <ConfigControl
+              name          = "Note Mutation Rate"
+              value         = {store.mutationRate}
+              changeHandler = {this.handleSetMutationRate}
+              min           = {0}
+              max           = {100}
+            />
+            <ConfigControl
+              name          = "Sample Mutation Rate"
+              value         = {store.sampleMutationRate}
+              changeHandler = {this.handleSetSampleMutationRate}
+              min           = {0}
+              max           = {100}
+            />
+            <ConfigControl
+              name          = "Number of Children"
+              value         = {store.numChildren}
+              changeHandler = {this.handleSetNumChildren}
+              min           = {1}
+              max           = {20}
+            />
+            <ConfigControl
+              name          = "Number of Survivors"
+              value         = {store.numSurvivors}
+              changeHandler = {this.handleSetNumSurvivors}
+              min           = {1}
+              max           = {20}
+            />
+            <ConfigControl
+              name          = "Top Percentile of Survivors"
+              value         = {store.scoreThreshold}
+              changeHandler = {this.handleSetScoreThreshold}
+              min           = {0}
+              max           = {100}
             />
           </div>
+          <div style={{ display: "inline-block" }}>
+            <div>
+              <CreateBeat handlePlayBeat={this.handlePlayNewBeat} />
+              <br />
+              <br />
 
-          <div className="rate-beat">
-            <form onSubmit={this.setScore}>
-              <label>Rate Beat
-                <input
-                  type        = "text"
-                  value       = {this.state.inputScore}
-                  onChange    = {this.handleInputChange}
-                  placeholder = "Enter Score"
-                />
-              </label>
-            </form>
+              <span>Generation: {store.generation}</span>
+              <br />
+              <span>Beat: {store.currentBeat.key}</span>
+              <div>Score: {store.currentBeat.score}</div>
+              <div>Parents: {store.currentBeat.parents}</div>
+            </div>
+
+            <div>
+              <Beat
+                beat              = {store.currentBeat}
+                handleRemoveTrack = {store.removeTrackFromCurrentBeat}
+                handleToggleNote  = {store.toggleNoteOnCurrentBeat}
+                handleSetSample   = {store.setSampleOnCurrentBeat}
+              />
+            </div>
+
+            <div>
+              <form onSubmit={this.setScore}>
+                <label>Rate Beat
+                  <input
+                    type        = "text"
+                    value       = {this.state.inputScore}
+                    onChange    = {this.handleInputChange}
+                    placeholder = "Enter Score"
+                  />
+                </label>
+              </form>
+            </div>
+
+            <div>
+              <Button
+                active  = {this.state.playingCurrentBeat}
+                onClick = {this.handlePlayToggle}
+              >
+                {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
+              </Button>
+
+              <Button onClick={this.handleMate} >
+                Mate
+              </Button>
+
+              <Button
+                active  = {store.selectPairMode}
+                onClick = {store.toggleSelectPairMode}
+              >
+                Select
+              </Button>
+
+              <Button
+                active  = {store.metronome}
+                onClick = {store.toggleMetronome}
+              >
+                Metronome
+              </Button>
+            </div>
           </div>
 
-          <div className="buttons">
-            <Button
-              active  = {this.state.playingCurrentBeat}
-              onClick = {this.handlePlayToggle}
-            >
-              {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
-            </Button>
-            <Button onClick={store.nextBeat}>
-              Next Beat
-            </Button>
-            <Button onClick={store.prevBeat}>
-              Last Beat
-            </Button>
-            <Button onClick={this.handleMate} >
-              Mate
-            </Button>
+          <p>{selectText}</p>
 
-            <br/>
+          <Arrangement/>
 
-            <Button
-              active  = {store.selectPairMode}
-              onClick = {store.toggleSelectPairMode}
-            >
-              Select
-            </Button>
-            <Button onClick={this.reset}>
-              Reset
-            </Button>
-            <Button onClick={this.clearSavedFamilies}>
+          <Footer>
+            <Button title="Clear all saved families" onClick={this.clearSavedFamilies}>
               Clear
             </Button>
-            <Button
-              active  = {store.metronome}
-              onClick = {store.toggleMetronome}
-            >
-              Metronome
-            </Button>
-          </div>
-        </div>
 
-        <GraphContainer familyTree={store.allGenerations} />
-        <p>{selectText}</p>
+            <Button title="Start new family" onClick={this.reset}>
+              Reset
+            </Button>
+
+            <FamilySelect />
+          </Footer>
+        </MainPanel>
+
+        <FamilyPanel>
+          <Header>
+            Family Tree
+          </Header>
+
+          <GraphContainer familyTree={store.allGenerations} />
+
+          <Footer>
+            <Button onClick={store.prevBeat}>
+              &lt; Previous Beat
+            </Button>
+
+            <Button right onClick={store.nextBeat}>
+              Next Beat
+              &gt;
+            </Button>
+          </Footer>
+        </FamilyPanel>
 
         {typeof DevTools !== "undefined" ? <DevTools /> : null}
-        <Arrangement/>
       </div>
     )
   }
