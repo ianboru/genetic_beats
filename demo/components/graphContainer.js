@@ -107,14 +107,20 @@ class GraphContainer extends React.Component {
       })
       this.cy.maxZoom(2)
       this.cy.minZoom(0.2)
-      var that = this
-      this.cy.on('click', 'node', function(evt){
+
+      this.cy.on('click', 'node', function(evt) {
         const idData = this.id().split(".")
         const generation = parseInt(idData[0])
         const beatNum = parseInt(idData[1])
         store.selectBeat(generation, beatNum)
       })
 
+      this.cy.on('mouseover', 'node', function(evt) {
+        document.getElementsByTagName('body')[0].style.cursor = 'pointer'
+      })
+      this.cy.on('mouseout', 'node', function(evt) {
+        document.getElementsByTagName('body')[0].style.cursor = 'default'
+      })
     }
 
     render() {
