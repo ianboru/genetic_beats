@@ -91,7 +91,6 @@ class Arrangement extends Component {
             "trackType" : track.trackType
           })
           ++numUniqueSamples
-
         }
       })
     })

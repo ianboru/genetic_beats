@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
-import { toJS  } from "mobx"
 
 import {
   Song,
@@ -14,10 +13,7 @@ import store from "../store"
 
 const generateSamplers = (beat, samples) => {
   let convertedSynthSequence = []
-  console.log("generating samplers")
   let samplers = beat.tracks.map((track, i) => {
-    console.log(toJS(track))
-
     if(track.trackType == "synth"){
       track.sequence.forEach((note, j) => {
         if (note === 1) { 
@@ -39,10 +35,10 @@ const generateSamplers = (beat, samples) => {
   })
   samplers.push(
     <Synth
-      key    = {"synth" + store.generation + "."+ store.beatNum}
-      type = {"square"}
-      steps  = {convertedSynthSequence}
-      gain = {store.synthGain}
+      key   = {"synth" + store.generation + "."+ store.beatNum}
+      type  = {"square"}
+      steps = {convertedSynthSequence}
+      gain  = {store.synthGain}
     />
   ) 
   return samplers

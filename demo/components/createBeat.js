@@ -5,7 +5,6 @@ import store from "../store"
 import {allNotesInRange} from "../utils"
 import Beat from "./beat"
 
-console.log("imported notes " , allNotesInRange)
 @observer
 class CreateBeat extends Component {
   

@@ -59,7 +59,6 @@ export default class ConfigManager extends Component {
   }
 
   render() {
-    console.log("SHOW", this.state.showConfig)
     return (
       <StyledConfigManager>
         <button onClick={this.toggleShowConfig}>

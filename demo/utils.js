@@ -136,16 +136,17 @@ function generateFamilyName(){
 }
 const noteLetters = ["c","d","e","f","g","a","b"]
 const octaves = [2,3,4]
+
 let allNotesInRange = []
 octaves.forEach((octave)=>{
   noteLetters.forEach((letter)=>{
     allNotesInRange.push(`${letter}${octave}`)
     if(!["b","e"].includes(letter)){
-          allNotesInRange.push(`${letter}#${octave}`)
-
+      allNotesInRange.push(`${letter}#${octave}`)
     }
   })
 }) 
+
 export {
   deepClone,
   getRandomIndices,

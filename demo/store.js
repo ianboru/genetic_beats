@@ -1,4 +1,4 @@
-import { action, configure, computed, observable, toJS } from "mobx"
+import { action, configure, computed, observable } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
@@ -52,8 +52,6 @@ class Store {
         beatKeys.push(beat.key)
       })
     })
-    console.log("beatKeys")
-    console.log(toJS(beatKeys))
     return beatKeys
   }
 
@@ -81,7 +79,6 @@ class Store {
     allScores = allScores.sort( (a, b) => (a - b) )
 
     let percentileIndex = Math.floor(allScores.length * scoreThreshold) - 1
-    console.log(percentileIndex)
     this.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
 
@@ -93,7 +90,6 @@ class Store {
           if(randomInteger > repeatRateComparitor){
             numRepeats = Math.floor(Math.random() * 3) + 1
           }
-          console.log("num reapeats" + numRepeats, randomInteger)
           for (let i=0; i < numRepeats; i++) {
             this.arrangementBeats.push(beat.key)
           }

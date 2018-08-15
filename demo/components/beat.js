@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
-import { toJS  } from "mobx"
+
+import {allNotesInRange} from "../utils"
 
 import store from "../store"
 
@@ -23,7 +24,6 @@ class GainSlider extends Component {
     }else{
       gain = store.samples[sample].gain * 100
     }
-    console.log(sample, gain)
     return (
       <input
         type     = "range"
@@ -113,16 +113,19 @@ class Track extends Component {
         >{sample.name}</option>
       )
     })
-    // hack to allow synth notes in select options 
-    if(!sampleOptions.includes(this.props.track.sample)){
-      sampleOptions.push(
-         <option
-          key   = {this.props.track.sample}
-          value = {this.props.track.sample}
-        >{this.props.track.sample}</option>
-      )
+
+
+    if (this.props.track.trackType === "synth") {
+      sampleOptions = allNotesInRange.map( (noteName) => {
+        return (
+          <option
+            key   = {noteName}
+            value = {noteName}
+          >{noteName}</option>
+        )
+      })
     }
-    console.log("MAKING TRACKS",toJS(this.props.track))
+
     return (
       <div className="track">
         <div style={trackNameStyles}>
