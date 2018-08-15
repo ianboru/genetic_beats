@@ -20,6 +20,7 @@ class Store {
   @observable generation         = 0
   @observable allGenerations     = [initialGeneration]
   @observable samples            = samples
+  @observable synthGain          = 0.5
   @observable selectPairMode     = false
   @observable selectedBeats      = []
   @observable sampleMutationRate = 30
@@ -245,7 +246,9 @@ class Store {
   @action setGain = (sample, gain) => {
     this.samples[sample].gain = gain
   }
-
+  @action setSynthGain = (gain) => {
+    this.synthGain = gain
+  }
   @action setScore = (score) => {
     this.currentBeat.score = score
   }

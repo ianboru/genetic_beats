@@ -13,9 +13,11 @@ import store from "../store"
 
 
 const generateSamplers = (beat, samples) => {
-  console.log(toJS(beat.tracks[0]))
   let convertedSynthSequence = []
+  console.log("generating samplers")
   let samplers = beat.tracks.map((track, i) => {
+    console.log(toJS(track))
+
     if(track.trackType == "synth"){
       track.sequence.forEach((note, j) => {
         if (note === 1) { 
@@ -40,8 +42,9 @@ const generateSamplers = (beat, samples) => {
       key    = {"synth" + store.generation + "."+ store.beatNum}
       type = {"square"}
       steps  = {convertedSynthSequence}
+      gain = {store.synthGain}
     />
-  )
+  ) 
   return samplers
 }
 

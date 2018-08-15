@@ -87,7 +87,8 @@ class Arrangement extends Component {
           uniqueSamples[sample] = numUniqueSamples
           finalBeat.tracks.push({
             "sample": sample,
-            "sequence" : []
+            "sequence" : [],
+            "trackType" : track.trackType
           })
           ++numUniqueSamples
 

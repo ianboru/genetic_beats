@@ -8,12 +8,21 @@ import store from "../store"
 @observer
 class GainSlider extends Component {
   handleGainChange = (e) => {
-    store.setGain(this.props.sample, e.target.value / 100)
+    if(this.props.trackType == "synth"){
+      store.setSynthGain(e.target.value / 100)
+    }else{
+      store.setGain(this.props.sample, e.target.value / 100)
+    }
   }
 
   render() {
     const { sample } = this.props
-    const gain = store.samples[sample] ? store.samples[sample].gain * 100 : 50
+    let gain
+    if(this.props.trackType == "synth"){
+      gain = store.synthGain * 100
+    }else{
+      gain = store.samples[sample].gain * 100
+    }
 
     return (
       <input
@@ -126,7 +135,7 @@ class Track extends Component {
             className = "remove-track"
             onClick   = {this.handleRemoveTrack}
           >remove track</span>
-          <GainSlider sample={track.sample} />
+          <GainSlider sample={track.sample} trackType={track.trackType} />
       </div>
     )
   }
