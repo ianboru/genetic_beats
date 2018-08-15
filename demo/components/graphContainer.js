@@ -32,30 +32,35 @@ class GraphContainer extends React.Component {
       let intermediateNodes = []
       let genNum = 0
       let intermediateNodeKey = ""
-      this.props.familyTree.forEach((generation) => {
+
+      this.props.familyTree.forEach((generation, i) => {
+        // Show initial generation left-to-right (cytoscape reverses it for some reason)
+        if (i === 0) {
+          generation = generation.reverse()
+        }
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
             const parentKeys = [beat.momKey, beat.dadKey]
             intermediateNodeKey = parentKeys.sort().join("|")
             nodes.push({ data: {
-              id       : intermediateNodeKey,
-              score    : beat.score,
-              size     : 0
+              id    : intermediateNodeKey,
+              score : beat.score,
+              size  : 0
             }})
             edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 1  } })
-            if(!intermediateNodes.includes(intermediateNodeKey)){
+            if (!intermediateNodes.includes(intermediateNodeKey)) {
               edges.push({ data: { source: beat.momKey, target: intermediateNodeKey, visible: 1 } })
               edges.push({ data: { source: beat.dadKey, target: intermediateNodeKey, visible: 1  } })
             }
             intermediateNodes.push(intermediateNodeKey)
-          }else if(!(beat.momKey && beat.dadKey) && genNum > 0){
-              edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 0  } })
+          } else if (!(beat.momKey && beat.dadKey) && genNum > 0) {
+            edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 0  } })
           }
 
           const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
 
           nodes.push({ data: {
-            selected : (selectedBeats.includes(beat.key) ? 1 : 0),
+            selected : selectedBeats.includes(beat.key) ? 1 : 0,
             id       : beat.key,
             name     : beat.key,
             score    : beat.score,

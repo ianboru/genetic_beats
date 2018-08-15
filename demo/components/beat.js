@@ -167,7 +167,6 @@ class Beat extends Component {
           handleEdit = {this.handleEdit}
           handleRemoveTrack = {this.props.handleRemoveTrack}
           handleSampleChange = {this.handleSampleChange}
-          beatType = {this.props.beat.type}
         />
       )
     })
