@@ -1,20 +1,10 @@
 html, body {
   height: 100%;
+  font-size: 22px;
 }
 
-span{
-  font-size: 24px;
-}
-div{
-    font-size: 24px;
-}
-input{
-    font-size: 24px;
-    width: 130px;
-    margin-left: 10px;
-}
-.block-input {
-  display: block;
+input {
+  margin-left: 10px;
 }
 
 .remove-track {
@@ -34,27 +24,4 @@ input{
 .remove-track:hover {
   background: red;
   color: white;
-}
-
-.arrangement-div{
-  height: 200px;
-  border: 1px solid black;
-}
-
-.arrangement-block{
-  border: 1px solid black;
-  display: inline-block;
-  height: 100%;
-  width:80px;
-  position:relative;
-}
-
-.arrangement-block-text{
-  vertical-align: middle;
-}
-
-.delete-block{
-  position: absolute;
-  top: 0;
-  right: 0;
 }
