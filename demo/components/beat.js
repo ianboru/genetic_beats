@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
+import { toJS  } from "mobx"
 
 import store from "../store"
 
@@ -94,7 +95,7 @@ class Track extends Component {
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
 
-    const sampleOptions = Object.keys(store.samples).map( (key) => {
+    let sampleOptions = Object.keys(store.samples).map( (key) => {
       const sample = store.samples[key]
       return (
         <option
@@ -103,9 +104,16 @@ class Track extends Component {
         >{sample.name}</option>
       )
     })
-    
-    
-
+    // hack to allow synth notes in select options 
+    if(!sampleOptions.includes(this.props.track.sample)){
+      sampleOptions.push(
+         <option
+          key   = {this.props.track.sample}
+          value = {this.props.track.sample}
+        >{this.props.track.sample}</option>
+      )
+    }
+    console.log("MAKING TRACKS",toJS(this.props.track))
     return (
       <div className="track">
         <div style={trackNameStyles}>
