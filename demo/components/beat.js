@@ -23,7 +23,7 @@ class GainSlider extends Component {
     }else{
       gain = store.samples[sample].gain * 100
     }
-
+    console.log(sample, gain)
     return (
       <input
         type     = "range"

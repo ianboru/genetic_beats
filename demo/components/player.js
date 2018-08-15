@@ -33,7 +33,7 @@ const generateSamplers = (beat, samples) => {
         key    = {i}
         sample = {samples[track.sample].path}
         steps  = {convertedSamplerSequence}
-        
+        gain   = {samples[track.sample].gain}
       />)
     }
   })
