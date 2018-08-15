@@ -57,7 +57,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       console.log("KEYS", validSampleKeys)
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
-      newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate*2))
+      newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate))
       if (newSampleSequence.includes(1)) {
         return {
           sample   : randomSampleKey,
@@ -72,7 +72,8 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     }
   }
 
-
+  const sampleMutationRateDecimal = sampleMutationRate/100
+  const sampleMutationComparitor = 100 * sampleMutationRateDecimal
   let nextGeneration = []
   const threshold = getScoreThreshold(currentGen)
 
@@ -102,6 +103,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       for (let i=0; i < numChildren; i++) {
         let newBeatTracks = []
         let currentBeatSampleKeys = []
+        let randomInteger
 
         // For Samplers
         Object.keys(samples).forEach( (key) => {
@@ -118,12 +120,17 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
             if (!dadTrack.sample) { dadTrack = momTrack }
             const childSequence = matePair(momTrack, dadTrack, mutationRate)
             currentBeatSampleKeys.push(path)
-            newBeatTracks.push({
-              sample   : path,
-              sequence : childSequence,
-              trackType: "sampler"
+            randomInteger = Math.floor(Math.random() * 100)
+            
+            // Randomly remove tracks
+            if(randomInteger > sampleMutationComparitor ){
+              newBeatTracks.push({
+                sample   : path,
+                sequence : childSequence,
+                trackType: "sampler"
 
-            })
+              })
+            }
           }
         })
 
@@ -142,11 +149,17 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
 
             const childSequence = matePair(momTrack, dadTrack, mutationRate)
             currentBeatSampleKeys.push(noteName)
-            newBeatTracks.push({
-              sample   : noteName,
-              sequence : childSequence,
-              trackType: "synth"
-            })
+            randomInteger = Math.floor(Math.random() * 100)
+            
+            // Randomly remove tracks
+            if(randomInteger > sampleMutationComparitor ){
+              newBeatTracks.push({
+                sample   : noteName,
+                sequence : childSequence,
+                trackType: "synth"
+              })
+            }
+            
           }
         })
         const newSampleChild = makeChildFromNewSample(samples, allNotesInRange, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
