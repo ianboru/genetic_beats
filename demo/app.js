@@ -8,10 +8,11 @@ import store from "./store"
 import generateChildren from "./generateChildren"
 import "./index.css"
 
+import Arrangement from "./components/arrangement"
 import Beat from "./components/beat"
 import Button from "./components/button"
 import ConfigManager from "./components/configManager"
-import CreateBeat from "./components/createBeat"
+import NewBeatManager from "./components/newBeatManager"
 import FamilySelect from "./components/familySelect"
 import GraphContainer from "./components/graphContainer"
 import Player from "./components/player"
@@ -19,19 +20,9 @@ import Player from "./components/player"
 import DevTools from "mobx-react-devtools"
 
 
-import Arrangement from "./components/arrangement"
-/*TODO
-* fix mating after selecting
-* Mark "Mate" button as ready to mate after
-  reviewing all beats in the current generation
-  and reset it when a new generation is created.
-*/
-
-
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
-
 
 
 const MainPanel = styled.div`
@@ -53,11 +44,13 @@ const FamilyPanel = styled.div`
 `
 
 const Header = styled.div`
+  background: white;
   border: 1px solid black;
   width: 100%;
 `
 
 const Footer = styled.div`
+  background: white;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -73,7 +66,6 @@ class App extends Component {
     store.updateFamilyInStorage()
     this.state = {
       playingCurrentBeat : false,
-      playingNewBeat     : false,
       inputScore         : "",
       selectText         : "",
     }
@@ -97,17 +89,19 @@ class App extends Component {
     this.setState({ inputScore: e.target.value })
   }
 
-  reset = () => {
-    if (confirm("Are you sure you want to reset?")) {
+  newFamilyTree = () => {
+    if (confirm("Are you sure you want to start a new family tree?")) {
       window.location.reload()
     }
   }
+
   clearSavedFamilies = () => {
     if (confirm("Are you sure you want to clear all families?")) {
       store.clearSavedFamilies()
       window.location.reload()
     }
   }
+
   handleMate = () => {
     if (store.generation < store.allGenerations.length - 1) {
       if (confirm(`Mating now will clear all generations after the currently selected one (${store.generation}).`)) {
@@ -161,12 +155,6 @@ class App extends Component {
     }
   }
 
-  handlePlayNewBeat = () => {
-    this.setState({
-      playingNewBeat: !this.state.playingNewBeat,
-    })
-  }
-
   render() {
     let selectText = ""
     if (store.selectPairMode) {
@@ -177,20 +165,10 @@ class App extends Component {
       selectText = ""
     }
 
-    let newBeatResolution = null
-
-    if(store.newBeat.tracks[0]){
-       newBeatResolution = store.newBeat.tracks[0].sequence.length
-    }
     //<input type="file" onChange={this.handleUploadSample} ></input>
     const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
     return (
       <div style={{ height: "100%" }}>
-        <Player
-          beat       = {store.newBeat}
-          playing    = {this.state.playingNewBeat}
-          resolution = {newBeatResolution}
-          />
         <Player
           beat       = {store.currentBeat}
           playing    = {this.state.playingCurrentBeat}
@@ -199,86 +177,64 @@ class App extends Component {
 
         <MainPanel>
           <Header>
-            <ConfigManager />
+            <Button
+              active  = {this.state.playingCurrentBeat}
+              onClick = {this.handlePlayToggle}
+            >
+              {this.state.playingCurrentBeat ? 'Stop' : 'Play Current'}
+            </Button>
+
+            <Button onClick={this.handleMate}>
+              Mate
+            </Button>
+
+            <NewBeatManager />
+
+            <ConfigManager right />
+
+            <Button
+              right
+              active  = {store.metronome}
+              onClick = {store.toggleMetronome}
+            >
+              Metronome
+            </Button>
           </Header>
 
-          <div style={{ display: "inline-block" }}>
-            <div>
-              <CreateBeat handlePlayBeat={this.handlePlayNewBeat} />
-              <br />
-              <br />
+          <div>
+            <Beat
+              beat              = {store.currentBeat}
+              handleRemoveTrack = {store.removeTrackFromCurrentBeat}
+              handleToggleNote  = {store.toggleNoteOnCurrentBeat}
+              handleSetSample   = {store.setSampleOnCurrentBeat}
+            />
 
-              <span>Generation: {store.generation}</span>
-              <br />
-              <span>Beat: {store.currentBeat.key}</span>
-              <div>Score: {store.currentBeat.score}</div>
-              <div>Parents: {store.currentBeat.parents}</div>
-            </div>
-
-            <div>
-              <Beat
-                beat              = {store.currentBeat}
-                handleRemoveTrack = {store.removeTrackFromCurrentBeat}
-                handleToggleNote  = {store.toggleNoteOnCurrentBeat}
-                handleSetSample   = {store.setSampleOnCurrentBeat}
-              />
-            </div>
-
-            <div>
-              <form onSubmit={this.setScore}>
-                <label>Rate Beat
-                  <input
-                    type        = "text"
-                    value       = {this.state.inputScore}
-                    onChange    = {this.handleInputChange}
-                    placeholder = "Enter Score"
-                  />
-                </label>
-              </form>
-            </div>
-
-            <div>
-              <Button
-                active  = {this.state.playingCurrentBeat}
-                onClick = {this.handlePlayToggle}
-              >
-                {this.state.playingCurrentBeat ? 'Stop' : 'Play'}
-              </Button>
-
-              <Button onClick={this.handleMate} >
-                Mate
-              </Button>
-
-              <Button
-                active  = {store.selectPairMode}
-                onClick = {store.toggleSelectPairMode}
-              >
-                Select
-              </Button>
-
-              <Button
-                active  = {store.metronome}
-                onClick = {store.toggleMetronome}
-              >
-                Metronome
-              </Button>
-            </div>
+            <div>Beat: {store.currentBeat.key} (score: {store.currentBeat.score})</div>
+            <div>Parents: {store.currentBeat.parents || "none"}</div>
+            <form onSubmit={this.setScore}>
+              <label>Rate Beat:
+                <input
+                  type        = "text"
+                  value       = {this.state.inputScore}
+                  onChange    = {this.handleInputChange}
+                  placeholder = "Enter Score"
+                />
+              </label>
+            </form>
           </div>
-
-          <p>{selectText}</p>
 
           <Arrangement/>
 
           <Footer>
-            <Button title="Clear all saved families" onClick={this.clearSavedFamilies}>
-              Clear
-            </Button>
-
-            <Button title="Start new family" onClick={this.reset}>
-              Reset
-            </Button>
-
             <FamilySelect />
+
+            <Button title="Start new family" onClick={this.newFamilyTree}>
+              New Family
+            </Button>
+
+            <Button title="Clear all saved families" onClick={this.clearSavedFamilies}>
+              Clear All
+            </Button>
           </Footer>
         </MainPanel>
 
@@ -290,14 +246,25 @@ class App extends Component {
           <GraphContainer familyTree={store.allGenerations} />
 
           <Footer>
-            <Button onClick={store.prevBeat}>
-              &lt; Previous Beat
-            </Button>
+            <div>{selectText}</div>
 
-            <Button right onClick={store.nextBeat}>
-              Next Beat
-              &gt;
-            </Button>
+            <div>
+              <Button onClick={store.prevBeat}>
+                &lt; Previous Beat
+              </Button>
+
+              <Button
+                active  = {store.selectPairMode}
+                onClick = {store.toggleSelectPairMode}
+              >
+                Select
+              </Button>
+
+              <Button right onClick={store.nextBeat}>
+                Next Beat
+                &gt;
+              </Button>
+            </div>
           </Footer>
         </FamilyPanel>
 

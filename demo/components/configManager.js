@@ -3,31 +3,81 @@ import styled from "styled-components"
 
 import { observer } from "mobx-react"
 
-import ConfigControl from "./configControl"
+import Button from "./button"
 
 import store from "../store"
 
 
+const labelWidth = 230
+const inputWidth = 60
+
+const Label = styled.div`
+  width: ${labelWidth}px;
+  display: inline-block;
+`
+
+const InputField = styled.input`
+  width: ${inputWidth}px;
+  font-size: 18px;
+  text-align: center;
+`
+
+
+@observer
+class ConfigControl extends Component {
+  render() {
+    const { name, min, max, value, changeHandler } = this.props
+
+    return (
+      <div>
+        <Label>{name}</Label>
+        <InputField
+          type     = "number"
+          min      = {min}
+          max      = {max}
+          value    = {value}
+          onChange = {changeHandler}
+        />
+        <input
+          type     = "range"
+          min      = {min}
+          max      = {max}
+          value    = {value}
+          onChange = {changeHandler}
+        />
+      </div>
+    )
+  }
+}
+
+
 const StyledConfigManager = styled.div`
-  position: relative
+  display: inline-block;
+  position: relative;
+  float: ${props => props.right ? "right" : props.left ? "left" : "none" };
 `
 
 const ConfigPanel = styled.div`
-  display: ${props => props.show ? "inline-block" : "none"};
-  border: 1px solid black;
-  box-shadow: 3px 1px 1px #777;
+  display: ${props => props.show ? "inlineblock" : "none"};
+  border: 2px solid #403F3F;
+  border-radius: 3px;
+  box-shadow: 2px 2px 3px #888;
+  font-family: sans-serif;
+  font-size: 16px;
   padding: 10px;
   position: absolute;
-  top: 30px;
-  left: 0;
+  top: 52px;
+  left: -${labelWidth + inputWidth + 45}px;
   background: white;
+  width: ${labelWidth + inputWidth + 160}px;
+  z-index: 1;
 `
 
 
 @observer
 export default class ConfigManager extends Component {
   state = {
-    showConfig : false,
+    show : false,
   }
 
   handleSetTempo = (e) => {
@@ -54,17 +104,17 @@ export default class ConfigManager extends Component {
     store.setScoreThreshold(parseInt(e.target.value))
   }
 
-  toggleShowConfig = () => {
-    this.setState({ showConfig : !this.state.showConfig})
+  toggleShow = () => {
+    this.setState({ show : !this.state.show})
   }
 
   render() {
     return (
-      <StyledConfigManager>
-        <button onClick={this.toggleShowConfig}>
-          {this.state.showConfig ? "Hide" : "Show"} Config
-        </button>
-        <ConfigPanel show={this.state.showConfig}>
+      <StyledConfigManager left={this.props.left} right={this.props.right}>
+        <Button active={this.state.show} onClick={this.toggleShow}>
+          {this.state.show ? "Hide" : ""} Config
+        </Button>
+        <ConfigPanel show={this.state.show}>
           <ConfigControl
             name          = "Tempo"
             value         = {store.tempo}

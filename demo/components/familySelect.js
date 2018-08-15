@@ -28,7 +28,7 @@ class FamilySelect extends Component {
 
     return (
       <StyledFamilySelect>
-        <select
+        Current Family: <select
           defaultValue = {store.familyName}
           onChange     = {this.handleSelectFamily}
         >

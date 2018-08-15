@@ -5,6 +5,7 @@ import store from "../store"
 import {allNotesInRange} from "../utils"
 import Beat from "./beat"
 
+
 @observer
 class CreateBeat extends Component {
   state = {
@@ -31,6 +32,12 @@ class CreateBeat extends Component {
     const sequence = Array(steps).fill(0)
     const trackType = this.state.trackType
     store.addTrackToNewBeat({sample, sequence, trackType})
+  }
+
+  resetNewBeat = () => {
+    if (confirm("Are you sure you want to reset the new beat?")) {
+      store.resetNewBeat()
+    }
   }
 
   toggleTrackType = () => {
@@ -69,12 +76,23 @@ class CreateBeat extends Component {
                 :
               <div>No tracks yet</div>
           }
-          <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
+          <select 
+            defaultValue={16} 
+            disabled={beat.tracks.length > 0} 
+            ref={(c) => { this.stepsSelect = c }}
+          >
+            {stepOptions}
+          </select>
           <button onClick={this.handleAddTrack}>Add track</button>
-          <button onClick={this.props.handlePlayBeat}>Play beat</button>
+          <button onClick={this.props.togglePlayBeat}>{this.props.playing ? "Stop" : "Play"}</button>
           <button onClick={this.toggleTrackType}>Track Type: {this.state.trackType}</button>
-
         </div>
+
+        <button
+          onClick  = {this.resetNewBeat}
+          disabled = {beat.tracks.length === 0}
+        >reset</button>
+
         <button
           onClick  = {store.addNewBeatToCurrentGen}
           disabled = {beat.tracks.length === 0}
