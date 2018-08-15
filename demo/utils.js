@@ -146,7 +146,7 @@ octaves.forEach((octave)=>{
     }
   })
 }) 
-
+console.log(allNotesInRange)
 export {
   deepClone,
   getRandomIndices,

@@ -24,34 +24,45 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     nextGeneration = getSubarray(nextGeneration, randomIntegerArray)
     return nextGeneration
   }
-  const makeChildFromNewSample = (samples, currentBeatSampleKeys, numSteps) => {
+  const makeChildFromNewSample = (samples, allNotesInRange, currentBeatSampleKeys, numSteps,) => {
     let randomInteger = Math.floor(Math.random() * 100)
     const sampleMutationRateDecimal = sampleMutationRate/100
     const sampleMutationComparitor = 100 * sampleMutationRateDecimal
     if (randomInteger < sampleMutationComparitor) {
+      console.log("current beat keys", currentBeatSampleKeys)
 
-      let validSampleKeys = Object.keys(samples)
+      let trackType = ""
+      let validSampleKeys = []
+      const synthSamplerComparitor = Math.floor(Math.random() * 100)
+
+      if(synthSamplerComparitor > 50){
+        trackType = "sampler"
+        validSampleKeys = Object.keys(samples)
+
+      }else{
+        trackType = "synth"
+        validSampleKeys = allNotesInRange.slice(0)
+      }
+      console.log("trackType",trackType)
+      console.log("valid keys", validSampleKeys)
+
       currentBeatSampleKeys.forEach(key =>{
-        validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
+        if(validSampleKeys.includes(key)){
+          validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
+        }
       })
       const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
       const randomSampleKey = validSampleKeys[randomIndex]
-
-      if (!samples[randomSampleKey]) {
-        // Uncomment this debugger statement and mate a bunch of times
-        // to reproduce a bug
-        //debugger
-      }
       
-      const newSamplePath = samples[randomSampleKey].path
-
+      console.log("KEYS", validSampleKeys)
       let newSampleSequence = Array(numSteps).fill(0)
       let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
       newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate*2))
       if (newSampleSequence.includes(1)) {
         return {
-          sample   : newSamplePath,
+          sample   : randomSampleKey,
           sequence : newSampleSequence,
+          trackType : trackType
         }
       } else {
         return null
@@ -138,7 +149,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
             })
           }
         })
-        const newSampleChild = makeChildFromNewSample(samples, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
+        const newSampleChild = makeChildFromNewSample(samples, allNotesInRange, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
         if(newSampleChild){
             newBeatTracks.push(newSampleChild)
         }

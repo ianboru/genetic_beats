@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
+import { toJS } from "mobx"
 
 import {allNotesInRange} from "../utils"
 
@@ -101,6 +102,7 @@ class Track extends Component {
     })
 
     const { track } = this.props
+    console.log("beat track", toJS(track))
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
 
