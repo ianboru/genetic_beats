@@ -12,7 +12,7 @@ class GainSlider extends Component {
 
   render() {
     const { sample } = this.props
-    const gain = store.samples[sample].gain * 100
+    const gain = store.samples[sample] ? store.samples[sample].gain * 100 : 50
 
     return (
       <input
@@ -79,6 +79,7 @@ class Track extends Component {
   }
 
   render() {
+
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
@@ -102,6 +103,8 @@ class Track extends Component {
         >{sample.name}</option>
       )
     })
+    
+    
 
     return (
       <div className="track">
@@ -144,6 +147,7 @@ class Beat extends Component {
           handleEdit = {this.handleEdit}
           handleRemoveTrack = {this.props.handleRemoveTrack}
           handleSampleChange = {this.handleSampleChange}
+          beatType = {this.props.beat.type}
         />
       )
     })

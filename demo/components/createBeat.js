@@ -61,6 +61,8 @@ class CreateBeat extends Component {
           <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
           <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
+          <button onClick={this.toggleSynth}>Toggle Synth/Sample </button>
+
           <button onClick={this.props.handlePlayBeat}>Play beat</button>
         </div>
         <button

@@ -1,30 +1,59 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
+import { toJS  } from "mobx"
 
 import {
   Song,
   Sequencer,
   Sampler,
+  Synth,
 } from "../../src"
 
 import store from "../store"
 
 
 const generateSamplers = (beat, samples) => {
-  return beat.tracks.map((track, i) => {
-    let convertedSequence = []
+  console.log(toJS(beat.tracks[0]))
+  if(beat.type == "synth"){
 
-    track.sequence.forEach((note, i) => {
-      if (note === 1) { convertedSequence.push(i) }
+    return beat.tracks.map((track, i) => {
+      let convertedSequence = []
+
+      track.sequence.forEach((note, j) => {
+        console.log(note)
+        if (note === 1) { 
+          convertedSequence.push([j, 2, track.sample]) 
+        }
+      })
+
+      console.log("loading sampler ", track.sample)
+      return (<Synth
+        key    = {"synth"}
+        type = {beat.synthType}
+        steps  = {convertedSequence}
+      />)
+      console.log("making synth")
     })
+    
+  }else{
+    return beat.tracks.map((track, i) => {
+      let convertedSequence = []
 
-    return (<Sampler
-      key    = {i}
-      sample = {samples[track.sample].path}
-      steps  = {convertedSequence}
-      gain   = {samples[track.sample].gain}
-    />)
-  })
+      track.sequence.forEach((note, j) => {
+        console.log(note)
+        if (note === 1) { convertedSequence.push(j) }
+      })
+
+      console.log("loading sampler ", track.sample)
+      return (<Sampler
+        key    = {i}
+        sample = {samples[track.sample].path}
+        steps  = {convertedSequence}
+        
+      />)
+      console.log("making synth")
+    })
+  }
 }
 
 const generateMetronomeSampler = (resolution, on) => {

@@ -2,6 +2,8 @@ export default [
   {
     key    : "0.0",
     score  : 0,
+    type   : "sampler",
+
     tracks : [
       {
         sample   : "samples/kick.wav",
@@ -20,6 +22,8 @@ export default [
   {
     key    : "0.1",
     score  : 0,
+    type   : "sampler",
+
     tracks : [
       {
         sample   : "samples/kick.wav",

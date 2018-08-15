@@ -233,7 +233,6 @@ class App extends Component {
           <Header>
 
           </Header>
-
           <div>
             <ConfigControl
               name          = "Tempo"
