@@ -31,7 +31,9 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     if (randomInteger < sampleMutationComparitor) {
 
       let validSampleKeys = Object.keys(samples)
+      console.log(currentBeatSampleKeys)
       currentBeatSampleKeys.forEach(key =>{
+        console.log("current sample key", key)
         validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
       })
       const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
@@ -42,7 +44,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
         // to reproduce a bug
         //debugger
       }
-
+      
       const newSamplePath = samples[randomSampleKey].path
 
       let newSampleSequence = Array(numSteps).fill(0)
@@ -87,10 +89,11 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       } else {
         momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
       }
-      let currentBeatSampleKeys = []
 
       for (let i=0; i < numChildren; i++) {
         let newBeatTracks = []
+        let currentBeatSampleKeys = []
+
         // For Samplers
         Object.keys(samples).forEach( (key) => {
           // `sample` on a track comes from the `path` attribute of a
