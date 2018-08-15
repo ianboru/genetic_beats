@@ -31,9 +31,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
     if (randomInteger < sampleMutationComparitor) {
 
       let validSampleKeys = Object.keys(samples)
-      console.log(currentBeatSampleKeys)
       currentBeatSampleKeys.forEach(key =>{
-        console.log("current sample key", key)
         validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
       })
       const randomIndex = Math.floor(Math.random() * validSampleKeys.length)

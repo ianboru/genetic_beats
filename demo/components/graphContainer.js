@@ -36,7 +36,7 @@ class GraphContainer extends React.Component {
       this.props.familyTree.forEach((generation, i) => {
         // Show initial generation left-to-right (cytoscape reverses it for some reason)
         if (i === 0) {
-          generation = generation.reverse()
+          generation = generation.slice().reverse()
         }
         generation.forEach((beat) => {
           if (beat.momKey && beat.dadKey ) {
