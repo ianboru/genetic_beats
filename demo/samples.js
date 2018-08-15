@@ -5,16 +5,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
 
 
 export default {
-  "samples/cmin9.wav": {
-    name: "cmin9",
-    path: staticFilePath + "samples/cmin9.wav",
-    gain: 0.5,
-  },
-  "samples/emin9.wav": {
-    name: "emin9",
-    path: staticFilePath + "samples/emin9.wav",
-    gain: 0.5,
-  },
+  
   "samples/6581__ST_012.wav": {
     name: "6581__ST_012",
     path: staticFilePath + "samples/6581__ST_012.wav",
@@ -65,61 +56,7 @@ export default {
     path: staticFilePath + "samples/8580__ST_102.wav",
     gain: 0.5,
   },
-  "samples/C.wav": {
-    name: "C",
-    path: staticFilePath + "samples/C.wav",
-    gain: 0.5,
-  },
-  "samples/D.wav": {
-    name: "D",
-    path: staticFilePath + "samples/D.wav",
-    gain: 0.5,
-  },
-  "samples/Eb.wav": {
-    name: "Eb",
-    path: staticFilePath + "samples/Eb.wav",
-    gain: 0.5,
-  },
-  "samples/Fsharp.wav": {
-    name: "Fsharp",
-    path: staticFilePath + "samples/Fsharp.wav",
-    gain: 0.5,
-  },
-  "samples/G.wav": {
-    name: "G",
-    path: staticFilePath + "samples/G.wav",
-    gain: 0.5,
-  },
-  "samples/TS-SST_V2-Bass_0013.wav": {
-    name: "TS-SST_V2-Bass_0013",
-    path: staticFilePath + "samples/TS-SST_V2-Bass_0013.wav",
-    gain: 0.5,
-  },
-  "samples/TS-SST_V2-Keys_0090.wav": {
-    name: "TS-SST_V2-Keys_0090",
-    path: staticFilePath + "samples/TS-SST_V2-Keys_0090.wav",
-    gain: 0.5,
-  },
-  "samples/TS-SST_V2-Lead_001.wav": {
-    name: "TS-SST_V2-Lead_001",
-    path: staticFilePath + "samples/TS-SST_V2-Lead_001.wav",
-    gain: 0.5,
-  },
-  "samples/bass_note.wav": {
-    name: "bass_note",
-    path: staticFilePath + "samples/bass_note.wav",
-    gain: 0.5,
-  },
-  "samples/boom.wav": {
-    name: "boom",
-    path: staticFilePath + "samples/boom.wav",
-    gain: 0.5,
-  },
-  "samples/car_door.wav": {
-    name: "car_door",
-    path: staticFilePath + "samples/car_door.wav",
-    gain: 0.5,
-  },
+
   "samples/clave.wav": {
     name: "clave",
     path: staticFilePath + "samples/clave.wav",
@@ -145,19 +82,11 @@ export default {
     path: staticFilePath + "samples/kick.wav",
     gain: 0.5,
   },
-  "samples/punch.wav": {
-    name: "punch",
-    path: staticFilePath + "samples/punch.wav",
-    gain: 0.5,
-  },
+
   "samples/snare.wav": {
     name: "snare",
     path: staticFilePath + "samples/snare.wav",
     gain: 0.5,
   },
-  "samples/whiff.wav": {
-    name: "whiff",
-    path: staticFilePath + "samples/whiff.wav",
-    gain: 0.5,
-  },
+
 }

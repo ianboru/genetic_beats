@@ -78,15 +78,12 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
   const threshold = getScoreThreshold(currentGen)
 
   // For all mom, dad pairs for all children in number of children per generation
-  currentGen.forEach( (momBeat, momIndex) => {
-    currentGen.forEach( (dadBeat, dadIndex) => {
-      // Don't mate beat with itself
-      if (momIndex === dadIndex) { return }
-
+  for (let momIndex = 0; momIndex < currentGen.length-1;momIndex++){
+    let momBeat = currentGen[momIndex]
+    for (let dadIndex = momIndex+1; dadIndex < currentGen.length;dadIndex++){
+    let dadBeat = currentGen[dadIndex]
       // Don't mate unfit pairs
-      if ( (momBeat.score < threshold || dadBeat.score < threshold) &&
-            nextGeneration.length > 5 ) {
-
+      if ( (momBeat.score < threshold || dadBeat.score < threshold)) {
         return
       }
 
@@ -174,8 +171,8 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
           dadKey : dadBeat.key,
         })
       }
-    })
-  })
+    }
+  }
 
   // Can't have more survivors than members of the generation so generations don't get huge.
   nextGeneration = keepRandomSurvivors(Math.min(numInitialSurvivors, nextGeneration.length), nextGeneration)
