@@ -134,7 +134,18 @@ function generateFamilyName(){
     return words[Math.floor(Math.random() * words.length)]
   }).join("-")
 }
+const noteLetters = ["c","d","e","f","g","a","b"]
+const octaves = [2,3,4]
+let allNotesInRange = []
+noteLetters.forEach((letter)=>{
+  octaves.forEach((octave)=>{
+    allNotesInRange.push(`${letter}${octave}`)
+    if(!["b","e"].includes(letter)){
+          allNotesInRange.push(`${letter}#${octave}`)
 
+    }
+  })
+}) 
 export {
   deepClone,
   getRandomIndices,
@@ -143,4 +154,5 @@ export {
   normalizeSubdivisions,
   matePair,
   generateFamilyName,
+  allNotesInRange
 }

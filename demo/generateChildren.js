@@ -4,7 +4,8 @@ import {
   getSubarray,
   findInJSON,
   matePair,
-  normalizeSubdivisions
+  normalizeSubdivisions,
+  allNotesInRange
 } from "./utils"
 
 
@@ -71,7 +72,6 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
       if (momIndex === dadIndex) { return }
 
       // Don't mate unfit pairs
-
       if ( (momBeat.score < threshold || dadBeat.score < threshold) &&
             nextGeneration.length > 5 ) {
 
@@ -91,6 +91,7 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
 
       for (let i=0; i < numChildren; i++) {
         let newBeatTracks = []
+        // For Samplers
         Object.keys(samples).forEach( (key) => {
           // `sample` on a track comes from the `path` attribute of a
           // given sample in samples.js
@@ -108,10 +109,34 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
             newBeatTracks.push({
               sample   : path,
               sequence : childSequence,
+              trackType: "sampler"
+
             })
           }
         })
 
+        // For Synths 
+        allNotesInRange.forEach( (noteName) => {
+          // `sample` on a track comes from the `path` attribute of a
+          // given sample in samples.js
+
+          let momTrack = findInJSON(momBeat.tracks, 'sample', noteName)
+          let dadTrack = findInJSON(dadBeat.tracks, 'sample', noteName)
+
+          if (momTrack.sample || dadTrack.sample) {
+            // Handle case where mom and dad don't have the same samples
+            if (!momTrack.sample) { momTrack = dadTrack }
+            if (!dadTrack.sample) { dadTrack = momTrack }
+
+            const childSequence = matePair(momTrack, dadTrack, mutationRate)
+            currentBeatSampleKeys.push(noteName)
+            newBeatTracks.push({
+              sample   : noteName,
+              sequence : childSequence,
+              trackType: "synth"
+            })
+          }
+        })
         const newSampleChild = makeChildFromNewSample(samples, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
         if(newSampleChild){
             newBeatTracks.push(newSampleChild)

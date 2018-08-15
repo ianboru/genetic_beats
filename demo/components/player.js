@@ -14,46 +14,35 @@ import store from "../store"
 
 const generateSamplers = (beat, samples) => {
   console.log(toJS(beat.tracks[0]))
-  if(beat.type == "synth"){
-
-    return beat.tracks.map((track, i) => {
-      let convertedSequence = []
-
+  let convertedSynthSequence = []
+  let samplers = beat.tracks.map((track, i) => {
+    if(track.trackType == "synth"){
       track.sequence.forEach((note, j) => {
-        console.log(note)
         if (note === 1) { 
-          convertedSequence.push([j, 2, track.sample]) 
+          convertedSynthSequence.push([j, 2, track.sample]) 
         }
       })
-
-      console.log("loading sampler ", track.sample)
-      return (<Synth
-        key    = {"synth"}
-        type = {beat.synthType}
-        steps  = {convertedSequence}
-      />)
-      console.log("making synth")
-    })
-    
-  }else{
-    return beat.tracks.map((track, i) => {
-      let convertedSequence = []
-
+    }else{
+      let convertedSamplerSequence = []
       track.sequence.forEach((note, j) => {
-        console.log(note)
-        if (note === 1) { convertedSequence.push(j) }
+        if (note === 1) { convertedSamplerSequence.push(j) }
       })
-
-      console.log("loading sampler ", track.sample)
       return (<Sampler
         key    = {i}
         sample = {samples[track.sample].path}
-        steps  = {convertedSequence}
+        steps  = {convertedSamplerSequence}
         
       />)
-      console.log("making synth")
-    })
-  }
+    }
+  })
+  samplers.push(
+    <Synth
+      key    = {"synth" + store.generation + "."+ store.beatNum}
+      type = {"square"}
+      steps  = {convertedSynthSequence}
+    />
+  )
+  return samplers
 }
 
 const generateMetronomeSampler = (resolution, on) => {
