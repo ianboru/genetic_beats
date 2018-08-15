@@ -7,29 +7,44 @@ import Beat from "./beat"
 
 @observer
 class CreateBeat extends Component {
-  
   state = {
-      trackType : "sampler",
+    trackType : "sampler",
   }
+
   handleAddTrack = () => {
     const steps = parseInt(this.stepsSelect.value)
-    const sample = this.sampleSelect.value
+    let sample
+
+    if (this.state.trackType === "sampler") {
+      const beat = store.newBeat
+      const beatSamples = beat.tracks.map( (track) => { return track.sample } )
+      const unusedSamples = Object.keys(store.samples).filter( (key) => {
+        const sample = store.samples[key]
+        return !beatSamples.includes(sample.path)
+      })
+
+      sample = unusedSamples[0]
+    } else if (this.state.trackType === "synth") {
+      sample = allNotesInRange[0]
+    }
+
     const sequence = Array(steps).fill(0)
     const trackType = this.state.trackType
     store.addTrackToNewBeat({sample, sequence, trackType})
   }
-  handleToggleTrackType = () => {
-    let newTrackType 
-    if(this.state.trackType == "sampler"){
+
+  toggleTrackType = () => {
+    let newTrackType
+    if (this.state.trackType === "sampler") {
       newTrackType = "synth"
-    }else{
+    } else {
       newTrackType = "sampler"
     }
     this.setState({trackType : newTrackType })
   }
+
   render() {
     const beat = store.newBeat
-    store.newBeat.tracks
 
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -39,36 +54,6 @@ class CreateBeat extends Component {
         >{stepCount}</option>
       )
     })
-
-
-    const beatSamples = beat.tracks.map( (track) => { return track.sample } )
-    const unusedSampleKeys = Object.keys(store.samples).filter( (key) => {
-      const sample = store.samples[key]
-      return !beatSamples.includes(sample.path)
-    })
-
-    let sampleOptions
-    if(this.state.trackType == "sampler"){
-      sampleOptions = unusedSampleKeys.map( (key) => {
-        const sample = store.samples[key]
-        return (
-          <option
-            key   = {sample.path}
-            value = {key}
-          >{sample.name}</option>
-        )
-      })
-    }else{
-      sampleOptions = allNotesInRange.map( (noteName) => {
-        return (
-          <option
-            key   = {noteName}
-            value = {noteName}
-          >{noteName}</option>
-        )
-      })
-    }
-    
 
     return (
       <div>
@@ -85,10 +70,9 @@ class CreateBeat extends Component {
               <div>No tracks yet</div>
           }
           <select defaultValue={16} disabled={beat.tracks.length > 0} ref={(c) => { this.stepsSelect = c }}>{stepOptions}</select>
-          <select ref={(c) => { this.sampleSelect = c }}>{sampleOptions}</select>
           <button onClick={this.handleAddTrack}>Add track</button>
           <button onClick={this.props.handlePlayBeat}>Play beat</button>
-          <button onClick={this.handleToggleTrackType}>Track Type:{this.state.trackType}</button>
+          <button onClick={this.toggleTrackType}>Track Type: {this.state.trackType}</button>
 
         </div>
         <button
