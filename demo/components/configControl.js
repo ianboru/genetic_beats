@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import styled from "styled-components"
 
+import { observer } from "mobx-react"
+
 
 const Label = styled.div`
   width: 230px;
@@ -15,6 +17,7 @@ const InputField = styled.input`
 `
 
 
+@observer
 export default class ConfigControl extends Component {
   render() {
     const { name, min, max, value, changeHandler } = this.props
