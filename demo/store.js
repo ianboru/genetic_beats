@@ -213,8 +213,8 @@ class Store {
     this.resetNewBeat()
   }
 
-  @action addTrackToNewBeat = (sample, sequence) => {
-    this.newBeat.tracks.push({ sample, sequence })
+  @action addTrackToNewBeat = (track) => {
+    this.newBeat.tracks.push(track)
   }
 
   @action toggleNoteOnNewBeat = (trackNum, note) => {

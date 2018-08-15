@@ -137,8 +137,8 @@ function generateFamilyName(){
 const noteLetters = ["c","d","e","f","g","a","b"]
 const octaves = [2,3,4]
 let allNotesInRange = []
-noteLetters.forEach((letter)=>{
-  octaves.forEach((octave)=>{
+octaves.forEach((octave)=>{
+  noteLetters.forEach((letter)=>{
     allNotesInRange.push(`${letter}${octave}`)
     if(!["b","e"].includes(letter)){
           allNotesInRange.push(`${letter}#${octave}`)
@@ -154,5 +154,5 @@ export {
   normalizeSubdivisions,
   matePair,
   generateFamilyName,
-  allNotesInRange
+  allNotesInRange,
 }
