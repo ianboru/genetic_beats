@@ -66,7 +66,7 @@ class Block extends Component {
     return (
       <StyledBlock>
         <p>{this.props.beatKey}</p>
-        <DeleteBlockButton>
+        <DeleteBlockButton onClick={this.props.deleteBlock}>
           &times;
         </DeleteBlockButton>
       </StyledBlock>
