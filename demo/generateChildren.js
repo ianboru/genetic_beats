@@ -72,14 +72,16 @@ export default (currentGen, generation, samples, numInitialSurvivors, numChildre
   const sampleMutationComparitor = 100 * sampleMutationRateDecimal
   let nextGeneration = []
   const threshold = getScoreThreshold(currentGen)
-
+  console.log("score threshold", threshold)
   // For all mom, dad pairs for all children in number of children per generation
   for (let momIndex = 0; momIndex < currentGen.length-1;momIndex++){
     let momBeat = currentGen[momIndex]
     for (let dadIndex = momIndex+1; dadIndex < currentGen.length;dadIndex++){
     let dadBeat = currentGen[dadIndex]
       // Don't mate unfit pairs
-      if ( (momBeat.score < threshold || dadBeat.score < threshold)) {
+      console.log(momBeat.score)
+      console.log(dadBeat.score)
+      if ( (momBeat.score < threshold || dadBeat.score < threshold) && nextGeneration.length > 5) {
         return
       }
 

@@ -1,4 +1,4 @@
-import { action, configure, computed, observable } from "mobx"
+import { action, configure, computed, observable, toJS } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
@@ -47,7 +47,9 @@ class Store {
   }
   @computed get allBeatKeys() {
     let beatKeys = []
+    console.log(toJS(this.allGenerations))
     this.allGenerations.forEach((generation)=>{
+      console.log(toJS(generation))
       generation.forEach((beat)=>{
         beatKeys.push(beat.key)
       })
