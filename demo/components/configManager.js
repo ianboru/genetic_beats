@@ -119,7 +119,7 @@ export default class ConfigManager extends Component {
             name          = "Tempo"
             value         = {store.tempo}
             changeHandler = {this.handleSetTempo}
-            min           = {0}
+            min           = {40}
             max           = {200}
           />
           <ConfigControl
