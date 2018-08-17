@@ -214,6 +214,7 @@ class App extends Component {
               <label>Rate Beat:
                 <input
                   type        = "number"
+                  step        = "0.1"
                   value       = {this.state.inputScore}
                   onChange    = {this.handleInputChange}
                   placeholder = "Enter Score"
