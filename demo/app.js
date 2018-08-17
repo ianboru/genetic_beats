@@ -5,7 +5,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import store from "./store"
-import generateChildren from "./generateChildren"
+import {mateGeneration} from "./generateChildren"
 import "./index.css"
 
 import Arrangement from "./components/arrangement"
@@ -127,15 +127,8 @@ class App extends Component {
       options.numGeneration = store.generation
     }
 
-    const nextGeneration = generateChildren(
+    const nextGeneration = mateGeneration(
       options.newCurrentGeneration,
-      options.numGeneration,
-      store.samples,
-      store.numSurvivors,
-      store.numChildren,
-      store.mutationRate,
-      store.sampleMutationRate,
-      store.scoreThreshold
     )
 
     store.addGeneration(nextGeneration)
