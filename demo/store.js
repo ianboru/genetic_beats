@@ -227,16 +227,16 @@ class Store {
     this.newBeat.tracks.splice(trackNum, 1)
   }
 
-  @action toggleNoteOnCurrentBeat = (trackNum, note) => {
-    const newNote = this.currentBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    this.currentBeat.tracks[trackNum].sequence[note] = newNote
+  @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
+    const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] = newNote
   }
 
-  @action setSampleOnCurrentBeat = (trackNum, sample) => {
-    this.currentBeat.tracks[trackNum].sample = sample
+  @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
+    this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
   }
 
-  @action removeTrackFromCurrentBeat = (trackNum) => {
+  @action removeTrackFromBeat = (generation, beatNum, trackNum) => {
     this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
   }
 

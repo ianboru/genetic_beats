@@ -15,7 +15,6 @@ const bottomPadding = 0
 const borderWidth = 1
 
 const StyledGraphContainer = styled.div`
-  border: ${borderWidth}px solid #333;
   margin: 0;
   padding: ${topPadding}px ${sidePadding}px ${bottomPadding}px;
   display: inline-block;

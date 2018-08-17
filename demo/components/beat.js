@@ -3,9 +3,15 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import { toJS } from "mobx"
 
+import Button from "./button"
+
 import {allNotesInRange} from "../utils"
 
 import store from "../store"
+import {
+  itemBgColor,
+  lightGray,
+} from "../colors"
 
 
 @observer
@@ -164,6 +170,19 @@ class Track extends Component {
 }
 
 
+const StyledBeat = styled.div`
+  background: ${itemBgColor};
+  border-top: 1px solid ${lightGray};
+  position: relative;
+`
+
+const BeatInfo = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`
+
+
 @observer
 class Beat extends Component {
   handleEdit = (track, note) => {
@@ -190,7 +209,24 @@ class Beat extends Component {
       )
     })
 
-    return <div className="beat">{tracks}</div>
+    return (
+      <StyledBeat>
+        <BeatInfo>
+          <div>
+            Beat: {this.props.beat.key}
+          </div>
+          <div>
+            Score: {this.props.beat.score}
+          </div>
+          <div>
+            <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
+              Add To Arrangement
+            </Button>
+          </div>
+        </BeatInfo>
+        {tracks}
+      </StyledBeat>
+    )
   }
 }
 

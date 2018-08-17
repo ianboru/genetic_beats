@@ -1,3 +1,4 @@
+const darkerBlueGray = "#1d1f27"
 const blue = "#0980B2"
 const burntOrange = "#A30700"
 const green = "#32B209"
@@ -9,6 +10,8 @@ const yellow = "#FFF419"
 const lightGray = "#292B30"
 
 const panelBackground = lightGray
+const headerFooterBgColor = darkerBlueGray
+const itemBgColor = darkerBlueGray
 
 export {
   blue,
@@ -22,4 +25,6 @@ export {
   lightGray,
 
   panelBackground, 
+  headerFooterBgColor,
+  itemBgColor,
 }

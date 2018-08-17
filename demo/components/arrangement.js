@@ -7,22 +7,26 @@ import {
 import {observer} from "mobx-react"
 import styled from "styled-components"
 
+import Button from "./button"
 import Player from "./player"
+
 import store from "../store"
 import { normalizeSubdivisions } from "../utils"
+import {
+  itemBgColor,
+  lightGray,
+} from "../colors"
 
 
 const StyledArrangement = styled.div`
-  margin-top: 35px;
+  background: ${itemBgColor};
+  border-top: 1px solid ${lightGray};
   height: 125px;
-  border: 1px solid black;
   overflow: visible;
-  position: relative;
 `
 
 const StyledBlock = styled.div`
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-right: 1px solid ${lightGray};
   display: inline-block;
   height: 100%;
   width: 80px;
@@ -54,9 +58,6 @@ const DeleteBlockButton = styled.div`
 `
 
 const ArrangementControls = styled.div`
-  position: absolute;
-  top: -35px;
-  left: 0;
 `
 
 
@@ -180,6 +181,17 @@ class Arrangement extends Component {
     return normalizedBeats
   }
 
+  randomizeBestBeats = () => {
+    const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
+    if (store.arrangementBeats.length > 0) {
+      if (confirm(confirmMessage)) {
+        store.randomizeBestBeats()
+      }
+    } else {
+      store.randomizeBestBeats()
+    }
+  }
+
   render() {
     const beats = store.arrangementBeats.map( (beatKey, i) => {
       return (
@@ -206,33 +218,35 @@ class Arrangement extends Component {
     const playButtonText = this.state.playArrangement ? "Stop" : "Play"
 
     return (
-      <StyledArrangement>
+      <div>
         <ArrangementControls>
-          <button onClick={this.togglePlayArrangement}>{playButtonText}</button>
-          <button onClick={store.randomizeBestBeats}>Randomize Best Beats</button>
+          <Button onClick={this.togglePlayArrangement}>{playButtonText}</Button>
+          <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
         </ArrangementControls>
 
-        {beats}
+        <StyledArrangement>
+          {beats}
 
-        <StyledBlock>
-          <p>
-            <select
-              defaultValue={beatKeyOptions[0]}
-              onChange={this.handleSelectBeatToAdd}
-            >
-              {beatKeyOptions}
-            </select>
-          </p>
-          <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
-        </StyledBlock>
+          <StyledBlock>
+            <p>
+              <select
+                defaultValue={beatKeyOptions[0]}
+                onChange={this.handleSelectBeatToAdd}
+              >
+                {beatKeyOptions}
+              </select>
+            </p>
+            <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
+          </StyledBlock>
 
-        <Player
-          beat={finalArrangementBeat}
-          playing={this.state.playArrangement}
-          resolution = {maxSubdivisions}
-          bars = {store.arrangementBeats.length}
-        />
-      </StyledArrangement>
+          <Player
+            beat={finalArrangementBeat}
+            playing={this.state.playArrangement}
+            resolution = {maxSubdivisions}
+            bars = {store.arrangementBeats.length}
+          />
+        </StyledArrangement>
+      </div>
     )
   }
 }

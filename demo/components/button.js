@@ -23,13 +23,13 @@ const Button = styled.button`
   border: 3px solid ${buttonColor};
   color: white;
   float: ${props => props.right ? "right" : props.left ? "left" : "none" };
-  font-family: "Source Sans Pro";
+  font-family: "Ubuntu";
   cursor: pointer;
-  font-size: 18px;
+  font-size: ${props => props.small ? "12px" : "15px"};
   margin: 6px 3px;
-  padding: 6px;
-  transition: all 0.1s;
-  min-width: 120px;
+  padding: ${props => props.small ? "2px 4px" : "4px 8px"};
+  transition: all 0.2s;
+  min-width: 100px;
 
   &:hover {
     background: ${altColor};

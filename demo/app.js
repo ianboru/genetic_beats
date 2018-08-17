@@ -9,6 +9,7 @@ import generateChildren from "./generateChildren"
 import "./index.css"
 import {
   panelBackground,
+  headerFooterBgColor,
 } from "./colors"
 
 import Arrangement from "./components/arrangement"
@@ -22,14 +23,13 @@ import Player from "./components/player"
 
 import SplitPane from "react-split-pane"
 
-import DevTools from "mobx-react-devtools"
+//import DevTools from "mobx-react-devtools"
 
 
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
 
-const headerFooterBgColor = "#1d1f27"
 
 const Header = styled.div`
   background: ${headerFooterBgColor};
@@ -54,10 +54,11 @@ const Info = styled.span`
 
 const PanelLabel = styled.div`
   font-size: 28px;
-  margin: 5px 0;
+  font-family: "Hind Madurai";
+  margin: 0 0 5px;
 `
 
-const familyTreeWidth = 620
+const familyTreeWidth = 500
 
 
 @observer
@@ -172,14 +173,22 @@ class App extends Component {
   }
 
   render() {
-    let selectText = ""
-    if (store.selectPairMode) {
-      selectText =
-        "In Select Mode. Selecting beats : " +
-        store.selectedBeats.join(" , ")
-    } else {
-      selectText = ""
-    }
+    const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
+
+    const beats = selectedBeats.map( (key) => {
+      const keyInfo = key.split(".")
+      const generation = keyInfo[0]
+      const beatNum = keyInfo[1]
+
+      return (
+        <Beat
+          beat              = {store.allGenerations[generation][beatNum]}
+          handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
+          handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
+          handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
+        />
+      )
+    })
 
     //<input type="file" onChange={this.handleUploadSample} ></input>
     const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
@@ -229,12 +238,15 @@ class App extends Component {
             </Header>
 
             <div style={{textAlign: "center"}}>
-              <Beat
-                beat              = {store.currentBeat}
-                handleRemoveTrack = {store.removeTrackFromCurrentBeat}
-                handleToggleNote  = {store.toggleNoteOnCurrentBeat}
-                handleSetSample   = {store.setSampleOnCurrentBeat}
-              />
+              {
+                (!store.selectPairMode ||
+                 store.selectedBeats.length > 0) ?
+                beats :
+                <div>
+                  <div>Select Mode Enabled.</div>
+                  <div>Select beats in Family Tree graph to display and mate.</div>
+                </div>
+              }
 
             </div>
             <Footer style={{textAlign: "center"}}>
@@ -243,10 +255,8 @@ class App extends Component {
               </Button>
 
               <Info>
-                <span>Beat: {store.currentBeat.key} (score: {store.currentBeat.score})</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;
                 <form style={{display: "inline-block"}} onSubmit={this.setScore}>
-                  <label>Rate Beat:
+                  <label>Rate Beat
                     <input
                       type        = "number"
                       step        = "0.1"
@@ -302,7 +312,6 @@ class App extends Component {
           />
 
           <Footer>
-            <div>{selectText}</div>
             <div>
               <Button
                 active  = {store.selectPairMode}
