@@ -45,12 +45,11 @@ class Store {
   @computed get currentBeat() {
     return this.currentGeneration[this.beatNum]
   }
+
   @computed get allBeatKeys() {
     let beatKeys = []
-    console.log(toJS(this.allGenerations))
-    this.allGenerations.forEach((generation)=>{
-      console.log(toJS(generation))
-      generation.forEach((beat)=>{
+    this.allGenerations.forEach((generation) => {
+      generation.forEach((beat) => {
         beatKeys.push(beat.key)
       })
     })

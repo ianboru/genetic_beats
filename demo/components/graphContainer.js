@@ -138,13 +138,13 @@ class GraphContainer extends React.Component {
     render() {
       // Mobx will only respond to state used in react components' render methods
       // This is a hack so that this component re-renders when it's supposed to
-      store.selectedBeats
+      store.selectedBeats.join("")
       store.generation
       store.beatNum
       store.currentGeneration
       store.newBeat
 
-      return <StyledGraphContainer 
+      return <StyledGraphContainer
         id    = "cy"
         style = {{
           height : this.props.height - topPadding - bottomPadding - borderWidth*2 - footerClearance,
