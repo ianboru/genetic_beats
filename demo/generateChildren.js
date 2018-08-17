@@ -76,13 +76,16 @@ const selectFitMembers = (generation) => {
 }
 const mutateByKillTrack = (beat) =>{
   let survivingTracks = []
-  beat.tracks.forEach((track)=>{
+  console.log("prekill",beat)
+  beat.tracks.forEach((track,i)=>{
     const randomInteger = Math.floor(Math.random() * 100)
-    if(randomInteger > store.sampleMutationRate){
+    if(randomInteger > store.sampleMutationRate|| (survivingTracks.length == 0 && i == beat.tracks.length-1)){
       survivingTracks.push(track)
     }
   })
   beat.tracks = survivingTracks
+  console.log("post kill",beat)
+
   return beat
 }
 const findSharedSamples = (momBeat, dadBeat) =>{
@@ -168,7 +171,7 @@ const mutateSequence = (sequence) => {
   })
   return mutatedSequence
 }
-const makeChildBeat = (momBeat, dadBeat, sharedSamples, missingMomSampleIndices, missingDadSampleIndices) => {
+const makeChildBeat = (momBeat, dadBeat, sharedSamples) => {
   let childBeat = {
 
     tracks : [],
@@ -178,38 +181,55 @@ const makeChildBeat = (momBeat, dadBeat, sharedSamples, missingMomSampleIndices,
 
   }
   //normalize subdivisions 
-  console.log("make child mom ", toJS(momBeat.tracks[0]))
-  console.log("make child dad ", toJS(dadBeat.tracks[0]))
-
+  let missingMomSampleIndices = []
+  let missingDadSampleIndices = []
   if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
     dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
   } else {
     momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
   }
-  console.log("norm child mom ", toJS(momBeat.tracks[0]))
-  console.log("norm child dad ", toJS(dadBeat.tracks[0]))
+  
+  console.log("shared samps", sharedSamples)
   for (let momTrackIndex = 0; momTrackIndex < momBeat.tracks.length-1;momTrackIndex++){
+    const momTrack = momBeat.tracks[momTrackIndex]
+    if(!sharedSamples.includes(momTrack.sample) && !missingMomSampleIndices.includes(momTrackIndex)){
+      missingMomSampleIndices.push(momTrackIndex)
+    }
     for (let dadTrackIndex = 0; dadTrackIndex < dadBeat.tracks.length-1;dadTrackIndex++){
-      const momTrack = momBeat.tracks[momTrackIndex]
       const dadTrack = dadBeat.tracks[dadTrackIndex]
+      if(!sharedSamples.includes(dadTrack.sample) && !missingDadSampleIndices.includes(dadTrackIndex)){
+        missingDadSampleIndices.push(dadTrackIndex)
+      }
       if(momTrack.sample == dadTrack.sample){
+        console.log("samples matched ", momTrackIndex, dadTrackIndex)
         childBeat.tracks.push(mateTracks(momTrack,momBeat.score, dadTrack, dadBeat.score))
       }
     }
   }
   console.log("done mating shared")
   // add tracks for missing dad samples
+  console.log(childBeat)
+  console.log(toJS(dadBeat.tracks))
   missingDadSampleIndices.forEach((index)=>{
+    console.log("dad missing", index)
     const childTrack = mateTracks(dadBeat.tracks[index],0, dadBeat.tracks[index],0)
     childBeat.tracks.push(childTrack)
   })
   // add tracks for missing mom samples
   console.log("don mating dad")
+  console.log(toJS(momBeat.tracks))
+
   missingMomSampleIndices.forEach((index)=>{
+    console.log("mom missing ", index)
+
     const childTrack = mateTracks(momBeat.tracks[index],0,momBeat.tracks[index],0)
     childBeat.tracks.push(childTrack)
   })
-  childBeat = mutateByKillTrack(childBeat)
+  console.log("pre kilk il" ,childBeat)
+  /*if(childBeat.tracks.length > 1){
+    childBeat = mutateByKillTrack(childBeat)
+  }*/
+  console.log("about to add" ,childBeat)
   childBeat = mutateByAddTrack(childBeat)
   return childBeat
 }
@@ -222,11 +242,9 @@ const selectTracksToInherit = (beat, missingSampleIndices) => {
     if (missingSampleIndices.includes(index)) {
       randomInteger = Math.floor(Math.random() * 100)
       if(randomInteger > store.sampleMutationRate){
-        console.log("inheriting ", toJS(beat.tracks[index]), index)
         inheritedTracks.push(beat.tracks[index])
       }
     }else{
-      console.log("inheriting ", toJS(beat.tracks[index]), index)
       inheritedTracks.push(beat.tracks[index])
     }
   })
@@ -240,16 +258,17 @@ const mateMembers = (members)=> {
     let momBeat = members[momIndex]
     for (let dadIndex = momIndex+1; dadIndex < members.length;dadIndex++){
         let dadBeat = members[dadIndex]
-        for (let i=0; i < store.numChildren; i++) {
-          const missingMomSampleIndices = findMissingSamples(dadBeat, momBeat)
-          const missingDadSampleIndices = findMissingSamples(momBeat, dadBeat)
-          const sharedSamples = findSharedSamples(momBeat, dadBeat)
+        const missingMomSampleIndices = findMissingSamples(dadBeat, momBeat)
+        const missingDadSampleIndices = findMissingSamples(momBeat, dadBeat)
+        const sharedSamples = findSharedSamples(momBeat, dadBeat)
 
+        for (let i=0; i < store.numChildren; i++) {
+          
           momBeat = selectTracksToInherit(momBeat,missingMomSampleIndices)
-          console.log("mom beat", momBeat)
+          console.log("mom beat inherited", momBeat)
           dadBeat = selectTracksToInherit(dadBeat,missingDadSampleIndices)
-          console.log("dad beat", dadBeat)
-          let childBeat = makeChildBeat(momBeat,dadBeat, sharedSamples, missingMomSampleIndices, missingDadSampleIndices)
+          console.log("dad beat inherited", dadBeat)
+          let childBeat = makeChildBeat(momBeat,dadBeat, sharedSamples)
           if(childBeat){
             nextGeneration.push(childBeat)
           }
@@ -269,7 +288,7 @@ const mateGeneration = (generation) => {
   //console.log("survivors " , nextGeneration)
   const reindexedMembers = nextGeneration.map( (beat, i) => {
     return { ...beat,
-      key: `${generation + 1}.${i}`,
+      key: `${store.generation + 1}.${i}`,
     }
   })
   return reindexedMembers

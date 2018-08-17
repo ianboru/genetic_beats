@@ -14,9 +14,7 @@ const updateObjectInArray = (arr, index, update) => {
 
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   // Deep clone beat object
-  console.log('normalize these', toJS(beat))
   let newBeat = JSON.parse(JSON.stringify(toJS(beat)))
-  console.log("cloned " ,newBeat.tracks[0])
   const subdivisionRatio = newSubdivisions / newBeat.tracks[0].sequence.length
   newBeat.tracks.forEach( (track, i) => {
     let newSequence = []
@@ -28,7 +26,6 @@ const normalizeSubdivisions = (beat, newSubdivisions) => {
     })
     newBeat.tracks[i].sequence = newSequence
   })
-  console.log("normalized " ,newBeat)
   return newBeat
 }
 
