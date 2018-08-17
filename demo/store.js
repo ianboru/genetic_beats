@@ -24,10 +24,10 @@ class Store {
   @observable selectPairMode     = false
   @observable selectedBeats      = []
   @observable sampleMutationRate = 50
-  @observable mutationRate       = 20
+  @observable noteMutationRate   = 8
   @observable numSurvivors       = 7
   @observable numChildren        = 3
-  @observable selectFitThreshold = 80
+  @observable fitnessThreshold   = 80
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
   @observable tempo              = 120
@@ -70,7 +70,7 @@ class Store {
     this.arrangementBeats = []
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
-    let selectFitThreshold = this.selectFitThreshold/100
+    let fitessThreshold = this.fitessThreshold/100
 
     let allScores = []
     this.allGenerations.forEach((generation)=>{
@@ -80,7 +80,7 @@ class Store {
     })
     allScores = allScores.sort( (a, b) => (a - b) )
 
-    let percentileIndex = Math.floor(allScores.length * selectFitThreshold) - 1
+    let percentileIndex = Math.floor(allScores.length * fitessThreshold) - 1
     this.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
 
@@ -169,8 +169,8 @@ class Store {
     localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
   }
 
-  @action setMutationRate = (mutationRate) => {
-    this.mutationRate = mutationRate
+  @action setNoteMutationRate = (rate) => {
+    this.noteMutationRate = rate
   }
 
   @action setTempo = (tempo) => {
@@ -189,8 +189,8 @@ class Store {
     this.numSurvivors = numSurvivors
   }
 
-  @action setselectFitThreshold = (selectFitThreshold) => {
-    this.selectFitThreshold = selectFitThreshold
+  @action setFitnessThreshold = (fitessThreshold) => {
+    this.fitessThreshold = fitessThreshold
   }
 
   @action toggleMetronome = () => {

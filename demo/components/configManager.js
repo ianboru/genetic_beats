@@ -84,8 +84,8 @@ export default class ConfigManager extends Component {
     store.setTempo(parseInt(e.target.value))
   }
 
-  handleSetMutationRate = (e) => {
-    store.setMutationRate(parseInt(e.target.value))
+  handleSetNoteMutationRate = (e) => {
+    store.setNoteMutationRate(parseInt(e.target.value))
   }
 
   handleSetSampleMutationRate = (e) => {
@@ -100,8 +100,8 @@ export default class ConfigManager extends Component {
     store.setNumSurvivors(parseInt(e.target.value))
   }
 
-  handleSetScoreThreshold = (e) => {
-    store.setScoreThreshold(parseInt(e.target.value))
+  handleSetFitnessThreshold = (e) => {
+    store.setFitnessThreshold(parseInt(e.target.value))
   }
 
   toggleShow = () => {
@@ -124,8 +124,8 @@ export default class ConfigManager extends Component {
           />
           <ConfigControl
             name          = "Note Mutation Rate"
-            value         = {store.mutationRate}
-            changeHandler = {this.handleSetMutationRate}
+            value         = {store.noteMutationRate}
+            changeHandler = {this.handleSetNoteMutationRate}
             min           = {0}
             max           = {100}
           />
@@ -152,8 +152,8 @@ export default class ConfigManager extends Component {
           />
           <ConfigControl
             name          = "Top Percentile of Survivors"
-            value         = {store.scoreThreshold}
-            changeHandler = {this.handleSetScoreThreshold}
+            value         = {store.fitnessThreshold}
+            changeHandler = {this.handleSetFitnessThreshold}
             min           = {0}
             max           = {100}
           />

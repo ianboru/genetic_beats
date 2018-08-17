@@ -10,19 +10,22 @@ import { toJS } from "mobx"
 import store from "./store"
 
 
-const getScoreThreshold = (generation) => {
-  let scoreThreshold = store.selectFitThreshold/100
+const getFitnessThreshold = (generation) => {
+  let fitnessThreshold = store.fitnessThreshold/100
   let allScores = generation.map((beat) => { return beat.score })
   allScores = allScores.sort( (a, b) => (a - b) )
 
-  let percentileIndex = Math.floor(allScores.length * scoreThreshold) - 1
+  let percentileIndex = Math.floor(allScores.length * fitnessThreshold) - 1
   return allScores[percentileIndex]
 }
 
 const selectSurvivors = (generation) => {
-  let randomIntegerArray = getRandomIndices(store.numSurvivors, generation.length)
+  /*let randomIntegerArray = getRandomIndices(store.numSurvivors, generation.length)
   const survivors = getSubarray(generation, randomIntegerArray)
-  console.log("selected survivors", survivors)
+  console.log("selected survivors", survivors)*/
+
+  const survivors = generation.slice(0,store.numSurvivors)
+  console.log("survivors", survivors)
   return survivors
 }
 const mutateByAddTrack = (beat) => {
@@ -68,9 +71,9 @@ const mutateByAddTrack = (beat) => {
 }
 const selectFitMembers = (generation) => {
   let fitMembers = []
-  const scoreThreshold = getScoreThreshold(generation)
+  const fitnessThreshold = getFitnessThreshold(generation)
   generation.forEach((beat)=>{
-    if(beat.score >= scoreThreshold){
+    if(beat.score >= fitnessThreshold){
       fitMembers.push(beat)
     }
   })
@@ -81,13 +84,13 @@ const mutateByKillTrack = (beat) =>{
   console.log("prekill",beat)
   beat.tracks.forEach((track,i)=>{
     const randomInteger = Math.floor(Math.random() * 100)
-    if(randomInteger > store.sampleMutationRate|| (survivingTracks.length == 0 && i == beat.tracks.length-1)){
+    //divide mutateRate by number of tracks so the total chance of killing is the same as the rate
+    if(randomInteger > store.sampleMutationRate/beat.tracks.length|| (survivingTracks.length == 0 && i == beat.tracks.length-1)){
       survivingTracks.push(track)
     }
   })
   beat.tracks = survivingTracks
   console.log("post kill",beat)
-
   return beat
 }
 const mateTracks = (momTrack,momScore, dadTrack, dadScore) => {
@@ -98,7 +101,6 @@ const mateTracks = (momTrack,momScore, dadTrack, dadScore) => {
     sample : momTrack.sample,
     trackType : momTrack.trackType,
   }
-  
   return childTrack
 }
 
@@ -138,7 +140,7 @@ const mutateSequence = (sequence) => {
   const mutatedSequence = []
   sequence.forEach((note)=>{
     const randomInteger = Math.floor(Math.random() * 100)
-    if(randomInteger < store.sampleMutationRate){
+    if(randomInteger < store.noteMutationRate){
       note = 1 - note
     }
     mutatedSequence.push(note)
@@ -186,9 +188,9 @@ const makeChildBeat = (momBeat, dadBeat) => {
       childBeat.tracks.push(mateTracks(dadTrack,dadBeat.score, dadTrack,dadBeat.score))
     }
   }
-  /*if(childBeat.tracks.length > 1){
+  if(childBeat.tracks.length > 1){
     childBeat = mutateByKillTrack(childBeat)
-  }*/
+  }
   console.log("about to add" ,childBeat)
   childBeat = mutateByAddTrack(childBeat)
   return childBeat
@@ -217,9 +219,9 @@ const mateGeneration = (generation) => {
   console.log("fittest " , toJS(fitMembers[0]), toJS(fitMembers[1]))
   const nextGeneration = mateMembers(fitMembers)
   console.log("next ", toJS(nextGeneration))
-  //const survivingMembers = selectSurvivors(nextGeneration)
+  const survivingMembers = selectSurvivors(nextGeneration)
   //console.log("survivors " , nextGeneration)
-  const reindexedMembers = nextGeneration.map( (beat, i) => {
+  const reindexedMembers = survivingMembers.map( (beat, i) => {
     return { ...beat,
       key: `${store.generation + 1}.${i}`,
     }
