@@ -58,12 +58,18 @@ const getSubarray = (array, indexList) => {
 
 const findInJSON = (object, key, value) => {
   let result = {}
+  let found = false
   object.forEach((element) => {
     if (element[key] && element[key] == value ) {
       result = element
+      found = true
     }
   })
-  return result
+  if(found){
+    return result
+  }else{
+    return null
+  }
 }
 
 

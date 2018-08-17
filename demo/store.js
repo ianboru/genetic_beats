@@ -23,11 +23,11 @@ class Store {
   @observable synthGain          = 0.2
   @observable selectPairMode     = false
   @observable selectedBeats      = []
-  @observable sampleMutationRate = 15
-  @observable mutationRate       = 8
+  @observable sampleMutationRate = 50
+  @observable mutationRate       = 20
   @observable numSurvivors       = 7
   @observable numChildren        = 3
-  @observable selectFitThreshold     = 80
+  @observable selectFitThreshold = 80
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
   @observable tempo              = 120
