@@ -4,4 +4,3 @@
 - Separate initial configuration into config file (M)
 - Create UI choose instruments to include or exclude. Web is optimal for future multi-person use. (M)
 - Create UI to load wavs into library (L)
-- adjust volume of sounds (plan for ui)
