@@ -6,6 +6,11 @@ import { observer } from "mobx-react"
 import Button from "./button"
 
 import store from "../store"
+import {
+  blue,
+  lightBlue,
+  panelBackground,
+} from "../colors"
 
 
 const labelWidth = 230
@@ -58,17 +63,17 @@ const StyledConfigManager = styled.div`
 `
 
 const ConfigPanel = styled.div`
-  display: ${props => props.show ? "inlineblock" : "none"};
-  border: 2px solid #403F3F;
+  background-color: ${panelBackground};
   border-radius: 3px;
-  box-shadow: 2px 2px 3px #888;
+  border: 2px solid ${blue};
+  box-shadow: 0px 0px 5px 3px rgba(255, 255, 255, 0.8);
+  display: ${props => props.show ? "inlineblock" : "none"};
   font-family: sans-serif;
   font-size: 16px;
   padding: 10px;
   position: absolute;
   top: 52px;
-  left: -${labelWidth + inputWidth + 45}px;
-  background: white;
+  left: -${labelWidth + inputWidth + 60}px;
   width: ${labelWidth + inputWidth + 160}px;
   z-index: 1;
 `

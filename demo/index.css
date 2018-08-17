@@ -1,6 +1,8 @@
 html, body {
   height: 100%;
   font-size: 22px;
+  color: white;
+  font-family: "Source Sans Pro";
 }
 
 input {
@@ -24,4 +26,42 @@ input {
 .remove-track:hover {
   background: red;
   color: white;
+
+}
+
+.Resizer {
+  box-sizing: border-box;
+  background: #aaa;
+  /*opacity: 0.5;*/
+  z-index: 1;
+  background-clip: padding-box;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.Resizer.horizontal {
+  height: 15px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.horizontal:hover {
+  border-top: 5px solid #3A9FCC;
+  border-bottom: 5px solid #3A9FCC;
+}
+
+.Resizer.vertical {
+  width: 15px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+  border-left: 5px solid #3A9FCC;
+  border-right: 5px solid #3A9FCC;
 }

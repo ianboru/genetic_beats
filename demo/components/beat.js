@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
+import styled from "styled-components"
 import { toJS } from "mobx"
 
 import {allNotesInRange} from "../utils"
@@ -74,6 +75,23 @@ const trackNameStyles = {
 }
 
 
+const RemoveTrackButton = styled.span`
+  color: white;
+  cursor: pointer;
+  font-size: 30px;
+  margin-left: 5px;
+  position: relative;
+  top: -5px;
+  height: 15px;
+  width: 15px;
+  display: inline-block;
+
+  &:hover {
+    color: red;
+  }
+`
+
+
 @observer
 class Track extends Component {
   handleNoteToggle = (noteNumber) => {
@@ -135,10 +153,10 @@ class Track extends Component {
           </select>
         </div>
         {notes}
-          <span
-            className = "remove-track"
-            onClick   = {this.handleRemoveTrack}
-          >remove track</span>
+          <RemoveTrackButton
+            title   = {"Delete track}"}
+            onClick = {this.handleRemoveTrack}
+          >&times;</RemoveTrackButton>
           <GainSlider sample={track.sample} trackType={track.trackType} />
       </div>
     )

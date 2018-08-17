@@ -8,6 +8,11 @@ import CreateBeat from "./createBeat"
 import Player from "./player"
 
 import store from "../store"
+import {
+  blue,
+  lightBlue,
+  panelBackground,
+} from "../colors"
 
 
 const StyledNewBeatManager = styled.div`
@@ -17,20 +22,20 @@ const StyledNewBeatManager = styled.div`
 `
 
 const NewBeatPanel = styled.div`
-  display: inline-block;
-  visibility: ${props => props.show ? "visible" : "hidden"};
-  border: 2px solid #403F3F;
+  background-color: ${panelBackground};
   border-radius: 3px;
-  box-shadow: 2px 2px 3px #888;
+  border: 2px solid ${blue};
+  box-shadow: 0px 0px 5px 3px rgba(255, 255, 255, 0.8);
+  display: inline-block;
   font-family: sans-serif;
   font-size: 16px;
+  left: -200px;
+  min-height: 200px;
   padding: 10px;
   position: absolute;
   top: 52px;
-  left: -200px;
-  background: white;
+  visibility: ${props => props.show ? "visible" : "hidden"};
   width: 800px;
-  min-height: 200px;
   z-index: 1;
 `
 

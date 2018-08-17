@@ -6,11 +6,18 @@ import cytoscape from 'cytoscape'
 
 import store from "../store"
 
+
+const footerClearance = 90
+
+const sidePadding = 0
+const topPadding = 0
+const bottomPadding = 0
+const borderWidth = 1
+
 const StyledGraphContainer = styled.div`
-  border: 1px solid #333;
-  height: 400px;
-  width: 400px;
-  margin: 20px 0px;
+  border: ${borderWidth}px solid #333;
+  margin: 0;
+  padding: ${topPadding}px ${sidePadding}px ${bottomPadding}px;
   display: inline-block;
   vertical-align: top;
 `
@@ -93,15 +100,15 @@ class GraphContainer extends React.Component {
             'background-color' : 'mapData(score, 0, 20, white, red)',
             'background-fit'   : 'cover',
             'border-color'     : 'mapData(selected, 0, 1, black, red)',
-            'border-width'     : 3,
-            'border-opacity'   : 0.5,
+            'border-width'     : 12,
+            'border-opacity'   : 0.6,
             'content'          : 'data(name)',
             'text-valign'      : 'center',
             'label'            : 'data(id)',
           })
           .selector('edge')
           .css({
-            'width'              : 4,
+            'width'              : 5,
             'target-arrow-shape' : 'triangle',
             'line-color'         : 'mapData(visible, 0, 1, white, black)',
             'target-arrow-color' : '#000000',
@@ -110,8 +117,8 @@ class GraphContainer extends React.Component {
             'opacity' : .4,
           }),
       })
-      this.cy.maxZoom(2)
-      this.cy.minZoom(0.2)
+      this.cy.maxZoom(1.2)
+      this.cy.minZoom(0.3)
 
       this.cy.on('click', 'node', function(evt) {
         const idData = this.id().split(".")
@@ -137,7 +144,13 @@ class GraphContainer extends React.Component {
       store.currentGeneration
       store.newBeat
 
-      return <StyledGraphContainer id="cy" />
+      return <StyledGraphContainer 
+        id    = "cy"
+        style = {{
+          height : this.props.height - topPadding - bottomPadding - borderWidth*2 - footerClearance,
+          width  : this.props.width - sidePadding*2 - borderWidth*2,
+        }}
+      />
     }
 
 }
