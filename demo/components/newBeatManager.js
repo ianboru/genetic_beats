@@ -30,6 +30,7 @@ const NewBeatPanel = styled.div`
   left: -200px;
   background: white;
   width: 800px;
+  min-height: 200px;
   z-index: 1;
 `
 
