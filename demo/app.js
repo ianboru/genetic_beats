@@ -213,7 +213,7 @@ class App extends Component {
             <form onSubmit={this.setScore}>
               <label>Rate Beat:
                 <input
-                  type        = "text"
+                  type        = "number"
                   value       = {this.state.inputScore}
                   onChange    = {this.handleInputChange}
                   placeholder = "Enter Score"
