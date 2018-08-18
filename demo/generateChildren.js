@@ -20,11 +20,15 @@ const getFitnessThreshold = (generation) => {
 }
 
 const selectSurvivors = (generation) => {
-  /*let randomIntegerArray = getRandomIndices(store.numSurvivors, generation.length)
-  const survivors = getSubarray(generation, randomIntegerArray)
-  console.log("selected survivors", survivors)*/
+  const numIndices = Math.min(store.numSurvivors, generation.length)
+  let randomIntegerArray = getRandomIndices(numIndices, generation.length)
+  console.log(randomIntegerArray)
 
-  const survivors = generation.slice(0,store.numSurvivors)
+  let survivors = []
+  randomIntegerArray.forEach((index)=>{
+    survivors.push(generation[index])
+  })
+  console.log("selected survivors", survivors)
   console.log("survivors", survivors)
   return survivors
 }
