@@ -20,17 +20,17 @@ class Store {
   @observable generation         = 0
   @observable allGenerations     = [initialGeneration]
   @observable samples            = samples
-  @observable synthGain          = 0.2
+  @observable synthGain          = 0.15
   @observable selectPairMode     = false
   @observable selectedBeats      = []
-  @observable sampleMutationRate = 50
+  @observable sampleMutationRate = 15
   @observable noteMutationRate   = 8
-  @observable numSurvivors       = 7
+  @observable numSurvivors       = 6
   @observable numChildren        = 3
-  @observable fitnessThreshold   = 80
+  @observable fitnessThreshold   = 75
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
-  @observable tempo              = 120
+  @observable tempo              = 100
   @observable metronome          = false
   @observable arrangementBeats = []
 
