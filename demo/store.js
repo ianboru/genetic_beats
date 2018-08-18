@@ -115,6 +115,7 @@ class Store {
 
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
+    this.arrangementBeats = []
   }
 
   @action selectBeat = (generation, beatNum) => {
