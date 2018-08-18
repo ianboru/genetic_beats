@@ -70,7 +70,7 @@ class Store {
     this.arrangementBeats = []
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
-    let fitessThreshold = this.fitessThreshold/100
+    let fitessThreshold = this.fitnessThreshold/100
 
     let allScores = []
     this.allGenerations.forEach((generation)=>{
