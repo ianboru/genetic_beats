@@ -20,19 +20,19 @@ class Store {
   @observable generation         = 0
   @observable allGenerations     = [initialGeneration]
   @observable samples            = samples
-  @observable synthGain          = 0.2
+  @observable synthGain          = 0.15
   @observable selectPairMode     = false
   @observable selectedBeats      = []
   @observable sampleMutationRate = 15
-  @observable mutationRate       = 8
-  @observable numSurvivors       = 7
+  @observable noteMutationRate   = 8
+  @observable numSurvivors       = 6
   @observable numChildren        = 3
-  @observable scoreThreshold     = 80
+  @observable fitnessPercentile  = 75
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
-  @observable tempo              = 120
+  @observable tempo              = 100
   @observable metronome          = false
-  @observable arrangementBeats = []
+  @observable arrangementBeats   = []
 
   //
   // COMPUTED VALUES
@@ -69,7 +69,6 @@ class Store {
     this.arrangementBeats = []
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
-    let scoreThreshold = this.scoreThreshold/100
 
     let allScores = []
     this.allGenerations.forEach((generation)=>{
@@ -79,7 +78,7 @@ class Store {
     })
     allScores = allScores.sort( (a, b) => (a - b) )
 
-    let percentileIndex = Math.floor(allScores.length * scoreThreshold) - 1
+    let percentileIndex = Math.floor(allScores.length * fitnessPercentile/100) - 1
     this.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
 
@@ -110,10 +109,12 @@ class Store {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
+    this.updateFamilyInStorage()
   }
 
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
+    this.arrangementBeats = []
   }
 
   @action selectBeat = (generation, beatNum) => {
@@ -168,8 +169,8 @@ class Store {
     localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
   }
 
-  @action setMutationRate = (mutationRate) => {
-    this.mutationRate = mutationRate
+  @action setNoteMutationRate = (rate) => {
+    this.noteMutationRate = rate
   }
 
   @action setTempo = (tempo) => {
@@ -188,8 +189,8 @@ class Store {
     this.numSurvivors = numSurvivors
   }
 
-  @action setScoreThreshold = (scoreThreshold) => {
-    this.scoreThreshold = scoreThreshold
+  @action setFitnessThreshold = (fitnessPercentile) => {
+    this.fitnessPercentile = fitnessPercentile
   }
 
   @action toggleMetronome = () => {

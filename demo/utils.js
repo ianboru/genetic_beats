@@ -1,3 +1,5 @@
+import { toJS } from "mobx"
+
 const deepClone = (obj) => {
   return JSON.parse(JSON.stringify(obj))
 }
@@ -12,10 +14,8 @@ const updateObjectInArray = (arr, index, update) => {
 
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   // Deep clone beat object
-  let newBeat = JSON.parse(JSON.stringify(beat))
-
+  let newBeat = JSON.parse(JSON.stringify(toJS(beat)))
   const subdivisionRatio = newSubdivisions / newBeat.tracks[0].sequence.length
-
   newBeat.tracks.forEach( (track, i) => {
     let newSequence = []
     track.sequence.forEach( (note) => {
@@ -31,14 +31,18 @@ const normalizeSubdivisions = (beat, newSubdivisions) => {
 
 const getRandomIndices = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
-
   for (let i = 0; i < numIntegers; i++) {
     var randomInteger = Math.floor(Math.random() * arrayLength)
     if(randomIntegerArray.indexOf(randomInteger) == -1){
       randomIntegerArray.push(randomInteger)
       continue
     }
+    let numTries = 0
     while (randomIntegerArray.indexOf(randomInteger) > -1) {
+      ++numTries
+      if(numTries > 20){
+        break
+      }
       randomInteger = Math.floor(Math.random() * arrayLength)
       if(randomIntegerArray.indexOf(randomInteger) == -1){
         randomIntegerArray.push(randomInteger)
@@ -57,53 +61,22 @@ const getSubarray = (array, indexList) => {
 
 const findInJSON = (object, key, value) => {
   let result = {}
+  let found = false
   object.forEach((element) => {
     if (element[key] && element[key] == value ) {
       result = element
+      found = true
     }
   })
-  return result
+  if(found){
+    return result
+  }else{
+    return null
+  }
 }
 
 
-const matePair = (mom, dad, mutationRateInteger) => {
-  let mutationRate = mutationRateInteger/100
-  let percentDifference = 0
 
-  if (Math.max(dad.score, mom.score) > 0) {
-    percentDifference = Math.abs((dad.score - mom.score) / Math.max(dad.score, mom.score))
-  }
-  const inheritanceComparitor = 100 * (0.5 - percentDifference)
-  const mutationComparitor = 100 * mutationRate
-
-  let fittestBeat = {}
-  let weakestBeat = {}
-  if (dad.score > mom.score) {
-    fittestBeat = dad
-    weakestBeat = mom
-  } else {
-    fittestBeat = mom
-    weakestBeat = dad
-  }
-
-  let childBeat = []
-  mom.sequence.forEach( (note, noteIndex) => {
-    let randomInteger = Math.floor(Math.random() * 100)
-    let survivingNote = 0
-    if (randomInteger > inheritanceComparitor) {
-      survivingNote = fittestBeat.sequence[noteIndex]
-    } else {
-      survivingNote = weakestBeat.sequence[noteIndex]
-    }
-    randomInteger = Math.floor(Math.random() * 100)
-    if(randomInteger < mutationComparitor){
-      survivingNote = 1 - survivingNote
-    }
-    childBeat.push(survivingNote)
-  })
-
-  return childBeat
-}
 
 function generateFamilyName(){
   const words = [
@@ -146,14 +119,12 @@ octaves.forEach((octave)=>{
     }
   })
 }) 
-console.log(allNotesInRange)
 export {
   deepClone,
   getRandomIndices,
   getSubarray,
   findInJSON,
   normalizeSubdivisions,
-  matePair,
   generateFamilyName,
   allNotesInRange,
 }

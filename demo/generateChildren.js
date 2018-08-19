@@ -3,182 +3,226 @@ import {
   getRandomIndices,
   getSubarray,
   findInJSON,
-  matePair,
   normalizeSubdivisions,
   allNotesInRange
 } from "./utils"
+import { toJS } from "mobx"
+import store from "./store"
 
 
-export default (currentGen, generation, samples, numInitialSurvivors, numChildren, mutationRate, sampleMutationRate,scoreThresholdInteger) => {
-  const getScoreThreshold = (generation, survivorPercentile = scoreThresholdInteger) => {
-    let scoreThreshold = scoreThresholdInteger/100
-    let allScores = generation.map((beat) => { return beat.score })
-    allScores = allScores.sort( (a, b) => (a - b) )
+const getFitnessThreshold = (generation) => {
+  let fitnessPercentile = store.fitnessPercentile/100
+  let allScores = generation.map((beat) => { return beat.score })
+  allScores = allScores.sort( (a, b) => (a - b) )
 
-    let percentileIndex = Math.floor(allScores.length * scoreThreshold) - 1
-    return allScores[percentileIndex]
-  }
+  let percentileIndex = Math.floor(allScores.length * fitnessPercentile) - 1
+  return allScores[percentileIndex]
+}
 
-  const keepRandomSurvivors = (numSurvivors, nextGeneration) => {
-    let randomIntegerArray = getRandomIndices(numSurvivors, nextGeneration.length)
-    nextGeneration = getSubarray(nextGeneration, randomIntegerArray)
-    return nextGeneration
-  }
-  const makeChildFromNewSample = (samples, allNotesInRange, currentBeatSampleKeys, numSteps,) => {
-    let randomInteger = Math.floor(Math.random() * 100)
-    const sampleMutationRateDecimal = sampleMutationRate/100
-    const sampleMutationComparitor = 100 * sampleMutationRateDecimal
-    if (randomInteger < sampleMutationComparitor) {
+const selectSurvivors = (generation) => {
+  const numIndices = Math.min(store.numSurvivors, generation.length)
+  const randomIntegerArray = getRandomIndices(numIndices, generation.length)
+  const survivors = randomIntegerArray.map((index)=>{
+    return generation[index]
+  })
+  return survivors
+}
 
-      let trackType = ""
-      let validSampleKeys = []
-      const synthSamplerComparitor = Math.floor(Math.random() * 100)
+const mutateByAddTrack = (beat) => {
+  let randomInteger = Math.floor(Math.random() * 100)
+  if (randomInteger < store.sampleMutationRate) {
+    const currentBeatSampleKeys = beat.tracks.map(track => track.sample)
 
-      if(synthSamplerComparitor > 50){
-        trackType = "sampler"
-        validSampleKeys = Object.keys(samples)
+    let trackType = ""
+    let validSampleKeys = []
 
-      }else{
-        trackType = "synth"
-        validSampleKeys = allNotesInRange.slice(0)
-      }
-
-      currentBeatSampleKeys.forEach(key =>{
-        if(validSampleKeys.includes(key)){
-          validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
-        }
-      })
-      const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
-      const randomSampleKey = validSampleKeys[randomIndex]
-      
-      let newSampleSequence = Array(numSteps).fill(0)
-      let newSampleObject = { "score" : 0, "sequence" : newSampleSequence}
-      newSampleSequence = matePair(newSampleObject, newSampleObject, Math.min(30,mutationRate))
-      if (newSampleSequence.includes(1)) {
-        return {
-          sample   : randomSampleKey,
-          sequence : newSampleSequence,
-          trackType : trackType
-        }
-      } else {
-        return null
-      }
-    } else {
-        return null
+    randomInteger = Math.floor(Math.random() * 100)
+    if(randomInteger > 50){
+      trackType = "sampler"
+      validSampleKeys = Object.keys(store.samples)
+    }else{
+      trackType = "synth"
+      validSampleKeys = allNotesInRange.slice(0)
     }
+
+    // Remove samples from the pool of options if they're already in the beat
+    currentBeatSampleKeys.forEach(key => {
+      if(validSampleKeys.includes(key)){
+        validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
+      }
+    })
+
+    let randomIndex = Math.floor(Math.random() * validSampleKeys.length)
+
+    const randomSampleKey = validSampleKeys[randomIndex]
+    const numNotes = beat.tracks[0].sequence.length
+    let newTrackSequence = mutateSequence( Array(numNotes).fill(0) )
+
+    if (!newTrackSequence.includes(1)) {
+      randomIndex = Math.floor(Math.random() * numNotes)
+      newTrackSequence[randomIndex] = 1
+    }
+
+    beat.tracks.push({
+      sample    : randomSampleKey,
+      sequence  : newTrackSequence,
+      trackType : trackType,
+    })
+  }
+  return beat
+}
+
+const selectFitMembers = (generation) => {
+  const fitnessThreshold = getFitnessThreshold(generation)
+  const fitMembers = generation.filter(beat => beat.score >= fitnessThreshold)
+  return fitMembers
+}
+
+const mutateByKillTrack = (beat) => {
+  let survivingTracks = []
+  beat.tracks.forEach((track, i) => {
+    const randomInteger = Math.floor(Math.random() * 100)
+    // divide mutateRate by number of tracks so the total chance of killing is the same as the rate
+    if(randomInteger > store.sampleMutationRate/beat.tracks.length ||
+       // Don't kill the last track
+       (survivingTracks.length == 0 && i == beat.tracks.length-1)) {
+      survivingTracks.push(track)
+    }
+  })
+  beat.tracks = survivingTracks
+  return beat
+}
+
+const mateTracks = (momTrack,momScore, dadTrack, dadScore) => {
+  let childSequence = mateSequences(momTrack.sequence, momScore, dadTrack.sequence, dadScore)
+  childSequence = mutateSequence(childSequence)
+  const childTrack = {
+    sequence: childSequence,
+    sample : momTrack.sample,
+    trackType : momTrack.trackType,
+  }
+  return childTrack
+}
+const rankSequenceFitness= (momSequence, momScore, dadSequence, dadScore) => {
+  let fittestSequence = []
+  let weakestSequence = []
+  if (dadScore > momScore) {
+    fittestSequence = dadSequence
+    weakestSequence = momSequence
+  } else {
+    fittestSequence = momSequence
+    weakestSequence = dadSequence
+  }
+  return {
+    fittestSequence : fittestSequence,
+    weakestSequence : weakestSequence,
+  }
+}
+const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
+  let percentDifference = 0
+  if (Math.max(dadScore, momScore) > 0) {
+    percentDifference = Math.abs((dadScore - momScore) / Math.max(dadScore, momScore))
+  }
+  const inheritanceComparitor = 100 * (0.5 - percentDifference)
+
+  const rankedSequences = rankSequenceFitness(momSequence, momScore, dadSequence, dadScore)
+
+  let childSequence = []
+  momSequence.forEach( (note, noteIndex) => {
+    let randomInteger = Math.floor(Math.random() * 100)
+    let survivingNote = 0
+    if (randomInteger > inheritanceComparitor) {
+      survivingNote = rankedSequences.fittestSequence[noteIndex]
+    } else {
+      survivingNote = rankedSequences.weakestSequence[noteIndex]
+    }
+    childSequence.push(survivingNote)
+  })
+
+  return childSequence
+}
+
+const mutateSequence = (sequence) => {
+  const mutatedSequence = sequence.map((note) => {
+    const randomInteger = Math.floor(Math.random() * 100)
+    if(randomInteger < store.noteMutationRate){
+      note = 1 - note
+    }
+    return note
+  })
+  return mutatedSequence
+}
+
+const matePair = (momBeat, dadBeat) => {
+  let childBeat = {
+    tracks : [],
+    score  : (momBeat.score + dadBeat.score)/2,
+    momKey : momBeat.key,
+    dadKey : dadBeat.key,
+    // child's key is added later
   }
 
-  const sampleMutationRateDecimal = sampleMutationRate/100
-  const sampleMutationComparitor = 100 * sampleMutationRateDecimal
+  // handle all mom samples
+  momBeat.tracks.forEach( (momTrack) => {
+    const dadTrack = findInJSON(dadBeat.tracks, 'sample', momTrack.sample)
+    if (dadTrack) {
+      childBeat.tracks.push(mateTracks(momTrack, momBeat.score, dadTrack, dadBeat.score))
+    } else {
+      childBeat.tracks.push({
+        sample    : momTrack.sample,
+        sequence  : mutateSequence(momTrack.sequence),
+        trackType : momTrack.trackType,
+      })
+    }
+  })
+
+  // handle remaining dad samples
+  dadBeat.tracks.forEach( (dadTrack) => {
+    const momTrack = findInJSON(momBeat.tracks, 'sample', dadTrack.sample)
+    if (!momTrack) {
+      childBeat.tracks.push(mateTracks(dadTrack, dadBeat.score, dadTrack, dadBeat.score))
+    }
+  })
+
+  if (childBeat.tracks.length > 1) {
+    childBeat = mutateByKillTrack(childBeat)
+  }
+  childBeat = mutateByAddTrack(childBeat)
+
+  return childBeat
+}
+
+const mateMembers = (members)=> {
   let nextGeneration = []
-  const threshold = getScoreThreshold(currentGen)
-  console.log("score threshold", threshold)
-  // For all mom, dad pairs for all children in number of children per generation
-  for (let momIndex = 0; momIndex < currentGen.length-1;momIndex++){
-    let momBeat = currentGen[momIndex]
-    for (let dadIndex = momIndex+1; dadIndex < currentGen.length;dadIndex++){
-    let dadBeat = currentGen[dadIndex]
-      // Don't mate unfit pairs
-      console.log(momBeat.score)
-      console.log(dadBeat.score)
-      if ( (momBeat.score < threshold || dadBeat.score < threshold) && nextGeneration.length > 5) {
-        return
-      }
 
-      // To pass on to children
-      let aveParentScore = (momBeat.score + dadBeat.score) / 2
-
-      // If mom and dad have different beat lengths
+  members.forEach( (momBeat, momIndex) => {
+    members.slice(momIndex+1).forEach( (dadBeat, dadIndex) => {
       if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
         dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
       } else {
         momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
       }
 
-      for (let i=0; i < numChildren; i++) {
-        let newBeatTracks = []
-        let currentBeatSampleKeys = []
-        let randomInteger
-
-        // For Samplers
-        Object.keys(samples).forEach( (key) => {
-          // `sample` on a track comes from the `path` attribute of a
-          // given sample in samples.js
-          const path = samples[key].path
-
-          let momTrack = findInJSON(momBeat.tracks, 'sample', path)
-          let dadTrack = findInJSON(dadBeat.tracks, 'sample', path)
-
-          // Handle case where mom and dad don't have the same samples
-          if (momTrack.sample || dadTrack.sample) {
-            if (!momTrack.sample) { momTrack = dadTrack }
-            if (!dadTrack.sample) { dadTrack = momTrack }
-            const childSequence = matePair(momTrack, dadTrack, mutationRate)
-            currentBeatSampleKeys.push(path)
-            randomInteger = Math.floor(Math.random() * 100)
-            
-            // Randomly remove tracks
-            if(randomInteger > sampleMutationComparitor ){
-              newBeatTracks.push({
-                sample   : path,
-                sequence : childSequence,
-                trackType: "sampler"
-
-              })
-            }
-          }
-        })
-
-        // For Synths 
-        allNotesInRange.forEach( (noteName) => {
-          // `sample` on a track comes from the `path` attribute of a
-          // given sample in samples.js
-
-          let momTrack = findInJSON(momBeat.tracks, 'sample', noteName)
-          let dadTrack = findInJSON(dadBeat.tracks, 'sample', noteName)
-
-          if (momTrack.sample || dadTrack.sample) {
-            // Handle case where mom and dad don't have the same samples
-            if (!momTrack.sample) { momTrack = dadTrack }
-            if (!dadTrack.sample) { dadTrack = momTrack }
-
-            const childSequence = matePair(momTrack, dadTrack, mutationRate)
-            currentBeatSampleKeys.push(noteName)
-            randomInteger = Math.floor(Math.random() * 100)
-            
-            // Randomly remove tracks
-            if(randomInteger > sampleMutationComparitor ){
-              newBeatTracks.push({
-                sample   : noteName,
-                sequence : childSequence,
-                trackType: "synth"
-              })
-            }
-            
-          }
-        })
-        const newSampleChild = makeChildFromNewSample(samples, allNotesInRange, currentBeatSampleKeys, newBeatTracks[0].sequence.length)
-        if(newSampleChild){
-            newBeatTracks.push(newSampleChild)
-        }
-
-        nextGeneration.push({
-          score  : aveParentScore,
-          tracks : newBeatTracks,
-          momKey : momBeat.key,
-          dadKey : dadBeat.key,
-        })
+      for (let i=0; i < store.numChildren; i++) {
+        const childBeat = matePair(momBeat, dadBeat)
+        nextGeneration.push(childBeat)
       }
-    }
-  }
-
-  // Can't have more survivors than members of the generation so generations don't get huge.
-  nextGeneration = keepRandomSurvivors(Math.min(numInitialSurvivors, nextGeneration.length), nextGeneration)
-  nextGeneration = nextGeneration.map( (beat, i) => {
-    return { ...beat,
-      key: `${generation + 1}.${i}`,
-    }
+    })
   })
 
   return nextGeneration
 }
+
+const mateGeneration = (generation) => {
+  const fitMembers = selectFitMembers(generation)
+  const nextGeneration = mateMembers(fitMembers)
+  const survivingMembers = selectSurvivors(nextGeneration)
+  const reindexedMembers = survivingMembers.map( (beat, i) => {
+    return { ...beat,
+      key: `${store.generation + 1}.${i}`,
+    }
+  })
+  return reindexedMembers
+}
+
+export default mateGeneration
