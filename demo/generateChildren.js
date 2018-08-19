@@ -52,20 +52,22 @@ const mutateByAddTrack = (beat) => {
       }
     })
 
-    const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
+    let randomIndex = Math.floor(Math.random() * validSampleKeys.length)
 
     const randomSampleKey = validSampleKeys[randomIndex]
-    const numSteps = beat.tracks[0].sequence.length
-    const newTrackSequence = mutateSequence( Array(numSteps).fill(0), 1.5 )
+    const numNotes = beat.tracks[0].sequence.length
+    let newTrackSequence = mutateSequence( Array(numNotes).fill(0) )
 
-    // Don't add empty tracks
-    if (newTrackSequence.includes(1)) {
-      beat.tracks.push({
-        sample    : randomSampleKey,
-        sequence  : newTrackSequence,
-        trackType : trackType,
-      })
+    if (!newTrackSequence.includes(1)) {
+      randomIndex = Math.floor(Math.random() * numNotes)
+      newTrackSequence[randomIndex] = 1
     }
+
+    beat.tracks.push({
+      sample    : randomSampleKey,
+      sequence  : newTrackSequence,
+      trackType : trackType,
+    })
   }
   return beat
 }
@@ -140,10 +142,10 @@ const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
   return childSequence
 }
 
-const mutateSequence = (sequence, multiplier=1) => {
+const mutateSequence = (sequence) => {
   const mutatedSequence = sequence.map((note) => {
     const randomInteger = Math.floor(Math.random() * 100)
-    if(randomInteger < store.noteMutationRate * multiplier){
+    if(randomInteger < store.noteMutationRate){
       note = 1 - note
     }
     return note
