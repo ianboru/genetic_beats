@@ -27,12 +27,12 @@ class Store {
   @observable noteMutationRate   = 8
   @observable numSurvivors       = 6
   @observable numChildren        = 3
-  @observable fitnessPercentile   = 75
+  @observable fitnessPercentile  = 75
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
   @observable tempo              = 100
   @observable metronome          = false
-  @observable arrangementBeats = []
+  @observable arrangementBeats   = []
 
   //
   // COMPUTED VALUES

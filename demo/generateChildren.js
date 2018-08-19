@@ -114,8 +114,8 @@ const rankSequenceFitness= (momSequence, momScore, dadSequence, dadScore) => {
     weakestSequence = dadSequence
   }
   return {
-    "fittestSequence" : fittestSequence,
-    "weakestSequence" : weakestSequence
+    fittestSequence : fittestSequence,
+    weakestSequence : weakestSequence,
   }
 }
 const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
@@ -132,9 +132,9 @@ const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
     let randomInteger = Math.floor(Math.random() * 100)
     let survivingNote = 0
     if (randomInteger > inheritanceComparitor) {
-      survivingNote = rankedSequences["fittestSequence"][noteIndex]
+      survivingNote = rankedSequences.fittestSequence[noteIndex]
     } else {
-      survivingNote = rankedSequences["weakestSequence"][noteIndex]
+      survivingNote = rankedSequences.weakestSequence[noteIndex]
     }
     childSequence.push(survivingNote)
   })
