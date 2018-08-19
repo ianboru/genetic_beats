@@ -5,7 +5,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import store from "./store"
-import {mateGeneration} from "./generateChildren"
+import mateGeneration from "./generateChildren"
 import "./index.css"
 
 import Arrangement from "./components/arrangement"
@@ -63,7 +63,6 @@ const Footer = styled.div`
 class App extends Component {
   constructor(props) {
     super(props)
-    store.updateFamilyInStorage()
     this.state = {
       playingCurrentBeat : false,
       inputScore         : "",
@@ -132,7 +131,6 @@ class App extends Component {
     )
 
     store.addGeneration(nextGeneration)
-    store.updateFamilyInStorage()
   }
 
   handleUploadSample = (files) => {

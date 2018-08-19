@@ -11,38 +11,31 @@ import store from "./store"
 
 
 const getFitnessThreshold = (generation) => {
-  let fitnessThreshold = store.fitnessThreshold/100
+  let fitnessPercentile = store.fitnessPercentile/100
   let allScores = generation.map((beat) => { return beat.score })
   allScores = allScores.sort( (a, b) => (a - b) )
 
-  let percentileIndex = Math.floor(allScores.length * fitnessThreshold) - 1
+  let percentileIndex = Math.floor(allScores.length * fitnessPercentile) - 1
   return allScores[percentileIndex]
 }
 
 const selectSurvivors = (generation) => {
   const numIndices = Math.min(store.numSurvivors, generation.length)
-  let randomIntegerArray = getRandomIndices(numIndices, generation.length)
-  console.log(randomIntegerArray)
-
-  let survivors = []
-  randomIntegerArray.forEach((index)=>{
-    survivors.push(generation[index])
+  const randomIntegerArray = getRandomIndices(numIndices, generation.length)
+  const survivors = randomIntegerArray.map((index)=>{
+    return generation[index]
   })
-  console.log("selected survivors", survivors)
-  console.log("survivors", survivors)
   return survivors
 }
+
 const mutateByAddTrack = (beat) => {
   let randomInteger = Math.floor(Math.random() * 100)
   if (randomInteger < store.sampleMutationRate) {
-    let currentBeatSampleKeys = []
-    beat.tracks.forEach((track)=>{
-      currentBeatSampleKeys.push(track.sample)
-    })
-    console.log("current beat samples ", currentBeatSampleKeys)
+    const currentBeatSampleKeys = beat.tracks.map(track => track.sample)
+
     let trackType = ""
     let validSampleKeys = []
-    
+
     randomInteger = Math.floor(Math.random() * 100)
     if(randomInteger > 50){
       trackType = "sampler"
@@ -52,51 +45,52 @@ const mutateByAddTrack = (beat) => {
       validSampleKeys = allNotesInRange.slice(0)
     }
 
-    currentBeatSampleKeys.forEach(key =>{
+    // Remove samples from the pool of options if they're already in the beat
+    currentBeatSampleKeys.forEach(key => {
       if(validSampleKeys.includes(key)){
         validSampleKeys.splice( validSampleKeys.indexOf(key), 1 );
       }
     })
+
     const randomIndex = Math.floor(Math.random() * validSampleKeys.length)
+
     const randomSampleKey = validSampleKeys[randomIndex]
     const numSteps = beat.tracks[0].sequence.length
-    let newTrackSequence = Array(numSteps).fill(0)
-    console.log("adding new track")
-    newTrackSequence = mutateSequence(newTrackSequence)
+    const newTrackSequence = mutateSequence( Array(numSteps).fill(0) )
+
+    // Don't add empty tracks
     if (newTrackSequence.includes(1)) {
       beat.tracks.push({
-        sample   : randomSampleKey,
-        sequence : newTrackSequence,
+        sample    : randomSampleKey,
+        sequence  : newTrackSequence,
         trackType : trackType,
       })
-    } 
-  } 
+    }
+  }
   return beat
 }
+
 const selectFitMembers = (generation) => {
-  let fitMembers = []
   const fitnessThreshold = getFitnessThreshold(generation)
-  generation.forEach((beat)=>{
-    if(beat.score >= fitnessThreshold){
-      fitMembers.push(beat)
-    }
-  })
+  const fitMembers = generation.filter(beat => beat.score >= fitnessThreshold)
   return fitMembers
 }
-const mutateByKillTrack = (beat) =>{
+
+const mutateByKillTrack = (beat) => {
   let survivingTracks = []
-  console.log("prekill",beat)
-  beat.tracks.forEach((track,i)=>{
+  beat.tracks.forEach((track, i) => {
     const randomInteger = Math.floor(Math.random() * 100)
-    //divide mutateRate by number of tracks so the total chance of killing is the same as the rate
-    if(randomInteger > store.sampleMutationRate/beat.tracks.length|| (survivingTracks.length == 0 && i == beat.tracks.length-1)){
+    // divide mutateRate by number of tracks so the total chance of killing is the same as the rate
+    if(randomInteger > store.sampleMutationRate/beat.tracks.length ||
+       // Don't kill the last track
+       (survivingTracks.length == 0 && i == beat.tracks.length-1)) {
       survivingTracks.push(track)
     }
   })
   beat.tracks = survivingTracks
-  console.log("post kill",beat)
   return beat
 }
+
 const mateTracks = (momTrack,momScore, dadTrack, dadScore) => {
   let childSequence = mateSequences(momTrack.sequence, momScore, dadTrack.sequence, dadScore)
   childSequence = mutateSequence(childSequence)
@@ -130,7 +124,7 @@ const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
   const inheritanceComparitor = 100 * (0.5 - percentDifference)
 
   const rankedSequences = rankSequenceFitness(momSequence, momScore, dadSequence, dadScore)
-  
+
   let childSequence = []
   momSequence.forEach( (note, noteIndex) => {
     let randomInteger = Math.floor(Math.random() * 100)
@@ -145,91 +139,82 @@ const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
 
   return childSequence
 }
+
 const mutateSequence = (sequence) => {
-  const mutatedSequence = []
-  sequence.forEach((note)=>{
+  const mutatedSequence = sequence.map((note) => {
     const randomInteger = Math.floor(Math.random() * 100)
     if(randomInteger < store.noteMutationRate){
       note = 1 - note
     }
-    mutatedSequence.push(note)
+    return note
   })
   return mutatedSequence
 }
-const makeChildBeat = (momBeat, dadBeat) => {
-  let childBeat = {
 
+const matePair = (momBeat, dadBeat) => {
+  let childBeat = {
     tracks : [],
-    score: (momBeat.score + dadBeat.score)/2,
+    score  : (momBeat.score + dadBeat.score)/2,
     momKey : momBeat.key,
     dadKey : dadBeat.key,
-
+    // child's key is added later
   }
-  
-  
-  let matedSamples = []
+
   // handle all mom samples
-  for (let momTrackIndex = 0; momTrackIndex < momBeat.tracks.length;momTrackIndex++){
-    const momTrack = momBeat.tracks[momTrackIndex]
+  momBeat.tracks.forEach( (momTrack) => {
     const dadTrack = findInJSON(dadBeat.tracks, 'sample', momTrack.sample)
-    if(dadTrack){
-      childBeat.tracks.push(mateTracks(momTrack,momBeat.score, dadTrack, dadBeat.score))
-    }else{
-      childBeat.tracks.push(mateTracks(momTrack,momBeat.score, momTrack,momBeat.score))
+    if (dadTrack) {
+      childBeat.tracks.push(mateTracks(momTrack, momBeat.score, dadTrack, dadBeat.score))
+    } else {
+      childBeat.tracks.push({
+        sample    : momTrack.sample,
+        sequence  : mutatedSequence(momTrack.sequence),
+        trackType : momTrack.trackType,
+      })
     }
-    matedSamples.push(momTrack.sample)
-  }
-  // handle remaining dad samples
-  for (let dadTrackIndex = 0; dadTrackIndex < dadBeat.tracks.length;dadTrackIndex++){
-    const dadTrack = dadBeat.tracks[dadTrackIndex]
-    const momTrack = findInJSON(momBeat.tracks, 'sample', dadTrack.sample)
-    if(momTrack ){
-      if(!matedSamples.includes(dadTrack.sample)){
-        childBeat.tracks.push(mateTracks(momTrack,momBeat.score, dadTrack, dadBeat.score))
-      }
-    }else{
+  })
 
-      childBeat.tracks.push(mateTracks(dadTrack,dadBeat.score, dadTrack,dadBeat.score))
+  // handle remaining dad samples
+  dadBeat.tracks.forEach( (dadTrack) => {
+    const momTrack = findInJSON(momBeat.tracks, 'sample', dadTrack.sample)
+    if (!momTrack) {
+      childBeat.tracks.push(mateTracks(dadTrack, dadBeat.score, dadTrack, dadBeat.score))
     }
-  }
-  if(childBeat.tracks.length > 1){
+  })
+
+  if (childBeat.tracks.length > 1) {
     childBeat = mutateByKillTrack(childBeat)
   }
-  console.log("about to add" ,childBeat)
   childBeat = mutateByAddTrack(childBeat)
+
   return childBeat
 }
 
 const mateMembers = (members)=> {
   let nextGeneration = []
-  for (let momIndex = 0; momIndex < members.length;momIndex++){
-    let momBeat = members[momIndex]
-    for (let dadIndex = momIndex+1; dadIndex < members.length;dadIndex++){
-        let dadBeat = members[dadIndex]
-        for (let i=0; i < store.numChildren; i++) {
-          console.log("child num " + i)
-          if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
-            dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
-          } else {
-            momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
-          }
-          let childBeat = makeChildBeat(momBeat,dadBeat)
-          if(childBeat){
-            nextGeneration.push(childBeat)
-          }
-        }
-    }
-  }
+
+  members.forEach( (momBeat, momIndex) => {
+    members.slice(momIndex+1).forEach( (dadBeat, dadIndex) => {
+      if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
+        dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
+      } else {
+        momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
+      }
+
+      for (let i=0; i < store.numChildren; i++) {
+        const childBeat = matePair(momBeat, dadBeat)
+        nextGeneration.push(childBeat)
+      }
+    })
+  })
+
   return nextGeneration
 }
+
 const mateGeneration = (generation) => {
-  console.log("original ", toJS(generation))
   const fitMembers = selectFitMembers(generation)
-  console.log("fittest " , toJS(fitMembers[0]), toJS(fitMembers[1]))
   const nextGeneration = mateMembers(fitMembers)
-  console.log("next ", toJS(nextGeneration))
   const survivingMembers = selectSurvivors(nextGeneration)
-  //console.log("survivors " , nextGeneration)
   const reindexedMembers = survivingMembers.map( (beat, i) => {
     return { ...beat,
       key: `${store.generation + 1}.${i}`,
@@ -237,6 +222,5 @@ const mateGeneration = (generation) => {
   })
   return reindexedMembers
 }
-export {
-  mateGeneration
-}
+
+export default mateGeneration

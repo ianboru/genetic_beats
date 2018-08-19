@@ -27,7 +27,7 @@ class Store {
   @observable noteMutationRate   = 8
   @observable numSurvivors       = 6
   @observable numChildren        = 3
-  @observable fitnessThreshold   = 75
+  @observable fitnessPercentile   = 75
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
   @observable tempo              = 100
@@ -47,9 +47,7 @@ class Store {
   }
   @computed get allBeatKeys() {
     let beatKeys = []
-    console.log(toJS(this.allGenerations))
     this.allGenerations.forEach((generation)=>{
-      console.log(toJS(generation))
       generation.forEach((beat)=>{
         beatKeys.push(beat.key)
       })
@@ -70,7 +68,6 @@ class Store {
     this.arrangementBeats = []
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
-    let fitessThreshold = this.fitnessThreshold/100
 
     let allScores = []
     this.allGenerations.forEach((generation)=>{
@@ -80,7 +77,7 @@ class Store {
     })
     allScores = allScores.sort( (a, b) => (a - b) )
 
-    let percentileIndex = Math.floor(allScores.length * fitessThreshold) - 1
+    let percentileIndex = Math.floor(allScores.length * fitnessPercentile/100) - 1
     this.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
 
@@ -111,6 +108,7 @@ class Store {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
+    this.updateFamilyInStorage()
   }
 
   @action killSubsequentGenerations = () => {
@@ -190,8 +188,8 @@ class Store {
     this.numSurvivors = numSurvivors
   }
 
-  @action setFitnessThreshold = (fitessThreshold) => {
-    this.fitessThreshold = fitessThreshold
+  @action setFitnessThreshold = (fitnessPercentile) => {
+    this.fitnessPercentile = fitnessPercentile
   }
 
   @action toggleMetronome = () => {

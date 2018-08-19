@@ -31,18 +31,14 @@ const normalizeSubdivisions = (beat, newSubdivisions) => {
 
 const getRandomIndices = (numIntegers, arrayLength) => {
   let randomIntegerArray = []
-  console.log("ints " + numIntegers, " arle " + arrayLength)
   for (let i = 0; i < numIntegers; i++) {
-    console.log("next " + i)
     var randomInteger = Math.floor(Math.random() * arrayLength)
-    console.log(randomInteger)
     if(randomIntegerArray.indexOf(randomInteger) == -1){
       randomIntegerArray.push(randomInteger)
       continue
     }
     let numTries = 0
     while (randomIntegerArray.indexOf(randomInteger) > -1) {
-      console.log(randomInteger)
       ++numTries
       if(numTries > 20){
         break
@@ -54,13 +50,11 @@ const getRandomIndices = (numIntegers, arrayLength) => {
       }
     }
   }
-  console.log("end randos ", randomIntegerArray)
   return randomIntegerArray
 }
 
 
 const getSubarray = (array, indexList) => {
-  console.log("getting sub array")
   return indexList.map((i) => { return array[i] })
 }
 
@@ -125,7 +119,6 @@ octaves.forEach((octave)=>{
     }
   })
 }) 
-console.log(allNotesInRange)
 export {
   deepClone,
   getRandomIndices,

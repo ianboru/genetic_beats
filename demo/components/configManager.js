@@ -100,8 +100,8 @@ export default class ConfigManager extends Component {
     store.setNumSurvivors(parseInt(e.target.value))
   }
 
-  handleSetFitnessThreshold = (e) => {
-    store.setFitnessThreshold(parseInt(e.target.value))
+  handleSetFitnessPercentile = (e) => {
+    store.setFitnessPercentile(parseInt(e.target.value))
   }
 
   toggleShow = () => {
@@ -152,8 +152,8 @@ export default class ConfigManager extends Component {
           />
           <ConfigControl
             name          = "Top Percentile of Survivors"
-            value         = {store.fitnessThreshold}
-            changeHandler = {this.handleSetFitnessThreshold}
+            value         = {store.fitnessPercentile}
+            changeHandler = {this.handleSetFitnessPercentile}
             min           = {0}
             max           = {100}
           />
