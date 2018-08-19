@@ -168,7 +168,7 @@ const matePair = (momBeat, dadBeat) => {
     } else {
       childBeat.tracks.push({
         sample    : momTrack.sample,
-        sequence  : mutatedSequence(momTrack.sequence),
+        sequence  : mutateSequence(momTrack.sequence),
         trackType : momTrack.trackType,
       })
     }
