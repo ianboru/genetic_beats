@@ -107,15 +107,7 @@ const mateTracks = (momTrack,momScore, dadTrack, dadScore) => {
   }
   return childTrack
 }
-
-const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
-  let percentDifference = 0
-
-  if (Math.max(dadScore, momScore) > 0) {
-    percentDifference = Math.abs((dadScore - momScore) / Math.max(dadScore, momScore))
-  }
-  const inheritanceComparitor = 100 * (0.5 - percentDifference)
-
+const rankSequenceFitness= (momSequence, momScore, dadSequence, dadScore) => {
   let fittestSequence = []
   let weakestSequence = []
   if (dadScore > momScore) {
@@ -125,15 +117,28 @@ const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
     fittestSequence = momSequence
     weakestSequence = dadSequence
   }
+  return {
+    "fittestSequence" : fittestSequence,
+    "weakestSequence" : weakestSequence
+  }
+}
+const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
+  let percentDifference = 0
+  if (Math.max(dadScore, momScore) > 0) {
+    percentDifference = Math.abs((dadScore - momScore) / Math.max(dadScore, momScore))
+  }
+  const inheritanceComparitor = 100 * (0.5 - percentDifference)
 
+  const rankedSequences = rankSequenceFitness(momSequence, momScore, dadSequence, dadScore)
+  
   let childSequence = []
   momSequence.forEach( (note, noteIndex) => {
     let randomInteger = Math.floor(Math.random() * 100)
     let survivingNote = 0
     if (randomInteger > inheritanceComparitor) {
-      survivingNote = fittestSequence[noteIndex]
+      survivingNote = rankedSequences["fittestSequence"][noteIndex]
     } else {
-      survivingNote = weakestSequence[noteIndex]
+      survivingNote = rankedSequences["weakestSequence"][noteIndex]
     }
     childSequence.push(survivingNote)
   })
@@ -161,11 +166,6 @@ const makeChildBeat = (momBeat, dadBeat) => {
 
   }
   
-  if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
-    dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
-  } else {
-    momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
-  }
   
   let matedSamples = []
   // handle all mom samples
@@ -208,6 +208,11 @@ const mateMembers = (members)=> {
         let dadBeat = members[dadIndex]
         for (let i=0; i < store.numChildren; i++) {
           console.log("child num " + i)
+          if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
+            dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
+          } else {
+            momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
+          }
           let childBeat = makeChildBeat(momBeat,dadBeat)
           if(childBeat){
             nextGeneration.push(childBeat)
