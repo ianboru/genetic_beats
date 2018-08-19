@@ -78,7 +78,7 @@ class Store {
     })
     allScores = allScores.sort( (a, b) => (a - b) )
 
-    let percentileIndex = Math.floor(allScores.length * fitnessPercentile/100) - 1
+    let percentileIndex = Math.floor(allScores.length * this.fitnessPercentile/100) - 1
     this.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
 

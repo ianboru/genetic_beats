@@ -18,7 +18,7 @@ import Button from "./components/button"
 import ConfigManager from "./components/configManager"
 import NewBeatManager from "./components/newBeatManager"
 import FamilySelect from "./components/familySelect"
-import GraphContainer from "./components/graphContainer"
+import FamilyTree from "./components/familyTree"
 import Player from "./components/player"
 
 import SplitPane from "react-split-pane"
@@ -173,6 +173,7 @@ class App extends Component {
 
       return (
         <Beat
+          key               = {key}
           beat              = {store.allGenerations[generation][beatNum]}
           handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
           handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
@@ -241,25 +242,31 @@ class App extends Component {
 
             </div>
             <Footer style={{textAlign: "center"}}>
-              <Button left onClick={store.prevBeat}>
+              <Button onClick={store.prevBeat}>
                 &lt; Previous Beat
               </Button>
 
               <Info>
                 <form style={{display: "inline-block"}} onSubmit={this.setScore}>
-                  <label>Rate Beat
+                  <label>
                     <input
                       type        = "number"
                       step        = "0.1"
                       value       = {this.state.inputScore}
                       onChange    = {this.handleInputChange}
-                      placeholder = "Enter Score"
+                      placeholder = "Rate Beat"
+                      style={{
+                        fontSize: 22,
+                        height: 24,
+                        verticalAlign: "bottom",
+                        textAlign: "center",
+                      }}
                     />
                   </label>
                 </form>
               </Info>
 
-              <Button right onClick={store.nextBeat}>
+              <Button onClick={store.nextBeat}>
                 Next Beat
                 &gt;
               </Button>
@@ -296,7 +303,7 @@ class App extends Component {
             </PanelLabel>
           </Header>
 
-          <GraphContainer
+          <FamilyTree
             height     = {this.state.familyTreeHeight}
             width      = {this.state.familyTreeWidth}
             familyTree = {store.allGenerations}

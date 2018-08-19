@@ -114,7 +114,6 @@ class Track extends Component {
   }
 
   render() {
-
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note

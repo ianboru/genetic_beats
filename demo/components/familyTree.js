@@ -14,7 +14,7 @@ const topPadding = 0
 const bottomPadding = 0
 const borderWidth = 1
 
-const StyledGraphContainer = styled.div`
+const StyledFamilyTree = styled.div`
   margin: 0;
   padding: ${topPadding}px ${sidePadding}px ${bottomPadding}px;
   display: inline-block;
@@ -23,7 +23,7 @@ const StyledGraphContainer = styled.div`
 
 
 @observer
-class GraphContainer extends React.Component {
+class FamilyTree extends React.Component {
     componentDidMount() {
       this.familyTreeToGraph()
     }
@@ -104,19 +104,20 @@ class GraphContainer extends React.Component {
             'content'          : 'data(name)',
             'text-valign'      : 'center',
             'label'            : 'data(id)',
+            'font-size'        : 40,
           })
           .selector('edge')
           .css({
-            'width'              : 5,
-            'target-arrow-shape' : 'triangle',
-            'line-color'         : 'mapData(visible, 0, 1, white, black)',
-            'target-arrow-color' : '#000000',
-            'curve-style': 'bezier',
+            'width'                   : 5,
+            'target-arrow-shape'      : 'triangle',
+            'line-color'              : 'mapData(visible, 0, 1, #292B30, white)',
+            'target-arrow-color'      : 'mapData(visible, 0, 1, #292B30, white)',
+            'curve-style'             : 'bezier',
             'control-point-step-size' : 0,
-            'opacity' : .4,
+            'opacity'                 : .3,
           }),
       })
-      this.cy.maxZoom(1.2)
+      this.cy.maxZoom(1)
       this.cy.minZoom(0.3)
 
       this.cy.on('click', 'node', function(evt) {
@@ -143,7 +144,7 @@ class GraphContainer extends React.Component {
       store.currentGeneration
       store.newBeat
 
-      return <StyledGraphContainer
+      return <StyledFamilyTree
         id    = "cy"
         style = {{
           height : this.props.height - topPadding - bottomPadding - borderWidth*2 - footerClearance,
@@ -155,4 +156,4 @@ class GraphContainer extends React.Component {
 }
 
 
-export default GraphContainer
+export default FamilyTree
