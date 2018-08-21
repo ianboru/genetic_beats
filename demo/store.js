@@ -69,6 +69,9 @@ class Store {
   @action resetCurrentLitNote = () => {
     this.currentLitNote =  0
   }
+  @action resetCurrentLitBeat = () => {
+    this.currentLitBeat =  0
+  }
   @action incrementCurrentLitNote = () => { 
     this.currentLitNote = (this.currentLitNote + 1)%this.currentBeat.tracks[0].sequence.length
   }
@@ -98,8 +101,8 @@ class Store {
         this.incrementCurrentLitBeat()
       }, milisecondsPerBeat*4)
     }else{
-      this.currentLitBeat  = 0 
       clearInterval(this.arrangementTimer)
+      this.currentLitBeat  = 0 
     }
   }
   
@@ -239,10 +242,9 @@ class Store {
   }
 
   @action setTempo = (tempo) => {
+    this.tempo = tempo
     this.toggleNoteTimer()
     this.toggleArrangementTimer()
-    
-    this.tempo = tempo
   }
 
   @action setSampleMutationRate = (sampleMutationRate) => {
