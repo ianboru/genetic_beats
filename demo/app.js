@@ -92,10 +92,12 @@ class App extends Component {
   }
 
   setScore = (e) => {
-    store.setScore(parseInt(this.state.inputScore))
-    store.nextBeat()
-    this.setState({inputScore: ""})
+    if(this.state.inputScore){
+      store.setScore(parseInt(this.state.inputScore))
+      this.setState({inputScore: ""})
+    }
     e.preventDefault()
+    store.nextBeat()
   }
 
   handleInputChange = (e) => {
