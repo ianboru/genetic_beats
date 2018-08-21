@@ -177,9 +177,7 @@ class App extends Component {
     reader.addEventListener("load", function () { }, false)
 
     if (file) {
-      console.log(file)
       reader.readAsDataURL(file)
-      console.log(reader)
     }
   }
 

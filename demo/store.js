@@ -73,16 +73,13 @@ class Store {
     this.currentLitNote = (this.currentLitNote + 1)%this.currentBeat.tracks[0].sequence.length
   }
   @action toggleNoteTimer = () => {
-    console.log("restart note timer")
 
     if(this.playingCurrentBeat){
       const milisecondsPerBeat = 1/(this.tempo/60/1000)
       const milisecondsPerNote = milisecondsPerBeat * 4/ this.currentBeat.tracks[0].sequence.length
-      console.log(milisecondsPerBeat, milisecondsPerNote)
       clearInterval(this.noteTimer)
       this.noteTimer = setInterval(()=>{
         this.incrementCurrentLitNote()
-        console.log("note " + this.currentLitNote)
       }, milisecondsPerNote)
     }else{
       clearInterval(this.noteTimer)
@@ -94,13 +91,11 @@ class Store {
   }
 
   @action toggleArrangementTimer = () => {
-    console.log("restart arrangmenet timer")
     if(this.playingArrangement){
       const milisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
       this.arrangementTimer = setInterval(()=>{
         this.incrementCurrentLitBeat()
-        console.log("beat")
       }, milisecondsPerBeat*4)
     }else{
       this.currentLitBeat  = 0 

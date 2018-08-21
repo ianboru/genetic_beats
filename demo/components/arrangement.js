@@ -204,7 +204,6 @@ class Arrangement extends Component {
       }else{
         backgroundColor = itemBgColor
       }
-      console.log(store.currentLitBeat, i, beatKey, backgroundColor)
       
       return (
         <Block

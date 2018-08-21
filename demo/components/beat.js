@@ -201,7 +201,6 @@ class Beat extends Component {
     this.setState({trackType : newTrackType })
   }
   handleAddTrack = () => {
-    console.log(toJS(this.props.beat))
     const steps = this.props.beat.tracks[0].sequence.length
     let sample
 
