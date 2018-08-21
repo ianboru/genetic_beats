@@ -38,8 +38,8 @@ class Store {
   @observable arrangementBeats   = []
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
-  @observable noteTimer          = setInterval(0)
-  @observable arrangementTimer   = setInterval(0)
+  @observable noteTimer          
+  @observable arrangementTimer   
 
   //
   // COMPUTED VALUES
@@ -66,6 +66,9 @@ class Store {
   //
   // ACTIONS
   //
+  @action resetCurrentLitNote = () => {
+    this.currentLitNote =  0
+  }
   @action incrementCurrentLitNote = () => { 
     this.currentLitNote = (this.currentLitNote + 1)%this.currentBeat.tracks[0].sequence.length
   }
@@ -74,10 +77,12 @@ class Store {
 
     if(this.playingCurrentBeat){
       const milisecondsPerBeat = 1/(this.tempo/60/1000)
-      const milisecondsPerNote = milisecondsPerBeat * 1/ this.currentBeat.tracks[0].sequence.length*4
+      const milisecondsPerNote = milisecondsPerBeat * 4/ this.currentBeat.tracks[0].sequence.length
+      console.log(milisecondsPerBeat, milisecondsPerNote)
       clearInterval(this.noteTimer)
       this.noteTimer = setInterval(()=>{
         this.incrementCurrentLitNote()
+        console.log("note " + this.currentLitNote)
       }, milisecondsPerNote)
     }else{
       clearInterval(this.noteTimer)
@@ -92,6 +97,7 @@ class Store {
     console.log("restart arrangmenet timer")
     if(this.playingArrangement){
       const milisecondsPerBeat = 1/(this.tempo/60/1000)
+      clearInterval(this.arrangementTimer)
       this.arrangementTimer = setInterval(()=>{
         this.incrementCurrentLitBeat()
         console.log("beat")

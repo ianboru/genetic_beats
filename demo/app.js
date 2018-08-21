@@ -5,7 +5,6 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import store from "./store"
-import Scheduler from "../src/scheduler"
 import mateGeneration from "./generateChildren"
 import "./index.css"
 import {
@@ -60,6 +59,14 @@ const PanelLabel = styled.div`
 
 const familyTreeWidth = 500
 let timerInterval
+let noteTimerStartTime
+var delay = ( function() {
+      var timer = 0;
+      return function(callback, ms) {
+          clearTimeout (timer);
+          timer = setTimeout(callback, ms);
+      };
+  })();
 
 @observer
 class App extends Component {
@@ -86,10 +93,13 @@ class App extends Component {
     this.setState({ familyTreeHeight: e.target.innerHeight})
   }
 
+  toggleNoteTimer = () => {
 
+    store.toggleNoteTimer()
+  }
   handlePlayToggle = () => {
     store.togglePlayCurrentBeat()
-    store.toggleNoteTimer()
+    this.toggleNoteTimer()
   }
 
   setScore = (e) => {
@@ -98,20 +108,18 @@ class App extends Component {
       this.setState({inputScore: ""})
     }
     e.preventDefault()
+    this.toggleNoteTimer()
     store.nextBeat()
-    store.toggleNoteTimer()
-
-    Scheduler.removeAll()
   }
   handleNextBeat = () => {
-    store.nextBeat()
-    Scheduler.removeAll()
-    store.toggleNoteTimer()
+    
+      store.nextBeat()
+        this.toggleNoteTimer()
   }
   handlePrevBeat = () => {
     store.prevBeat()
-    Scheduler.removeAll()
-    store.toggleNoteTimer()
+
+    this.toggleNoteTimer()
   }
   handleInputChange = (e) => {
     this.setState({ inputScore: e.target.value })
@@ -158,8 +166,7 @@ class App extends Component {
     const nextGeneration = mateGeneration(
       options.newCurrentGeneration,
     )
-    Scheduler.removeAll()
-    store.toggleNoteTimer()
+
     store.addGeneration(nextGeneration)
   }
 

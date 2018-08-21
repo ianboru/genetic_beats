@@ -108,6 +108,3 @@ export default class Scheduler {
     this.playbackTime = t0;
   }
 }
-export {
-  removeAll
-}
