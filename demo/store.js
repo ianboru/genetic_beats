@@ -36,6 +36,7 @@ class Store {
   @observable tempo              = 100
   @observable metronome          = false
   @observable arrangementBeats   = []
+  @observable currentLitNote     = 0
 
   //
   // COMPUTED VALUES
@@ -62,6 +63,13 @@ class Store {
   //
   // ACTIONS
   //
+  
+  @action incrementCurrentLitNote = () => {
+    store.currentLitNote = (store.currentLitNote + 1)%store.currentBeat.tracks[0].sequence.length
+  }
+  @action resetCurrentLitNote = () => {
+    store.currentLitNote = 0
+  }
   @action togglePlayCurrentBeat = () => {
     this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingNewBeat = false
@@ -272,11 +280,19 @@ class Store {
   }
 
   @action nextBeat = () => {
+    let wasPlaying = this.playingCurrentBeat
+    if(wasPlaying){this.togglePlayCurrentBeat()}
     const currentGeneration = this.allGenerations[this.generation]
     this.beatNum = (this.beatNum + 1) % currentGeneration.length
+    if(wasPlaying){this.togglePlayCurrentBeat()}
+    this.resetCurrentLitNote()
+
   }
 
   @action prevBeat = () => {
+    let wasPlaying = this.playingCurrentBeat
+    if(wasPlaying){this.togglePlayCurrentBeat()}
+
     const currentGeneration = this.allGenerations[this.generation]
 
     if (this.beatNum == 0) {
@@ -284,6 +300,10 @@ class Store {
     } else {
       this.beatNum = (this.beatNum - 1) % currentGeneration.length
     }
+    if(wasPlaying){this.togglePlayCurrentBeat()}
+
+    this.resetCurrentLitNote()
+
   }
 }
 

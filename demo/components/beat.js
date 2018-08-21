@@ -55,6 +55,9 @@ class Note extends Component {
     } else {
       color = "gray"
     }
+    if(this.props.index == store.currentLitNote){
+      color = "pink"
+    }
 
     return (
       <div
@@ -120,6 +123,7 @@ class Track extends Component {
           key     = {`${i}.${note}`}
           value   = {note}
           onClick = {() => { this.handleNoteToggle(i) }}
+          index   = {i}
         />
       )
     })

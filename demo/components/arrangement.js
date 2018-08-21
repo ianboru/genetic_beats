@@ -107,6 +107,9 @@ class Arrangement extends Component {
         console.log("beat")
       }, milisecondsPerBeat*4)
     }else{
+      this.setState({
+          litBeatIndex : 0
+        })
       clearInterval(timerInterval)
     }
   }

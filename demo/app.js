@@ -59,7 +59,15 @@ const PanelLabel = styled.div`
 `
 
 const familyTreeWidth = 500
-
+let timerInterval
+let noteTimerStartTime
+var delay = ( function() {
+      var timer = 0;
+      return function(callback, ms) {
+          clearTimeout (timer);
+          timer = setTimeout(callback, ms);
+      };
+  })();
 
 @observer
 class App extends Component {
@@ -86,9 +94,28 @@ class App extends Component {
     this.setState({ familyTreeHeight: e.target.innerHeight})
   }
 
+  toggleNoteTimer = () => {
 
+    console.log("RESTART TIMER")
+    noteTimerStartTime = Date.now();
+    console.log(noteTimerStartTime)
+    if(store.playingCurrentBeat){
+      const milisecondsPerBeat = 1/(store.tempo/60/1000)
+      const milisecondsPerNote = milisecondsPerBeat * 1/ store.currentBeat.tracks[0].sequence.length*4
+      clearInterval(timerInterval)
+      timerInterval = setInterval(()=>{
+
+        store.incrementCurrentLitNote()
+        console.log("beat")
+      }, milisecondsPerNote)
+    }else{
+      clearInterval(timerInterval)
+      store.resetCurrentLitNote()
+    }
+  }
   handlePlayToggle = () => {
     store.togglePlayCurrentBeat()
+    this.toggleNoteTimer()
   }
 
   setScore = (e) => {
@@ -97,9 +124,24 @@ class App extends Component {
       this.setState({inputScore: ""})
     }
     e.preventDefault()
+    this.toggleNoteTimer()
     store.nextBeat()
   }
-
+  handleNextBeat = () => {
+    const delta = Date.now() - noteTimerStartTime; // milliseconds elapsed since start
+    const milisecondsPerBeat = 1/(store.tempo/60/1000)
+    const timeUntilRepeat = (delta%milisecondsPerBeat)*4
+    console.log(delta, milisecondsPerBeat, timeUntilRepeat, delta/milisecondsPerBeat)
+    delay(()=>{
+      store.nextBeat()
+      this.toggleNoteTimer()
+    },timeUntilRepeat)
+    
+  }
+  handlePrevBeat = () => {
+    store.prevBeat()
+    this.toggleNoteTimer()
+  }
   handleInputChange = (e) => {
     this.setState({ inputScore: e.target.value })
   }
@@ -241,7 +283,7 @@ class App extends Component {
 
             </div>
             <Footer style={{textAlign: "center"}}>
-              <Button onClick={store.prevBeat}>
+              <Button onClick={this.handlePrevBeat}>
                 &lt; Previous Beat
               </Button>
 
@@ -265,7 +307,7 @@ class App extends Component {
                 </form>
               </Info>
 
-              <Button onClick={store.nextBeat}>
+              <Button onClick={this.handleNextBeat}>
                 Next Beat
                 &gt;
               </Button>
