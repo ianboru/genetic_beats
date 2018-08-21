@@ -55,7 +55,7 @@ class Note extends Component {
     } else {
       color = "gray"
     }
-    if(this.props.index == store.currentLitNote){
+    if(this.props.index == store.currentLitNote && store.playingCurrentBeat){
       color = "pink"
     }
 

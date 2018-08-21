@@ -199,7 +199,7 @@ class Arrangement extends Component {
   render() {
     let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
-      if(i == store.currentLitBeat){
+      if(i == store.currentLitBeat && store.playingArrangement){
         backgroundColor = "#e9573f"
       }else{
         backgroundColor = itemBgColor
