@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import Scheduler from '../utils/scheduler';
-
+import store from "../../demo/store"
 type Props = {
   children?: any;
   playing?: boolean;
@@ -123,6 +123,7 @@ export default class Song extends Component {
       callback(e.playbackTime);
     });
     this.scheduler.insert(e.playbackTime + ((this.barInterval * maxBars) / 1000), this.loop);
+
   }
   render(): React.Element<any> {
     return <span>{this.props.children}</span>;

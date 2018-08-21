@@ -5,6 +5,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import store from "./store"
+import Scheduler from "../src/scheduler"
 import mateGeneration from "./generateChildren"
 import "./index.css"
 import {
@@ -20,7 +21,6 @@ import NewBeatManager from "./components/newBeatManager"
 import FamilySelect from "./components/familySelect"
 import FamilyTree from "./components/familyTree"
 import Player from "./components/player"
-
 import SplitPane from "react-split-pane"
 
 //import DevTools from "mobx-react-devtools"
@@ -60,14 +60,6 @@ const PanelLabel = styled.div`
 
 const familyTreeWidth = 500
 let timerInterval
-let noteTimerStartTime
-var delay = ( function() {
-      var timer = 0;
-      return function(callback, ms) {
-          clearTimeout (timer);
-          timer = setTimeout(callback, ms);
-      };
-  })();
 
 @observer
 class App extends Component {
@@ -94,28 +86,10 @@ class App extends Component {
     this.setState({ familyTreeHeight: e.target.innerHeight})
   }
 
-  toggleNoteTimer = () => {
 
-    console.log("RESTART TIMER")
-    noteTimerStartTime = Date.now();
-    console.log(noteTimerStartTime)
-    if(store.playingCurrentBeat){
-      const milisecondsPerBeat = 1/(store.tempo/60/1000)
-      const milisecondsPerNote = milisecondsPerBeat * 1/ store.currentBeat.tracks[0].sequence.length*4
-      clearInterval(timerInterval)
-      timerInterval = setInterval(()=>{
-
-        store.incrementCurrentLitNote()
-        console.log("beat")
-      }, milisecondsPerNote)
-    }else{
-      clearInterval(timerInterval)
-      store.resetCurrentLitNote()
-    }
-  }
   handlePlayToggle = () => {
     store.togglePlayCurrentBeat()
-    this.toggleNoteTimer()
+    store.toggleNoteTimer()
   }
 
   setScore = (e) => {
@@ -124,23 +98,20 @@ class App extends Component {
       this.setState({inputScore: ""})
     }
     e.preventDefault()
-    this.toggleNoteTimer()
     store.nextBeat()
+    store.toggleNoteTimer()
+
+    Scheduler.removeAll()
   }
   handleNextBeat = () => {
-    const delta = Date.now() - noteTimerStartTime; // milliseconds elapsed since start
-    const milisecondsPerBeat = 1/(store.tempo/60/1000)
-    const timeUntilRepeat = (delta%milisecondsPerBeat)*4
-    console.log(delta, milisecondsPerBeat, timeUntilRepeat, delta/milisecondsPerBeat)
-    delay(()=>{
-      store.nextBeat()
-      this.toggleNoteTimer()
-    },timeUntilRepeat)
-    
+    store.nextBeat()
+    Scheduler.removeAll()
+    store.toggleNoteTimer()
   }
   handlePrevBeat = () => {
     store.prevBeat()
-    this.toggleNoteTimer()
+    Scheduler.removeAll()
+    store.toggleNoteTimer()
   }
   handleInputChange = (e) => {
     this.setState({ inputScore: e.target.value })
@@ -187,7 +158,8 @@ class App extends Component {
     const nextGeneration = mateGeneration(
       options.newCurrentGeneration,
     )
-
+    Scheduler.removeAll()
+    store.toggleNoteTimer()
     store.addGeneration(nextGeneration)
   }
 

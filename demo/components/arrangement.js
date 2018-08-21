@@ -96,24 +96,6 @@ class Arrangement extends Component {
     store.addBeatToArrangement(this.state.beatToAdd)
   }
 
-  togglePlayArrangement = () => {
-    store.togglePlayArrangement()
-    if(store.playingArrangement){
-      const milisecondsPerBeat = 1/(store.tempo/60/1000)
-      timerInterval = setInterval(()=>{
-        this.setState({
-          litBeatIndex : (this.state.litBeatIndex + 1)%store.arrangementBeats.length
-        })
-        console.log("beat")
-      }, milisecondsPerBeat*4)
-    }else{
-      this.setState({
-          litBeatIndex : 0
-        })
-      clearInterval(timerInterval)
-    }
-  }
-
   handleSelectBeatToAdd = (evt) => {
     this.setState({
       beatToAdd : evt.target.value
@@ -217,12 +199,12 @@ class Arrangement extends Component {
   render() {
     let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
-      if(i == this.state.litBeatIndex){
+      if(i == store.currentLitBeat){
         backgroundColor = "#e9573f"
       }else{
         backgroundColor = itemBgColor
       }
-      console.log(this.state.litBeatIndex, i, beatKey, backgroundColor)
+      console.log(store.currentLitBeat, i, beatKey, backgroundColor)
       
       return (
         <Block
@@ -252,7 +234,7 @@ class Arrangement extends Component {
     return (
       <div>
         <ArrangementControls>
-          <Button onClick={this.togglePlayArrangement}>{playButtonText}</Button>
+          <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
           <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
         </ArrangementControls>
 
