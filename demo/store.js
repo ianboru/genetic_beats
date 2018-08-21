@@ -316,6 +316,8 @@ class Store {
   }
   @action setScore = (score) => {
     this.currentBeat.score = score
+    this.currentLitNote = 0
+
   }
 
   @action nextBeat = () => {

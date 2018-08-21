@@ -108,17 +108,16 @@ class App extends Component {
       this.setState({inputScore: ""})
     }
     e.preventDefault()
-    this.toggleNoteTimer()
     store.nextBeat()
+
+    this.toggleNoteTimer()
   }
   handleNextBeat = () => {
-    
-      store.nextBeat()
-        this.toggleNoteTimer()
+    store.nextBeat()
+    this.toggleNoteTimer()
   }
   handlePrevBeat = () => {
     store.prevBeat()
-
     this.toggleNoteTimer()
   }
   handleInputChange = (e) => {
