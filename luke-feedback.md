@@ -5,8 +5,6 @@ Stuff Luke asked/suggested/experienced
 --------------------------------------
 
 * "Different lengths which is interesting" - 1st gen beats
-* IAN: While creating new beat expected it to play and stop current beat playing
-* IAN: Stop/Play for arrangement was confused as current beat play/stop
 * Didn't notice track type synth right away
 * Looked below family tree for mating button, and then "new family"
 * Tracks with 32 notes don't fit
@@ -20,8 +18,6 @@ Stuff Luke asked/suggested/experienced
     Selecting beats from current + last generation and then mating will display the latest generation on the
     same level as the second-to-last generation
 * Members had children which weren't selected while using select to mate
-* IAN: Can't add track to currently playing beat
-* IAN: Some beats got a NaN score, not very tasty
 * Would be nice to see where it is in the beat while playing
 * Not obvious that you can click old beats to play them
 * UI should help focus, eg bring up just synth by itself while working on it

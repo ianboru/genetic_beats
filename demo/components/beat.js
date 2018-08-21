@@ -112,7 +112,7 @@ class Track extends Component {
   handleSampleChange = (e) => {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
-
+  
   render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
@@ -184,6 +184,41 @@ const BeatInfo = styled.div`
 
 @observer
 class Beat extends Component {
+  state = {
+    trackType : "sampler",
+  }
+  toggleTrackType = () => {
+    let newTrackType
+    if (this.state.trackType === "sampler") {
+      newTrackType = "synth"
+    } else {
+      newTrackType = "sampler"
+    }
+    this.setState({trackType : newTrackType })
+  }
+  handleAddTrack = () => {
+    console.log(toJS(this.props.beat))
+    const steps = this.props.beat.tracks[0].sequence.length
+    let sample
+
+    if (this.state.trackType === "sampler") {
+      const beat = store.newBeat
+      const beatSamples = this.props.beat.tracks.map( (track) => { return track.sample } )
+      const unusedSamples = Object.keys(store.samples).filter( (key) => {
+        const sample = store.samples[key]
+        return !beatSamples.includes(sample.path)
+      })
+
+      sample = unusedSamples[0]
+    } else if (this.state.trackType === "synth") {
+      sample = allNotesInRange[0]
+    }
+
+    const sequence = Array(steps).fill(0)
+    const trackType = this.state.trackType
+    store.addTrackToCurrentBeat({sample, sequence, trackType})
+  }
+
   handleEdit = (track, note) => {
     let { beat } = this.props
     this.props.handleToggleNote(track, note)
@@ -221,7 +256,11 @@ class Beat extends Component {
             <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
               Add To Arrangement
             </Button>
+
           </div>
+          <Button small onClick={this.handleAddTrack}>Add track</Button>
+          <Button small onClick={this.toggleTrackType}>Track Type: {this.state.trackType}</Button>
+
         </BeatInfo>
         {tracks}
       </StyledBeat>

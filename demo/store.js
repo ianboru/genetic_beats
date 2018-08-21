@@ -232,7 +232,9 @@ class Store {
   @action addTrackToNewBeat = (track) => {
     this.newBeat.tracks.push(track)
   }
-
+  @action addTrackToCurrentBeat = (track) => {
+    this.currentBeat.tracks.push(track)
+  }
   @action toggleNoteOnNewBeat = (trackNum, note) => {
     const newNote = this.newBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
     this.newBeat.tracks[trackNum].sequence[note] = newNote
