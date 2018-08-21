@@ -70,7 +70,7 @@ const ArrangementControls = styled.div`
 class Block extends Component {
   render() {
     return (
-      <StyledBlock onClick={this.props.handleSelectBeat}>
+      <StyledBlock style={this.props.style} onClick={this.props.handleSelectBeat}>
         <p>{this.props.beatKey}</p>
         <DeleteBlockButton onClick={this.props.deleteBlock}>
           &times;
