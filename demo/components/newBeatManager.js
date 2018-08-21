@@ -43,7 +43,6 @@ const NewBeatPanel = styled.div`
 @observer
 export default class NewBeatManager extends Component {
   state = {
-    play : false,
     show : false,
   }
 
@@ -52,7 +51,8 @@ export default class NewBeatManager extends Component {
   }
 
   togglePlay = () => {
-    this.setState({ play: !this.state.play })
+    store.togglePlayNewBeat()
+
   }
 
   render() {
@@ -66,7 +66,7 @@ export default class NewBeatManager extends Component {
       <StyledNewBeatManager left={this.props.left} right={this.props.right}>
         <Player
           beat       = {store.newBeat}
-          playing    = {this.state.play}
+          playing    = {store.playingNewBeat}
           resolution = {newBeatResolution}
         />
 

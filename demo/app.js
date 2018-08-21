@@ -66,7 +66,6 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playingCurrentBeat : false,
       inputScore         : "",
       selectText         : "",
       familyTreeHeight   : window.innerHeight,
@@ -89,9 +88,7 @@ class App extends Component {
 
 
   handlePlayToggle = () => {
-    this.setState({
-      playingCurrentBeat: !this.state.playingCurrentBeat,
-    })
+    store.togglePlayCurrentBeat()
   }
 
   setScore = (e) => {
@@ -201,12 +198,12 @@ class App extends Component {
           <div style={{flex: 1}}>
             <Player
               beat       = {store.currentBeat}
-              playing    = {this.state.playingCurrentBeat}
+              playing    = {store.playingCurrentBeat}
               resolution = {currentBeatResolution}
             />
             <Header>
               <Button
-                active  = {this.state.playingCurrentBeat}
+                active  = {store.playingCurrentBeat}
                 onClick = {this.handlePlayToggle}
               >
                 {this.state.playingCurrentBeat ? 'Stop' : 'Play Current'}

@@ -79,8 +79,7 @@ class Block extends Component {
 @observer
 class Arrangement extends Component {
   state = {
-    playArrangement : false,
-    beatToAdd       : store.allBeatKeys[0]
+    beatToAdd : store.allBeatKeys[0]
   }
 
   deleteBlock = (index) => {
@@ -92,9 +91,7 @@ class Arrangement extends Component {
   }
 
   togglePlayArrangement = () => {
-    this.setState({
-      playArrangement : !this.state.playArrangement
-    })
+    store.togglePlayArrangement()
   }
 
   handleSelectBeatToAdd = (evt) => {
@@ -241,7 +238,7 @@ class Arrangement extends Component {
 
           <Player
             beat={finalArrangementBeat}
-            playing={this.state.playArrangement}
+            playing={store.playingArrangement}
             resolution = {maxSubdivisions}
             bars = {store.arrangementBeats.length}
           />

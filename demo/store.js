@@ -25,6 +25,9 @@ class Store {
   @observable selectedBeats      = []
   @observable sampleMutationRate = 15
   @observable noteMutationRate   = 8
+  @observable playingCurrentBeat = false
+  @observable playingNewBeat     = false
+  @observable playingArrangement = false
   @observable numSurvivors       = 6
   @observable numChildren        = 3
   @observable fitnessPercentile  = 75
@@ -59,6 +62,21 @@ class Store {
   //
   // ACTIONS
   //
+  @action togglePlayCurrentBeat = () => {
+    this.playingCurrentBeat = !this.playingCurrentBeat
+    this.playingNewBeat = false
+    this.playingArrangement = false
+  }
+  @action togglePlayNewBeat = () => {
+    this.playingCurrentBeat = false
+    this.playingNewBeat = !this.playingNewBeat
+    this.playingArrangement = false
+  }
+  @action togglePlayArrangement = () => {
+    this.playingCurrentBeat = false
+    this.playingNewBeat = false
+    this.playingArrangement = !this.playingArrangement
+  }
  @action addBeatToArrangement = (beatKey) => {
     this.arrangementBeats.push(beatKey)
   }
