@@ -18,7 +18,6 @@ Stuff Luke asked/suggested/experienced
     Selecting beats from current + last generation and then mating will display the latest generation on the
     same level as the second-to-last generation
 * Members had children which weren't selected while using select to mate
-* Would be nice to see where it is in the beat while playing
 * Not obvious that you can click old beats to play them
 * UI should help focus, eg bring up just synth by itself while working on it
 * Being able to click tree not obvious
@@ -40,7 +39,6 @@ Stuff Ian/John wanted/realized
 * Improve synth UI
 * IAN: Normalize synth sound vs samples volume (so synth starts at 50 too)
 * Indicator that everything in a generation has been scored
-* IAN: Show which beat is currently playing in the arrangement
 
 
 Future potential
