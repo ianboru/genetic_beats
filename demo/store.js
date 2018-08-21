@@ -239,6 +239,9 @@ class Store {
   }
 
   @action setTempo = (tempo) => {
+    this.toggleNoteTimer()
+    this.toggleArrangementTimer()
+    
     this.tempo = tempo
   }
 
