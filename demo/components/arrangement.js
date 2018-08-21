@@ -33,6 +33,11 @@ const StyledBlock = styled.div`
   position:relative;
   vertical-align: top;
   text-align: center;
+  cursor: pointer;
+  &:hover {
+    color: black;
+    background-color: lightGray;
+  }
 `
 
 const AddBlockButton = styled.div`
@@ -65,7 +70,7 @@ const ArrangementControls = styled.div`
 class Block extends Component {
   render() {
     return (
-      <StyledBlock>
+      <StyledBlock onClick={this.props.handleSelectBeat}>
         <p>{this.props.beatKey}</p>
         <DeleteBlockButton onClick={this.props.deleteBlock}>
           &times;
@@ -99,7 +104,12 @@ class Arrangement extends Component {
       beatToAdd : evt.target.value
     })
   }
-
+  handleSelectBeat = (beatKey) => {
+    const idData = beatKey.split(".")
+    const generation = parseInt(idData[0])
+    const beatNum = parseInt(idData[1])
+    store.selectBeat(generation,beatNum)
+  }
   concatenateBeats = (beats, resolution) => {
     let finalBeat = {"tracks":[]}
     let uniqueSamples = {}
@@ -196,6 +206,7 @@ class Arrangement extends Component {
           key = {i}
           beatKey = {beatKey}
           deleteBlock = {()=>{this.deleteBlock(i)}}
+          handleSelectBeat = {()=>{this.handleSelectBeat(beatKey)}}
         />
       )
     })
