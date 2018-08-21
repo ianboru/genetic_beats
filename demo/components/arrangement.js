@@ -80,11 +80,12 @@ class Block extends Component {
   }
 }
 
-
+let timerInterval 
 @observer
 class Arrangement extends Component {
   state = {
-    beatToAdd : store.allBeatKeys[0]
+    beatToAdd : store.allBeatKeys[0],
+    litBeatIndex : 0,
   }
 
   deleteBlock = (index) => {
@@ -97,6 +98,17 @@ class Arrangement extends Component {
 
   togglePlayArrangement = () => {
     store.togglePlayArrangement()
+    if(store.playingArrangement){
+      const milisecondsPerBeat = 1/(store.tempo/60/1000)
+      timerInterval = setInterval(()=>{
+        this.setState({
+          litBeatIndex : (this.state.litBeatIndex + 1)%store.arrangementBeats.length
+        })
+        console.log("beat")
+      }, milisecondsPerBeat*4)
+    }else{
+      clearInterval(timerInterval)
+    }
   }
 
   handleSelectBeatToAdd = (evt) => {
@@ -200,13 +212,22 @@ class Arrangement extends Component {
   }
 
   render() {
+    let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
+      if(i == this.state.litBeatIndex){
+        backgroundColor = "#e9573f"
+      }else{
+        backgroundColor = itemBgColor
+      }
+      console.log(this.state.litBeatIndex, i, beatKey, backgroundColor)
+      
       return (
         <Block
           key = {i}
           beatKey = {beatKey}
           deleteBlock = {()=>{this.deleteBlock(i)}}
           handleSelectBeat = {()=>{this.handleSelectBeat(beatKey)}}
+          style={{backgroundColor: backgroundColor}}
         />
       )
     })
@@ -223,7 +244,7 @@ class Arrangement extends Component {
       )
     })
 
-    const playButtonText = this.state.playArrangement ? "Stop" : "Play"
+    const playButtonText = store.playArrangement ? "Stop" : "Play"
 
     return (
       <div>
