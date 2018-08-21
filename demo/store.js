@@ -177,6 +177,7 @@ class Store {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
+    this.toggleNoteTimer()
     this.updateFamilyInStorage()
   }
 
@@ -190,6 +191,7 @@ class Store {
 
     this.generation = generation
     this.beatNum = beatNum
+    this.toggleNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -198,6 +200,7 @@ class Store {
     } else {
       this.selectedBeats = [selectedKey]
     }
+    
   }
 
   @action toggleSelectPairMode = () => {

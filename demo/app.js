@@ -165,7 +165,6 @@ class App extends Component {
     const nextGeneration = mateGeneration(
       options.newCurrentGeneration,
     )
-
     store.addGeneration(nextGeneration)
   }
 
