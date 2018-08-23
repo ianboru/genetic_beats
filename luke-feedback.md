@@ -1,16 +1,9 @@
-Luke Feedback - 2018-08-16
-==========================
-
-Stuff Luke asked/suggested/experienced
---------------------------------------
+TODOs
+=====
 
 John
 ----
 
-* Select/generation logic
-* "How do I get to the next beat easily? There should be a keyboard shortcut for that"
-* Not obvious that you can edit the current beat's notes
-* Add "scroll to zoom" message and/or some more obvious zoom controls
 * Being able to click tree not obvious
 * Not obvious that you can click old beats to play them
 * Don't know what Select button does (rename "Select for Mating"?)
@@ -18,6 +11,10 @@ John
   representation of it tbh, eg in the family tree)
 * Indicator that everything in a generation has been scored
 * Starting counting from 1 rather than 0 for generation/beatnum
+* Select/generation logic
+* "How do I get to the next beat easily? There should be a keyboard shortcut for that"
+* Delete beat
+
 
 Ian
 ---

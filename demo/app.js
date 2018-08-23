@@ -57,6 +57,15 @@ const PanelLabel = styled.div`
   margin: 0 0 5px;
 `
 
+const InfoRow = styled.div`
+  text-align: center;
+  color: gray;
+  font-size: 16px;
+`
+const Spacer = styled.div`
+  height: ${props => props.height ? props.height : 10}px;
+`
+
 const familyTreeWidth = 500
 
 
@@ -65,10 +74,9 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      inputScore         : "",
-      selectText         : "",
-      familyTreeHeight   : window.innerHeight,
-      familyTreeWidth    : familyTreeWidth,
+      inputScore       : "",
+      familyTreeHeight : window.innerHeight,
+      familyTreeWidth  : familyTreeWidth,
     }
     //store.fetchAllSamples()
   }
@@ -303,12 +311,18 @@ class App extends Component {
           />
 
           <Footer>
-            <div>
+            <InfoRow>
+              scroll to zoom
+            </InfoRow>
+
+            <Spacer />
+
+            <div style={{textAlign:"center"}}>
               <Button
                 active  = {store.selectPairMode}
                 onClick = {store.toggleSelectPairMode}
               >
-                Select
+                Select beats to mate
               </Button>
             </div>
           </Footer>
