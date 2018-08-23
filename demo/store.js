@@ -262,7 +262,7 @@ class Store {
     this.numSurvivors = numSurvivors
   }
 
-  @action setFitnessThreshold = (fitnessPercentile) => {
+  @action setFitnessPercentile = (fitnessPercentile) => {
     this.fitnessPercentile = fitnessPercentile
   }
 
