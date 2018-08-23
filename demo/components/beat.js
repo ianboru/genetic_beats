@@ -152,7 +152,15 @@ class Track extends Component {
     const { track } = this.props
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-
+    let activeSolo
+    let activeMute
+    if(track.trackType == "sampler"){
+      activeMute = store.samples[this.props.track.sample].mute
+      activeSolo = store.samples[this.props.track.sample].solo
+    }else{
+      activeMute = store.synthMute
+      activeSolo = store.synthSolo
+    }
     let sampleOptions = Object.keys(store.samples).map( (key) => {
       const sample = store.samples[key]
       return (
@@ -162,7 +170,6 @@ class Track extends Component {
         >{sample.name}</option>
       )
     })
-
 
     if (this.props.track.trackType === "synth") {
       sampleOptions = allNotesInRange.map( (noteName) => {
@@ -184,11 +191,11 @@ class Track extends Component {
         </div>
         {notes}
         <MuteTrackButton 
-          active={store.samples[this.props.track.sample].mute}
+          active={activeMute}
           onClick={()=>{store.handleMuteTrack(track.sample, track.trackType)}}
         >M</MuteTrackButton>
         <SoloTrackButton
-          active={store.samples[this.props.track.sample].solo}
+          active={activeSolo}
           onClick={()=>{store.handleSoloTrack(track.sample, track.trackType)}}
         >S</SoloTrackButton>
 

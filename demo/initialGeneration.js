@@ -4,17 +4,17 @@ export default [
     score  : 0,
     tracks : [
       {
-        trackType : "sample",
+        trackType : "sampler",
         sample   : "samples/kick.wav",
         sequence : [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0,],
       },
       {
-        trackType : "sample",
+        trackType : "sampler",
         sample   : "samples/clave.wav",
         sequence : [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
       },
       {
-        trackType : "sample",
+        trackType : "sampler",
         sample   : "samples/hihat.wav",
         sequence : [1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       },
@@ -25,17 +25,17 @@ export default [
     score  : 0,
     tracks : [
       {
-        trackType : "sample",
+        trackType : "sampler",
         sample   : "samples/kick.wav",
         sequence : [1, 1, 0, 0, 0, 0, 1, 0],
       },
       {
-        trackType : "sample",
+        trackType : "sampler",
         sample   : "samples/8580__ST_060.wav",
         sequence : [0, 0, 1, 0, 0, 0, 0, 0],
       },
       {
-        trackType : "sample",
+        trackType : "sampler",
         sample   : "samples/hihat.wav",
         sequence : [1, 0, 1, 0, 1, 0, 1, 0],
       },

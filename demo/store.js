@@ -70,17 +70,7 @@ class Store {
   //
   // ACTIONS
   //
-  @action handleMuteTrack = (sample,trackType) => { 
-    if(this.numSolo == 0){
-
-      if(trackType == "sample"){
-          this.samples[sample].mute = !this.samples[sample].mute 
-        
-      }else{
-          this.synthMute = !this.synthMute
-      }
-    }
-  }
+  
   @action unmuteAll = () => {
 
     if(this.numSolo == 0){
@@ -100,8 +90,20 @@ class Store {
       this.synthMute = true
     }
   }
+  @action handleMuteTrack = (sample,trackType) => { 
+    if(this.numSolo == 0){
+
+      if(trackType == "sampler"){
+          this.samples[sample].mute = !this.samples[sample].mute 
+        
+      }else{
+          this.synthMute = !this.synthMute
+      }
+    }
+  }
   @action handleSoloTrack = (sample,trackType) => { 
-    if(trackType == "sample"){
+    console.log(sample, trackType, this.numSolo, this.synthSolo, this.synthMute)
+    if(trackType == "sampler"){
        this.samples[sample].solo = !this.samples[sample].solo 
       if(this.samples[sample].solo){
         this.numSolo += 1
@@ -115,10 +117,16 @@ class Store {
       }
     }else{
       if(!this.synthSolo){
+        this.numSolo += 1
         this.synthSolo = true
         this.synthMute = false
         this.muteUnsolod()
       }else{
+        this.numSolo -= 1
+        this.synthSolo = false
+        if(this.numSolo > 0){
+          this.synthMute = true
+        }
         this.unmuteAll()
       }
     }
