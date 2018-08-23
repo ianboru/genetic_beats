@@ -24,9 +24,7 @@ John
 Ian
 ---
 
-* Members had children which weren't selected while using select to mate
 * Solo/Mute buttons for samples
-* IAN: Normalize synth sound vs samples volume (so synth starts at 50 too)
 
 
 Up For Grabs

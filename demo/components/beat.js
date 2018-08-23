@@ -99,7 +99,26 @@ const RemoveTrackButton = styled.span`
     color: red;
   }
 `
-
+const MuteTrackButton = styled.span`
+  cursor: pointer;
+  margin: 3px;
+  height: 20px;
+  width: 20px;
+  color: black;
+  display: inline-block;
+  border-radius: 2px;
+  background-color : orange;
+`
+const SoloTrackButton = styled.span`
+  cursor: pointer;
+  margin: 3px;
+  height: 20px;
+  width: 20px;
+  color: black;
+  display: inline-block;
+  border-radius: 2px;
+  background-color : green;
+`
 
 @observer
 class Track extends Component {
@@ -162,6 +181,9 @@ class Track extends Component {
           </select>
         </div>
         {notes}
+        <MuteTrackButton onClick={()=>{store.handleMuteTrack(track.sample,track.trackType)}}>M</MuteTrackButton>
+        <SoloTrackButton onClick={()=>{store.handleSoloTrack(track.sample,track.trackType)}}>S</SoloTrackButton>
+
           <RemoveTrackButton
             title   = {"Delete track}"}
             onClick = {this.handleRemoveTrack}

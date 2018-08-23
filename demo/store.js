@@ -22,7 +22,9 @@ class Store {
   @observable samples            = samples
   @observable synthGain          = 0.5
   @observable synthGainCorrection= 2
-
+  @observable synthSolo          = false
+  @observable synthMute          = false
+  @observable numSolo            = 0
   @observable selectPairMode     = false
   @observable selectedBeats      = []
   @observable sampleMutationRate = 15
@@ -68,6 +70,58 @@ class Store {
   //
   // ACTIONS
   //
+  @action handleMuteTrack = (sample,trackType) => { 
+    console.log("muting " ,sample,trackType)
+    if(trackType == "sample"){
+      this.samples[sample].mute = !this.samples[sample].mute 
+    }else{
+      this.synthMute = !this.synthMute
+    }
+  }
+  @action unmuteAll = () => {
+        console.log("unmuting all ", this.numSolo)
+
+    if(this.numSolo == 0){
+      Object.keys(this.samples).forEach((key)=>{
+        this.samples[key].mute = false
+      })
+      this.synthMute = false
+    }
+  }
+  @action muteUnsolod = () => {
+    console.log("muting unsolod", this.numSolo)
+    Object.keys(this.samples).forEach((key)=>{
+      if(!this.samples[key].solo){
+        this.samples[key].mute = true
+      }
+    })
+    if(!this.synthSolo){
+      this.synthMute = true
+    }
+  }
+  @action handleSoloTrack = (sample,trackType) => { 
+    console.log("soloing " ,sample,trackType, this.numSolo)
+    if(trackType == "sample"){
+       this.samples[sample].solo = !this.samples[sample].solo 
+      if(this.samples[sample].solo){
+        this.numSolo += 1
+        this.samples[sample].mute = false
+        // mute all samples and synth besides solo ones
+        this.muteUnsolod()
+      }else{
+        this.numSolo -= 1
+        this.unmuteAll()
+      }
+    }else{
+      if(!this.synthSolo){
+        this.synthSolo = true
+        this.synthMute = false
+        this.muteUnsolod()
+      }else{
+        this.unmuteAll()
+      }
+    }
+  }
   @action resetCurrentLitNote = () => {
     this.currentLitNote =  0
   }
