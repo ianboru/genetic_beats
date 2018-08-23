@@ -71,11 +71,11 @@ class Store {
   // ACTIONS
   //
   @action handleMuteTrack = (sample,trackType) => { 
-    if(numSolo == 0){
+    if(this.numSolo == 0){
 
       if(trackType == "sample"){
           this.samples[sample].mute = !this.samples[sample].mute 
-        }
+        
       }else{
           this.synthMute = !this.synthMute
       }

@@ -66,7 +66,7 @@ const Spacer = styled.div`
   height: ${props => props.height ? props.height : 10}px;
 `
 
-const familyTreeWidth = 500
+const familyTreeWidth = 440
 
 
 @observer
