@@ -201,10 +201,18 @@ const StyledBeat = styled.div`
   position: relative;
 `
 
-const BeatInfo = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
+const BeatInfo = styled.span`
+  margin: 10px;
+`
+
+const BILabel = styled.span`
+  color: #77777f;
+  margin: 4px;
+`
+
+const BIData = styled.span`
+  color: white;
+  margin: 4px;
 `
 
 
@@ -270,24 +278,27 @@ class Beat extends Component {
 
     return (
       <StyledBeat>
-        <BeatInfo>
-          <div>
-            Beat: {this.props.beat.key}
-          </div>
-          <div>
-            Score: {this.props.beat.score}
-          </div>
-          <div>
-            <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
-              Add To Arrangement
-            </Button>
+        <div>
+          <BeatInfo>
+            <BILabel>Beat</BILabel>
+            <BIData>{this.props.beat.key}</BIData>
+          </BeatInfo>
 
-          </div>
-          <Button small onClick={this.handleAddTrack}>Add track</Button>
-          <Button small onClick={this.toggleTrackType}>Track Type: {this.state.trackType}</Button>
+          <BeatInfo>
+            <BILabel>Score</BILabel>
+            <BIData>{this.props.beat.score}</BIData>
+          </BeatInfo>
+        </div>
 
-        </BeatInfo>
         {tracks}
+
+        <div>
+          <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
+            Add beat to arrangement
+          </Button>
+          <Button small onClick={this.handleAddTrack}>+ Add {this.state.trackType} track</Button>
+          <Button small onClick={this.toggleTrackType}>Toggle track type</Button>
+        </div>
       </StyledBeat>
     )
   }

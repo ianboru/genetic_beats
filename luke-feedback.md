@@ -6,7 +6,6 @@ John
 
 * Being able to click tree not obvious
 * Not obvious that you can click old beats to play them
-* Don't know what Select button does (rename "Select for Mating"?)
 * Rearrange arrangement beats/add to arbitrary position (Would prob be cool to drag any
   representation of it tbh, eg in the family tree)
 * Indicator that everything in a generation has been scored

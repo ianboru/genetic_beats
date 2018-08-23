@@ -94,13 +94,14 @@ class FamilyTree extends React.Component {
         style: cytoscape.stylesheet()
           .selector('node')
           .css({
+            'color'            : 'mapData(score, 8, 9, black, white)',
             'height'           : 'mapData(size, 0, 1, 1, 120)',
             'width'            : 'mapData(size, 0, 1, 1, 120)',
-            'background-color' : 'mapData(score, 0, 20, white, red)',
+            'background-color' : 'mapData(score, 0, 10, white, rgb(19, 111, 181))',
             'background-fit'   : 'cover',
             'border-color'     : 'mapData(selected, 0, 1, black, red)',
-            'border-width'     : 'mapData(size, 0, 1, 1, 12)',
-            'border-opacity'   : 0.6,
+            'border-width'     : 'mapData(size, 0, 1, 1, 6)',
+            'border-opacity'   : 1,
             'content'          : 'data(name)',
             'text-valign'      : 'center',
             'label'            : 'data(id)',
@@ -110,7 +111,7 @@ class FamilyTree extends React.Component {
           .css({
             'width'                   : 5,
             'target-arrow-shape'      : 'triangle',
-            'arrow-scale'     :       'mapData(arrowScale, 0, 1, .5, 3)',
+            'arrow-scale'             : 'mapData(arrowScale, 0, 1, .5, 3)',
             'line-color'              : 'mapData(visible, 0, 1, #292B30, white)',
             'target-arrow-color'      : 'mapData(visible, 0, 1, #292B30, white)',
             'curve-style'             : 'bezier',
