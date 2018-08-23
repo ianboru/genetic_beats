@@ -5,7 +5,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import store from "./store"
-import mateGeneration from "./generateChildren"
+import { mateGeneration, mateSelectedMembers} from "./generateChildren"
 import "./index.css"
 import {
   panelBackground,
@@ -115,7 +115,7 @@ class App extends Component {
   }
 
   handleMate = () => {
-    if (store.generation < store.allGenerations.length - 1) {
+    if (store.generation < store.allGenerations.length - 1 && !store.selectPairMode) {
       if (confirm(`Mating now will clear all generations after the currently selected one (${store.generation}).`)) {
         store.killSubsequentGenerations()
       } else {
@@ -124,25 +124,24 @@ class App extends Component {
     }
 
     let options = {}
-
+    let members = store.currentGeneration
+    let nextGeneration 
     if (store.selectPairMode) {
-      options.newCurrentGeneration = store.selectedBeats.map( (currentKey) => {
+      members = store.selectedBeats.map( (currentKey) => {
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
         return store.allGenerations[generation][beatNum]
       })
-      options.numGeneration = store.allGenerations.length - 1
-      store.toggleSelectPairMode()
+      console.log("selected members ", members)
+      nextGeneration = mateSelectedMembers(members)
     } else {
-      options.newCurrentGeneration = store.currentGeneration
-      options.numGeneration = store.generation
+      nextGeneration = mateGeneration(members)
     }
 
-    const nextGeneration = mateGeneration(
-      options.newCurrentGeneration,
-    )
     store.addGeneration(nextGeneration)
+    if(store.selectPairMode){store.toggleSelectPairMode()}
+
   }
 
   handleUploadSample = (files) => {

@@ -22,9 +22,6 @@ John
 Ian
 ---
 
-* Bug with selecting beats, seems to add beats to current gen before making new one? (Or the visualization broke maybe)
-  Selecting beats from current + last generation and then mating will display the latest generation on the
-  same level as the second-to-last generation
 * Members had children which weren't selected while using select to mate
 * Solo/Mute buttons for samples
 * IAN: Normalize synth sound vs samples volume (so synth starts at 50 too)

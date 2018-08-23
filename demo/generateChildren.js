@@ -194,7 +194,6 @@ const matePair = (momBeat, dadBeat) => {
 
 const mateMembers = (members)=> {
   let nextGeneration = []
-
   members.forEach( (momBeat, momIndex) => {
     members.slice(momIndex+1).forEach( (dadBeat, dadIndex) => {
       if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
@@ -212,7 +211,16 @@ const mateMembers = (members)=> {
 
   return nextGeneration
 }
-
+const mateSelectedMembers = (members) => {
+  const nextGeneration = mateMembers(members)
+  const survivingMembers = selectSurvivors(nextGeneration)
+  const reindexedMembers = survivingMembers.map( (beat, i) => {
+    return { ...beat,
+      key: `${store.allGenerations.length }.${i}`,
+    }
+  })
+  return reindexedMembers
+}
 const mateGeneration = (generation) => {
   const fitMembers = selectFitMembers(generation)
   const nextGeneration = mateMembers(fitMembers)
@@ -225,4 +233,7 @@ const mateGeneration = (generation) => {
   return reindexedMembers
 }
 
-export default mateGeneration
+export { 
+  mateGeneration,
+  mateSelectedMembers
+}
