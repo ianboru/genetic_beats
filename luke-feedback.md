@@ -23,7 +23,6 @@ John
 Ian
 ---
 
-* Solo/Mute buttons for samples
 
 
 Up For Grabs

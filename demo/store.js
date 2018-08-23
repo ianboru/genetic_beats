@@ -71,15 +71,17 @@ class Store {
   // ACTIONS
   //
   @action handleMuteTrack = (sample,trackType) => { 
-    console.log("muting " ,sample,trackType)
-    if(trackType == "sample"){
-      this.samples[sample].mute = !this.samples[sample].mute 
-    }else{
-      this.synthMute = !this.synthMute
+    if(numSolo == 0){
+
+      if(trackType == "sample"){
+          this.samples[sample].mute = !this.samples[sample].mute 
+        }
+      }else{
+          this.synthMute = !this.synthMute
+      }
     }
   }
   @action unmuteAll = () => {
-        console.log("unmuting all ", this.numSolo)
 
     if(this.numSolo == 0){
       Object.keys(this.samples).forEach((key)=>{
@@ -89,7 +91,6 @@ class Store {
     }
   }
   @action muteUnsolod = () => {
-    console.log("muting unsolod", this.numSolo)
     Object.keys(this.samples).forEach((key)=>{
       if(!this.samples[key].solo){
         this.samples[key].mute = true
@@ -100,7 +101,6 @@ class Store {
     }
   }
   @action handleSoloTrack = (sample,trackType) => { 
-    console.log("soloing " ,sample,trackType, this.numSolo)
     if(trackType == "sample"){
        this.samples[sample].solo = !this.samples[sample].solo 
       if(this.samples[sample].solo){
@@ -110,6 +110,7 @@ class Store {
         this.muteUnsolod()
       }else{
         this.numSolo -= 1
+        this.samples[sample].mute = true
         this.unmuteAll()
       }
     }else{
