@@ -1,11 +1,12 @@
 import React, { Component } from "react"
-import styled from "styled-components"
-
 import { observer } from "mobx-react"
+import styled from "styled-components"
+import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
 import CreateBeat from "./createBeat"
 import Player from "./player"
+
 
 import store from "../store"
 import {
@@ -40,8 +41,9 @@ const NewBeatPanel = styled.div`
 `
 
 
+@enhanceWithClickOutside
 @observer
-export default class NewBeatManager extends Component {
+class NewBeatManager extends Component {
   state = {
     show : false,
   }
@@ -53,6 +55,10 @@ export default class NewBeatManager extends Component {
   togglePlay = () => {
     store.togglePlayNewBeat()
 
+  }
+
+  handleClickOutside = () => {
+    this.setState({ show: false })
   }
 
   render() {
@@ -80,3 +86,6 @@ export default class NewBeatManager extends Component {
     )
   }
 }
+
+
+export default NewBeatManager

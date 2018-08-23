@@ -45,33 +45,33 @@ class GainSlider extends Component {
 }
 
 
+const StyledNote = styled.div`
+  background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
+  cursor: pointer;
+  margin: 3px;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: ${props => props.active ? "lightpink" : props.on ? "#FF6666" : "darkgray" };
+  }
+`
+
+
 @observer
 class Note extends Component {
   render() {
-    let color
-
-    if (this.props.value === 1) {
-      color = "red"
-    } else {
-      color = "gray"
-    }
-    if(this.props.index == store.currentLitNote && store.playingCurrentBeat){
-      color = "pink"
-    }
+    const active = this.props.index == store.currentLitNote && store.playingCurrentBeat
 
     return (
-      <div
+      <StyledNote
+        on          = {this.props.value === 1}
+        active      = {active}
         onMouseDown = {this.props.onClick}
         className   = "note"
-        style       = {{
-          cursor     : "pointer",
-          margin     : 3,
-          height     : 20,
-          width      : 20,
-          display    : "inline-block",
-          background : color,
-        }}
-      ></div>
+      ></StyledNote>
     )
   }
 }
@@ -115,7 +115,7 @@ class Track extends Component {
   handleSampleChange = (e) => {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
-  
+
   render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (

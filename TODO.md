@@ -1,13 +1,7 @@
 2018-08-19
 ==========
 
-* Concept of active beat, selected beats, non-selected beats
-    * By default, selected beats are the current gen and next/prev iterate through them
-    * Select mode lets user select arbitrary set of beats
-    * Active beat shown in red, selected beats shown as normal, non-selected beats grayed out somewhat
 * Change scoring color (OR active beat color) to green or blue
-* Prior generations are "selected" by activating a beat in that generation
-* Start counting generation and beats from 1 rather than 0 (at least in the UI)
 * Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
 * Switch Rate Beat to star rating system (10 start or 5 stars with half steps)
 * Move mate, current family, new family, clear all to the family tree side of the screen
@@ -15,7 +9,6 @@
 * Hover effect for notes (in beat) and nodes (in family tree) to make it obvious that they're clickable
 * Getting warning about mating clearing all generations during select mode
 * Group instruments (eg, percussion vs melodic instruments vs synth, vs whatever)
-* Click off modals to close them
 
 
 OLD

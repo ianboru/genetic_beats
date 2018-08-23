@@ -1,23 +1,25 @@
-Luke Feedback - 2018-08-16
-==========================
-
-Stuff Luke asked/suggested/experienced
---------------------------------------
+TODOs
+=====
 
 John
 ----
 
-* Select/generation logic
-* "How do I get to the next beat easily? There should be a keyboard shortcut for that"
-* Not obvious that you can edit the current beat's notes
-* Add "scroll to zoom" message and/or some more obvious zoom controls
 * Being able to click tree not obvious
 * Not obvious that you can click old beats to play them
 * Don't know what Select button does (rename "Select for Mating"?)
 * Rearrange arrangement beats/add to arbitrary position (Would prob be cool to drag any
   representation of it tbh, eg in the family tree)
 * Indicator that everything in a generation has been scored
-* Starting counting from 1 rather than 0 for generation/beatnum
+* Select/generation logic
+* "How do I get to the next beat easily? There should be a keyboard shortcut for that"
+* Delete beat
+
+* Concept of active beat, selected beats, non-selected beats
+    * By default, selected beats are the current gen and next/prev iterate through them
+    * Select mode lets user select arbitrary set of beats
+    * Active beat shown in red, selected beats shown as normal, non-selected beats grayed out somewhat
+    * Prior generations are "selected" by activating a beat in that generation
+
 
 Ian
 ---
@@ -30,6 +32,7 @@ Ian
 Up For Grabs
 ------------
 
+* Starting counting from 1 rather than 0 for generation/beatnum
 * Didn't notice track type synth right away
 * Looked below family tree for mating button, and then "new family"
 * Tracks with 32 notes don't fit
@@ -41,7 +44,6 @@ Up For Grabs
 * Add templates/archs for random arrangement
 * Add config options in general for random arrangement
 * Specifying how often a sound fires instead of manually turning notes on/off would be great
-* Add sticky options for modals
 * Improve synth UI
 
 

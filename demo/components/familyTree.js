@@ -148,7 +148,7 @@ class FamilyTree extends React.Component {
       return <StyledFamilyTree
         id    = "cy"
         style = {{
-          height : this.props.height - topPadding - bottomPadding - borderWidth*2 - footerClearance,
+          height : this.props.height - topPadding - bottomPadding - borderWidth*2 - footerClearance - 35,
           width  : this.props.width - sidePadding*2 - borderWidth*2,
         }}
       />

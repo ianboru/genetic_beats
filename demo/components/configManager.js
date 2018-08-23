@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import styled from "styled-components"
-
 import { observer } from "mobx-react"
+import styled from "styled-components"
+import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
 
@@ -79,8 +79,9 @@ const ConfigPanel = styled.div`
 `
 
 
+@enhanceWithClickOutside
 @observer
-export default class ConfigManager extends Component {
+class ConfigManager extends Component {
   state = {
     show : false,
   }
@@ -111,6 +112,10 @@ export default class ConfigManager extends Component {
 
   toggleShow = () => {
     this.setState({ show : !this.state.show})
+  }
+
+  handleClickOutside = () => {
+    this.setState({ show: false })
   }
 
   render() {
@@ -167,3 +172,6 @@ export default class ConfigManager extends Component {
     )
   }
 }
+
+
+export default ConfigManager
