@@ -15,7 +15,6 @@
 * Hover effect for notes (in beat) and nodes (in family tree) to make it obvious that they're clickable
 * Getting warning about mating clearing all generations during select mode
 * Group instruments (eg, percussion vs melodic instruments vs synth, vs whatever)
-* Click off modals to close them
 
 
 OLD

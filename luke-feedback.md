@@ -41,7 +41,6 @@ Up For Grabs
 * Add templates/archs for random arrangement
 * Add config options in general for random arrangement
 * Specifying how often a sound fires instead of manually turning notes on/off would be great
-* Add sticky options for modals
 * Improve synth UI
 
 
