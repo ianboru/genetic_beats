@@ -38,8 +38,8 @@ class Store {
   @observable arrangementBeats   = []
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
-  @observable noteTimer          
-  @observable arrangementTimer   
+  @observable noteTimer
+  @observable arrangementTimer
 
   //
   // COMPUTED VALUES
@@ -72,48 +72,47 @@ class Store {
   @action resetCurrentLitBeat = () => {
     this.currentLitBeat =  0
   }
-  @action incrementCurrentLitNote = () => { 
+  @action incrementCurrentLitNote = () => {
     this.currentLitNote = (this.currentLitNote + 1)%this.currentBeat.tracks[0].sequence.length
   }
 
-  @action toggleNoteTimer = () => {
-
+  @action resetNoteTimer = () => {
     if(this.playingCurrentBeat){
-      const milisecondsPerBeat = 1/(this.tempo/60/1000)
-      const milisecondsPerNote = milisecondsPerBeat * 4/ this.currentBeat.tracks[0].sequence.length
+      const millisecondsPerBeat = 1/(this.tempo/60/1000)
+      const millisecondsPerNote = millisecondsPerBeat * 4/ this.currentBeat.tracks[0].sequence.length
       clearInterval(this.noteTimer)
       this.noteTimer = setInterval(()=>{
         this.incrementCurrentLitNote()
-      }, milisecondsPerNote)
+      }, millisecondsPerNote)
     }else{
       clearInterval(this.noteTimer)
       this.currentLitNote = 0
     }
   }
 
-  @action incrementCurrentLitBeat = () => { 
+  @action incrementCurrentLitBeat = () => {
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.arrangementBeats.length
   }
 
-  @action toggleArrangementTimer = () => {
+  @action resetArrangementTimer = () => {
     if(this.playingArrangement){
-      const milisecondsPerBeat = 1/(this.tempo/60/1000)
+      const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
       this.arrangementTimer = setInterval(()=>{
         this.incrementCurrentLitBeat()
-      }, milisecondsPerBeat*4)
+      }, millisecondsPerBeat*4)
     }else{
       clearInterval(this.arrangementTimer)
-      this.currentLitBeat  = 0 
+      this.currentLitBeat  = 0
     }
   }
-  
+
   @action togglePlayCurrentBeat = () => {
     this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingNewBeat = false
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
-    this.toggleNoteTimer()
+    this.resetNoteTimer()
     this.currentLitBeat = 0
   }
   @action togglePlayNewBeat = () => {
@@ -126,7 +125,7 @@ class Store {
     this.playingNewBeat = false
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
-    this.toggleArrangementTimer()
+    this.resetArrangementTimer()
     this.currentLitNote = 0
   }
  @action addBeatToArrangement = (beatKey) => {
@@ -179,7 +178,7 @@ class Store {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
-    this.toggleNoteTimer()
+    this.resetNoteTimer()
     this.updateFamilyInStorage()
   }
 
@@ -193,7 +192,7 @@ class Store {
 
     this.generation = generation
     this.beatNum = beatNum
-    this.toggleNoteTimer()
+    this.resetNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -202,7 +201,6 @@ class Store {
     } else {
       this.selectedBeats = [selectedKey]
     }
-    
   }
 
   @action toggleSelectPairMode = () => {
@@ -248,8 +246,8 @@ class Store {
 
   @action setTempo = (tempo) => {
     this.tempo = tempo
-    this.toggleNoteTimer()
-    this.toggleArrangementTimer()
+    this.resetNoteTimer()
+    this.resetArrangementTimer()
   }
 
   @action setSampleMutationRate = (sampleMutationRate) => {
@@ -335,7 +333,7 @@ class Store {
     const currentGeneration = this.allGenerations[this.generation]
     this.beatNum = (this.beatNum + 1) % currentGeneration.length
     this.currentLitNote = 0
-    this.toggleNoteTimer()
+    this.resetNoteTimer()
   }
 
   @action prevBeat = () => {
@@ -348,7 +346,7 @@ class Store {
     }
 
     this.currentLitNote = 0
-    this.toggleNoteTimer()
+    this.resetNoteTimer()
   }
 }
 

@@ -27,6 +27,7 @@ const StyledArrangement = styled.div`
 
 const StyledBlock = styled.div`
   border-right: 1px solid ${lightGray};
+  background-color: ${props => props.highlight ? "#e9573f" : itemBgColor};
   display: inline-block;
   height: 100%;
   width: 80px;
@@ -70,7 +71,7 @@ const ArrangementControls = styled.div`
 class Block extends Component {
   render() {
     return (
-      <StyledBlock style={this.props.style} onClick={this.props.handleSelectBeat}>
+      <StyledBlock highlight={this.props.highlight} onClick={this.props.handleSelectBeat}>
         <p>{this.props.beatKey}</p>
         <DeleteBlockButton onClick={this.props.deleteBlock}>
           &times;
@@ -80,12 +81,10 @@ class Block extends Component {
   }
 }
 
-let timerInterval 
 @observer
 class Arrangement extends Component {
   state = {
     beatToAdd : store.allBeatKeys[0],
-    litBeatIndex : 0,
   }
 
   deleteBlock = (index) => {
@@ -199,19 +198,15 @@ class Arrangement extends Component {
   render() {
     let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
-      if(i == store.currentLitBeat && store.playingArrangement){
-        backgroundColor = "#e9573f"
-      }else{
-        backgroundColor = itemBgColor
-      }
-      
+      const highlight = (i === store.currentLitBeat && store.playingArrangement)
+
       return (
         <Block
-          key = {i}
-          beatKey = {beatKey}
+          key       = {i}
+          beatKey   = {beatKey}
+          highlight = {highlight}
           deleteBlock = {()=>{this.deleteBlock(i)}}
           handleSelectBeat = {()=>{this.handleSelectBeat(beatKey)}}
-          style={{backgroundColor: backgroundColor}}
         />
       )
     })
@@ -228,7 +223,7 @@ class Arrangement extends Component {
       )
     })
 
-    const playButtonText = store.playArrangement ? "Stop" : "Play"
+    const playButtonText = store.playingArrangement ? "Stop" : "Play"
 
     return (
       <div>
