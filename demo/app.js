@@ -202,7 +202,7 @@ class App extends Component {
                 active  = {store.playingCurrentBeat}
                 onClick = {this.handlePlayToggle}
               >
-                {this.state.playingCurrentBeat ? 'Stop' : 'Play Current'}
+                {store.playingCurrentBeat ? 'Stop' : 'Play Current'}
               </Button>
 
               <Button onClick={this.handleMate}>
