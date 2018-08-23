@@ -97,7 +97,7 @@ class FamilyTree extends React.Component {
             'color'            : 'mapData(score, 8, 9, black, white)',
             'height'           : 'mapData(size, 0, 1, 1, 120)',
             'width'            : 'mapData(size, 0, 1, 1, 120)',
-            'background-color' : 'mapData(score, 0, 10, white, rgb(44, 93, 233))',
+            'background-color' : 'mapData(score, 0, 10, white, rgb(19, 111, 181))',
             'background-fit'   : 'cover',
             'border-color'     : 'mapData(selected, 0, 1, black, red)',
             'border-width'     : 'mapData(size, 0, 1, 1, 6)',

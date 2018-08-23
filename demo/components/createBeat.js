@@ -83,9 +83,9 @@ class CreateBeat extends Component {
           >
             {stepOptions}
           </select>
-          <button onClick={this.handleAddTrack}>Add track</button>
           <button onClick={this.props.togglePlayBeat}>{this.props.playing ? "Stop" : "Play"}</button>
-          <button onClick={this.toggleTrackType}>Track Type: {this.state.trackType}</button>
+          <button onClick={this.handleAddTrack}>Add {this.state.trackType} track</button>
+          <button onClick={this.toggleTrackType}>Toggle track type</button>
         </div>
 
         <button

@@ -52,11 +52,6 @@ class NewBeatManager extends Component {
     this.setState({ show: !this.state.show })
   }
 
-  togglePlay = () => {
-    store.togglePlayNewBeat()
-
-  }
-
   handleClickOutside = () => {
     this.setState({ show: false })
   }
@@ -80,7 +75,10 @@ class NewBeatManager extends Component {
           {this.state.show ? "Hide" : ""} Create New Beat
         </Button>
         <NewBeatPanel show={this.state.show}>
-          <CreateBeat playing={this.state.play} togglePlayBeat={this.togglePlay} />
+          <CreateBeat
+            playing        = {store.playingNewBeat}
+            togglePlayBeat = {store.togglePlayBeat}
+          />
         </NewBeatPanel>
       </StyledNewBeatManager>
     )
