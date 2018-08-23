@@ -156,7 +156,7 @@ const mutateSequence = (sequence) => {
 const matePair = (momBeat, dadBeat) => {
   let childBeat = {
     tracks : [],
-    score  : (momBeat.score + dadBeat.score)/2,
+    score  : 0,
     momKey : momBeat.key,
     dadKey : dadBeat.key,
     // child's key is added later
