@@ -58,15 +58,7 @@ const PanelLabel = styled.div`
 `
 
 const familyTreeWidth = 500
-let timerInterval
-let noteTimerStartTime
-var delay = ( function() {
-      var timer = 0;
-      return function(callback, ms) {
-          clearTimeout (timer);
-          timer = setTimeout(callback, ms);
-      };
-  })();
+
 
 @observer
 class App extends Component {
@@ -93,13 +85,8 @@ class App extends Component {
     this.setState({ familyTreeHeight: e.target.innerHeight})
   }
 
-  toggleNoteTimer = () => {
-
-    store.toggleNoteTimer()
-  }
   handlePlayToggle = () => {
     store.togglePlayCurrentBeat()
-    this.toggleNoteTimer()
   }
 
   setScore = (e) => {
@@ -109,16 +96,6 @@ class App extends Component {
     }
     e.preventDefault()
     store.nextBeat()
-
-    this.toggleNoteTimer()
-  }
-  handleNextBeat = () => {
-    store.nextBeat()
-    this.toggleNoteTimer()
-  }
-  handlePrevBeat = () => {
-    store.prevBeat()
-    this.toggleNoteTimer()
   }
   handleInputChange = (e) => {
     this.setState({ inputScore: e.target.value })
@@ -258,7 +235,7 @@ class App extends Component {
 
             </div>
             <Footer style={{textAlign: "center"}}>
-              <Button onClick={this.handlePrevBeat}>
+              <Button onClick={store.prevBeat}>
                 &lt; Previous Beat
               </Button>
 
@@ -282,7 +259,7 @@ class App extends Component {
                 </form>
               </Info>
 
-              <Button onClick={this.handleNextBeat}>
+              <Button onClick={store.nextBeat}>
                 Next Beat
                 &gt;
               </Button>

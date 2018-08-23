@@ -75,6 +75,7 @@ class Store {
   @action incrementCurrentLitNote = () => { 
     this.currentLitNote = (this.currentLitNote + 1)%this.currentBeat.tracks[0].sequence.length
   }
+
   @action toggleNoteTimer = () => {
 
     if(this.playingCurrentBeat){
@@ -89,6 +90,7 @@ class Store {
       this.currentLitNote = 0
     }
   }
+
   @action incrementCurrentLitBeat = () => { 
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.arrangementBeats.length
   }
@@ -333,6 +335,7 @@ class Store {
     const currentGeneration = this.allGenerations[this.generation]
     this.beatNum = (this.beatNum + 1) % currentGeneration.length
     this.currentLitNote = 0
+    this.toggleNoteTimer()
   }
 
   @action prevBeat = () => {
@@ -345,7 +348,7 @@ class Store {
     }
 
     this.currentLitNote = 0
-
+    this.toggleNoteTimer()
   }
 }
 
