@@ -38,7 +38,7 @@ const generateSamplers = (beat, samples) => {
       key   = {"synth" + store.generation + "."+ store.beatNum}
       type  = {"square"}
       steps = {convertedSynthSequence}
-      gain  = {store.synthGain}
+      gain  = {store.synthGain/store.synthGainCorrection}
     />
   ) 
   return samplers

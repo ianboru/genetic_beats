@@ -20,7 +20,9 @@ class Store {
   @observable generation         = 0
   @observable allGenerations     = [initialGeneration]
   @observable samples            = samples
-  @observable synthGain          = 0.15
+  @observable synthGain          = 0.5
+  @observable synthGainCorrection= 2
+
   @observable selectPairMode     = false
   @observable selectedBeats      = []
   @observable sampleMutationRate = 15
