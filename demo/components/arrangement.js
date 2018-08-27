@@ -75,22 +75,7 @@ class Block extends Component {
         highlight={this.props.highlight} 
         onClick={this.props.handleClickBeat}
         onMouseDown = {this.props.handleMouseDown}
-        onMouseOver={(e) => { 
-          if( e.buttons == 1 ){
-            console.log("held")
-            console.log(this.props)
-            this.props.updateLastEntered(this.props.index)
-          }
-            if(
-                e.buttons == 1 && 
-                this.props.lastEntered != this.props.index && 
-                this.props.lastEntered != this.props.lastClicked 
-              ){
-              console.log("time to move")
-              this.props.handleMoveBeat(this.props.lastClicked, this.props.index) 
-
-            }
-          }}
+        onMouseUp = {this.props.handleMouseUp}
       >
         <p>{this.props.beatKey}</p>
         <DeleteBlockButton onClick={this.props.deleteBlock}>
@@ -105,7 +90,6 @@ class Block extends Component {
 class Arrangement extends Component {
   state = {
     beatToAdd : store.allBeatKeys[0],
-    lastEntered : -1,
     lastClicked : -1,
   }
 
@@ -136,17 +120,12 @@ class Arrangement extends Component {
       lastClicked: arrangementIndex
     })
   } 
-  handleMoveBeat = (arrangementIndex, destinationIndex) => {
-        console.log("move " ,arrangementIndex,destinationIndex)
+  handleMouseUp = (destinationIndex) => {
+    console.log("mouse up on " + destinationIndex)
 
-    store.moveBeatInArrangement(arrangementIndex,destinationIndex)
-  }
-  updateLastEntered = (arrangementIndex) => {
-    console.log("last entered ", arrangementIndex)
-    this.setState({
-      lastEntered: arrangementIndex
-    })
-  }
+    store.moveBeatInArrangement(this.state.lastClicked,destinationIndex)
+  } 
+
   concatenateBeats = (beats, resolution) => {
     let finalBeat = {"tracks":[]}
     let uniqueSamples = {}
@@ -248,13 +227,12 @@ class Arrangement extends Component {
           beatKey   = {beatKey}
           highlight = {highlight}
           lastClicked = {this.state.lastClicked}
-          lastEntered = {this.state.lastEntered}
           deleteBlock = {()=>{this.deleteBlock(i)}}
           handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
           handleMoveBeat = {this.handleMoveBeat}
           handleMouseDown = {()=>{this.handleMouseDown(i)}}
+          handleMouseUp = {()=>{this.handleMouseUp(i)}}
 
-          updateLastEntered = {()=>{this.updateLastEntered(i)}}
         />
       )
     })

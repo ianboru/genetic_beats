@@ -174,12 +174,16 @@ class Store {
   }
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
     let newArrangement = []
+    console.log(currentIndex, destinationIndex)
     this.arrangementBeats.forEach((beat,index)=>{
       if(index != currentIndex && index != destinationIndex){
+        console.log("first ",beat,index)
         newArrangement.push(beat)
       }else if(index != currentIndex && index == destinationIndex){
-        newArrangement.push(this.arrangementBeats[index])
-        newArrangement.push(this.arrangementBeats[beat])
+        console.log("second", beat,this.arrangementBeats[currentIndex])
+        newArrangement.push(beat)
+
+        newArrangement.push(this.arrangementBeats[currentIndex])
 
       }
     })
