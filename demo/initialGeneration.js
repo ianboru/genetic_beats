@@ -27,6 +27,27 @@ export default [
       {
         trackType : "sampler",
         sample   : "samples/kick.wav",
+        sequence : [1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0,],
+      },
+      {
+        trackType : "sampler",
+        sample   : "samples/snare.wav",
+        sequence : [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+      },
+      {
+        trackType : "sampler",
+        sample   : "samples/hihat.wav",
+        sequence : [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0],
+      },
+    ],
+  },
+  {
+    key    : "0.2",
+    score  : 0,
+    tracks : [
+      {
+        trackType : "sampler",
+        sample   : "samples/kick.wav",
         sequence : [1, 1, 0, 0, 0, 0, 1, 0],
       },
       {

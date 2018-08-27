@@ -70,6 +70,7 @@ class Note extends Component {
         on          = {this.props.value === 1}
         active      = {active}
         onMouseDown = {this.props.onClick}
+        onMouseOver = {this.props.onMouseOver}
         className   = "note"
       ></StyledNote>
     )
@@ -124,11 +125,13 @@ const SoloTrackButton = styled.span`
 
 @observer
 class Track extends Component {
+  state = {
+    lastEntered : -1 
+  }
   handleNoteToggle = (noteNumber) => {
     const { handleEdit, trackNum } = this.props
     handleEdit(trackNum, noteNumber)
   }
-
   handleRemoveTrack = () => {
     this.props.handleRemoveTrack(this.props.trackNum)
   }
@@ -143,7 +146,19 @@ class Track extends Component {
         <Note
           key     = {`${i}.${note}`}
           value   = {note}
-          onClick = {() => { this.handleNoteToggle(i) }}
+          onClick = {(e) => { 
+            this.handleNoteToggle(i) 
+          }}
+          onMouseOver = {(e) => { 
+            if(e.buttons == 1 && this.state.lastEntered != i){
+              console.log("entered")
+
+              this.handleNoteToggle(i) 
+              this.setState({
+                lastEntered : i
+              })
+            }
+          }}
           index   = {i}
         />
       )
@@ -235,6 +250,7 @@ const BIData = styled.span`
 class Beat extends Component {
   state = {
     trackType : "sampler",
+    mousedown : false
   }
   toggleTrackType = () => {
     let newTrackType
