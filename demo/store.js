@@ -71,6 +71,7 @@ class Store {
   // ACTIONS
   //
   
+
   @action unmuteAll = () => {
 
     if(this.numSolo == 0){
@@ -170,6 +171,19 @@ class Store {
       clearInterval(this.arrangementTimer)
       this.currentLitBeat  = 0
     }
+  }
+  @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
+    let newArrangement = []
+    this.arrangementBeats.forEach((beat,index)=>{
+      if(index != currentIndex && index != destinationIndex){
+        newArrangement.push(beat)
+      }else if(index != currentIndex && index == destinationIndex){
+        newArrangement.push(this.arrangementBeats[index])
+        newArrangement.push(this.arrangementBeats[beat])
+
+      }
+    })
+    this.arrangementBeats = newArrangement
   }
 
   @action togglePlayCurrentBeat = () => {

@@ -71,7 +71,27 @@ const ArrangementControls = styled.div`
 class Block extends Component {
   render() {
     return (
-      <StyledBlock highlight={this.props.highlight} onClick={this.props.handleSelectBeat}>
+      <StyledBlock 
+        highlight={this.props.highlight} 
+        onClick={this.props.handleClickBeat}
+        onMouseDown = {this.props.handleMouseDown}
+        onMouseOver={(e) => { 
+          if( e.buttons == 1 ){
+            console.log("held")
+            console.log(this.props)
+            this.props.updateLastEntered(this.props.index)
+          }
+            if(
+                e.buttons == 1 && 
+                this.props.lastEntered != this.props.index && 
+                this.props.lastEntered != this.props.lastClicked 
+              ){
+              console.log("time to move")
+              this.props.handleMoveBeat(this.props.lastClicked, this.props.index) 
+
+            }
+          }}
+      >
         <p>{this.props.beatKey}</p>
         <DeleteBlockButton onClick={this.props.deleteBlock}>
           &times;
@@ -85,6 +105,8 @@ class Block extends Component {
 class Arrangement extends Component {
   state = {
     beatToAdd : store.allBeatKeys[0],
+    lastEntered : -1,
+    lastClicked : -1,
   }
 
   deleteBlock = (index) => {
@@ -100,11 +122,30 @@ class Arrangement extends Component {
       beatToAdd : evt.target.value
     })
   }
-  handleSelectBeat = (beatKey) => {
+  handleClickBeat = (beatKey, arrangementIndex) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     store.selectBeat(generation,beatNum)
+    console.log("updating last clicked " + arrangementIndex)
+    
+  }
+  handleMouseDown = (arrangementIndex) => {
+    console.log("mouse down on " + arrangementIndex)
+    this.setState({
+      lastClicked: arrangementIndex
+    })
+  } 
+  handleMoveBeat = (arrangementIndex, destinationIndex) => {
+        console.log("move " ,arrangementIndex,destinationIndex)
+
+    store.moveBeatInArrangement(arrangementIndex,destinationIndex)
+  }
+  updateLastEntered = (arrangementIndex) => {
+    console.log("last entered ", arrangementIndex)
+    this.setState({
+      lastEntered: arrangementIndex
+    })
   }
   concatenateBeats = (beats, resolution) => {
     let finalBeat = {"tracks":[]}
@@ -198,15 +239,22 @@ class Arrangement extends Component {
   render() {
     let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
-      const highlight = (i === store.currentLitBeat && store.playingArrangement)
+    const highlight = (i === store.currentLitBeat && store.playingArrangement)
 
       return (
         <Block
           key       = {i}
+          index     = {i}
           beatKey   = {beatKey}
           highlight = {highlight}
+          lastClicked = {this.state.lastClicked}
+          lastEntered = {this.state.lastEntered}
           deleteBlock = {()=>{this.deleteBlock(i)}}
-          handleSelectBeat = {()=>{this.handleSelectBeat(beatKey)}}
+          handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
+          handleMoveBeat = {this.handleMoveBeat}
+          handleMouseDown = {()=>{this.handleMouseDown(i)}}
+
+          updateLastEntered = {()=>{this.updateLastEntered(i)}}
         />
       )
     })
