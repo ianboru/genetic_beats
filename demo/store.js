@@ -103,6 +103,7 @@ class Store {
     }
   }
   @action handleSoloTrack = (sample,trackType) => { 
+    console.log(sample, trackType, this.numSolo, this.synthSolo, this.synthMute)
     if(trackType == "sampler"){
        this.samples[sample].solo = !this.samples[sample].solo 
       if(this.samples[sample].solo){
@@ -173,17 +174,12 @@ class Store {
   }
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
     let newArrangement = []
-    console.log(currentIndex, destinationIndex)
     this.arrangementBeats.forEach((beat,index)=>{
       if(index != currentIndex && index != destinationIndex){
-        console.log("first ",beat,index)
         newArrangement.push(beat)
       }else if(index != currentIndex && index == destinationIndex){
-        console.log("second", beat,this.arrangementBeats[currentIndex])
         newArrangement.push(beat)
-
         newArrangement.push(this.arrangementBeats[currentIndex])
-
       }
     })
     this.arrangementBeats = newArrangement
@@ -391,6 +387,13 @@ class Store {
   }
 
   @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
+    // set new sample mute and solo to last sample values
+    this.samples[sample].mute = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute
+    this.samples[sample].solo = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo
+    // reset old sample mute and solo
+    this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = false
+    this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = true
+    // set new sample 
     this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
   }
 
