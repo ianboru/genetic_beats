@@ -147,11 +147,14 @@ class Track extends Component {
           key     = {`${i}.${note}`}
           value   = {note}
           onClick = {(e) => { 
-            this.handleNoteToggle(i) 
+              this.setState({
+                lastEntered : i
+              })
+              this.handleNoteToggle(i) 
+            
           }}
           onMouseOver = {(e) => { 
             if(e.buttons == 1 && this.state.lastEntered != i){
-              console.log("entered")
 
               this.handleNoteToggle(i) 
               this.setState({

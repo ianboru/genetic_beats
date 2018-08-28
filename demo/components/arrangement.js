@@ -110,19 +110,14 @@ class Arrangement extends Component {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
-    store.selectBeat(generation,beatNum)
-    console.log("updating last clicked " + arrangementIndex)
-    
+    store.selectBeat(generation,beatNum)    
   }
   handleMouseDown = (arrangementIndex) => {
-    console.log("mouse down on " + arrangementIndex)
     this.setState({
       lastClicked: arrangementIndex
     })
   } 
   handleMouseUp = (destinationIndex) => {
-    console.log("mouse up on " + destinationIndex)
-
     store.moveBeatInArrangement(this.state.lastClicked,destinationIndex)
   } 
 

@@ -103,7 +103,6 @@ class Store {
     }
   }
   @action handleSoloTrack = (sample,trackType) => { 
-    console.log(sample, trackType, this.numSolo, this.synthSolo, this.synthMute)
     if(trackType == "sampler"){
        this.samples[sample].solo = !this.samples[sample].solo 
       if(this.samples[sample].solo){
