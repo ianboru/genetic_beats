@@ -130,7 +130,7 @@ const SoloTrackButton = styled.span`
 @observer
 class Track extends Component {
   state = {
-    lastEntered : -1 
+    lastEntered : -1
   }
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
     const { handleEdit, trackNum } = this.props
@@ -156,24 +156,35 @@ class Track extends Component {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
 
+  renderSamplePreviewer = () => {
+    return (
+      <span>
+        <button style={{verticalAlign:"top"}} onClick={() => this.samplePreviewer.play()}>Play</button>
+        <audio ref={ref => this.samplePreviewer = ref}>
+          <source src={store.samples[this.props.track.sample].path}/>
+        </audio>
+      </span>
+    )
+  }
+
   render() {
       const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
           key     = {`${i}.${note}`}
           value   = {note}
-          onClick = {(e) => { 
+          onClick = {(e) => {
               this.setState({
                 lastEntered : i,
                 lastClickedNoteWasOn :  store.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
               })
-              this.handleNoteToggle(i,note,true) 
-            
+              this.handleNoteToggle(i,note,true)
+
           }}
-          onMouseOver = {(e) => { 
+          onMouseOver = {(e) => {
             if(e.buttons == 1 && this.state.lastEntered != i){
 
-              this.handleNoteToggle(i,this.state.lastClickedNoteWasOn,false) 
+              this.handleNoteToggle(i,this.state.lastClickedNoteWasOn,false)
               this.setState({
                 lastEntered : i
               })
@@ -219,17 +230,15 @@ class Track extends Component {
 
     return (
       <div className="track">
-        <button style={{verticalAlign:"top"}} onClick={() => this.samplePreviewer.play()}>Play</button>
-        <audio ref={ref => this.samplePreviewer = ref}>
-          <source src={store.samples[this.props.track.sample].path}/>
-        </audio>
+        {this.props.track.trackType === "sampler" ? this.renderSamplePreviewer() : null}
+
         <div style={trackNameStyles}>
           <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={this.props.track.sample} onChange={this.handleSampleChange}>
             {sampleOptions}
           </select>
         </div>
         {notes}
-        <MuteTrackButton 
+        <MuteTrackButton
           active={activeMute}
           onClick={()=>{store.handleMuteTrack(track.sample, track.trackType)}}
         >M</MuteTrackButton>
