@@ -22,7 +22,7 @@ John
 Ian
 ---
 
-* Being able to click tree not obvious
+* Being able to click tree not obvious (aka give beats in family tree a hover state)
 * Indicator that everything in a generation has been scored
 * More responsive editing/beat switching (lag)
 * Add templates/archs for random arrangement
