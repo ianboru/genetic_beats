@@ -22,16 +22,18 @@ John
 Ian
 ---
 
-* Being able to click tree not obvious
+* Being able to click tree not obvious (aka give beats in family tree a hover state)
 * Indicator that everything in a generation has been scored
 * More responsive editing/beat switching (lag)
 * Add templates/archs for random arrangement
+* Add created date to saved family data and display in the family select dropdown
 
 
 
 Up For Grabs
 ------------
 
+* Add ability to rename current family
 * Starting counting from 1 rather than 0 for generation/beatnum
 * Didn't notice track type synth right away
 * Tracks with 32 notes don't fit
