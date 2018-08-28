@@ -110,6 +110,8 @@ const MuteTrackButton = styled.span`
   display: inline-block;
   border-radius: 2px;
   background-color: ${props => props.active ? "orange" : "gray" };
+  vertical-align: top;
+
 `
 
 const SoloTrackButton = styled.span`
@@ -121,6 +123,8 @@ const SoloTrackButton = styled.span`
   display: inline-block;
   border-radius: 2px;
   background-color: ${props => props.active ? "green" : "gray" };
+  vertical-align: top;
+
 `
 
 @observer
@@ -215,8 +219,12 @@ class Track extends Component {
 
     return (
       <div className="track">
+        <button style={{verticalAlign:"top"}} onClick={() => this.samplePreviewer.play()}>Play</button>
+        <audio ref={ref => this.samplePreviewer = ref}>
+          <source src={store.samples[this.props.track.sample].path}/>
+        </audio>
         <div style={trackNameStyles}>
-          <select value={this.props.track.sample} onChange={this.handleSampleChange}>
+          <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={this.props.track.sample} onChange={this.handleSampleChange}>
             {sampleOptions}
           </select>
         </div>

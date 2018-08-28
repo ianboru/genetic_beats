@@ -103,7 +103,6 @@ class Store {
     }
   }
   @action handleSoloTrack = (sample,trackType) => { 
-    console.log(sample, trackType, this.numSolo, this.synthSolo, this.synthMute)
     if(trackType == "sampler"){
        this.samples[sample].solo = !this.samples[sample].solo 
       if(this.samples[sample].solo){
@@ -392,7 +391,7 @@ class Store {
     this.samples[sample].solo = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo
     // reset old sample mute and solo
     this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = false
-    this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = true
+    this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo = false
     // set new sample 
     this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
   }
