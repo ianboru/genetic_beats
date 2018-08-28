@@ -24,6 +24,7 @@ const StyledFamilyTree = styled.div`
 
 @observer
 class FamilyTree extends React.Component {
+
     componentDidMount() {
       this.familyTreeToGraph()
     }
@@ -51,7 +52,7 @@ class FamilyTree extends React.Component {
             nodes.push({ data: {
               id    : intermediateNodeKey,
               score : beat.score,
-              size  : 0
+              size  : 0,
             }})
             edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 1 , arrowScale : 1 } })
             if (!intermediateNodes.includes(intermediateNodeKey)) {
@@ -64,13 +65,15 @@ class FamilyTree extends React.Component {
           }
 
           const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
-
+          console.log("store " , store.hoveredBeatKey, beat.key)
           nodes.push({ data: {
             selected : selectedBeats.includes(beat.key) ? 1 : 0,
             id       : beat.key,
             name     : beat.key,
             score    : beat.score,
             size     : 1,
+            isHovered : store.hoveredBeatKey == beat.key ? 1 : 0,
+
           }})
         })
         ++genNum
@@ -106,6 +109,7 @@ class FamilyTree extends React.Component {
             'text-valign'      : 'center',
             'label'            : 'data(id)',
             'font-size'        : 40,
+            'opacity'          : 'mapData(isHovered, 0, 1, .70, 1)',
           })
           .selector('edge')
           .css({
@@ -131,6 +135,12 @@ class FamilyTree extends React.Component {
 
       this.cy.on('mouseover', 'node', function(evt) {
         document.getElementsByTagName('body')[0].style.cursor = 'pointer'
+        const idData = this.id().split(".")
+        const generation = parseInt(idData[0])
+        const beatNum = parseInt(idData[1])
+        store.setHoveredBeat(this.id())
+        console.log("set hovered" , this.id())
+
       })
       this.cy.on('mouseout', 'node', function(evt) {
         document.getElementsByTagName('body')[0].style.cursor = 'default'
@@ -145,7 +155,7 @@ class FamilyTree extends React.Component {
       store.beatNum
       store.currentGeneration
       store.newBeat
-
+      store.hoveredBeatKey
       return <StyledFamilyTree
         id    = "cy"
         style = {{

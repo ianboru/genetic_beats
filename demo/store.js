@@ -15,6 +15,7 @@ class Store {
   //
   // STATE
   //
+  @observable hoveredBeatKey     = ""
   @observable newBeat            = { tracks: [] }
   @observable beatNum            = 0
   @observable generation         = 0
@@ -71,7 +72,9 @@ class Store {
   // ACTIONS
   //
   
-
+  @action setHoveredBeat(beatKey){
+    this.hoveredBeatKey = beatKey
+  }
   @action unmuteAll = () => {
 
     if(this.numSolo == 0){
