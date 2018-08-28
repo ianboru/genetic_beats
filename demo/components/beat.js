@@ -128,9 +128,21 @@ class Track extends Component {
   state = {
     lastEntered : -1 
   }
-  handleNoteToggle = (noteNumber) => {
+  handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
     const { handleEdit, trackNum } = this.props
-    handleEdit(trackNum, noteNumber)
+    console.log(
+      store.currentBeat.tracks[trackNum].sequence[noteNumber],
+      wasClicked,
+      wasOn
+      )
+    if(wasClicked){
+      handleEdit(trackNum, noteNumber)
+    }else if(!wasClicked && wasOn && store.currentBeat.tracks[trackNum].sequence[noteNumber]){
+      handleEdit(trackNum, noteNumber)
+    }
+    else if(!wasClicked && !wasOn && !store.currentBeat.tracks[trackNum].sequence[noteNumber]){
+      handleEdit(trackNum, noteNumber)
+    }
   }
   handleRemoveTrack = () => {
     this.props.handleRemoveTrack(this.props.trackNum)
@@ -141,22 +153,23 @@ class Track extends Component {
   }
 
   render() {
-    const notes = this.props.track.sequence.map( (note, i) => {
+      const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
           key     = {`${i}.${note}`}
           value   = {note}
           onClick = {(e) => { 
               this.setState({
-                lastEntered : i
+                lastEntered : i,
+                lastClickedNoteWasOn :  store.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
               })
-              this.handleNoteToggle(i) 
+              this.handleNoteToggle(i,note,true) 
             
           }}
           onMouseOver = {(e) => { 
             if(e.buttons == 1 && this.state.lastEntered != i){
 
-              this.handleNoteToggle(i) 
+              this.handleNoteToggle(i,this.state.lastClickedNoteWasOn,false) 
               this.setState({
                 lastEntered : i
               })
