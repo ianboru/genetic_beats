@@ -4,7 +4,6 @@ import initialGeneration from "./initialGeneration"
 import samples from "./samples"
 import { generateFamilyName } from "./utils"
 
-
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 
 
@@ -246,6 +245,7 @@ class Store {
       })
     })
   }
+
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }
@@ -390,11 +390,14 @@ class Store {
 
   @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
     // set new sample mute and solo to last sample values
-    this.samples[sample].mute = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute
-    this.samples[sample].solo = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo
-    // reset old sample mute and solo
-    this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = false
-    this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo = false
+    if(this.allGenerations[generation][beatNum].tracks[trackNum].trackType == "sampler"){
+      this.samples[sample].mute = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute
+      this.samples[sample].solo = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo
+      // reset old sample mute and solo
+      this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = false
+      this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo = false
+    }
+    
     // set new sample 
     this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
   }
