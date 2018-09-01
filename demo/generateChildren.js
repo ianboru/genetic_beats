@@ -187,7 +187,6 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
   return mutatedBeat
 }
 const mutateSynthsByMusicalEnhancement = (beat) => {
-  console.log("notes per step" , synthNotesPerStep)
   const closeNoteProbability = 5
   let mutatedBeat = {}
   mutatedBeat.key = beat.key
@@ -205,12 +204,9 @@ const mutateSynthsByMusicalEnhancement = (beat) => {
     if(track.trackType == "synth"){
       track.sequence.forEach((note, index)=>{
         if(note == 1){
-          console.log("on ", index)
           synthNotesPerStep[index].push([track.sample, trackIndex])
         }
       })
-    }else{
-      mutatedBeat.tracks.push(track)
     }
   })
   // remove notes that are too close to each other.
@@ -222,7 +218,7 @@ const mutateSynthsByMusicalEnhancement = (beat) => {
         if(Math.abs(interval) < 3){
           const randomInteger = Math.floor(Math.random() * 100)
           if(randomInteger > closeNoteProbability){
-
+            mutatedBeat.tracks[note[1]].sequence[stepIndex] = 0
           }
         } 
       }

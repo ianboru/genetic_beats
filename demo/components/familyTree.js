@@ -65,7 +65,6 @@ class FamilyTree extends React.Component {
           }
 
           const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
-          console.log("store " , store.hoveredBeatKey, beat.key)
           nodes.push({ data: {
             selected : selectedBeats.includes(beat.key) ? 1 : 0,
             id       : beat.key,
@@ -139,7 +138,6 @@ class FamilyTree extends React.Component {
         const generation = parseInt(idData[0])
         const beatNum = parseInt(idData[1])
         store.setHoveredBeat(this.id())
-        console.log("set hovered" , this.id())
 
       })
       this.cy.on('mouseout', 'node', function(evt) {
