@@ -62,8 +62,8 @@ export default [
       },
     ],
   },
-  /*{
-    key    : "0.2",
+  {
+    key    : "0.3",
     score  : 0,
     tracks : [
       {
@@ -91,5 +91,5 @@ export default [
         sequence  : [0,0,0,1,0,1,0,0,1,0,0,1,0,0,0,0,],
       },
     ],
-  },*/
+  },
 ]

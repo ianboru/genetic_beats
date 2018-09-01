@@ -141,7 +141,96 @@ const mateSequences = (momSequence, momScore, dadSequence, dadScore) => {
 
   return childSequence
 }
+const mutateSamplersByMusicalEnhancement = (beat) => {
+  let mutatedBeat = {}
+  mutatedBeat.key = beat.key
+  mutatedBeat.score = beat.score
+  mutatedBeat.tracks = []
+  if(beat.momKey){mutatedBeat.momKey = beat.momKey}
+  if(beat.dadKey){mutatedBeat.dadKey = beat.dadKey}
 
+  //catalogue number of samples playing on each step
+  let samplerNotesPerStep =  Array(beat.tracks[0].sequence.length).fill(0)
+  const exponentialConstant = 10
+  const numSamplesBeforeMutating = 2
+  beat.tracks.forEach((track)=>{
+    if(track.trackType == "sampler"){
+      track.sequence.forEach((note, index)=>{
+        if(note){
+          ++samplerNotesPerStep[index]
+        }
+      })
+    }
+  })
+  
+  //roll dice turn off notes if too many samples are playing 
+  beat.tracks.forEach((track)=>{
+    if(track.trackType == "sampler"){
+      let newSequence = track.sequence
+      track.sequence.forEach((note, index)=>{
+        if(note == 1){
+          let randomInteger = Math.floor(Math.random() * 100)
+          //start decreasing probability of leaving a note after N samples
+          let leaveNoteProbability = Math.pow(Math.E, -1*(samplerNotesPerStep[index]-numSamplesBeforeMutating)/exponentialConstant)*100
+          if(randomInteger > leaveNoteProbability){
+            newSequence[index] = 0
+            --samplerNotesPerStep[index]
+          }
+        }
+      })
+      track.sequence = newSequence
+      mutatedBeat.tracks.push(track)
+    }else{
+      mutatedBeat.tracks.push(track)
+    }
+  })
+  return mutatedBeat
+}
+const mutateSynthsByMusicalEnhancement = (beat) => {
+  console.log("notes per step" , synthNotesPerStep)
+  const closeNoteProbability = 5
+  let mutatedBeat = {}
+  mutatedBeat.key = beat.key
+  mutatedBeat.score = beat.score
+  mutatedBeat.tracks = beat.tracks
+  if(beat.momKey){mutatedBeat.momKey = beat.momKey}
+  if(beat.dadKey){mutatedBeat.dadKey = beat.dadKey}
+
+  let synthNotesPerStep = []
+  for (let i = 0; i < beat.tracks[0].sequence.length; i++) {
+    synthNotesPerStep.push([])
+  }
+  // catalogue synth notes playing on each step
+  beat.tracks.forEach((track, trackIndex)=>{
+    if(track.trackType == "synth"){
+      track.sequence.forEach((note, index)=>{
+        if(note == 1){
+          console.log("on ", index)
+          synthNotesPerStep[index].push([track.sample, trackIndex])
+        }
+      })
+    }else{
+      mutatedBeat.tracks.push(track)
+    }
+  })
+  // remove notes that are too close to each other.
+  synthNotesPerStep.forEach((step, stepIndex)=>{
+    let lastNote = ""
+    step.forEach((note, noteIndex)=>{
+      if(lastNote){
+        const interval = allNotesInRange.indexOf(note[0]) - allNotesInRange.indexOf(lastNote)
+        if(Math.abs(interval) < 3){
+          const randomInteger = Math.floor(Math.random() * 100)
+          if(randomInteger > closeNoteProbability){
+
+          }
+        } 
+      }
+      lastNote = note[0]
+    })
+  })
+  return mutatedBeat
+}
 const mutateSequence = (sequence) => {
   const mutatedSequence = sequence.map((note) => {
     const randomInteger = Math.floor(Math.random() * 100)
@@ -188,6 +277,8 @@ const matePair = (momBeat, dadBeat) => {
     childBeat = mutateByKillTrack(childBeat)
   }
   childBeat = mutateByAddTrack(childBeat)
+  childBeat = mutateSamplersByMusicalEnhancement(childBeat)
+  childBeat = mutateSynthsByMusicalEnhancement(childBeat)
 
   return childBeat
 }
