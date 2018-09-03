@@ -3,14 +3,16 @@ John
 
 * Enhance drag/drop for arrangement
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
-* Select/generation logic
-* Move mate button below family tree, mate it more prominent
+* Select/generation logic & visuals
 * Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
+* Move mate button below family tree, mate it more prominent
 * "How do I get to the next beat easily? There should be a keyboard shortcut for that"
 * Switch Rate Beat to star rating system (10 start or 5 stars with half steps)
+    * Fuck it, sucks, sick, dope, slick as title for stars
 * Add number of subdivisions (aka note size in our case) to beat info header
 * Visual divisions every 4 notes
 * (up)Load all existing samples
+* Disable text select anywhere user swipe, click quickly, or drag & drop
 
 * Concept of active beat, selected beats, non-selected beats
     * By default, selected beats are the current gen and next/prev iterate through them
@@ -22,17 +24,21 @@ John
 Ian
 ---
 
-* Being able to click tree not obvious (aka give beats in family tree a hover state)
-* Indicator that everything in a generation has been scored
 * More responsive editing/beat switching (lag)
 * Add templates/archs for random arrangement
+    * Change create song to be based on number of samples / note density
 * Add created date to saved family data and display in the family select dropdown
+* Mute and solo shouldn’t carry to other beats (also changing sample loses mute/solo state)
+* Got stuck in mute, turn on all solos turn off all solos
+* Fix mouse-off state for family tree nodes
 
 
 
 Up For Grabs
 ------------
 
+* Space bar should toggle playing, not trigger other buttons
+* Create new beat fucked
 * Add ability to rename current family
 * Starting counting from 1 rather than 0 for generation/beatnum
 * Didn't notice track type synth right away
@@ -40,6 +46,13 @@ Up For Grabs
 * Improve synth UI
 * Delete beat - kinda a weird feature and not super urgent so putting this off
 * Group instruments (eg, percussion vs melodic instruments vs synth, vs whatever)
+* Context switch of some kind for editing? Or, a mode for editing?
+    * Maybe just prompt if people want to “engineer” the beat before rating?
+* How to remate generation?
+    * Resolved by “active beats” possibly, “remate” button might be worth it
+* Play/stop more obvious (maybe below current beat instead of above)
+* Title for “current beat” (like arrangement/family tree)?
+* Switch initial beats to templates that can be added but otherwise empty initial gen
 
 
 Future potential
