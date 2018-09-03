@@ -17,6 +17,12 @@ import {
   lightGray,
 } from "../colors"
 
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "react-beautiful-dnd"
+
 
 const StyledArrangement = styled.div`
   background: ${itemBgColor};
@@ -31,7 +37,7 @@ const StyledBlock = styled.div`
   display: inline-block;
   height: 100%;
   width: 80px;
-  position:relative;
+  position: relative;
   vertical-align: top;
   text-align: center;
   cursor: pointer;
@@ -71,17 +77,22 @@ const ArrangementControls = styled.div`
 class Block extends Component {
   render() {
     return (
-      <StyledBlock 
-        highlight={this.props.highlight} 
-        onClick={this.props.handleClickBeat}
-        onMouseDown = {this.props.handleMouseDown}
-        onMouseUp = {this.props.handleMouseUp}
-      >
-        <p>{this.props.beatKey}</p>
-        <DeleteBlockButton onClick={this.props.deleteBlock}>
-          &times;
-        </DeleteBlockButton>
-      </StyledBlock>
+      <Draggable draggableId={this.props.beatKey} index={this.props.index}>
+        {provided => (
+          <StyledBlock
+            innerRef  = {provided.innerRef}
+            highlight = {this.props.highlight}
+            onClick   = {this.props.handleClickBeat}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <p>{this.props.beatKey}</p>
+            <DeleteBlockButton onClick={this.props.deleteBlock}>
+              &times;
+            </DeleteBlockButton>
+          </StyledBlock>
+        )}
+      </Draggable>
     )
   }
 }
@@ -106,20 +117,23 @@ class Arrangement extends Component {
       beatToAdd : evt.target.value
     })
   }
+
   handleClickBeat = (beatKey, arrangementIndex) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
-    store.selectBeat(generation,beatNum)    
+    store.selectBeat(generation,beatNum)
   }
+
   handleMouseDown = (arrangementIndex) => {
     this.setState({
       lastClicked: arrangementIndex
     })
-  } 
+  }
+
   handleMouseUp = (destinationIndex) => {
     store.moveBeatInArrangement(this.state.lastClicked,destinationIndex)
-  } 
+  }
 
   concatenateBeats = (beats, resolution) => {
     let finalBeat = {"tracks":[]}
@@ -209,7 +223,7 @@ class Arrangement extends Component {
       store.randomizeBestBeats()
     }
   }
-  createSong = () => { 
+  createSong = () => {
     const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
     if (store.arrangementBeats.length > 0) {
       if (confirm(confirmMessage)) {
@@ -222,7 +236,7 @@ class Arrangement extends Component {
   render() {
     let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
-    const highlight = (i === store.currentLitBeat && store.playingArrangement)
+      const highlight = (i === store.currentLitBeat && store.playingArrangement)
 
       return (
         <Block
@@ -255,37 +269,54 @@ class Arrangement extends Component {
 
     const playButtonText = store.playingArrangement ? "Stop" : "Play"
 
+    const onDragEnd = (result) => {
+      console.log(result.source.index, result.destination.index)
+      store.moveBeatInArrangement(result.source.index, result.destination.index)
+    }
+
     return (
-      <div>
-        <ArrangementControls>
-          <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
-          <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
-          <Button onClick={this.createSong}>Create Song</Button>
-        </ArrangementControls>
+    <DragDropContext
+        onDragEnd = {onDragEnd}
+      >
+        <div>
+          <ArrangementControls>
+            <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
+            <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
+            <Button onClick={this.createSong}>Create Song</Button>
+          </ArrangementControls>
 
-        <StyledArrangement>
-          {beats}
-
-          <StyledBlock>
-            <p>
-              <select
-                defaultValue={beatKeyOptions[0]}
-                onChange={this.handleSelectBeatToAdd}
+          <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
+            {provided => (
+              <StyledArrangement
+                innerRef={provided.innerRef}
+                {...provided.droppableProps}
               >
-                {beatKeyOptions}
-              </select>
-            </p>
-            <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
-          </StyledBlock>
+                {beats}
+                {provided.placeholder}
 
-          <Player
-            beat={finalArrangementBeat}
-            playing={store.playingArrangement}
-            resolution = {maxSubdivisions}
-            bars = {store.arrangementBeats.length}
-          />
-        </StyledArrangement>
-      </div>
+                <StyledBlock>
+                  <p>
+                    <select
+                      defaultValue={beatKeyOptions[0]}
+                      onChange={this.handleSelectBeatToAdd}
+                    >
+                      {beatKeyOptions}
+                    </select>
+                  </p>
+                  <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
+                </StyledBlock>
+
+                <Player
+                  beat={finalArrangementBeat}
+                  playing={store.playingArrangement}
+                  resolution = {maxSubdivisions}
+                  bars = {store.arrangementBeats.length}
+                />
+              </StyledArrangement>
+            )}
+          </Droppable>
+        </div>
+      </DragDropContext>
     )
   }
 }
