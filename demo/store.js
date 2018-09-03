@@ -245,7 +245,48 @@ class Store {
       })
     })
   }
-
+  @action createSong = () => {
+    this.arrangementBeats = []
+    const sectionLengths = [-4,-8,4,-8,4]
+    const exponentialConstant = 10
+    let exponentialIncrease = []
+    let exponentialDecrease = []
+    for (let i=0; i < this.allGenerations.length; i++) {
+      const increaseProbabilitySlots = Math.floor(10*Math.pow(Math.E, i/exponentialConstant))
+      for (let j=0; j < increaseProbabilitySlots; j++) {
+        exponentialIncrease.push(i)
+      }
+      const decreaseProbabilitySlots = Math.floor(100*Math.pow(Math.E, -i/exponentialConstant))
+      for (let j=0; j < decreaseProbabilitySlots; j++) {
+        exponentialDecrease.push(i)
+      }
+    }
+    //console.log("increasing ", exponentialIncrease)
+    //console.log("decreasing ", exponentialDecrease)
+    let randomInteger
+    let selectedGeneration 
+    let selectedBeat
+    let beatForArrangement
+    sectionLengths.forEach((length)=>{
+      console.log("section length ", length)
+      for (let i=0; i < Math.abs(length); i++) {
+        console.log("index")
+        if(length > 0){
+          randomInteger = Math.floor(Math.random() * exponentialIncrease.length)
+          selectedGeneration = exponentialIncrease[randomInteger]
+        }else{
+          randomInteger = Math.floor(Math.random() * exponentialDecrease.length)
+          selectedGeneration = exponentialDecrease[randomInteger]
+        }
+        console.log("selected generation", selectedGeneration, randomInteger)
+        
+        const beatIndex = Math.floor(Math.random() * this.allGenerations[selectedGeneration].length)
+        console.log(beatIndex)
+        this.arrangementBeats.push(this.allGenerations[selectedGeneration][beatIndex].key)
+      }
+    })
+    console.log(toJS("arrangment " , this.arrangementBeats))
+  }
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }

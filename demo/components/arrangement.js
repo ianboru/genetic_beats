@@ -209,7 +209,16 @@ class Arrangement extends Component {
       store.randomizeBestBeats()
     }
   }
-
+  createSong = () => { 
+    const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
+    if (store.arrangementBeats.length > 0) {
+      if (confirm(confirmMessage)) {
+        store.createSong()
+      }
+    } else {
+      store.createSong()
+    }
+  }
   render() {
     let backgroundColor = ""
     const beats = store.arrangementBeats.map( (beatKey, i) => {
@@ -251,6 +260,7 @@ class Arrangement extends Component {
         <ArrangementControls>
           <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
           <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
+          <Button onClick={this.createSong}>Create Song</Button>
         </ArrangementControls>
 
         <StyledArrangement>

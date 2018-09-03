@@ -71,24 +71,29 @@ export default [
         synthType : "square",
         sample    : "c3",
         sequence  : [0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,],
+        duration  : [0,2,0,4,0,0,0,0,0,0,0,0,0,0,0,0,]
       },
       {
         trackType : "synth",
         synthType : "square",
         sample    : "d3",
         sequence  : [0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,],
+        duration  : [0,0,0,0,0,2,0,0,0,0,0,4,0,0,0,0,],
       },
       {
         trackType : "synth",
         synthType : "square",
         sample    : "e3",
         sequence  : [0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,],
+        duration  : [0,2,0,4,0,0,0,0,0,0,0,0,0,0,0,0,],
       },
       {
         trackType : "synth",
         synthType : "square",
         sample    : "f3",
         sequence  : [0,0,0,1,0,1,0,0,1,0,0,1,0,0,0,0,],
+        duration  : [0,0,0,2,0,4,0,0,2,0,0,4,0,0,0,0,],
+
       },
     ],
   },
