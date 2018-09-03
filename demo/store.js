@@ -34,7 +34,7 @@ class Store {
   @observable playingArrangement = false
   @observable numSurvivors       = 6
   @observable numChildren        = 3
-  @observable fitnessPercentile  = 75
+  @observable fitnessPercentile  = 70
   @observable familyName         = generateFamilyName()
   @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
   @observable tempo              = 100
