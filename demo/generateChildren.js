@@ -162,32 +162,30 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
       })
     }
   })
-  
-  //roll dice turn off notes if too many samples are playing 
+
+  //roll dice turn off notes if too many samples are playing
   beat.tracks.forEach((track)=>{
     if(track.trackType == "sampler"){
-      let newSequence = track.sequence
+      console.log(track.sequence)
       track.sequence.forEach((note, index)=>{
         if(note == 1){
           let randomInteger = Math.floor(Math.random() * 100)
           //start decreasing probability of leaving a note after N samples
           let leaveNoteProbability = Math.pow(Math.E, -1*(samplerNotesPerStep[index]-numSamplesBeforeMutating)/exponentialConstant)*100
           if(randomInteger > leaveNoteProbability){
-            newSequence[index] = 0
+            track.sequence[index] = 0
             --samplerNotesPerStep[index]
           }
         }
       })
-      track.sequence = newSequence
-      mutatedBeat.tracks.push(track)
-    }else{
-      mutatedBeat.tracks.push(track)
     }
+
+    mutatedBeat.tracks.push(track)
   })
   return mutatedBeat
 }
 const mutateSynthsByMusicalEnhancement = (beat) => {
-  const closeNoteProbability = 5
+  const closeNoteProbability = 0
   let mutatedBeat = {}
   mutatedBeat.key = beat.key
   mutatedBeat.score = beat.score
@@ -195,10 +193,10 @@ const mutateSynthsByMusicalEnhancement = (beat) => {
   if(beat.momKey){mutatedBeat.momKey = beat.momKey}
   if(beat.dadKey){mutatedBeat.dadKey = beat.dadKey}
 
-  let synthNotesPerStep = []
-  for (let i = 0; i < beat.tracks[0].sequence.length; i++) {
-    synthNotesPerStep.push([])
-  }
+  let synthNotesPerStep = beat.tracks[0].sequence.map( () => {
+    return []
+  })
+
   // catalogue synth notes playing on each step
   beat.tracks.forEach((track, trackIndex)=>{
     if(track.trackType == "synth"){
@@ -211,18 +209,23 @@ const mutateSynthsByMusicalEnhancement = (beat) => {
   })
   // remove notes that are too close to each other.
   synthNotesPerStep.forEach((step, stepIndex)=>{
-    let lastNote = ""
+    let lastNote = null
     step.forEach((note, noteIndex)=>{
+      const [trackSample, trackIndex] = note
+
       if(lastNote){
-        const interval = allNotesInRange.indexOf(note[0]) - allNotesInRange.indexOf(lastNote)
+        const interval = allNotesInRange.indexOf(trackSample) - allNotesInRange.indexOf(lastNote)
         if(Math.abs(interval) < 3){
           const randomInteger = Math.floor(Math.random() * 100)
           if(randomInteger > closeNoteProbability){
-            mutatedBeat.tracks[note[1]].sequence[stepIndex] = 0
+            mutatedBeat.tracks[trackIndex].sequence[stepIndex] = 0
+          } else {
+            lastNote = trackSample
           }
-        } 
+        }
+      } else {
+        lastNote = trackSample
       }
-      lastNote = note[0]
     })
   })
   return mutatedBeat
@@ -320,7 +323,7 @@ const mateGeneration = (generation) => {
   return reindexedMembers
 }
 
-export { 
+export {
   mateGeneration,
   mateSelectedMembers
 }
