@@ -70,7 +70,7 @@ class Store {
   //
   // ACTIONS
   //
-  
+
   @action setHoveredBeat(beatKey){
     this.hoveredBeatKey = beatKey
   }
@@ -93,20 +93,20 @@ class Store {
       this.synthMute = true
     }
   }
-  @action handleMuteTrack = (sample,trackType) => { 
+  @action handleMuteTrack = (sample,trackType) => {
     if(this.numSolo == 0){
 
       if(trackType == "sampler"){
-          this.samples[sample].mute = !this.samples[sample].mute 
-        
+          this.samples[sample].mute = !this.samples[sample].mute
+
       }else{
           this.synthMute = !this.synthMute
       }
     }
   }
-  @action handleSoloTrack = (sample,trackType) => { 
+  @action handleSoloTrack = (sample,trackType) => {
     if(trackType == "sampler"){
-       this.samples[sample].solo = !this.samples[sample].solo 
+       this.samples[sample].solo = !this.samples[sample].solo
       if(this.samples[sample].solo){
         this.numSolo += 1
         this.samples[sample].mute = false
@@ -245,13 +245,15 @@ class Store {
       })
     })
   }
+
   @action createSong = () => {
     this.arrangementBeats = []
-    const sectionLengths = [-4,-8,4,-8,4]
+    const sectionLengths = [-4, -8, 4, -8, 4]
     const exponentialConstant = 10
     let exponentialIncrease = []
     let exponentialDecrease = []
-    for (let i=0; i < this.allGenerations.length; i++) {
+
+    this.allGenerations.forEach( (generation, i) => {
       const increaseProbabilitySlots = Math.floor(10*Math.pow(Math.E, i/exponentialConstant))
       for (let j=0; j < increaseProbabilitySlots; j++) {
         exponentialIncrease.push(i)
@@ -260,17 +262,14 @@ class Store {
       for (let j=0; j < decreaseProbabilitySlots; j++) {
         exponentialDecrease.push(i)
       }
-    }
-    //console.log("increasing ", exponentialIncrease)
-    //console.log("decreasing ", exponentialDecrease)
+    })
+
     let randomInteger
-    let selectedGeneration 
+    let selectedGeneration
     let selectedBeat
     let beatForArrangement
     sectionLengths.forEach((length)=>{
-      console.log("section length ", length)
       for (let i=0; i < Math.abs(length); i++) {
-        console.log("index")
         if(length > 0){
           randomInteger = Math.floor(Math.random() * exponentialIncrease.length)
           selectedGeneration = exponentialIncrease[randomInteger]
@@ -278,15 +277,13 @@ class Store {
           randomInteger = Math.floor(Math.random() * exponentialDecrease.length)
           selectedGeneration = exponentialDecrease[randomInteger]
         }
-        console.log("selected generation", selectedGeneration, randomInteger)
-        
+
         const beatIndex = Math.floor(Math.random() * this.allGenerations[selectedGeneration].length)
-        console.log(beatIndex)
         this.arrangementBeats.push(this.allGenerations[selectedGeneration][beatIndex].key)
       }
     })
-    console.log(toJS("arrangment " , this.arrangementBeats))
   }
+
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }
@@ -438,8 +435,8 @@ class Store {
       this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = false
       this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo = false
     }
-    
-    // set new sample 
+
+    // set new sample
     this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
   }
 
