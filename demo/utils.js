@@ -18,11 +18,31 @@ const getNormalProbability = (x, mean, sd) =>{
     const denom = Math.pow(2*pi*variance,.5)
     const num = Math.pow(
       Math.E,
-      Math.pow(-(x-mean),2)/(2*variance)
+      -1*Math.pow((x-mean),2)/(2*variance)
     )
     return num/denom
 }
+const calculateSampleDifference = (beat1,beat2) => {
 
+  const beat1Samples = beat1.tracks.map((track)=>{
+    return track.sample
+  })
+  const beat2Samples = beat2.tracks.map((track)=>{
+    return track.sample
+  })
+  let numDifferent = 0
+  beat1Samples.forEach((sample)=>{
+    if(!beat2Samples.includes(sample)){
+      ++numDifferent
+    }
+  })
+  beat2Samples.forEach((sample)=>{
+    if(!beat1Samples.includes(sample)){
+      ++numDifferent
+    }
+  })
+  return numDifferent
+}
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   // Deep clone beat object
   let newBeat = JSON.parse(JSON.stringify(toJS(beat)))
@@ -138,5 +158,6 @@ export {
   normalizeSubdivisions,
   generateFamilyName,
   allNotesInRange,
-  getNormalProbability
+  getNormalProbability,
+  calculateSampleDifference
 }

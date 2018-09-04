@@ -2,7 +2,7 @@ import { action, configure, computed, observable, toJS } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
-import { generateFamilyName, getNormalProbability } from "./utils"
+import { generateFamilyName, getNormalProbability, calculateSampleDifference } from "./utils"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 
@@ -241,13 +241,12 @@ class Store {
 
   @action createSong = () => {
     this.arrangementBeats = []
-    const sectionLengths = [-4, 4, -4, 4]
     let randomInteger
     let selectedGeneration
     let selectedBeat
     let beatForArrangement
     let allBeats = []
-    let minNoteDensity = 32
+    let minNoteDensity = 10000
     let maxNoteDensity = 0
     let currentNoteDensity
     //calculate note density for each beat
@@ -263,7 +262,7 @@ class Store {
             ++numSteps
           })
         })
-        const noteDensity = (numNotes/numSteps)*beat.tracks[0].sequence.length
+        const noteDensity = (numNotes/numSteps)*beat.tracks[0].sequence.length * beat.tracks.length
         console.log(noteDensity, numSteps, numNotes)
 
         if(minNoteDensity > noteDensity){
@@ -275,24 +274,50 @@ class Store {
         allBeats.push([beat,noteDensity])
       })
     })
-    console.log(maxNoteDensity,minNoteDensity)
+    console.log(maxNoteDensity,minNoteDensity, getNormalProbability(7,5,5))
     // start filling sections with beats based on their note density 
     let randomBeatIndex
     let probability
-    sectionLengths.forEach((length)=>{
+    let mean
+    const sd = (maxNoteDensity-minNoteDensity)/10
+    const sectionLengths = ["4-low", "8-medium", "4-high"]
+    const exponentialConstant = 5
+    const minSampleDifference = 2
+    let sampleDifference
+    sectionLengths.forEach((lengthDefinition)=>{
+      const [length, complexity] = lengthDefinition.split("-")
       for (let i=0; i < Math.abs(length); i++) {
-        randomBeatIndex = Math.floor(Math.random() * allBeats.length)
-        const [randomBeat,randomBeatNoteDensity]  = allBeats[randomBeatIndex]
+        let acceptedBeat = false
+        while(!acceptedBeat){
+          randomBeatIndex = Math.floor(Math.random() * allBeats.length)
+          const [randomBeat,randomBeatNoteDensity]  = allBeats[randomBeatIndex]
+          if(complexity == "high"){
+            mean = maxNoteDensity
+          }else if(complexity == "medium"){
+            mean = (maxNoteDensity-minNoteDensity)/2
+          }else{
+            mean = minNoteDensity
+          }
+          probability = getNormalProbability(randomBeatNoteDensity, mean, sd)
+          if(i>0){
+            sampleDifference =  calculateSampleDifference(this.arrangementBeats[-1], randomBeat)
+          }
+          console.log("sample difference " , sampleDifference)
 
-        if(length > 0){
-          probability = getNormalProbability(randomBeatNoteDensity, maxNoteDensity, (maxNoteDensity-minNoteDensity)/20)
-        }else{
-          probability = getNormalProbability(randomBeatNoteDensity, minNoteDensity, (maxNoteDensity-minNoteDensity)/20)
+
+          let differenceBaseProbability = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
+          console.log("probability ", differenceBaseProbability)
+          if(
+              (differenceBaseProbability > Math.random() || i == 0) &&
+              probability/getNormalProbability(mean, mean, sd ) > Math.random()
+            ){
+            console.log(length,randomBeat.key, randomBeatNoteDensity, probability)
+
+            this.arrangementBeats.push(randomBeat.key)
+            acceptedBeat = true
+          }
         }
-        console.log(randomBeatNoteDensity, probability, minNoteDensity, maxNoteDensity)
-        if(probability/100 > Math.random()){
-          this.arrangementBeats.push(allBeats[randomBeatIndex][0].key)
-        }
+        
       }
     })
   }
