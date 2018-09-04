@@ -1,14 +1,14 @@
 John
 ----
 
-* Enhance drag/drop for arrangement
+* Switch Rate Beat to star rating system (10 start or 5 stars with half steps)
+    * Fuck it, sucks, sick, dope, slick as title for stars
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
 * Move mate button below family tree, mate it more prominent
+* Switch initial beats to templates that can be added but otherwise empty initial gen
 * "How do I get to the next beat easily? There should be a keyboard shortcut for that"
-* Switch Rate Beat to star rating system (10 start or 5 stars with half steps)
-    * Fuck it, sucks, sick, dope, slick as title for stars
 * Add number of subdivisions (aka note size in our case) to beat info header
 * Visual divisions every 4 notes
 * (up)Load all existing samples
@@ -52,7 +52,6 @@ Up For Grabs
     * Resolved by “active beats” possibly, “remate” button might be worth it
 * Play/stop more obvious (maybe below current beat instead of above)
 * Title for “current beat” (like arrangement/family tree)?
-* Switch initial beats to templates that can be added but otherwise empty initial gen
 
 
 Future potential

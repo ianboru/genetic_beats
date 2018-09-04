@@ -173,17 +173,10 @@ class Store {
       this.currentLitBeat  = 0
     }
   }
+
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
-    let newArrangement = []
-    this.arrangementBeats.forEach((beat,index)=>{
-      if(index != currentIndex && index != destinationIndex){
-        newArrangement.push(beat)
-      }else if(index != currentIndex && index == destinationIndex){
-        newArrangement.push(beat)
-        newArrangement.push(this.arrangementBeats[currentIndex])
-      }
-    })
-    this.arrangementBeats = newArrangement
+    const beatToMove = this.arrangementBeats.splice(currentIndex, 1)
+    this.arrangementBeats.splice(destinationIndex, 0, beatToMove[0])
   }
 
   @action togglePlayCurrentBeat = () => {
