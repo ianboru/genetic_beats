@@ -2,7 +2,7 @@ import { action, configure, computed, observable, toJS } from "mobx"
 
 import initialGeneration from "./initialGeneration"
 import samples from "./samples"
-import { generateFamilyName } from "./utils"
+import { generateFamilyName, getNormalProbability } from "./utils"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 
@@ -248,38 +248,58 @@ class Store {
 
   @action createSong = () => {
     this.arrangementBeats = []
-    const sectionLengths = [-4, -8, 4, -8, 4]
-    const exponentialConstant = 10
-    let exponentialIncrease = []
-    let exponentialDecrease = []
-
-    this.allGenerations.forEach( (generation, i) => {
-      const increaseProbabilitySlots = Math.floor(10*Math.pow(Math.E, i/exponentialConstant))
-      for (let j=0; j < increaseProbabilitySlots; j++) {
-        exponentialIncrease.push(i)
-      }
-      const decreaseProbabilitySlots = Math.floor(100*Math.pow(Math.E, -i/exponentialConstant))
-      for (let j=0; j < decreaseProbabilitySlots; j++) {
-        exponentialDecrease.push(i)
-      }
-    })
-
+    const sectionLengths = [-4, 4, -4, 4]
     let randomInteger
     let selectedGeneration
     let selectedBeat
     let beatForArrangement
+    let allBeats = []
+    let minNoteDensity = 32
+    let maxNoteDensity = 0
+    let currentNoteDensity
+    //calculate note density for each beat
+    this.allGenerations.forEach( (generation) => {
+      generation.forEach((beat) =>{
+        let numNotes = 0
+        let numSteps = 0
+        beat.tracks.forEach((track)=>{
+          track.sequence.forEach((note)=>{
+            if(note == 1){
+              ++numNotes
+            }
+            ++numSteps
+          })
+        })
+        const noteDensity = (numNotes/numSteps)*beat.tracks[0].sequence.length
+        console.log(noteDensity, numSteps, numNotes)
+
+        if(minNoteDensity > noteDensity){
+          minNoteDensity = noteDensity
+        }
+        if(maxNoteDensity < noteDensity){
+          maxNoteDensity = noteDensity
+        }
+        allBeats.push([beat,noteDensity])
+      })
+    })
+    console.log(maxNoteDensity,minNoteDensity)
+    // start filling sections with beats based on their note density 
+    let randomBeatIndex
+    let probability
     sectionLengths.forEach((length)=>{
       for (let i=0; i < Math.abs(length); i++) {
-        if(length > 0){
-          randomInteger = Math.floor(Math.random() * exponentialIncrease.length)
-          selectedGeneration = exponentialIncrease[randomInteger]
-        }else{
-          randomInteger = Math.floor(Math.random() * exponentialDecrease.length)
-          selectedGeneration = exponentialDecrease[randomInteger]
-        }
+        randomBeatIndex = Math.floor(Math.random() * allBeats.length)
+        const [randomBeat,randomBeatNoteDensity]  = allBeats[randomBeatIndex]
 
-        const beatIndex = Math.floor(Math.random() * this.allGenerations[selectedGeneration].length)
-        this.arrangementBeats.push(this.allGenerations[selectedGeneration][beatIndex].key)
+        if(length > 0){
+          probability = getNormalProbability(randomBeatNoteDensity, maxNoteDensity, (maxNoteDensity-minNoteDensity)/20)
+        }else{
+          probability = getNormalProbability(randomBeatNoteDensity, minNoteDensity, (maxNoteDensity-minNoteDensity)/20)
+        }
+        console.log(randomBeatNoteDensity, probability, minNoteDensity, maxNoteDensity)
+        if(probability/100 > Math.random()){
+          this.arrangementBeats.push(allBeats[randomBeatIndex][0].key)
+        }
       }
     })
   }

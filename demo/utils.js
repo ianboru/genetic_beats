@@ -12,6 +12,17 @@ const updateObjectInArray = (arr, index, update) => {
   ]
 }
 
+const getNormalProbability = (x, mean, sd) =>{
+    const variance = Math.pow(sd,2)
+    const pi = 3.1415926
+    const denom = Math.pow(2*pi*variance,.5)
+    const num = Math.pow(
+      Math.E,
+      Math.pow(-(x-mean),2)/(2*variance)
+    )
+    return num/denom
+}
+
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   // Deep clone beat object
   let newBeat = JSON.parse(JSON.stringify(toJS(beat)))
@@ -127,4 +138,5 @@ export {
   normalizeSubdivisions,
   generateFamilyName,
   allNotesInRange,
+  getNormalProbability
 }
