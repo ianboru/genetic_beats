@@ -265,7 +265,6 @@ class Store {
           })
         })
         const noteDensity = (numNotes/numSteps)*beat.tracks[0].sequence.length * beat.tracks.length
-        console.log(noteDensity, numSteps, numNotes)
 
         if(minNoteDensity > noteDensity){
           minNoteDensity = noteDensity
@@ -276,16 +275,18 @@ class Store {
         allBeats.push([beat,noteDensity])
       })
     })
-    console.log(maxNoteDensity,minNoteDensity, getNormalProbability(7,5,5))
     // start filling sections with beats based on their note density 
     let randomBeatIndex
     let probability
     let mean
     const sd = (maxNoteDensity-minNoteDensity)/10
-    const sectionLengths = ["4-low", "8-medium", "4-high"]
-    const exponentialConstant = 5
+    const sectionLengths = ["8-low", "8-medium", "4-high","4-medium","4-low"]
+    const exponentialConstant = 1
     const minSampleDifference = 2
     let sampleDifference
+    let differenceComparitor
+    let lastBeat 
+    console.log("making sections")
     sectionLengths.forEach((lengthDefinition)=>{
       const [length, complexity] = lengthDefinition.split("-")
       for (let i=0; i < Math.abs(length); i++) {
@@ -302,21 +303,21 @@ class Store {
           }
           probability = getNormalProbability(randomBeatNoteDensity, mean, sd)
           if(i>0){
-            sampleDifference =  calculateSampleDifference(this.arrangementBeats[-1], randomBeat)
+            sampleDifference =  calculateSampleDifference(lastBeat, randomBeat)
+            differenceComparitor = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
+            console.log("sample difference " , sampleDifference, differenceComparitor)
+
           }
-          console.log("sample difference " , sampleDifference)
 
-
-          let differenceBaseProbability = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
-          console.log("probability ", differenceBaseProbability)
+          
           if(
-              (differenceBaseProbability > Math.random() || i == 0) &&
+              (differenceComparitor > Math.random() || i == 0) &&
               probability/getNormalProbability(mean, mean, sd ) > Math.random()
             ){
-            console.log(length,randomBeat.key, randomBeatNoteDensity, probability)
 
             this.arrangementBeats.push(randomBeat.key)
             acceptedBeat = true
+            lastBeat = randomBeat
           }
         }
         

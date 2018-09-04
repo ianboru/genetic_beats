@@ -30,6 +30,7 @@ const calculateSampleDifference = (beat1,beat2) => {
   const beat2Samples = beat2.tracks.map((track)=>{
     return track.sample
   })
+  console.log(beat1Samples,beat2Samples)
   let numDifferent = 0
   beat1Samples.forEach((sample)=>{
     if(!beat2Samples.includes(sample)){
