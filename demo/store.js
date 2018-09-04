@@ -7,7 +7,7 @@ import { generateFamilyName } from "./utils"
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 
 
-configure({ enforceActions: true })
+configure({ enforceActions: "always" })
 
 
 class Store {
