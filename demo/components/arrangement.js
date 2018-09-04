@@ -77,7 +77,7 @@ const ArrangementControls = styled.div`
 class Block extends Component {
   render() {
     return (
-      <Draggable draggableId={this.props.beatKey} index={this.props.index}>
+      <Draggable draggableId={`${this.props.beatKey}${this.props.index}`} index={this.props.index}>
         {provided => (
           <StyledBlock
             innerRef  = {provided.innerRef}
@@ -235,7 +235,7 @@ class Arrangement extends Component {
   }
   render() {
     let backgroundColor = ""
-    const beats = store.arrangementBeats.map( (beatKey, i) => {
+    const beatBlocks = store.arrangementBeats.map( (beatKey, i) => {
       const highlight = (i === store.currentLitBeat && store.playingArrangement)
 
       return (
@@ -250,7 +250,6 @@ class Arrangement extends Component {
           handleMoveBeat = {this.handleMoveBeat}
           handleMouseDown = {()=>{this.handleMouseDown(i)}}
           handleMouseUp = {()=>{this.handleMouseUp(i)}}
-
         />
       )
     })
@@ -270,7 +269,6 @@ class Arrangement extends Component {
     const playButtonText = store.playingArrangement ? "Stop" : "Play"
 
     const onDragEnd = (result) => {
-      console.log(result.source.index, result.destination.index)
       store.moveBeatInArrangement(result.source.index, result.destination.index)
     }
 
@@ -291,7 +289,7 @@ class Arrangement extends Component {
                 innerRef={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {beats}
+                {beatBlocks}
                 {provided.placeholder}
 
                 <StyledBlock>
@@ -307,10 +305,10 @@ class Arrangement extends Component {
                 </StyledBlock>
 
                 <Player
-                  beat={finalArrangementBeat}
-                  playing={store.playingArrangement}
+                  beat       = {finalArrangementBeat}
+                  playing    = {store.playingArrangement}
                   resolution = {maxSubdivisions}
-                  bars = {store.arrangementBeats.length}
+                  bars       = {store.arrangementBeats.length}
                 />
               </StyledArrangement>
             )}
