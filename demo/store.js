@@ -7,7 +7,7 @@ import { generateFamilyName, getNormalProbability, calculateSampleDifference } f
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 
 
-configure({ enforceActions: true })
+configure({ enforceActions: "always" })
 
 
 class Store {
@@ -200,12 +200,15 @@ class Store {
     this.resetArrangementTimer()
     this.currentLitNote = 0
   }
- @action addBeatToArrangement = (beatKey) => {
+
+  @action addBeatToArrangement = (beatKey) => {
     this.arrangementBeats.push(beatKey)
   }
+
   @action deleteBeatFromArrangement = (index) => {
     this.arrangementBeats.splice(index,1)
   }
+
   @action randomizeBestBeats = () => {
     this.arrangementBeats = []
     const repeatRateInteger = 40
@@ -222,7 +225,6 @@ class Store {
     let percentileIndex = Math.floor(allScores.length * this.fitnessPercentile/100) - 1
     this.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
-
         if(beat.score >= allScores[percentileIndex]){
           // roll a dice to repeat the beat
           let randomInteger = Math.floor(Math.random() * 100)
