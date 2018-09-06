@@ -166,7 +166,6 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
   //roll dice turn off notes if too many samples are playing
   beat.tracks.forEach((track)=>{
     if(track.trackType == "sampler"){
-      console.log(track.sequence)
       track.sequence.forEach((note, index)=>{
         if(note == 1){
           let randomInteger = Math.floor(Math.random() * 100)

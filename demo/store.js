@@ -251,6 +251,7 @@ class Store {
     let minNoteDensity = 10000
     let maxNoteDensity = 0
     let currentNoteDensity
+    let maxScore = 0
     //calculate note density for each beat
     this.allGenerations.forEach( (generation) => {
       generation.forEach((beat) =>{
@@ -273,6 +274,9 @@ class Store {
           maxNoteDensity = noteDensity
         }
         allBeats.push([beat,noteDensity])
+        if(beat.score > maxScore){
+          maxScore = beat.score
+        }
       })
     })
     // start filling sections with beats based on their note density 
@@ -280,13 +284,13 @@ class Store {
     let probability
     let mean
     const sd = (maxNoteDensity-minNoteDensity)/10
-    const sectionLengths = ["8-low", "8-medium", "4-high","4-medium","4-low"]
+    const sectionLengths = ["4-low", "8-medium", "4-high","4-medium","4-low"]
     const exponentialConstant = 1
+    const exponentialScoreConstant = 7
     const minSampleDifference = 2
     let sampleDifference
     let differenceComparitor
     let lastBeat 
-    console.log("making sections")
     sectionLengths.forEach((lengthDefinition)=>{
       const [length, complexity] = lengthDefinition.split("-")
       for (let i=0; i < Math.abs(length); i++) {
@@ -305,14 +309,14 @@ class Store {
           if(i>0){
             sampleDifference =  calculateSampleDifference(lastBeat, randomBeat)
             differenceComparitor = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
-            console.log("sample difference " , sampleDifference, differenceComparitor)
-
           }
-
-          
+          const scoreComparitor = Math.pow(Math.E, -1*(maxScore-randomBeat.score)/exponentialScoreConstant)
+          console.log("score prob " , scoreComparitor, randomBeat.score, maxScore)
           if(
               (differenceComparitor > Math.random() || i == 0) &&
-              probability/getNormalProbability(mean, mean, sd ) > Math.random()
+              probability/getNormalProbability(mean, mean, sd ) > Math.random() &&
+              scoreComparitor > Math.random()
+
             ){
 
             this.arrangementBeats.push(randomBeat.key)
