@@ -1,8 +1,6 @@
 John
 ----
 
-* Switch Rate Beat to star rating system (10 start or 5 stars with half steps)
-    * Fuck it, sucks, sick, dope, slick as title for stars
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
