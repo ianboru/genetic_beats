@@ -130,19 +130,18 @@ class Store {
           this.synthMute = !this.synthMute
       }
     }
-    console.log("muted " , toJS(track))
   }
   @action handleSoloTrack = (track) => {
     console.log(this.numSolo)
     if(track.trackType == "sampler"){
       track.solo = !track.solo
       if(track.solo){
-        this.numSolo += 1
+        ++this.numSolo
         track.mute = false
         // mute all samples and synth besides solo ones
         this.muteUnsolod()
       }else{
-        this.numSolo -= 1
+        --this.numSolo
         track.mute = true
         if(this.numSolo == 0){
           this.toggleMuteAll(true)
@@ -150,12 +149,12 @@ class Store {
       }
     }else{
       if(!this.synthSolo){
-        this.numSolo += 1
+        ++this.numSolo
         this.synthSolo = true
         this.synthMute = false
         this.muteUnsolod()
       }else{
-        this.numSolo -= 1
+        --this.numSolo
         this.synthSolo = false
         if(this.numSolo > 0){
           this.synthMute = true

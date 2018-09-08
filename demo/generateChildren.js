@@ -319,6 +319,7 @@ const mateGeneration = (generation) => {
       key: `${store.generation + 1}.${i}`,
     }
   })
+  store.unmuteUnsoloAll()
   return reindexedMembers
 }
 

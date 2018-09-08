@@ -367,12 +367,56 @@ class Beat extends Component {
         activeMuteAll : false
       })
     }
+    let numMutedSamples = 0
+    let numSamples = 0 
+    let numSynth = 0
+    this.props.beat.tracks.forEach((track)=>{
+      if(track.trackType == "sampler"){
+        if(track.mute){
+          ++numMutedSamples
+        }
+        ++numSamples
+      }else{
+        ++numSynth
+      }
+    })
+    let synthComparitor = true
+    if(numSynth > 0 && !store.synthMute){
+      synthComparitor = false
+    }
+    if(numMutedSamples == numSamples && synthComparitor){
+      this.setState({
+        activeMuteAll : true
+      })
+    }
   }
   handleSoloTrack = (track) => {
     store.handleSoloTrack(track)
     if(!track.solo){
       this.setState({
         activeSoloAll : false
+      })
+    }
+    let numSoloSamples = 0
+    let numSamples = 0 
+    let numSynth = 0
+    this.props.beat.tracks.forEach((track)=>{
+      if(track.trackType == "sampler"){
+        if(track.solo){
+          ++numSoloSamples
+        }
+        ++numSamples
+      }else{
+        ++numSynth
+      }
+    })
+    let synthComparitor = true
+    if(numSynth > 0 && !store.synthSolo){
+      synthComparitor = false
+    }
+    if(numSoloSamples == numSamples && synthComparitor){
+      this.setState({
+        activeSoloAll : true
       })
     }
   }
