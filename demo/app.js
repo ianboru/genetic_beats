@@ -53,6 +53,12 @@ const PanelLabel = styled.div`
   font-size: 28px;
   font-family: "Hind Madurai";
   margin: 0 0 5px;
+
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
 `
 
 const InfoRow = styled.div`
@@ -133,7 +139,6 @@ class App extends Component {
 
     store.addGeneration(nextGeneration)
     if(store.selectPairMode){store.toggleSelectPairMode()}
-
   }
 
   handleUploadSample = (files) => {
@@ -148,16 +153,7 @@ class App extends Component {
   }
 
   render() {
-    const selectedBeatKeys = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
-
-    const selectedBeats = selectedBeatKeys.map( (key) => {
-      const keyInfo = key.split(".")
-      const generation = keyInfo[0]
-      const beatNum = keyInfo[1]
-      return store.allGenerations[generation][beatNum]
-    })
-
-    const beats = selectedBeats.map( (beat) => {
+    const beat = [store.currentBeat].map( (beat) => {
       const keyInfo = beat.key.split(".")
       const generation = keyInfo[0]
       const beatNum = keyInfo[1]
@@ -188,7 +184,7 @@ class App extends Component {
         pane1Style={{backgroundColor: panelBackground}}
         pane2Style={{backgroundColor: panelBackground}}
       >
-        <SplitPane split="horizontal" defaultSize="50%" minSize={400}>
+        <SplitPane split="horizontal" defaultSize={300} minSize={300}>
           <div style={{flex: 1}}>
             <Player
               beat       = {store.currentBeat}
@@ -201,10 +197,6 @@ class App extends Component {
                 onClick = {this.handlePlayToggle}
               >
                 {store.playingCurrentBeat ? 'Stop' : 'Play Current'}
-              </Button>
-
-              <Button onClick={this.handleMate}>
-                Mate
               </Button>
 
               <NewBeatManager />
@@ -220,17 +212,8 @@ class App extends Component {
               </Button>
             </Header>
 
-            <div style={{textAlign: "center"}}>
-              {
-                (!store.selectPairMode ||
-                 store.selectedBeats.length > 0) ?
-                beats :
-                <div>
-                  <div>Select Mode Enabled.</div>
-                  <div>Select beats in Family Tree graph to display and mate.</div>
-                </div>
-              }
-
+            <div style={{overflow: "auto", textAlign: "center"}}>
+              {beat}
             </div>
             <Footer style={{textAlign: "center"}}>
               <Button onClick={store.prevBeat}>
@@ -238,7 +221,7 @@ class App extends Component {
               </Button>
 
               <StarRating
-                score          = {selectedBeats[0].score}
+                score = {store.currentBeat.score}
                 handleSetScore = { (score) => {
                   store.setScore(score)
                   store.nextBeat()
@@ -279,6 +262,10 @@ class App extends Component {
           <Header>
             <PanelLabel>
               Family Tree
+
+              <Button right large onClick={this.handleMate}>
+                Mate
+              </Button>
             </PanelLabel>
           </Header>
 
