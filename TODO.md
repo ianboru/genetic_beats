@@ -11,6 +11,7 @@ John
 * Visual divisions every 4 notes
 * (up)Load all existing samples
 * Disable text select anywhere user swipe, click quickly, or drag & drop
+* Arrangement needs to be on one line (scroll) because of react-beautiful-dnd limitations
 
 * Concept of active beat, selected beats, non-selected beats
     * By default, selected beats are the current gen and next/prev iterate through them
@@ -29,6 +30,8 @@ Ian
 * Mute and solo shouldn’t carry to other beats (also changing sample loses mute/solo state)
 * Got stuck in mute, turn on all solos turn off all solos
 * Fix mouse-off state for family tree nodes
+* Removing beat from arrangement while it's playing loses synth notes
+* Save arrangement with Family Tree
 
 
 
