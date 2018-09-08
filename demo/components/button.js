@@ -25,9 +25,9 @@ const Button = styled.button`
   float: ${props => props.right ? "right" : props.left ? "left" : "none" };
   font-family: "Ubuntu";
   cursor: pointer;
-  font-size: ${props => props.small ? "12px" : "15px"};
+  font-size: ${props => props.large ? "20px" : props.small ? "12px" : "15px"};
   margin: 6px 3px;
-  padding: ${props => props.small ? "2px 4px" : "4px 8px"};
+  padding: ${props => props.large ? "4px 30px" : props.small ? "2px 4px" : "4px 8px"};
   transition: all 0.2s;
   min-width: 100px;
 

@@ -1,18 +1,25 @@
 John
 ----
 
-* Switch Rate Beat to star rating system (10 start or 5 stars with half steps)
-    * Fuck it, sucks, sick, dope, slick as title for stars
+Beta:
+* Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
+* "Add new beat to current generation" with select dropdown with options: "Empty beat", set of 
+  templates that we give it, and all beats in current family tree
+* Current beat area starts with big button to add beat to current generation and message about where
+  the button will be after using it the first time
+* Create new beat fucked
+* Space bar should toggle playing, not trigger other buttons
+* Reorganize all the buttons around current beat and make all config more accessible
+
+
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
-* Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
-* Move mate button below family tree, mate it more prominent
-* Switch initial beats to templates that can be added but otherwise empty initial gen
 * "How do I get to the next beat easily? There should be a keyboard shortcut for that"
 * Add number of subdivisions (aka note size in our case) to beat info header
 * Visual divisions every 4 notes
 * (up)Load all existing samples
 * Disable text select anywhere user swipe, click quickly, or drag & drop
+* Arrangement needs to be on one line (scroll) because of react-beautiful-dnd limitations
 
 * Concept of active beat, selected beats, non-selected beats
     * By default, selected beats are the current gen and next/prev iterate through them
@@ -24,21 +31,27 @@ John
 Ian
 ---
 
+Beta:
 * More responsive editing/beat switching (lag)
+* Save arrangement with Family Tree
+* Multiple arrangements
+
+
 * Add templates/archs for random arrangement
     * Change create song to be based on number of samples / note density
-* Add created date to saved family data and display in the family select dropdown
-* Mute and solo shouldn’t carry to other beats (also changing sample loses mute/solo state)
-* Got stuck in mute, turn on all solos turn off all solos
 * Fix mouse-off state for family tree nodes
+* Removing beat from arrangement while it's playing loses synth notes
 
+
+Next Beta
+---------
+
+* Create our own non-canvas family tree renderer
 
 
 Up For Grabs
 ------------
 
-* Space bar should toggle playing, not trigger other buttons
-* Create new beat fucked
 * Add ability to rename current family
 * Starting counting from 1 rather than 0 for generation/beatnum
 * Didn't notice track type synth right away
