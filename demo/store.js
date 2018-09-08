@@ -44,6 +44,7 @@ class Store {
   @observable currentLitBeat     = 0
   @observable noteTimer
   @observable arrangementTimer
+  @observable currentSong
 
   //
   // COMPUTED VALUES
@@ -135,7 +136,6 @@ class Store {
     }
   }
   @action handleSoloTrack = (track) => {
-    console.log(this.numSolo)
     if(track.trackType == "sampler"){
       track.solo = !track.solo
       if(track.solo){
@@ -213,7 +213,9 @@ class Store {
     const beatToMove = this.arrangementBeats.splice(currentIndex, 1)
     this.arrangementBeats.splice(destinationIndex, 0, beatToMove[0])
   }
-
+  @action setCurrentSong = (song) => {
+    this.currentSong = song
+  }
   @action togglePlayCurrentBeat = () => {
     this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingNewBeat = false
@@ -346,7 +348,6 @@ class Store {
             differenceComparitor = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
           }
           const scoreComparitor = Math.pow(Math.E, -1*(maxScore-randomBeat.score)/exponentialScoreConstant)
-          console.log("score prob " , scoreComparitor, randomBeat.score, maxScore)
           if(
               (differenceComparitor > Math.random() || i == 0) &&
               probability/getNormalProbability(mean, mean, sd ) > Math.random() &&
@@ -434,7 +435,6 @@ class Store {
     this.familyNames = newFamilyNames
 
     // SIDE EFFECT
-    console.log("updating family ", this.familyName)
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
     localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
   }
@@ -534,11 +534,18 @@ class Store {
 
   @action nextBeat = () => {
     let wasPlaying = this.playingCurrentBeat
+    if(wasPlaying){
+      this.playingCurrentBeat = false
+    }
     const currentGeneration = this.allGenerations[this.generation]
     this.unmuteUnsoloAll()
     this.beatNum = (this.beatNum + 1) % currentGeneration.length
     this.currentLitNote = 0
-    this.resetNoteTimer()
+    if(wasPlaying){
+      this.playingCurrentBeat = true
+      this.resetNoteTimer()
+
+    }
   }
 
   @action prevBeat = () => {

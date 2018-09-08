@@ -41,6 +41,7 @@ const generateSamplers = (beat, samples) => {
       gain  = {store.synthMute ? 0 : store.synthGain/store.synthGainCorrection}
     />
   ) 
+
   return samplers
 }
 
@@ -78,6 +79,7 @@ const generateMetronomeSampler = (resolution, on) => {
 
 @observer
 class Player extends Component {
+
   render() {
     const { beat, playing, resolution, bars } = this.props
     if (!beat || !beat.tracks || beat.tracks.length < 1) { return null }
@@ -86,6 +88,7 @@ class Player extends Component {
       <Song
         playing = {playing}
         tempo   = {store.tempo}
+        ref     = {(c)=>{this.song=c}}
       >
         <Sequencer
           bars       = {bars ? bars : 1}
