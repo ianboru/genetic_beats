@@ -40,7 +40,7 @@ class StarRating extends Component {
   }
 
   state = {
-    score: this.props.score,
+    score: null,
   }
 
   handleStarHover = (e, i) => {
@@ -48,7 +48,7 @@ class StarRating extends Component {
   }
 
   handleStarUnhover = (e) => {
-    this.setState({ score: this.props.score })
+    this.setState({ score: null })
   }
 
   handleStarClick = (e) => {
@@ -64,7 +64,10 @@ class StarRating extends Component {
         onMouseEnter : (e) => this.handleStarHover(e, i),
         onClick      : this.handleStarClick,
       }
-      return i < this.state.score ?
+
+      const score = this.state.score || this.props.score
+
+      return i < score ?
         <TiStarFullOutline {...props} /> :
         <TiStarOutline {...props} />
     })
