@@ -74,48 +74,79 @@ class Store {
   @action setHoveredBeat(beatKey){
     this.hoveredBeatKey = beatKey
   }
-  @action unmuteAll = () => {
+  @action toggleMuteAll = (lastState) => {
+    const newState = !lastState
+    this.currentBeat.tracks.forEach((track)=>{
+      track.mute = newState
+      if(newState){
+        track.solo = lastState
+        this.synthSolo = lastState
 
-    if(this.numSolo == 0){
-      Object.keys(this.samples).forEach((key)=>{
-        this.samples[key].mute = false
-      })
-      this.synthMute = false
+      }
+    })
+    this.synthMute = newState
+  }
+  @action toggleSoloAll = (lastState) => {
+    const newState = !lastState
+    this.currentBeat.tracks.forEach((track)=>{
+      track.solo = newState
+      if(newState){
+        track.mute = lastState
+        this.synthMute = lastState
+      }
+    })
+    this.synthSolo = newState
+    if(lastState){
+      this.numSolo = 0
+    }else{
+      this.numSolo = this.currentBeat.tracks.length
+
     }
   }
   @action muteUnsolod = () => {
-    Object.keys(this.samples).forEach((key)=>{
-      if(!this.samples[key].solo){
-        this.samples[key].mute = true
+    this.currentBeat.tracks.forEach((track)=>{
+      if(!track.solo){
+        track.mute = true
       }
     })
     if(!this.synthSolo){
       this.synthMute = true
     }
   }
-  @action handleMuteTrack = (sample,trackType) => {
+  @action unmuteUnsoloAll = () => {
+    this.currentBeat.tracks.forEach((track)=>{
+      track.mute = false
+      track.solo = false
+    })
+    this.synthMute = false
+    this.synthSolo = false
+
+  }
+  @action handleMuteTrack = (track) => {
     if(this.numSolo == 0){
-
-      if(trackType == "sampler"){
-          this.samples[sample].mute = !this.samples[sample].mute
-
+      if(track.trackType == "sampler"){
+          track.mute = !track.mute
       }else{
           this.synthMute = !this.synthMute
       }
     }
+    console.log("muted " , toJS(track))
   }
-  @action handleSoloTrack = (sample,trackType) => {
-    if(trackType == "sampler"){
-       this.samples[sample].solo = !this.samples[sample].solo
-      if(this.samples[sample].solo){
+  @action handleSoloTrack = (track) => {
+    console.log(this.numSolo)
+    if(track.trackType == "sampler"){
+      track.solo = !track.solo
+      if(track.solo){
         this.numSolo += 1
-        this.samples[sample].mute = false
+        track.mute = false
         // mute all samples and synth besides solo ones
         this.muteUnsolod()
       }else{
         this.numSolo -= 1
-        this.samples[sample].mute = true
-        this.unmuteAll()
+        track.mute = true
+        if(this.numSolo == 0){
+          this.toggleMuteAll(true)
+        }
       }
     }else{
       if(!this.synthSolo){
@@ -129,7 +160,9 @@ class Store {
         if(this.numSolo > 0){
           this.synthMute = true
         }
-        this.unmuteAll()
+        if(this.numSolo == 0){
+          this.toggleMuteAll(true)
+        }
       }
     }
   }
@@ -472,15 +505,6 @@ class Store {
   }
 
   @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
-    // set new sample mute and solo to last sample values
-    if(this.allGenerations[generation][beatNum].tracks[trackNum].trackType == "sampler"){
-      this.samples[sample].mute = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute
-      this.samples[sample].solo = this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo
-      // reset old sample mute and solo
-      this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].mute = false
-      this.samples[this.allGenerations[generation][beatNum].tracks[trackNum].sample].solo = false
-    }
-
     // set new sample
     this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
   }
@@ -504,6 +528,7 @@ class Store {
   @action nextBeat = () => {
     let wasPlaying = this.playingCurrentBeat
     const currentGeneration = this.allGenerations[this.generation]
+    this.unmuteUnsoloAll()
     this.beatNum = (this.beatNum + 1) % currentGeneration.length
     this.currentLitNote = 0
     this.resetNoteTimer()
@@ -511,7 +536,7 @@ class Store {
 
   @action prevBeat = () => {
     const currentGeneration = this.allGenerations[this.generation]
-
+    this.unmuteUnsoloAll()
     if (this.beatNum == 0) {
       this.beatNum = currentGeneration.length - 1
     } else {
@@ -520,6 +545,7 @@ class Store {
 
     this.currentLitNote = 0
     this.resetNoteTimer()
+    
   }
 }
 

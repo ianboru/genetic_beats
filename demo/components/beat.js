@@ -166,8 +166,8 @@ class Track extends Component {
       </span>
     )
   }
-
   render() {
+
       const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
@@ -195,14 +195,15 @@ class Track extends Component {
       )
     })
 
-    const { track } = this.props
+    const track = this.props.track
+
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
     let activeSolo
     let activeMute
     if(track.trackType == "sampler"){
-      activeMute = store.samples[this.props.track.sample].mute
-      activeSolo = store.samples[this.props.track.sample].solo
+      activeMute = track.mute
+      activeSolo = track.solo
     }else{
       activeMute = store.synthMute
       activeSolo = store.synthSolo
@@ -217,7 +218,7 @@ class Track extends Component {
       )
     })
 
-    if (this.props.track.trackType === "synth") {
+    if (track.trackType === "synth") {
       sampleOptions = allNotesInRange.map( (noteName) => {
         return (
           <option
@@ -230,21 +231,21 @@ class Track extends Component {
 
     return (
       <div className="track">
-        {this.props.track.trackType === "sampler" ? this.renderSamplePreviewer() : null}
+        {track.trackType === "sampler" ? this.renderSamplePreviewer() : null}
 
         <div style={trackNameStyles}>
-          <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={this.props.track.sample} onChange={this.handleSampleChange}>
+          <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={track.sample} onChange={this.handleSampleChange}>
             {sampleOptions}
           </select>
         </div>
         {notes}
         <MuteTrackButton
           active={activeMute}
-          onClick={()=>{store.handleMuteTrack(track.sample, track.trackType)}}
+          onClick={()=>{this.props.handleMuteTrack(track)}}
         >M</MuteTrackButton>
         <SoloTrackButton
           active={activeSolo}
-          onClick={()=>{store.handleSoloTrack(track.sample, track.trackType)}}
+          onClick={()=>{this.props.handleSoloTrack(track)}}
         >S</SoloTrackButton>
 
           <RemoveTrackButton
@@ -283,7 +284,9 @@ const BIData = styled.span`
 class Beat extends Component {
   state = {
     trackType : "sampler",
-    mousedown : false
+    mousedown : false,
+    activeMuteAll : false,
+    activeSoloAll : false,
   }
   toggleTrackType = () => {
     let newTrackType
@@ -325,7 +328,54 @@ class Beat extends Component {
     let { beat } = this.props
     this.props.handleSetSample(track, sample)
   }
+  handleMuteAll = () => {
+    store.toggleMuteAll(this.state.activeMuteAll)
+    this.setState({
+      activeMuteAll : !this.state.activeMuteAll
+    },()=>{
+      if(this.state.activeMuteAll){
+        this.setState({
+          activeSoloAll : false
+        })
+      }
+    })
+    
+  }
+  handleSoloAll = () => {
+    store.toggleSoloAll(this.state.activeSoloAll)
+    console.log("soling all", this.state.activeSoloAll)
 
+    this.setState({
+      activeSoloAll : !this.state.activeSoloAll
+    },()=>{
+      if(this.state.activeSoloAll){
+        this.setState({
+          activeMuteAll : false
+        })
+        console.log("muting all", this.state.activeMuteAll)
+
+      }
+    })
+  }
+  handleMuteTrack = (track) => {
+    console.log("muting " , toJS(track))
+    store.handleMuteTrack(track)
+    console.log("all? " , toJS(track))
+
+    if(!track.mute){
+      this.setState({
+        activeMuteAll : false
+      })
+    }
+  }
+  handleSoloTrack = (track) => {
+    store.handleSoloTrack(track)
+    if(!track.solo){
+      this.setState({
+        activeSoloAll : false
+      })
+    }
+  }
   render() {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
@@ -336,6 +386,8 @@ class Beat extends Component {
           handleEdit = {this.handleEdit}
           handleRemoveTrack = {this.props.handleRemoveTrack}
           handleSampleChange = {this.handleSampleChange}
+          handleMuteTrack = {this.handleMuteTrack}
+          handleSoloTrack = {this.handleSoloTrack}
         />
       )
     })
@@ -353,7 +405,14 @@ class Beat extends Component {
             <BIData>{this.props.beat.score}</BIData>
           </BeatInfo>
         </div>
-
+        <MuteTrackButton
+          active={this.state.activeMuteAll}
+          onClick={()=>{this.handleMuteAll()}}
+        >M</MuteTrackButton>
+        <SoloTrackButton
+          active={this.state.activeSoloAll}
+          onClick={()=>{this.handleSoloAll()}}
+        >S</SoloTrackButton>
         {tracks}
 
         <div>
