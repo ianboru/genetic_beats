@@ -74,6 +74,9 @@ class Store {
   @action setHoveredBeat(beatKey){
     this.hoveredBeatKey = beatKey
   }
+  @action clearHoveredBeat(){
+    this.hoveredBeatKey = ""
+  }
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     this.currentBeat.tracks.forEach((track)=>{

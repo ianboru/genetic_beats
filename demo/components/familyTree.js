@@ -142,6 +142,7 @@ class FamilyTree extends React.Component {
       })
       this.cy.on('mouseout', 'node', function(evt) {
         document.getElementsByTagName('body')[0].style.cursor = 'default'
+        store.clearHoveredBeat()
       })
     }
 
