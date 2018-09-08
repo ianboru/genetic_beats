@@ -434,6 +434,7 @@ class Store {
     this.familyNames = newFamilyNames
 
     // SIDE EFFECT
+    console.log("updating family ", this.familyName)
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
     localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
   }
@@ -504,19 +505,23 @@ class Store {
   @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
     const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
     this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] = newNote
+    this.updateFamilyInStorage()
   }
 
   @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
     // set new sample
     this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
+    this.updateFamilyInStorage()
   }
 
   @action removeTrackFromBeat = (generation, beatNum, trackNum) => {
     this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
+    this.updateFamilyInStorage()
   }
 
   @action setGain = (sample, gain) => {
     this.samples[sample].gain = gain
+    this.updateFamilyInStorage()
   }
   @action setSynthGain = (gain) => {
     this.synthGain = gain
@@ -524,7 +529,7 @@ class Store {
   @action setScore = (score) => {
     this.currentBeat.score = score
     this.currentLitNote = 0
-
+    this.updateFamilyInStorage()
   }
 
   @action nextBeat = () => {

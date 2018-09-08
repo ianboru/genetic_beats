@@ -133,11 +133,19 @@ function generateFamilyName(){
     "trouser",
     "vest",
   ]
+  const curDate = new Date()
+  const dateString = curDate.getDate() + "/"
+                + (curDate.getMonth()+1)  + "/" 
+                + curDate.getFullYear() + " @ "  
+                + curDate.getHours() + ":"  
+                + curDate.getMinutes() + ":" 
+                + curDate.getSeconds();
 
   return Array(3).fill().map(() => {
     return words[Math.floor(Math.random() * words.length)]
-  }).join("-")
+  }).join("-") + " " + dateString
 }
+
 const noteLetters = ["c","d","e","f","g","a","b"]
 const octaves = [2,3,4]
 
@@ -159,5 +167,5 @@ export {
   generateFamilyName,
   allNotesInRange,
   getNormalProbability,
-  calculateSampleDifference
+  calculateSampleDifference,
 }
