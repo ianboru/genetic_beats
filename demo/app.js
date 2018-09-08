@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import ReactFileReader from 'react-file-reader'
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import SplitPane from "react-split-pane"
 
 import store from "./store"
 import { mateGeneration, mateSelectedMembers} from "./generateChildren"
@@ -20,7 +21,7 @@ import NewBeatManager from "./components/newBeatManager"
 import FamilySelect from "./components/familySelect"
 import FamilyTree from "./components/familyTree"
 import Player from "./components/player"
-import SplitPane from "react-split-pane"
+import StarRating from "./components/starRating"
 
 //import DevTools from "mobx-react-devtools"
 
@@ -48,9 +49,6 @@ const Footer = styled.div`
   box-sizing: border-box;
 `
 
-const Info = styled.span`
-`
-
 const PanelLabel = styled.div`
   font-size: 28px;
   font-family: "Hind Madurai";
@@ -74,7 +72,6 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      inputScore       : "",
       familyTreeHeight : window.innerHeight,
       familyTreeWidth  : familyTreeWidth,
     }
@@ -95,18 +92,6 @@ class App extends Component {
 
   handlePlayToggle = () => {
     store.togglePlayCurrentBeat()
-  }
-
-  setScore = (e) => {
-    if(this.state.inputScore){
-      store.setScore(parseInt(this.state.inputScore))
-      this.setState({inputScore: ""})
-    }
-    e.preventDefault()
-    store.nextBeat()
-  }
-  handleInputChange = (e) => {
-    this.setState({ inputScore: e.target.value })
   }
 
   newFamilyTree = () => {
@@ -133,7 +118,7 @@ class App extends Component {
 
     let options = {}
     let members = store.currentGeneration
-    let nextGeneration 
+    let nextGeneration
     if (store.selectPairMode) {
       members = store.selectedBeats.map( (currentKey) => {
         const currentKeyInfo = currentKey.split(".")
@@ -141,7 +126,6 @@ class App extends Component {
         const beatNum = currentKeyInfo[1]
         return store.allGenerations[generation][beatNum]
       })
-      console.log("selected members ", members)
       nextGeneration = mateSelectedMembers(members)
     } else {
       nextGeneration = mateGeneration(members)
@@ -164,17 +148,24 @@ class App extends Component {
   }
 
   render() {
-    const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
+    const selectedBeatKeys = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
 
-    const beats = selectedBeats.map( (key) => {
+    const selectedBeats = selectedBeatKeys.map( (key) => {
       const keyInfo = key.split(".")
+      const generation = keyInfo[0]
+      const beatNum = keyInfo[1]
+      return store.allGenerations[generation][beatNum]
+    })
+
+    const beats = selectedBeats.map( (beat) => {
+      const keyInfo = beat.key.split(".")
       const generation = keyInfo[0]
       const beatNum = keyInfo[1]
 
       return (
         <Beat
-          key               = {key}
-          beat              = {store.allGenerations[generation][beatNum]}
+          key               = {beat.key}
+          beat              = {beat}
           handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
           handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
           handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
@@ -246,25 +237,13 @@ class App extends Component {
                 &lt; Previous Beat
               </Button>
 
-              <Info>
-                <form style={{display: "inline-block"}} onSubmit={this.setScore}>
-                  <label>
-                    <input
-                      type        = "number"
-                      step        = "0.1"
-                      value       = {this.state.inputScore}
-                      onChange    = {this.handleInputChange}
-                      placeholder = "Rate Beat"
-                      style={{
-                        fontSize: 22,
-                        height: 24,
-                        verticalAlign: "bottom",
-                        textAlign: "center",
-                      }}
-                    />
-                  </label>
-                </form>
-              </Info>
+              <StarRating
+                score          = {selectedBeats[0].score}
+                handleSetScore = { (score) => {
+                  store.setScore(score)
+                  store.nextBeat()
+                }}
+              />
 
               <Button onClick={store.nextBeat}>
                 Next Beat
