@@ -5,6 +5,11 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import SplitPane from "react-split-pane"
 
+import {
+  TiChevronLeft,
+  TiChevronRight,
+} from "react-icons/ti"
+
 import store from "./store"
 import { mateGeneration, mateSelectedMembers} from "./generateChildren"
 import "./index.css"
@@ -217,7 +222,8 @@ class App extends Component {
             </div>
             <Footer style={{textAlign: "center"}}>
               <Button onClick={store.prevBeat}>
-                &lt; Previous Beat
+                <TiChevronLeft style={{verticalAlign: "bottom"}} size={15} />
+                Previous Beat
               </Button>
 
               <StarRating
@@ -230,7 +236,7 @@ class App extends Component {
 
               <Button onClick={store.nextBeat}>
                 Next Beat
-                &gt;
+                <TiChevronRight style={{verticalAlign: "bottom"}} size={15} />
               </Button>
             </Footer>
           </div>
