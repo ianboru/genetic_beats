@@ -131,7 +131,6 @@ class Store {
     })
     this.synthMute = false
     this.synthSolo = false
-
   }
   @action handleMuteTrack = (track) => {
     if(this.numSolo == 0){
@@ -220,9 +219,11 @@ class Store {
     const beatToMove = this.arrangementBeats.splice(currentIndex, 1)
     this.arrangementBeats.splice(destinationIndex, 0, beatToMove[0])
   }
+
   @action setCurrentSong = (song) => {
     this.currentSong = song
   }
+
   @action togglePlayCurrentBeat = () => {
     this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingNewBeat = false
@@ -231,11 +232,13 @@ class Store {
     this.resetNoteTimer()
     this.currentLitBeat = 0
   }
+
   @action togglePlayNewBeat = () => {
     this.playingCurrentBeat = false
     this.playingNewBeat = !this.playingNewBeat
     this.playingArrangement = false
   }
+
   @action togglePlayArrangement = () => {
     this.playingCurrentBeat = false
     this.playingNewBeat = false
@@ -359,19 +362,16 @@ class Store {
             differenceComparitor = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
           }
           const scoreComparitor = Math.pow(Math.E, -1*(maxScore-randomBeat.score)/exponentialScoreConstant)
-          if(
+          if (
               (differenceComparitor > Math.random() || i == 0) &&
               probability/getNormalProbability(mean, mean, sd ) > Math.random() &&
               scoreComparitor > Math.random()
-
-            ){
-
+            ) {
             this.arrangementBeats.push(randomBeat.key)
             acceptedBeat = true
             lastBeat = randomBeat
           }
         }
-        
       }
     })
     this.updateArrangementInArrangements()
@@ -541,9 +541,11 @@ class Store {
     this.samples[sample].gain = gain
     this.updateFamilyInStorage()
   }
+
   @action setSynthGain = (gain) => {
     this.synthGain = gain
   }
+
   @action setScore = (score) => {
     this.currentBeat.score = score
     this.currentLitNote = 0
@@ -562,7 +564,6 @@ class Store {
     if(wasPlaying){
       this.playingCurrentBeat = true
       this.resetNoteTimer()
-
     }
   }
 
@@ -577,7 +578,6 @@ class Store {
 
     this.currentLitNote = 0
     this.resetNoteTimer()
-    
   }
 }
 
