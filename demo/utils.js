@@ -140,10 +140,11 @@ function generateFamilyName(){
                 + curDate.getHours() + ":"  
                 + curDate.getMinutes() + ":" 
                 + curDate.getSeconds();
-
-  return Array(3).fill().map(() => {
+  const familyName = Array(3).fill().map(() => {
     return words[Math.floor(Math.random() * words.length)]
   }).join("-") + " " + dateString
+  console.log(familyName)
+  return familyName
 }
 
 const noteLetters = ["c","d","e","f","g","a","b"]

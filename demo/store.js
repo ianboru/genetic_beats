@@ -5,7 +5,9 @@ import samples from "./samples"
 import { generateFamilyName, getNormalProbability, calculateSampleDifference } from "./utils"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
-
+const newFamilyName = generateFamilyName()
+let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
+newFamilyNames.push(newFamilyName)
 
 configure({ enforceActions: "always" })
 
@@ -35,17 +37,18 @@ class Store {
   @observable numSurvivors       = 6
   @observable numChildren        = 3
   @observable fitnessPercentile  = 70
-  @observable familyName         = generateFamilyName()
-  @observable familyNames        = originalFamilyNames ? originalFamilyNames : []
+  @observable familyName         = newFamilyName
+  @observable familyNames        = newFamilyNames
   @observable tempo              = 100
   @observable metronome          = false
+  @observable arrangements       = [[]]
   @observable arrangementBeats   = []
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
   @observable noteTimer
   @observable arrangementTimer
   @observable currentSong
-
+  @observable currentArrangementIndex = 0
   //
   // COMPUTED VALUES
   //
@@ -57,7 +60,7 @@ class Store {
   @computed get currentBeat() {
     return this.currentGeneration[this.beatNum]
   }
-
+  
   @computed get allBeatKeys() {
     let beatKeys = []
     this.allGenerations.forEach((generation) => {
@@ -71,7 +74,11 @@ class Store {
   //
   // ACTIONS
   //
-
+  @action addArrangement(){
+    this.arrangements.push([])
+    this.currentArrangementIndex = this.arrangements.length-1
+    this.arrangementBeats = []
+  }
   @action setHoveredBeat(beatKey){
     this.hoveredBeatKey = beatKey
   }
@@ -240,10 +247,12 @@ class Store {
 
   @action addBeatToArrangement = (beatKey) => {
     this.arrangementBeats.push(beatKey)
+    this.updateArrangementInArrangements()
   }
 
   @action deleteBeatFromArrangement = (index) => {
     this.arrangementBeats.splice(index,1)
+    this.updateArrangementInArrangements()
   }
 
   @action randomizeBestBeats = () => {
@@ -276,6 +285,8 @@ class Store {
         }
       })
     })
+    this.updateArrangementInArrangements()
+
   }
 
   @action createSong = () => {
@@ -363,6 +374,8 @@ class Store {
         
       }
     })
+    this.updateArrangementInArrangements()
+
   }
 
   @action addSample = (newSample) => {
@@ -414,29 +427,37 @@ class Store {
   @action selectFamily = (familyName) => {
     this.familyName = familyName
     // SIDE EFFECT
-    this.allGenerations = JSON.parse(localStorage.getItem(familyName))
+    console.log(familyName)
+    const familyData = JSON.parse(localStorage.getItem(familyName))
+    this.allGenerations = familyData.family
+    this.arrangements = familyData.arrangements
+    console.log(this.arrangements)
+    this.currentArrangementIndex = 0
+    this.arrangementBeats = this.arrangements[0]
     this.beatNum = 0
     this.generation = 0
   }
-
+  @action selectArrangement = (index) => {
+      this.currentArrangementIndex = index
+      this.arrangementBeats = this.arrangements[index]
+      console.log("selected " + index)
+  }
+  @action updateArrangementInArrangements = () => {
+    this.arrangements[this.currentArrangementIndex] = this.arrangementBeats 
+    this.updateFamilyInStorage()
+  }
   @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
     localStorage.clear()
   }
-
+  
   @action updateFamilyInStorage = () => {
-    let newFamilyNames = this.familyNames
-    if (this.familyNames.length > 0 && !this.familyNames.includes(this.familyName)) {
-      newFamilyNames.push(this.familyName)
-    } else if (this.familyNames.length === 0) {
-      newFamilyNames = [this.familyName]
-    }
-
-    this.familyNames = newFamilyNames
-
-    // SIDE EFFECT
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
-    localStorage.setItem(this.familyName, JSON.stringify(this.allGenerations))
+
+    localStorage.setItem(this.familyName, JSON.stringify({
+      family :this.allGenerations,
+      arrangements : this.arrangements,
+    }))
   }
 
   @action setNoteMutationRate = (rate) => {

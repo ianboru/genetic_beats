@@ -25,12 +25,12 @@ class FamilySelect extends Component {
         </option>
       )
     })
-
+    familyNamesOptions.push(store.familyName)
     return (
       <StyledFamilySelect>
         Current Family: <select
           defaultValue = {store.familyName}
-          onChange     = {this.handleSelectFamily}
+          onChange = {this.handleSelectFamily}
         >
           {familyNamesOptions}
         </select>

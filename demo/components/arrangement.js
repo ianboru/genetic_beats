@@ -112,12 +112,17 @@ class Arrangement extends Component {
     store.addBeatToArrangement(this.state.beatToAdd)
   }
 
+  handleSelectArrangement = (evt) => {
+    store.selectArrangement(parseInt(evt.target.value))
+  }
+  handleAddArrangement = () => {
+    store.addArrangement()
+  }
   handleSelectBeatToAdd = (evt) => {
     this.setState({
       beatToAdd : evt.target.value
     })
   }
-
   handleClickBeat = (beatKey, arrangementIndex) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
@@ -234,6 +239,22 @@ class Arrangement extends Component {
     }
   }
   render() {
+    let arrangementOptions =  [
+        <option key="0" value={0}>
+          {'0'}
+        </option>
+    ]
+    if(store.arrangements.length > 0){
+      arrangementOptions = []
+      store.arrangements.forEach((arrangement,index) => {
+        arrangementOptions.push(
+          <option key={index} value={index}>
+            {index}
+          </option>
+        )
+      })
+    }
+
     let backgroundColor = ""
     const beatBlocks = store.arrangementBeats.map( (beatKey, i) => {
       const highlight = (i === store.currentLitBeat && store.playingArrangement)
@@ -281,6 +302,13 @@ class Arrangement extends Component {
             <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
             <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
             <Button onClick={this.createSong}>Create Song</Button>
+            <Button onClick={this.handleAddArrangement}>Add Arrangement</Button>
+            <select
+                  onChange={this.handleSelectArrangement}
+                  value={store.currentArrangementIndex}
+                >
+                  {arrangementOptions}
+            </select>
           </ArrangementControls>
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
@@ -289,6 +317,7 @@ class Arrangement extends Component {
                 innerRef={provided.innerRef}
                 {...provided.droppableProps}
               >
+              
                 {beatBlocks}
                 {provided.placeholder}
 
