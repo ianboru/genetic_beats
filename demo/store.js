@@ -427,11 +427,9 @@ class Store {
   @action selectFamily = (familyName) => {
     this.familyName = familyName
     // SIDE EFFECT
-    console.log(familyName)
     const familyData = JSON.parse(localStorage.getItem(familyName))
     this.allGenerations = familyData.family
     this.arrangements = familyData.arrangements
-    console.log(this.arrangements)
     this.currentArrangementIndex = 0
     this.arrangementBeats = this.arrangements[0]
     this.beatNum = 0
@@ -440,7 +438,6 @@ class Store {
   @action selectArrangement = (index) => {
       this.currentArrangementIndex = index
       this.arrangementBeats = this.arrangements[index]
-      console.log("selected " + index)
   }
   @action updateArrangementInArrangements = () => {
     this.arrangements[this.currentArrangementIndex] = this.arrangementBeats 
