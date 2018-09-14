@@ -33,14 +33,11 @@ Ian
 
 Beta:
 * More responsive editing/beat switching (lag)
-* Save arrangement with Family Tree
-* Multiple arrangements
 
 
 * Add templates/archs for random arrangement
     * Change create song to be based on number of samples / note density
 * Fix mouse-off state for family tree nodes
-* Removing beat from arrangement while it's playing loses synth notes
 
 
 Next Beta
