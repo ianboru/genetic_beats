@@ -269,6 +269,9 @@ class Store {
   }
 
   @action deleteBeatFromArrangement = (index) => {
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
     this.arrangements[this.currentArrangementIndex].splice(index,1)
     this.updateFamilyInStorage()
   }
