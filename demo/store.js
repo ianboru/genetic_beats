@@ -48,6 +48,7 @@ class Store {
   @observable arrangementTimer
   @observable currentSong
   @observable currentArrangementIndex = 0
+  @observable spaceButtonTarget = "currentBeat"
   //
   // COMPUTED VALUES
   //
@@ -235,8 +236,8 @@ class Store {
   @action setCurrentSong = (song) => {
     this.currentSong = song
   }
-
   @action togglePlayCurrentBeat = () => {
+    this.spaceButtonTarget = "currentBeat"
     this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingNewBeat = false
     this.playingArrangement = false
@@ -244,7 +245,13 @@ class Store {
     this.resetNoteTimer()
     this.currentLitBeat = 0
   }
-
+  @action togglePlay = () => {
+    if(this.spaceButtonTarget == "currentBeat"){
+      this.togglePlayCurrentBeat()
+    }else{
+      this.togglePlayArrangement()
+    }
+  }
   @action togglePlayNewBeat = () => {
     this.playingCurrentBeat = false
     this.playingNewBeat = !this.playingNewBeat
@@ -252,6 +259,7 @@ class Store {
   }
 
   @action togglePlayArrangement = () => {
+    this.spaceButtonTarget = "currentArrangement"
     this.playingCurrentBeat = false
     this.playingNewBeat = false
     this.playingArrangement = !this.playingArrangement

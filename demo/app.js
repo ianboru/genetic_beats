@@ -88,21 +88,18 @@ class App extends Component {
     }
     //store.fetchAllSamples()
   }
-
   componentDidMount = () => {
+    document.addEventListener("keydown", this.handleKeyPress, false);
     window.addEventListener("resize", this.handleWindowResize)
   }
 
   componentWillUnmount = () => {
+    document.removeEventListener("keydown", this.handleKeyPress, false);
     window.removeEventListener("resize", this.handleWindowResize)
   }
 
   handleWindowResize = (e) => {
     this.setState({ familyTreeHeight: e.target.innerHeight})
-  }
-
-  handlePlayToggle = () => {
-    store.togglePlayCurrentBeat()
   }
 
   newFamilyTree = () => {
@@ -156,7 +153,17 @@ class App extends Component {
       reader.readAsDataURL(file)
     }
   }
+  handleKeyPress = (e) => {
+    if(e.code == "Space"){
+      e.preventDefault()
+      store.togglePlay()
+    }else if(e.code =="ArrowRight"){
+      store.nextBeat()
+    }else if(e.code =="ArrowLeft"){
+      store.prevBeat()
+    }  
 
+  }
   render() {
     const beat = [store.currentBeat].map( (beat) => {
       const keyInfo = beat.key.split(".")
@@ -178,6 +185,7 @@ class App extends Component {
     const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
     return (
       <SplitPane
+        onKeyPress={this.handleKeyPress}
         split       = "vertical"
         primary     = "second"
         defaultSize = {familyTreeWidth}
@@ -199,7 +207,7 @@ class App extends Component {
             <Header>
               <Button
                 active  = {store.playingCurrentBeat}
-                onClick = {this.handlePlayToggle}
+                onClick = {store.togglePlayCurrentBeat}
               >
                 {store.playingCurrentBeat ? 'Stop' : 'Play Current'}
               </Button>
