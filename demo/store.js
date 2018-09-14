@@ -41,8 +41,7 @@ class Store {
   @observable familyNames        = newFamilyNames
   @observable tempo              = 100
   @observable metronome          = false
-  @observable arrangements       = [[]]
-  @observable arrangementBeats   = []
+  @observable arrangements       = [ [] ]
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
   @observable noteTimer
@@ -53,6 +52,10 @@ class Store {
   // COMPUTED VALUES
   //
 
+  @computed get currentArrangement() {
+    return this.arrangements[this.currentArrangementIndex]
+  }
+
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
@@ -60,7 +63,7 @@ class Store {
   @computed get currentBeat() {
     return this.currentGeneration[this.beatNum]
   }
-  
+
   @computed get allBeatKeys() {
     let beatKeys = []
     this.allGenerations.forEach((generation) => {
@@ -74,20 +77,22 @@ class Store {
   //
   // ACTIONS
   //
-  @action addArrangement(){
+  @action addArrangement = () => {
     this.arrangements.push([])
     this.currentArrangementIndex = this.arrangements.length-1
-    this.arrangementBeats = []
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
   }
-  @action setHoveredBeat(beatKey){
+
+  @action setHoveredBeat = (beatKey) => {
     this.hoveredBeatKey = beatKey
   }
-  @action clearHoveredBeat(){
+
+  @action clearHoveredBeat = () => {
     this.hoveredBeatKey = ""
   }
+
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     this.currentBeat.tracks.forEach((track)=>{
@@ -100,6 +105,7 @@ class Store {
     })
     this.synthMute = newState
   }
+
   @action toggleSoloAll = (lastState) => {
     const newState = !lastState
     this.currentBeat.tracks.forEach((track)=>{
@@ -134,7 +140,6 @@ class Store {
     })
     this.synthMute = false
     this.synthSolo = false
-
   }
   @action handleMuteTrack = (track) => {
     if(this.numSolo == 0){
@@ -203,7 +208,7 @@ class Store {
   }
 
   @action incrementCurrentLitBeat = () => {
-    this.currentLitBeat  = (this.currentLitBeat + 1)%this.arrangementBeats.length
+    this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
   }
 
   @action resetArrangementTimer = () => {
@@ -220,15 +225,17 @@ class Store {
   }
 
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
-    const beatToMove = this.arrangementBeats.splice(currentIndex, 1)
-    this.arrangementBeats.splice(destinationIndex, 0, beatToMove[0])
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
+    const beatToMove = this.arrangements[this.currentArrangementIndex].splice(currentIndex, 1)
+    this.arrangements[this.currentArrangementIndex].splice(destinationIndex, 0, beatToMove[0])
   }
+
   @action setCurrentSong = (song) => {
     this.currentSong = song
   }
+
   @action togglePlayCurrentBeat = () => {
     this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingNewBeat = false
@@ -237,11 +244,13 @@ class Store {
     this.resetNoteTimer()
     this.currentLitBeat = 0
   }
+
   @action togglePlayNewBeat = () => {
     this.playingCurrentBeat = false
     this.playingNewBeat = !this.playingNewBeat
     this.playingArrangement = false
   }
+
   @action togglePlayArrangement = () => {
     this.playingCurrentBeat = false
     this.playingNewBeat = false
@@ -252,23 +261,20 @@ class Store {
   }
 
   @action addBeatToArrangement = (beatKey) => {
-    this.arrangementBeats.push(beatKey)
-    this.updateArrangementInArrangements()
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
+    this.arrangements[this.currentArrangementIndex].push(beatKey)
+    this.updateFamilyInStorage()
   }
 
   @action deleteBeatFromArrangement = (index) => {
-    this.arrangementBeats.splice(index,1)
-    this.updateArrangementInArrangements()
-    if(this.playingArrangement){
-      this.togglePlayArrangement()
-    }
+    this.arrangements[this.currentArrangementIndex].splice(index,1)
+    this.updateFamilyInStorage()
   }
 
   @action randomizeBestBeats = () => {
-    this.arrangementBeats = []
+    this.arrangements[this.currentArrangementIndex] = []
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
 
@@ -292,19 +298,18 @@ class Store {
             numRepeats = Math.floor(Math.random() * 3) + 1
           }
           for (let i=0; i < numRepeats; i++) {
-            this.arrangementBeats.push(beat.key)
+            this.arrangements[this.currentArrangementIndex].push(beat.key)
           }
         }
       })
     })
-    this.updateArrangementInArrangements()
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
   }
 
   @action createSong = () => {
-    this.arrangementBeats = []
+    this.arrangements[this.currentArrangementIndex] = []
     let randomInteger
     let selectedGeneration
     let selectedBeat
@@ -341,7 +346,7 @@ class Store {
         }
       })
     })
-    // start filling sections with beats based on their note density 
+    // start filling sections with beats based on their note density
     let randomBeatIndex
     let probability
     let mean
@@ -352,7 +357,7 @@ class Store {
     const minSampleDifference = 2
     let sampleDifference
     let differenceComparitor
-    let lastBeat 
+    let lastBeat
     sectionLengths.forEach((lengthDefinition)=>{
       const [length, complexity] = lengthDefinition.split("-")
       for (let i=0; i < Math.abs(length); i++) {
@@ -373,25 +378,23 @@ class Store {
             differenceComparitor = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
           }
           const scoreComparitor = Math.pow(Math.E, -1*(maxScore-randomBeat.score)/exponentialScoreConstant)
-          if(
+          if (
               (differenceComparitor > Math.random() || i == 0) &&
               probability/getNormalProbability(mean, mean, sd ) > Math.random() &&
               scoreComparitor > Math.random()
-
-            ){
-
-            this.arrangementBeats.push(randomBeat.key)
+            ) {
+            this.arrangements[this.currentArrangementIndex].push(randomBeat.key)
             acceptedBeat = true
             lastBeat = randomBeat
           }
         }
-        
       }
     })
-    this.updateArrangementInArrangements()
+
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
+    this.updateFamilyInStorage()
   }
 
   @action addSample = (newSample) => {
@@ -412,7 +415,8 @@ class Store {
 
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
-    this.arrangementBeats = []
+    this.arrangements = [ [] ]
+    this.currentArrangementIndex = 0
   }
 
   @action selectBeat = (generation, beatNum) => {
@@ -447,23 +451,22 @@ class Store {
     this.allGenerations = familyData.family
     this.arrangements = familyData.arrangements
     this.currentArrangementIndex = 0
-    this.arrangementBeats = this.arrangements[0]
     this.beatNum = 0
     this.generation = 0
+
+    const familyNames = JSON.parse(localStorage.getItem("familyNames"))
+    this.familyNames = familyNames
   }
+
   @action selectArrangement = (index) => {
       this.currentArrangementIndex = index
-      this.arrangementBeats = this.arrangements[index]
   }
-  @action updateArrangementInArrangements = () => {
-    this.arrangements[this.currentArrangementIndex] = this.arrangementBeats 
-    this.updateFamilyInStorage()
-  }
+
   @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
     localStorage.clear()
   }
-  
+
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
 
@@ -557,9 +560,11 @@ class Store {
     this.samples[sample].gain = gain
     this.updateFamilyInStorage()
   }
+
   @action setSynthGain = (gain) => {
     this.synthGain = gain
   }
+
   @action setScore = (score) => {
     this.currentBeat.score = score
     this.currentLitNote = 0
@@ -578,7 +583,6 @@ class Store {
     if(wasPlaying){
       this.playingCurrentBeat = true
       this.resetNoteTimer()
-
     }
   }
 
@@ -593,7 +597,6 @@ class Store {
 
     this.currentLitNote = 0
     this.resetNoteTimer()
-    
   }
 }
 

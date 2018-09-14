@@ -115,9 +115,7 @@ class Arrangement extends Component {
   handleSelectArrangement = (evt) => {
     store.selectArrangement(parseInt(evt.target.value))
   }
-  handleAddArrangement = () => {
-    store.addArrangement()
-  }
+
   handleSelectBeatToAdd = (evt) => {
     this.setState({
       beatToAdd : evt.target.value
@@ -220,7 +218,7 @@ class Arrangement extends Component {
 
   randomizeBestBeats = () => {
     const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
-    if (store.arrangementBeats.length > 0) {
+    if (store.currentArrangement.length > 0) {
       if (confirm(confirmMessage)) {
         store.randomizeBestBeats()
       }
@@ -230,7 +228,7 @@ class Arrangement extends Component {
   }
   createSong = () => {
     const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
-    if (store.arrangementBeats.length > 0) {
+    if (store.currentArrangement.length > 0) {
       if (confirm(confirmMessage)) {
         store.createSong()
       }
@@ -238,25 +236,19 @@ class Arrangement extends Component {
       store.createSong()
     }
   }
+
   render() {
-    let arrangementOptions =  [
-        <option key="0" value={0}>
-          {'0'}
+    let arrangementOptions = []
+    store.arrangements.forEach((arrangement,index) => {
+      arrangementOptions.push(
+        <option key={index} value={index}>
+          {index}
         </option>
-    ]
-    if(store.arrangements.length > 0){
-      arrangementOptions = []
-      store.arrangements.forEach((arrangement,index) => {
-        arrangementOptions.push(
-          <option key={index} value={index}>
-            {index}
-          </option>
-        )
-      })
-    }
+      )
+    })
 
     let backgroundColor = ""
-    const beatBlocks = store.arrangementBeats.map( (beatKey, i) => {
+    const beatBlocks = store.currentArrangement.map( (beatKey, i) => {
       const highlight = (i === store.currentLitBeat && store.playingArrangement)
 
       return (
@@ -276,8 +268,8 @@ class Arrangement extends Component {
     })
 
     // get max subdivisions
-    const maxSubdivisions = this.getMaxSubdivisions(store.arrangementBeats)
-    const normalizedBeats = this.getNormalizedBeats(store.arrangementBeats, maxSubdivisions)
+    const maxSubdivisions = this.getMaxSubdivisions(store.currentArrangement)
+    const normalizedBeats = this.getNormalizedBeats(store.currentArrangement, maxSubdivisions)
     const finalArrangementBeat = this.concatenateBeats(normalizedBeats, maxSubdivisions)
     const beatKeyOptions = store.allBeatKeys.map((key) => {
       return (
@@ -302,7 +294,7 @@ class Arrangement extends Component {
             <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
             <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
             <Button onClick={this.createSong}>Create Song</Button>
-            <Button onClick={this.handleAddArrangement}>Add Arrangement</Button>
+            <Button onClick={store.addArrangement}>Add Arrangement</Button>
             <select
                   onChange={this.handleSelectArrangement}
                   value={store.currentArrangementIndex}
@@ -317,7 +309,7 @@ class Arrangement extends Component {
                 innerRef={provided.innerRef}
                 {...provided.droppableProps}
               >
-              
+
                 {beatBlocks}
                 {provided.placeholder}
 
@@ -337,7 +329,7 @@ class Arrangement extends Component {
                   beat       = {finalArrangementBeat}
                   playing    = {store.playingArrangement}
                   resolution = {maxSubdivisions}
-                  bars       = {store.arrangementBeats.length}
+                  bars       = {store.currentArrangement.length}
                 />
               </StyledArrangement>
             )}
