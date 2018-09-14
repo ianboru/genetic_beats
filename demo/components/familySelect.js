@@ -18,7 +18,7 @@ class FamilySelect extends Component {
   }
 
   render() {
-    const familyNamesOptions = store.familyNames.map((name) => {
+    let familyNamesOptions = store.familyNames.map((name) => {
       return (
         <option key={name} value={name}>
           {name}
