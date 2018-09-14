@@ -78,6 +78,9 @@ class Store {
     this.arrangements.push([])
     this.currentArrangementIndex = this.arrangements.length-1
     this.arrangementBeats = []
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
   }
   @action setHoveredBeat(beatKey){
     this.hoveredBeatKey = beatKey
@@ -219,6 +222,9 @@ class Store {
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
     const beatToMove = this.arrangementBeats.splice(currentIndex, 1)
     this.arrangementBeats.splice(destinationIndex, 0, beatToMove[0])
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
   }
   @action setCurrentSong = (song) => {
     this.currentSong = song
@@ -248,11 +254,17 @@ class Store {
   @action addBeatToArrangement = (beatKey) => {
     this.arrangementBeats.push(beatKey)
     this.updateArrangementInArrangements()
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
   }
 
   @action deleteBeatFromArrangement = (index) => {
     this.arrangementBeats.splice(index,1)
     this.updateArrangementInArrangements()
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
   }
 
   @action randomizeBestBeats = () => {
@@ -286,7 +298,9 @@ class Store {
       })
     })
     this.updateArrangementInArrangements()
-
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
   }
 
   @action createSong = () => {
@@ -375,7 +389,9 @@ class Store {
       }
     })
     this.updateArrangementInArrangements()
-
+    if(this.playingArrangement){
+      this.togglePlayArrangement()
+    }
   }
 
   @action addSample = (newSample) => {
