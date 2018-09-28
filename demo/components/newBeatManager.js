@@ -30,7 +30,7 @@ const NewBeatPanel = styled.div`
   display: inline-block;
   font-family: sans-serif;
   font-size: 16px;
-  left: -200px;
+  left: 0px;
   min-height: 200px;
   padding: 10px;
   position: absolute;
@@ -71,9 +71,13 @@ class NewBeatManager extends Component {
           resolution = {newBeatResolution}
         />
 
-        <Button active={this.state.show} onClick={this.toggleShow}>
-          {this.state.show ? "Hide" : ""} Create New Beat
+        <Button 
+          active  = {this.state.show}
+          onClick = {this.toggleShow}
+        >
+          + Beat
         </Button>
+
         <NewBeatPanel show={this.state.show}>
           <CreateBeat
             playing        = {store.playingNewBeat}

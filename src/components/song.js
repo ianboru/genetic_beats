@@ -111,7 +111,7 @@ export default class Song extends Component {
   }
   bufferLoaded() {
     console.log("buffer loaded")
-    
+
     if (Object.keys(this.buffers).length === 0) {
       this.setState({
         buffersLoaded: true,

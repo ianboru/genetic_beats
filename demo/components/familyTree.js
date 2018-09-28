@@ -72,7 +72,6 @@ class FamilyTree extends React.Component {
             score    : beat.score,
             size     : 1,
             isHovered : store.hoveredBeatKey == beat.key ? 1 : 0,
-
           }})
         })
         ++genNum

@@ -143,7 +143,6 @@ function generateFamilyName(){
   const familyName = Array(3).fill().map(() => {
     return words[Math.floor(Math.random() * words.length)]
   }).join("-") + " " + dateString
-  console.log(familyName)
   return familyName
 }
 

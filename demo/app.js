@@ -6,14 +6,25 @@ import styled from "styled-components"
 import SplitPane from "react-split-pane"
 
 import {
-  TiChevronLeft,
-  TiChevronRight,
-} from "react-icons/ti"
+  MdChevronLeft,
+  MdChevronRight,
+} from "react-icons/md"
 
 import store from "./store"
 import { mateGeneration, mateSelectedMembers} from "./generateChildren"
 import "./index.css"
 import {
+  blue,
+  burntOrange,
+  green,
+  itemBgColor,
+  lightBlue,
+  lighterBlue,
+  red,
+  salmon,
+  yellow,
+  lightGray,
+
   panelBackground,
   headerFooterBgColor,
 } from "./colors"
@@ -21,10 +32,11 @@ import {
 import Arrangement from "./components/arrangement"
 import Beat from "./components/beat"
 import Button from "./components/button"
-import ConfigManager from "./components/configManager"
+import ConfigControl from "./components/configControl"
 import NewBeatManager from "./components/newBeatManager"
 import FamilySelect from "./components/familySelect"
 import FamilyTree from "./components/familyTree"
+import MatingControls from "./components/matingControls"
 import Player from "./components/player"
 import StarRating from "./components/starRating"
 
@@ -54,6 +66,38 @@ const Footer = styled.div`
   box-sizing: border-box;
 `
 
+const BackgroundText = styled.div`
+  left: 10px;
+  top: 50px;
+  position: absolute;
+`
+
+const BigText = styled.div`
+  display: ${props => props.inlineBlock ? "inline-block" : "block"};
+  color: #555;
+  font-family: "Hind Madurai";
+  font-size: 50px;
+  vertical-align: middle;
+`
+
+const BeatOuterContainer = styled.div`
+  flex: 1;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`
+
+const BeatContainer = styled.div`
+  overflow: auto;
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+`
+
 const PanelLabel = styled.div`
   font-size: 28px;
   font-family: "Hind Madurai";
@@ -70,6 +114,7 @@ const InfoRow = styled.div`
   text-align: center;
   color: gray;
   font-size: 16px;
+  padding: 10px;
 `
 const Spacer = styled.div`
   height: ${props => props.height ? props.height : 10}px;
@@ -99,7 +144,7 @@ class App extends Component {
   }
 
   handleWindowResize = (e) => {
-    this.setState({ familyTreeHeight: e.target.innerHeight})
+    this.setState({ familyTreeHeight: e.target.innerHeight })
   }
 
   newFamilyTree = () => {
@@ -153,19 +198,20 @@ class App extends Component {
       reader.readAsDataURL(file)
     }
   }
+
   handleKeyPress = (e) => {
-    if(e.code == "Space"){
+    if (e.code == "Space") {
       e.preventDefault()
       store.togglePlay()
-    }else if(e.code =="ArrowRight"){
+    } else if (e.code == "ArrowRight") {
       store.nextBeat()
-    }else if(e.code =="ArrowLeft"){
+    } else if (e.code == "ArrowLeft") {
       store.prevBeat()
-    }  
-
+    }
   }
+
   render() {
-    const beat = [store.currentBeat].map( (beat) => {
+    const beat = ((beat) => {
       const keyInfo = beat.key.split(".")
       const generation = keyInfo[0]
       const beatNum = keyInfo[1]
@@ -173,13 +219,14 @@ class App extends Component {
       return (
         <Beat
           key               = {beat.key}
+          ref               = {r => { this.beat = r }}
           beat              = {beat}
           handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
           handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
           handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
         />
       )
-    })
+    })(store.currentBeat)
 
     //<input type="file" onChange={this.handleUploadSample} ></input>
     const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
@@ -189,7 +236,7 @@ class App extends Component {
         split       = "vertical"
         primary     = "second"
         defaultSize = {familyTreeWidth}
-        minSize     = {200}
+        minSize     = {400}
         maxSize     = {800}
         onChange    = { (size) => {
           this.setState( { familyTreeWidth : size })
@@ -197,57 +244,42 @@ class App extends Component {
         pane1Style={{backgroundColor: panelBackground}}
         pane2Style={{backgroundColor: panelBackground}}
       >
-        <SplitPane split="horizontal" defaultSize={300} minSize={300}>
-          <div style={{flex: 1}}>
-            <Player
-              beat       = {store.currentBeat}
-              playing    = {store.playingCurrentBeat}
-              resolution = {currentBeatResolution}
-            />
-            <Header>
-              <Button
-                active  = {store.playingCurrentBeat}
-                onClick = {store.togglePlayCurrentBeat}
-              >
-                {store.playingCurrentBeat ? 'Stop' : 'Play Current'}
-              </Button>
-
-              <NewBeatManager />
-
-              <ConfigManager right />
-
-              <Button
-                right
-                active  = {store.metronome}
-                onClick = {store.toggleMetronome}
-              >
-                Metronome
-              </Button>
-            </Header>
-
-            <div style={{overflow: "auto", textAlign: "center"}}>
-              {beat}
-            </div>
-            <Footer style={{textAlign: "center"}}>
-              <Button onClick={store.prevBeat}>
-                <TiChevronLeft style={{verticalAlign: "bottom"}} size={15} />
-                Previous Beat
-              </Button>
-
-              <StarRating
-                score = {store.currentBeat.score}
-                handleSetScore = { (score) => {
-                  store.setScore(score)
-                  store.nextBeat()
-                }}
+        <SplitPane split="horizontal" defaultSize={400} minSize={400}>
+          <BeatOuterContainer>
+            <BeatContainer>
+              <Player
+                beat       = {store.currentBeat}
+                playing    = {store.playingCurrentBeat}
+                resolution = {currentBeatResolution}
               />
 
-              <Button onClick={store.nextBeat}>
-                Next Beat
-                <TiChevronRight style={{verticalAlign: "bottom"}} size={15} />
-              </Button>
-            </Footer>
-          </div>
+              <Header>
+                <BigText inlineBlock>
+                  Beat
+                </BigText>
+
+                <NewBeatManager />
+              </Header>
+
+              <Header style={{textAlign: "center"}}>
+                <StarRating
+                  score = {store.currentBeat.score}
+                  handleSetScore = { (score) => {
+                    store.setScore(score)
+                    store.nextBeat()
+                  }}
+                />
+              </Header>
+
+              <div style={{
+                overflow: "auto",
+                background: itemBgColor,
+                borderTop: `1px solid ${lightGray}`,
+              }}>
+                {beat}
+              </div>
+            </BeatContainer>
+          </BeatOuterContainer>
 
           <div>
             <Header>
@@ -275,13 +307,26 @@ class App extends Component {
         <div>
           <Header>
             <PanelLabel>
-              Family Tree
-
-              <Button right large onClick={this.handleMate}>
+              <Button large color={[green]} onClick={this.handleMate}>
                 Mate
               </Button>
+
+              <Button
+                active  = {store.selectPairMode}
+                onClick = {store.toggleSelectPairMode}
+              >
+                Select beats to mate
+              </Button>
+
+              <MatingControls />
             </PanelLabel>
           </Header>
+
+          <BackgroundText>
+            <BigText>
+              Family Tree
+            </BigText>
+          </BackgroundText>
 
           <FamilyTree
             height     = {this.state.familyTreeHeight}
@@ -293,17 +338,6 @@ class App extends Component {
             <InfoRow>
               scroll to zoom
             </InfoRow>
-
-            <Spacer />
-
-            <div style={{textAlign:"center"}}>
-              <Button
-                active  = {store.selectPairMode}
-                onClick = {store.toggleSelectPairMode}
-              >
-                Select beats to mate
-              </Button>
-            </div>
           </Footer>
           {typeof DevTools !== "undefined" ? <DevTools /> : null}
         </div>

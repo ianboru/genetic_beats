@@ -2,14 +2,11 @@ John
 ----
 
 Beta:
-* Reorganize beat display: generation, beat, and score in bar above beat and prev/rate/next in bar below
 * "Add new beat to current generation" with select dropdown with options: "Empty beat", set of 
   templates that we give it, and all beats in current family tree
 * Current beat area starts with big button to add beat to current generation and message about where
   the button will be after using it the first time
 * Create new beat fucked
-* Space bar should toggle playing, not trigger other buttons
-* Reorganize all the buttons around current beat and make all config more accessible
 
 
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)

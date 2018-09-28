@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import styled from "styled-components"
+import chroma from "chroma-js"
 
 import {
   blue,
@@ -17,10 +18,13 @@ import {
 const buttonColor = blue
 const altColor = lighterBlue
 
-const Button = styled.button`
-  background-color: ${props => props.active ? altColor : buttonColor};
+const Button = styled.button.attrs({
+  color: props => props.color && props.color[0] || buttonColor,
+  altcolor: props => props.color && props.color[1] || props.color && props.color[0] && chroma(props.color[0]).brighten(0.5) || altColor,
+})`
+  background-color: ${props => props.color};
   border-radius: 3px;
-  border: 3px solid ${buttonColor};
+  border: 3px solid ${props => props.color};
   color: white;
   float: ${props => props.right ? "right" : props.left ? "left" : "none" };
   font-family: "Ubuntu";
@@ -32,7 +36,7 @@ const Button = styled.button`
   min-width: 100px;
 
   &:hover {
-    background: ${altColor};
+    background: ${props => props.altcolor};
     color: white;
   }
 `

@@ -3,16 +3,58 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import { toJS } from "mobx"
 
+import {
+  MdPlayArrow,
+  MdSkipNext,
+  MdSkipPrevious,
+  MdStop,
+} from "react-icons/md"
+
 import Button from "./button"
+import ConfigControl from "./configControl"
 
 import {allNotesInRange} from "../utils"
 
 import store from "../store"
 import {
-  itemBgColor,
   lightGray,
 } from "../colors"
 
+
+const StyledTempoControl = styled.div`
+  display: inline-block;
+
+  input[type="number"] {
+    width: 45px;
+    font-size: 16px;
+  }
+`
+
+@observer
+class TempoControl extends Component {
+  render() {
+    return (
+      <StyledTempoControl>
+        <BILabel>Tempo</BILabel>
+
+        <input
+          type     = "number"
+          value    = {store.tempo}
+          min      = {40}
+          max      = {200}
+          onChange = { e => store.setTempo(parseInt(e.target.value)) }
+        />
+      </StyledTempoControl>
+    )
+  }
+}
+
+
+const Column = styled.div`
+  display: table-cell;
+  text-align: ${props => props.textLeft ? "left" : "center"};
+  width: ${props => props.width ? props.width + "px" : "auto" };
+`
 
 @observer
 class GainSlider extends Component {
@@ -34,6 +76,7 @@ class GainSlider extends Component {
     }
     return (
       <input
+        style    = {{ verticalAlign: "middle", width: 80 }}
         type     = "range"
         min      = {0}
         max      = {100}
@@ -47,12 +90,13 @@ class GainSlider extends Component {
 
 const StyledNote = styled.div`
   background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
-  cursor: pointer;
-  margin: 3px;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
   border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  height: 20px;
+  margin: 3px;
+  font-size: 15px;
+  width: 20px;
 
   &:hover {
     background-color: ${props => props.active ? "lightpink" : props.on ? "#FF6666" : "darkgray" };
@@ -72,7 +116,7 @@ class Note extends Component {
         onMouseDown = {this.props.onClick}
         onMouseOver = {this.props.onMouseOver}
         className   = "note"
-      ></StyledNote>
+      >&nbsp;</StyledNote>
     )
   }
 }
@@ -81,7 +125,6 @@ const trackNameStyles = {
   display       : "inline-block",
   width         : 160,
   textAlign     : "center",
-  verticalAlign : "top",
 }
 
 
@@ -91,10 +134,11 @@ const RemoveTrackButton = styled.span`
   font-size: 30px;
   margin-left: 5px;
   position: relative;
-  top: -5px;
+  top: -12px;
   height: 15px;
   width: 15px;
   display: inline-block;
+  vertical-align: middle;
 
   &:hover {
     color: red;
@@ -102,30 +146,42 @@ const RemoveTrackButton = styled.span`
 `
 
 const MuteTrackButton = styled.span`
-  cursor: pointer;
-  margin: 3px;
-  height: 20px;
-  width: 20px;
-  color: black;
-  display: inline-block;
-  border-radius: 2px;
   background-color: ${props => props.active ? "orange" : "gray" };
-  vertical-align: top;
+  border-radius: 2px;
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  height: 20px;
+  margin: 3px;
+  margin-left: 10px;
+  width: 20px;
 
+  &:hover {
+    background-color: orange;
+  }
 `
 
 const SoloTrackButton = styled.span`
-  cursor: pointer;
-  margin: 3px;
-  height: 20px;
-  width: 20px;
-  color: black;
-  display: inline-block;
-  border-radius: 2px;
   background-color: ${props => props.active ? "green" : "gray" };
-  vertical-align: top;
+  border-radius: 2px;
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  height: 20px;
+  margin: 3px;
+  width: 20px;
 
+  &:hover {
+    background-color: green;
+  }
 `
+
+const StyledTrack = styled.div`
+  display: table-row;
+`
+
 
 @observer
 class Track extends Component {
@@ -157,7 +213,7 @@ class Track extends Component {
   renderSamplePreviewer = () => {
     return (
       <span>
-        <button style={{verticalAlign:"top"}} onClick={() => this.samplePreviewer.play()}>Play</button>
+        <button style={{verticalAlign:"middle"}} onClick={() => this.samplePreviewer.play()}>Play</button>
         <audio ref={ref => this.samplePreviewer = ref}>
           <source src={store.samples[this.props.track.sample].path}/>
         </audio>
@@ -226,43 +282,60 @@ class Track extends Component {
     }
 
     return (
-      <div className="track">
-        {track.trackType === "sampler" ? this.renderSamplePreviewer() : null}
+      <StyledTrack>
+        <Column>
+          {track.trackType === "sampler" ? this.renderSamplePreviewer() : null}
+        </Column>
 
-        <div style={trackNameStyles}>
-          <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={track.sample} onChange={this.handleSampleChange}>
-            {sampleOptions}
-          </select>
-        </div>
-        {notes}
-        <MuteTrackButton
-          active={activeMute}
-          onClick={()=>{this.props.handleMuteTrack(track)}}
-        >M</MuteTrackButton>
-        <SoloTrackButton
-          active={activeSolo}
-          onClick={()=>{this.props.handleSoloTrack(track)}}
-        >S</SoloTrackButton>
+        <Column>
+          <div style={trackNameStyles}>
+            <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={track.sample} onChange={this.handleSampleChange}>
+              {sampleOptions}
+            </select>
+          </div>
+        </Column>
 
-        <RemoveTrackButton
-          title   = {"Delete track}"}
-          onClick = {this.handleRemoveTrack}
-        >&times;</RemoveTrackButton>
-        <GainSlider sample={track.sample} trackType={track.trackType} />
-      </div>
+        <Column>
+          {notes}
+        </Column>
+
+        <Column>
+          <MuteTrackButton
+            active={activeMute}
+            onClick={()=>{this.props.handleMuteTrack(track)}}
+          >M</MuteTrackButton>
+
+          <SoloTrackButton
+            active={activeSolo}
+            onClick={()=>{this.props.handleSoloTrack(track)}}
+          >S</SoloTrackButton>
+        </Column>
+
+        <Column>
+          <GainSlider sample={track.sample} trackType={track.trackType} />
+        </Column>
+
+        <Column>
+          <RemoveTrackButton
+            className = "remove-track"
+            title     = {"Delete track}"}
+            onClick   = {this.handleRemoveTrack}
+          >&times;</RemoveTrackButton>
+        </Column>
+      </StyledTrack>
     )
   }
 }
 
 
 const StyledBeat = styled.div`
-  background: ${itemBgColor};
-  border-top: 1px solid ${lightGray};
+  display: table;
   position: relative;
+  margin: 0 auto;
 `
 
 const BeatInfo = styled.span`
-  margin: 10px;
+  margin: 0 10px;
 `
 
 const BILabel = styled.span`
@@ -275,31 +348,81 @@ const BIData = styled.span`
   margin: 4px;
 `
 
+const StyledPlayControls = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+
+  svg {
+    display: inline-block;
+    transition: 0.2s color;
+    vertical-align: middle;
+  }
+
+  svg:hover {
+    cursor: pointer;
+    color: lightgreen;
+  }
+`
+
+const ControlPanel = styled.div`
+  display: table-row;
+  width: 100%;
+`
+
+@observer
+class PlayControls extends Component {
+  static defaultProps = {
+    size: 40,
+  }
+
+  render() {
+    const {
+      size,
+    } = this.props
+
+    const PlayStopButton = store.playingCurrentBeat ? MdStop : MdPlayArrow
+
+    return (
+      <StyledPlayControls>
+        <MdSkipPrevious
+          size    = {size}
+          onClick = {store.prevBeat}
+        />
+        <PlayStopButton
+          size    = {size}
+          onClick = {store.togglePlayCurrentBeat}
+        />
+        <MdSkipNext
+          size    = {size}
+          onClick = {store.nextBeat}
+        />
+      </StyledPlayControls>
+    )
+  }
+}
+
 
 @observer
 class Beat extends Component {
   state = {
-    trackType : "sampler",
     mousedown : false,
     activeMuteAll : false,
     activeSoloAll : false,
   }
 
-  toggleTrackType = () => {
-    let newTrackType
-    if (this.state.trackType === "sampler") {
-      newTrackType = "synth"
-    } else {
-      newTrackType = "sampler"
-    }
-    this.setState({trackType : newTrackType })
+  handleAddSamplerTrack = () => {
+    this.handleAddTrack("sampler")
   }
 
-  handleAddTrack = () => {
+  handleAddSynthTrack = () => {
+    this.handleAddTrack("synth")
+  }
+
+  handleAddTrack = (trackType) => {
     const steps = this.props.beat.tracks[0].sequence.length
     let sample
 
-    if (this.state.trackType === "sampler") {
+    if (trackType === "sampler") {
       const beat = store.newBeat
       const beatSamples = this.props.beat.tracks.map( (track) => { return track.sample } )
       const unusedSamples = Object.keys(store.samples).filter( (key) => {
@@ -308,12 +431,11 @@ class Beat extends Component {
       })
 
       sample = unusedSamples[0]
-    } else if (this.state.trackType === "synth") {
+    } else if (trackType === "synth") {
       sample = allNotesInRange[0]
     }
 
     const sequence = Array(steps).fill(0)
-    const trackType = this.state.trackType
     store.addTrackToCurrentBeat({sample, sequence, trackType})
   }
 
@@ -435,34 +557,60 @@ class Beat extends Component {
 
     return (
       <StyledBeat>
-        <div>
-          <BeatInfo>
-            <BILabel>Beat</BILabel>
-            <BIData>{this.props.beat.key}</BIData>
-          </BeatInfo>
+        <ControlPanel>
+          <Column>
+            <Button
+              small
+              active  = {store.metronome}
+              onClick = {store.toggleMetronome}
+            >
+              Metronome
+            </Button>
+          </Column>
 
-          <BeatInfo>
-            <BILabel>Score</BILabel>
-            <BIData>{this.props.beat.score}</BIData>
-          </BeatInfo>
-        </div>
-        <MuteTrackButton
-          active={this.state.activeMuteAll}
-          onClick={()=>{this.handleMuteAll()}}
-        >M</MuteTrackButton>
-        <SoloTrackButton
-          active={this.state.activeSoloAll}
-          onClick={()=>{this.handleSoloAll()}}
-        >S</SoloTrackButton>
+          <Column>
+            <PlayControls />
+          </Column>
+
+          <Column textLeft>
+            <TempoControl />
+
+            <BeatInfo>
+              <BILabel>Beat</BILabel>
+              <BIData>{this.props.beat.key}</BIData>
+            </BeatInfo>
+
+            <BeatInfo>
+              <BILabel>Score</BILabel>
+              <BIData>{this.props.beat.score}</BIData>
+            </BeatInfo>
+          </Column>
+
+          <Column>
+            <MuteTrackButton
+              active={this.state.activeMuteAll}
+              onClick={()=>{this.handleMuteAll()}}
+            >M</MuteTrackButton>
+
+            <SoloTrackButton
+              active={this.state.activeSoloAll}
+              onClick={()=>{this.handleSoloAll()}}
+            >S</SoloTrackButton>
+          </Column>
+        </ControlPanel>
 
         {tracks}
 
-        <div>
-          <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
-            Add beat to arrangement
-          </Button>
-          <Button small onClick={this.handleAddTrack}>+ Add {this.state.trackType} track</Button>
-          <Button small onClick={this.toggleTrackType}>Toggle track type</Button>
+        <div style={{display:"table-row"}}>
+          <Column />
+          <Column />
+          <Column textLeft>
+            <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
+              Add beat to arrangement
+            </Button>
+            <Button small onClick={this.handleAddSamplerTrack}>+ Sampler track</Button>
+            <Button small onClick={this.handleAddSynthTrack}>+ Synth track</Button>
+          </Column>
         </div>
       </StyledBeat>
     )
