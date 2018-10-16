@@ -423,7 +423,6 @@ class Beat extends Component {
     let sample
 
     if (trackType === "sampler") {
-      const beat = store.newBeat
       const beatSamples = this.props.beat.tracks.map( (track) => { return track.sample } )
       const unusedSamples = Object.keys(store.samples).filter( (key) => {
         const sample = store.samples[key]

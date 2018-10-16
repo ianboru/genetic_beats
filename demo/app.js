@@ -90,7 +90,7 @@ const BeatOuterContainer = styled.div`
 `
 
 const BeatContainer = styled.div`
-  overflow: auto;
+  //overflow: auto;
   position: relative;
   top: 0;
   left: 0;
@@ -244,7 +244,7 @@ class App extends Component {
         pane1Style={{backgroundColor: panelBackground}}
         pane2Style={{backgroundColor: panelBackground}}
       >
-        <SplitPane split="horizontal" defaultSize={400} minSize={400}>
+        <SplitPane split="horizontal" defaultSize={600} minSize={600} maxSize={600}>
           <BeatOuterContainer>
             <BeatContainer>
               <Player

@@ -152,7 +152,6 @@ class FamilyTree extends React.Component {
       store.generation
       store.beatNum
       store.currentGeneration
-      store.newBeat
       store.hoveredBeatKey
       return <StyledFamilyTree
         id    = "cy"

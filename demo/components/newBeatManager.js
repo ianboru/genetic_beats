@@ -4,13 +4,13 @@ import styled from "styled-components"
 import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
-import CreateBeat from "./createBeat"
-import Player from "./player"
 
-
+import beatTemplates from "../beatTemplates"
 import store from "../store"
 import {
   blue,
+  green,
+  itemBgColor,
   lightBlue,
   panelBackground,
 } from "../colors"
@@ -22,7 +22,33 @@ const StyledNewBeatManager = styled.div`
   float: ${props => props.right ? "right" : props.left ? "left" : "none" };
 `
 
-const NewBeatPanel = styled.div`
+const BeatOptionHeader = styled.div`
+  font-weight bold;
+  margin: 8px 4px 12px;
+`
+
+const NewBeatOption = styled.div`
+  background-color: ${green};
+  border-radius: 3px;
+  border: 1px solid #555;
+  display: inline-block;
+  margin: 3px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${panelBackground};
+  }
+`
+
+const NewBeatHeader = styled.div`
+  font-size: 32px;
+  color: #666;
+  font-family: "Hind Madurai";
+`
+
+const StyledNewBeatPanel = styled.div`
   background-color: ${panelBackground};
   border-radius: 3px;
   border: 2px solid ${blue};
@@ -32,20 +58,29 @@ const NewBeatPanel = styled.div`
   font-size: 16px;
   left: 0px;
   min-height: 200px;
+  max-height: 600px;
   padding: 10px;
   position: absolute;
   top: 52px;
   visibility: ${props => props.show ? "visible" : "hidden"};
-  width: 800px;
+  width: 400px;
   z-index: 1;
 `
+
+
+@observer
+class NewBeatPanel extends Component {
+  render() {
+    return
+  }
+}
 
 
 @enhanceWithClickOutside
 @observer
 class NewBeatManager extends Component {
   state = {
-    show : false,
+    show : true,
   }
 
   toggleShow = () => {
@@ -57,33 +92,65 @@ class NewBeatManager extends Component {
   }
 
   render() {
-    let newBeatResolution
+    const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
+      return (
+        <option
+          key   = {stepCount}
+          value = {stepCount}
+        >{stepCount}</option>
+      )
+    })
 
-    if (store.newBeat.tracks.length > 0) {
-       newBeatResolution = store.newBeat.tracks[0].sequence.length
-    }
+    let copyOptions = store.allGenerations.map( (generation) => {
+      const generationOptions = generation.map( (beat) => {
+        return <NewBeatOption>{beat.key}</NewBeatOption>
+      })
+
+      return <div>{generationOptions}</div>
+    })
+
+    const presetOptions = beatTemplates.map( (beat) => {
+      return <NewBeatOption>{beat.name}</NewBeatOption>
+    })
 
     return (
       <StyledNewBeatManager left={this.props.left} right={this.props.right}>
-        <Player
-          beat       = {store.newBeat}
-          playing    = {store.playingNewBeat}
-          resolution = {newBeatResolution}
-        />
-
-        <Button 
+        <Button
           active  = {this.state.show}
           onClick = {this.toggleShow}
         >
           + Beat
         </Button>
 
-        <NewBeatPanel show={this.state.show}>
-          <CreateBeat
-            playing        = {store.playingNewBeat}
-            togglePlayBeat = {store.togglePlayBeat}
-          />
-        </NewBeatPanel>
+        <StyledNewBeatPanel show={this.state.show}>
+          <div>
+            <div>
+              <NewBeatHeader>
+                Add new beat from
+              </NewBeatHeader>
+
+              <NewBeatOption>Empty Beat</NewBeatOption>
+              with
+              <select
+                ref={(c) => { this.stepsSelect = c }}
+                defaultValue={16}
+                style={{
+                  fontSize: 20,
+                  color: "white",
+                }}
+              >
+                {stepOptions}
+              </select>
+              steps
+
+              <BeatOptionHeader>Presets</BeatOptionHeader>
+              {presetOptions}
+
+              <BeatOptionHeader>From Family Tree</BeatOptionHeader>
+              {copyOptions}
+            </div>
+          </div>
+        </StyledNewBeatPanel>
       </StyledNewBeatManager>
     )
   }

@@ -1,6 +1,6 @@
 import { action, configure, computed, observable, toJS } from "mobx"
 
-import initialGeneration from "./initialGeneration"
+import beatTemplates from "./beatTemplates"
 import samples from "./samples"
 import { generateFamilyName, getNormalProbability, calculateSampleDifference } from "./utils"
 
@@ -17,10 +17,9 @@ class Store {
   // STATE
   //
   @observable hoveredBeatKey     = ""
-  @observable newBeat            = { tracks: [] }
   @observable beatNum            = 0
   @observable generation         = 0
-  @observable allGenerations     = [initialGeneration]
+  @observable allGenerations     = [beatTemplates]
   @observable samples            = samples
   @observable synthGain          = 0.5
   @observable synthGainCorrection= 2
@@ -32,7 +31,6 @@ class Store {
   @observable sampleMutationRate = 15
   @observable noteMutationRate   = 8
   @observable playingCurrentBeat = false
-  @observable playingNewBeat     = false
   @observable playingArrangement = false
   @observable numSurvivors       = 6
   @observable numChildren        = 3
@@ -239,7 +237,6 @@ class Store {
   @action togglePlayCurrentBeat = () => {
     this.spaceButtonTarget = "currentBeat"
     this.playingCurrentBeat = !this.playingCurrentBeat
-    this.playingNewBeat = false
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
     this.resetNoteTimer()
@@ -252,16 +249,10 @@ class Store {
       this.togglePlayArrangement()
     }
   }
-  @action togglePlayNewBeat = () => {
-    this.playingCurrentBeat = false
-    this.playingNewBeat = !this.playingNewBeat
-    this.playingArrangement = false
-  }
 
   @action togglePlayArrangement = () => {
     this.spaceButtonTarget = "currentArrangement"
     this.playingCurrentBeat = false
-    this.playingNewBeat = false
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
     this.resetArrangementTimer()
@@ -517,37 +508,17 @@ class Store {
     this.metronome = !this.metronome
   }
 
-  @action resetNewBeat = () => {
-    this.newBeat = { tracks: [] }
-  }
-
-  @action addNewBeatToCurrentGen = () => {
+  @action addBeatToCurrentGen = () => {
     this.allGenerations[this.generation].push({
-      ...this.newBeat,
+      ...this.currentBeat,
+      //...this.newBeat,
       key: `${this.generation}.${this.currentGeneration.length}`,
       score: 0,
     })
-
-    this.resetNewBeat()
   }
 
-  @action addTrackToNewBeat = (track) => {
-    this.newBeat.tracks.push(track)
-  }
   @action addTrackToCurrentBeat = (track) => {
     this.currentBeat.tracks.push(track)
-  }
-  @action toggleNoteOnNewBeat = (trackNum, note) => {
-    const newNote = this.newBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    this.newBeat.tracks[trackNum].sequence[note] = newNote
-  }
-
-  @action setSampleOnNewBeat = (trackNum, sample) => {
-    this.newBeat.tracks[trackNum].sample = sample
-  }
-
-  @action removeTrackFromNewBeat = (trackNum) => {
-    this.newBeat.tracks.splice(trackNum, 1)
   }
 
   @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
