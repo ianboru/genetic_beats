@@ -151,7 +151,7 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
 
   //catalogue number of samples playing on each step
   let samplerNotesPerStep =  Array(beat.tracks[0].sequence.length).fill(0)
-  const exponentialConstant = 10
+  const exponentialConstant = 1.5
   const numSamplesBeforeMutating = 2
   beat.tracks.forEach((track)=>{
     if(track.trackType == "sampler"){
@@ -162,24 +162,37 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
       })
     }
   })
+  let samplerDensityPerStep = Array(beat.tracks[0].sequence.length).fill(0)
+  samplerNotesPerStep.forEach((numNotes,index)=>{
+    if(index > 0){
 
+        samplerDensityPerStep[index] = (samplerNotesPerStep[index] + samplerNotesPerStep[index-1])/ (2*beat.tracks.length)
+    }else{
+        samplerDensityPerStep[index] = samplerNotesPerStep[index]/beat.tracks.length
+    }
+  })
   //roll dice turn off notes if too many samples are playing
   beat.tracks.forEach((track)=>{
     if(track.trackType == "sampler"){
       track.sequence.forEach((note, index)=>{
         if(note == 1){
           let randomInteger = Math.floor(Math.random() * 100)
-          //start decreasing probability of leaving a note after N samples
-          let leaveNoteProbability = Math.pow(Math.E, -1*(samplerNotesPerStep[index]-numSamplesBeforeMutating)/exponentialConstant)*100
+          let leaveNoteProbability = Math.pow(Math.E, -1*(samplerDensityPerStep[index])/exponentialConstant)*100
+          console.log(samplerDensityPerStep[index], leaveNoteProbability, randomInteger)
           if(randomInteger > leaveNoteProbability){
             track.sequence[index] = 0
-            --samplerNotesPerStep[index]
+            if(index < track.sequence.length-1){
+
+                samplerDensityPerStep[index+1] = samplerDensityPerStep[index+1] - (1/ (2*beat.tracks.length))
+            }
           }
         }
       })
     }
-
-    mutatedBeat.tracks.push(track)
+    if(track.sequence.includes(1)){
+      mutatedBeat.tracks.push(track)
+    }
+   
   })
   return mutatedBeat
 }
@@ -275,6 +288,7 @@ const matePair = (momBeat, dadBeat) => {
     childBeat = mutateByKillTrack(childBeat)
   }
   childBeat = mutateByAddTrack(childBeat)
+  console.log(childBeat)
   childBeat = mutateSamplersByMusicalEnhancement(childBeat)
   childBeat = mutateSynthsByMusicalEnhancement(childBeat)
 
@@ -285,6 +299,7 @@ const mateMembers = (members)=> {
   let nextGeneration = []
   members.forEach( (momBeat, momIndex) => {
     members.slice(momIndex+1).forEach( (dadBeat, dadIndex) => {
+      console.log("indices", momIndex, dadIndex+momIndex+1)
       if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
         dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
       } else {

@@ -121,4 +121,44 @@ export default {
     solo: false,
   },
 
+  "samples/ff7_vince_guit1.wav": {
+    name: "ff7_vince_guit1",
+    path: staticFilePath + "samples/ff7_vince_guit1.wav",
+    gain: 0.5,
+    mute: false,
+    solo: false,
+  },
+
+  "samples/ff7_vince_guit2.wav": {
+    name: "ff7_vince_guit2",
+    path: staticFilePath + "samples/ff7_vince_guit2.wav",
+    gain: 0.5,
+    mute: false,
+    solo: false,
+  },
+
+  "samples/ff7_vince_guit3.wav": {
+    name: "ff7_vince_guit3",
+    path: staticFilePath + "samples/ff7_vince_guit3.wav",
+    gain: 0.5,
+    mute: false,
+    solo: false,
+  },
+
+  "samples/ff7_vince_guit4.wav": {
+    name: "ff7_vince_guit4",
+    path: staticFilePath + "samples/ff7_vince_guit4.wav",
+    gain: 0.5,
+    mute: false,
+    solo: false,
+  },
+
+  "samples/ff7_vince_guit5.wav": {
+    name: "ff7_vince_guit5",
+    path: staticFilePath + "samples/ff7_vince_guit5.wav",
+    gain: 0.5,
+    mute: false,
+    solo: false,
+  },
+
 }
