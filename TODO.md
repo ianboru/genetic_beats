@@ -2,7 +2,7 @@ John
 ----
 
 Beta:
-* "Add new beat to current generation" with select dropdown with options: "Empty beat", set of 
+* "Add new beat to current generation" with select dropdown with options: "Empty beat", set of
   templates that we give it, and all beats in current family tree
 * Current beat area starts with big button to add beat to current generation and message about where
   the button will be after using it the first time
@@ -17,6 +17,7 @@ Beta:
 * (up)Load all existing samples
 * Disable text select anywhere user swipe, click quickly, or drag & drop
 * Arrangement needs to be on one line (scroll) because of react-beautiful-dnd limitations
+* Refactor track/sample/synth so that synths are one track, other benefits
 
 * Concept of active beat, selected beats, non-selected beats
     * By default, selected beats are the current gen and next/prev iterate through them
@@ -46,6 +47,16 @@ Next Beta
 Up For Grabs
 ------------
 
+Beta:
+* Letting user know what a beat/track is (in terms of what the buttons do)
+* Play/Mute/Solo should really work for synth
+* Color generation and beat number inside of cytoscape nodes to distinguish them
+* Color stars same as node rating color
+* Randomize Best Beats and Create Song should be two options under the same action
+  ("Generate Arrangement") show song "contour" or more info in a tooltip
+* Big magic button for "Create New Arrangement"
+
+
 * Add ability to rename current family
 * Starting counting from 1 rather than 0 for generation/beatnum
 * Didn't notice track type synth right away
@@ -72,3 +83,32 @@ Future potential
     * Make it possible to add two of same sample for now?
 * Add config options in general for random arrangement
 * Effects for synth
+
+
+Aryn and Josh User Test
+-----------------------
+
+* Undo would be great
+* Piano UI for synth would be dope
+* Mute/Solo bugs still?
+* Way to export
+* More continuous melody sound (might go w Piano visualization)?
+* Node ids are confusing ("is that what I rated it?")
+    * Wish there were metadata of some kind around the node
+    * Improve node colors to indicate meaning (aka how well it was rated)
+* What does arrangement mean? Arrangement of beats?
+    * Beat terminology confusing. The whole thing being a beat isn't totally obvious.
+* Arrangement UI sucks
+* Tried to drag cytoscape node to arrangement
+* Wrong UI component for adding beats to arrangement
+* Hide arrangement until user is ready to user it (and don't show in a sliding panel?)
+* Randomize best beats and Create song functions not obvious
+* Don't loop arrangement by default, but allow that ability
+* Create song warning message is not clear
+* (John Note) Fluctuations in complexity seem extreme and unpredictable
+* Add ability to choose which beats from each generation are used in an arrangement somehow
+    * To exclude beats that don't "flow" well, even if they aren't poorly rated
+    * Principle:
+      * rating is trying to account for 2 things:
+        * how good a beat is
+        * how good it is in the context of an arrangement with the other generated beats
