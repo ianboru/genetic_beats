@@ -103,11 +103,8 @@ class Store {
       track.mute = newState
       if(newState){
         track.solo = lastState
-        this.synthSolo = lastState
-
       }
     })
-    this.synthMute = newState
   }
 
   @action toggleSoloAll = (lastState) => {
@@ -116,10 +113,8 @@ class Store {
       track.solo = newState
       if(newState){
         track.mute = lastState
-        this.synthMute = lastState
       }
     })
-    this.synthSolo = newState
     if(lastState){
       this.numSolo = 0
     }else{
@@ -133,57 +128,30 @@ class Store {
         track.mute = true
       }
     })
-    if(!this.synthSolo){
-      this.synthMute = true
-    }
   }
   @action unmuteUnsoloAll = () => {
     this.currentBeat.tracks.forEach((track)=>{
       track.mute = false
       track.solo = false
     })
-    this.synthMute = false
-    this.synthSolo = false
   }
   @action handleMuteTrack = (track) => {
     if(this.numSolo == 0){
-      if(track.trackType == "sampler"){
-          track.mute = !track.mute
-      }else{
-          this.synthMute = !this.synthMute
-      }
+      track.mute = !track.mute
     }
   }
   @action handleSoloTrack = (track) => {
-    if(track.trackType == "sampler"){
-      track.solo = !track.solo
-      if(track.solo){
-        ++this.numSolo
-        track.mute = false
-        // mute all samples and synth besides solo ones
-        this.muteUnsolod()
-      }else{
-        --this.numSolo
-        track.mute = true
-        if(this.numSolo == 0){
-          this.toggleMuteAll(true)
-        }
-      }
+    track.solo = !track.solo
+    if(track.solo){
+      ++this.numSolo
+      track.mute = false
+      // mute all samples and synth besides solo ones
+      this.muteUnsolod()
     }else{
-      if(!this.synthSolo){
-        ++this.numSolo
-        this.synthSolo = true
-        this.synthMute = false
-        this.muteUnsolod()
-      }else{
-        --this.numSolo
-        this.synthSolo = false
-        if(this.numSolo > 0){
-          this.synthMute = true
-        }
-        if(this.numSolo == 0){
-          this.toggleMuteAll(true)
-        }
+      --this.numSolo
+      track.mute = true
+      if(this.numSolo == 0){
+        this.toggleMuteAll(true)
       }
     }
   }

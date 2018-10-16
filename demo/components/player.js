@@ -16,7 +16,7 @@ const generateSamplers = (beat, samples) => {
   let samplers = beat.tracks.map((track, i) => {
     if(track.trackType == "synth"){
       track.sequence.forEach((note, j) => {
-        if (note === 1) { 
+        if (note === 1 && !track.mute) { 
           convertedSynthSequence.push([j, 2, track.sample]) 
         }
       })
@@ -38,7 +38,7 @@ const generateSamplers = (beat, samples) => {
       key   = {"synth" + store.generation + "."+ store.beatNum}
       type  = {"square"}
       steps = {convertedSynthSequence}
-      gain  = {store.synthMute ? 0 : store.synthGain/store.synthGainCorrection}
+      gain  = {store.synthGain/store.synthGainCorrection}
     />
   ) 
 

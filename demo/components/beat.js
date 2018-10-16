@@ -253,13 +253,9 @@ class Track extends Component {
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
     let activeSolo
     let activeMute
-    if(track.trackType == "sampler"){
-      activeMute = track.mute
-      activeSolo = track.solo
-    }else{
-      activeMute = store.synthMute
-      activeSolo = store.synthSolo
-    }
+    activeMute = track.mute
+    activeSolo = track.solo
+    console.log(toJS(track))
     let sampleOptions = Object.keys(store.samples).map( (key) => {
       const sample = store.samples[key]
       return (
@@ -487,20 +483,13 @@ class Beat extends Component {
     let numSamples = 0
     let numSynth = 0
     this.props.beat.tracks.forEach((track)=>{
-      if(track.trackType == "sampler"){
-        if(track.mute){
-          ++numMutedSamples
-        }
-        ++numSamples
-      }else{
-        ++numSynth
+      if(track.mute){
+        ++numMutedSamples
       }
+      ++numSamples
     })
-    let synthComparitor = true
-    if(numSynth > 0 && !store.synthMute){
-      synthComparitor = false
-    }
-    if(numMutedSamples == numSamples && synthComparitor){
+
+    if(numMutedSamples == numSamples){
       this.setState({
         activeMuteAll : true
       })
@@ -518,20 +507,13 @@ class Beat extends Component {
     let numSamples = 0
     let numSynth = 0
     this.props.beat.tracks.forEach((track)=>{
-      if(track.trackType == "sampler"){
-        if(track.solo){
-          ++numSoloSamples
-        }
-        ++numSamples
-      }else{
-        ++numSynth
+      if(track.solo){
+        ++numSoloSamples
       }
+      ++numSamples
     })
-    let synthComparitor = true
-    if(numSynth > 0 && !store.synthSolo){
-      synthComparitor = false
-    }
-    if(numSoloSamples == numSamples && synthComparitor){
+    
+    if(numSoloSamples == numSamples){
       this.setState({
         activeSoloAll : true
       })
