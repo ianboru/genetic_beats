@@ -153,6 +153,11 @@ class FamilyTree extends React.Component {
       store.beatNum
       store.currentGeneration
       store.hoveredBeatKey
+
+      store.allGenerations.forEach( (generation) => {
+        generation.forEach( (beat) => { beat })
+      })
+
       return <StyledFamilyTree
         id    = "cy"
         style = {{

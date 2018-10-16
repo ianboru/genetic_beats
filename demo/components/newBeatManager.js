@@ -6,6 +6,8 @@ import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
 
+import { deepClone } from "../utils"
+
 import beatTemplates from "../beatTemplates"
 import store from "../store"
 import {
@@ -92,6 +94,15 @@ class NewBeatManager extends Component {
     this.setState({ show: false })
   }
 
+  addEmptyBeat = () => {
+    let emptyBeat = {
+      name   : "",
+      tracks : [],
+    }
+
+    //store.addBeatToCurrentGen(emptyBeat)
+  }
+
   render() {
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -102,16 +113,30 @@ class NewBeatManager extends Component {
       )
     })
 
-    let copyOptions = store.allGenerations.map( (generation) => {
-      const generationOptions = generation.map( (beat) => {
-        return <NewBeatOption>{beat.key}</NewBeatOption>
+    let copyOptions = store.allGenerations.map( (generation, i) => {
+      const generationOptions = generation.map( (beat, i) => {
+        return (
+          <NewBeatOption
+            key={i}
+            onClick={() => { store.addBeatToCurrentGen(beat) }}
+          >
+            {beat.key}
+          </NewBeatOption>
+        )
       })
 
-      return <div>{generationOptions}</div>
+      return <div key={i}>{generationOptions}</div>
     })
 
-    const presetOptions = beatTemplates.map( (beat) => {
-      return <NewBeatOption>{beat.name}</NewBeatOption>
+    const presetOptions = beatTemplates.map( (beat, i) => {
+      return (
+        <NewBeatOption
+          key={i}
+          onClick={() => { store.addBeatToCurrentGen(beat) }}
+        >
+          {beat.name}
+        </NewBeatOption>
+      )
     })
 
     return (
@@ -130,7 +155,7 @@ class NewBeatManager extends Component {
                 Add new beat from
               </NewBeatHeader>
 
-              <NewBeatOption>Empty Beat</NewBeatOption>
+              <NewBeatOption onClick={this.addEmptyBeat}>Empty Beat</NewBeatOption>
               with
               <select
                 ref={(c) => { this.stepsSelect = c }}

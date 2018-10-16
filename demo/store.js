@@ -2,7 +2,12 @@ import { action, configure, computed, observable, toJS } from "mobx"
 
 import beatTemplates from "./beatTemplates"
 import samples from "./samples"
-import { generateFamilyName, getNormalProbability, calculateSampleDifference } from "./utils"
+import {
+  deepClone,
+  generateFamilyName,
+  getNormalProbability,
+  calculateSampleDifference ,
+} from "./utils"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
@@ -508,13 +513,16 @@ class Store {
     this.metronome = !this.metronome
   }
 
-  @action addBeatToCurrentGen = () => {
+  @action addBeatToCurrentGen = (beat) => {
+    let newBeatNum = this.currentGeneration.length
+
     this.allGenerations[this.generation].push({
-      ...this.currentBeat,
-      //...this.newBeat,
-      key: `${this.generation}.${this.currentGeneration.length}`,
+      ...deepClone(beat),
+      key: `${this.generation}.${newBeatNum}`,
       score: 0,
     })
+
+    this.beatNum = newBeatNum
   }
 
   @action addTrackToCurrentBeat = (track) => {

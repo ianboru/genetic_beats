@@ -90,7 +90,6 @@ const BeatOuterContainer = styled.div`
 `
 
 const BeatContainer = styled.div`
-  //overflow: auto;
   position: relative;
   top: 0;
   left: 0;
