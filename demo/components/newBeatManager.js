@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import chroma from "chroma-js"
 import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
@@ -28,7 +29,7 @@ const BeatOptionHeader = styled.div`
 `
 
 const NewBeatOption = styled.div`
-  background-color: ${green};
+  background-color: ${chroma(green).darken(0.1)};
   border-radius: 3px;
   border: 1px solid #555;
   display: inline-block;
@@ -38,7 +39,7 @@ const NewBeatOption = styled.div`
   transition: all 0.2s;
 
   &:hover {
-    background-color: ${panelBackground};
+    background-color: ${chroma("green").brighten(1.2)};
   }
 `
 
@@ -134,10 +135,7 @@ class NewBeatManager extends Component {
               <select
                 ref={(c) => { this.stepsSelect = c }}
                 defaultValue={16}
-                style={{
-                  fontSize: 20,
-                  color: "white",
-                }}
+                style={{ fontSize: 20 }}
               >
                 {stepOptions}
               </select>
