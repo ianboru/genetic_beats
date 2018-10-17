@@ -2,6 +2,12 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import { toJS } from "mobx"
+import {
+  Song,
+  Sequencer,
+  Sampler,
+  Synth,
+} from "../../src"
 
 import {
   MdPlayArrow,
@@ -210,15 +216,46 @@ class Track extends Component {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
 
+
   renderSamplePreviewer = () => {
-    return (
-      <span>
-        <button style={{verticalAlign:"middle"}} onClick={() => this.samplePreviewer.play()}>Play</button>
-        <audio ref={ref => this.samplePreviewer = ref}>
-          <source src={store.samples[this.props.track.sample].path}/>
-        </audio>
-      </span>
-    )
+    console.log("rendering previews")
+    console.log(toJS(this.props.track))
+    if(this.props.track.trackType == "synth"){
+      return(
+          <span>
+            <button style={{verticalAlign:"middle"}} onClick={store.toggleTrackPreviewer(this.props.track.sample)}>Play</button>
+            <Song
+              playing = {store.trackPreviewers[this.props.track.sample]}
+              tempo   = {store.tempo}
+              ref     = {(c)=>{this.song=c}}
+            >
+              <Sequencer
+                bars       = {1}
+                resolution = {4}
+              >
+                <Synth
+                  key   = {this.props.track.key + "synth"}
+                  type  = {"square"}
+                  steps = {[[0, 2, this.props.track.sample]]}
+                  gain  = {store.synthGain/store.synthGainCorrection}
+                />
+              </Sequencer>
+            </Song>
+          </span>
+          
+
+      )
+    }else{
+      return (
+        <span>
+          <button style={{verticalAlign:"middle"}} onClick={() => this.samplePreviewer.play()}>Play</button>
+          <audio ref={ref => this.samplePreviewer = ref}>
+            <source src={store.samples[this.props.track.sample].path}/>
+          </audio>
+        </span>
+      )
+    }
+    
   }
 
   render() {
@@ -255,7 +292,6 @@ class Track extends Component {
     let activeMute
     activeMute = track.mute
     activeSolo = track.solo
-    console.log(toJS(track))
     let sampleOptions = Object.keys(store.samples).map( (key) => {
       const sample = store.samples[key]
       return (
@@ -280,7 +316,7 @@ class Track extends Component {
     return (
       <StyledTrack>
         <Column>
-          {track.trackType === "sampler" ? this.renderSamplePreviewer() : null}
+          {this.renderSamplePreviewer()}
         </Column>
 
         <Column>

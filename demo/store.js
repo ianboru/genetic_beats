@@ -45,6 +45,7 @@ class Store {
   @observable tempo              = 100
   @observable metronome          = false
   @observable arrangements       = [ [] ]
+  @observable trackPreviewers    = {}
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
   @observable noteTimer
@@ -81,6 +82,16 @@ class Store {
   //
   // ACTIONS
   //
+
+  @action toggleTrackPreviewer = (index)=> {
+    console.log("played")
+    this.trackPreviewers[index] = !this.trackPreviewers[index]
+    if(this.trackPreviewers[index]){
+      setTimeout(()=>{
+        this.toggleTrackPreviewer([index]) 
+      }, 1000)
+    } 
+  }
   @action addArrangement = () => {
     this.arrangements.push([])
     this.currentArrangementIndex = this.arrangements.length-1
@@ -145,7 +156,6 @@ class Store {
     if(track.solo){
       ++this.numSolo
       track.mute = false
-      // mute all samples and synth besides solo ones
       this.muteUnsolod()
     }else{
       --this.numSolo
@@ -482,6 +492,9 @@ class Store {
   }
 
   @action addBeatToCurrentGen = (beat) => {
+    this.currentBeat.tracks.forEach((track)=>{
+      this.trackPreviewers[track.sample] = false
+    })
     let newBeatNum = this.currentGeneration.length
 
     this.allGenerations[this.generation].push({
@@ -494,6 +507,9 @@ class Store {
   }
 
   @action addTrackToCurrentBeat = (track) => {
+    this.currentBeat.tracks.forEach((track)=>{
+      this.trackPreviewers[track.sample] = false
+    })
     this.currentBeat.tracks.push(track)
   }
 
@@ -542,6 +558,9 @@ class Store {
       this.playingCurrentBeat = true
       this.resetNoteTimer()
     }
+    this.currentBeat.tracks.forEach((track)=>{
+      this.trackPreviewers[track.sample] = false
+    })
   }
 
   @action prevBeat = () => {
@@ -555,6 +574,9 @@ class Store {
 
     this.currentLitNote = 0
     this.resetNoteTimer()
+    this.currentBeat.tracks.forEach((track)=>{
+      this.trackPreviewers[track.sample] = false
+    })
   }
 }
 
