@@ -223,7 +223,10 @@ class Track extends Component {
     if(this.props.track.trackType == "synth"){
       return(
           <span>
-            <button style={{verticalAlign:"middle"}} onClick={store.toggleTrackPreviewer(this.props.track.sample)}>Play</button>
+            <button
+              style   = {{verticalAlign:"middle"}}
+              onClick = {() => {store.toggleTrackPreviewer(this.props.track.sample) }}
+            >Play</button>
             <Song
               playing = {store.trackPreviewers[this.props.track.sample]}
               tempo   = {store.tempo}
@@ -242,7 +245,7 @@ class Track extends Component {
               </Sequencer>
             </Song>
           </span>
-          
+
 
       )
     }else{
@@ -255,7 +258,7 @@ class Track extends Component {
         </span>
       )
     }
-    
+
   }
 
   render() {
@@ -548,7 +551,7 @@ class Beat extends Component {
       }
       ++numSamples
     })
-    
+
     if(numSoloSamples == numSamples){
       this.setState({
         activeSoloAll : true
