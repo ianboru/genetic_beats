@@ -2,12 +2,8 @@ John
 ----
 
 Beta:
-* "Add new beat to current generation" with select dropdown with options: "Empty beat", set of
-  templates that we give it, and all beats in current family tree
 * Current beat area starts with big button to add beat to current generation and message about where
   the button will be after using it the first time
-* Create new beat fucked
-
 
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
@@ -24,6 +20,9 @@ Beta:
     * Select mode lets user select arbitrary set of beats
     * Active beat shown in red, selected beats shown as normal, non-selected beats grayed out somewhat
     * Prior generations are "selected" by activating a beat in that generation
+
+Note:
+* Can the synth preview not use global state?
 
 
 Ian
