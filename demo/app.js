@@ -123,6 +123,66 @@ const familyTreeWidth = 440
 
 
 @observer
+class BeatDisplay extends Component {
+  render() {
+    const beat = ((beat) => {
+      if (beat) {
+        const keyInfo = beat.key.split(".")
+        const generation = keyInfo[0]
+        const beatNum = keyInfo[1]
+
+        return (
+          <Beat
+            key               = {beat.key}
+            ref               = {r => { this.beat = r }}
+            beat              = {beat}
+            handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
+            handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
+            handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
+          />
+        )
+      } else {
+        <div>
+        </div>
+      }
+    })(store.currentBeat)
+
+    if (!beat) {
+      return (
+        <div style={{ textAlign: "center" }}>
+          nothing rn
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        <Header style={{
+          borderTop: `1px solid ${lightGray}`,
+          textAlign: "center",
+        }}>
+          <StarRating
+            score = {store.currentBeat.score}
+            handleSetScore = { (score) => {
+              store.setScore(score)
+              store.nextBeat()
+            }}
+          />
+        </Header>
+
+        <div style={{
+          overflow: "auto",
+          background: itemBgColor,
+        }}>
+          {beat}
+        </div>
+      </div>
+    )
+  }
+}
+
+
+@observer
 class App extends Component {
   constructor(props) {
     super(props)
@@ -210,25 +270,7 @@ class App extends Component {
   }
 
   render() {
-    const beat = ((beat) => {
-      const keyInfo = beat.key.split(".")
-      const generation = keyInfo[0]
-      const beatNum = keyInfo[1]
-
-      return (
-        <Beat
-          key               = {beat.key}
-          ref               = {r => { this.beat = r }}
-          beat              = {beat}
-          handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
-          handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
-          handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
-        />
-      )
-    })(store.currentBeat)
-
     //<input type="file" onChange={this.handleUploadSample} ></input>
-    const currentBeatResolution = store.currentBeat.tracks[0].sequence.length
     return (
       <SplitPane
         onKeyPress={this.handleKeyPress}
@@ -249,7 +291,7 @@ class App extends Component {
               <Player
                 beat       = {store.currentBeat}
                 playing    = {store.playingCurrentBeat}
-                resolution = {currentBeatResolution}
+                resolution = {store.currentBeatResolution}
               />
 
               <Header>
@@ -260,23 +302,7 @@ class App extends Component {
                 <NewBeatManager />
               </Header>
 
-              <Header style={{textAlign: "center"}}>
-                <StarRating
-                  score = {store.currentBeat.score}
-                  handleSetScore = { (score) => {
-                    store.setScore(score)
-                    store.nextBeat()
-                  }}
-                />
-              </Header>
-
-              <div style={{
-                overflow: "auto",
-                background: itemBgColor,
-                borderTop: `1px solid ${lightGray}`,
-              }}>
-                {beat}
-              </div>
+              <BeatDisplay />
             </BeatContainer>
           </BeatOuterContainer>
 
