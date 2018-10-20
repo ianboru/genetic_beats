@@ -20,15 +20,12 @@ const StyledMatingControls = styled.div`
   float: ${props => props.right ? "right" : props.left ? "left" : "none" };
 `
 
-const ControlsHeader = styled.div.attrs({
-  topMargin: props => props.topMargin == null ? true : props.topMargin,
-})`
+const ControlsHeader = styled.div`
   display: inline-block;
   font-size: 18px;
   font-family: "Hind Madurai";
   margin: 6px;
-  margin-top: ${props => props.topMargin ? "18px" : 0 };
-
+  margin-top: ${props => (props.topMargin == null || props.topMargin) ? "18px" : 0 };
 `
 
 
