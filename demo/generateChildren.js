@@ -315,6 +315,24 @@ const mateMembers = (members)=> {
 
   return nextGeneration
 }
+const mitosis = (originalBeat) => {
+  let newBeat = JSON.parse(JSON.stringify(toJS(originalBeat)))
+  console.log(toJS(newBeat))
+  let mutatedTracks = []
+  newBeat.tracks.forEach((track)=>{
+    track.sequence = mutateSequence(track.sequence)
+    mutatedTracks.push(track)
+  })
+  newBeat.tracks = mutatedTracks
+  if (originalBeat.tracks.length > 1) {
+    newBeat = mutateByKillTrack(newBeat)
+  }
+  newBeat = mutateByAddTrack(newBeat)
+  console.log(newBeat)
+  newBeat = mutateSamplersByMusicalEnhancement(newBeat)
+  newBeat = mutateSynthsByMusicalEnhancement(newBeat)
+  return newBeat
+}
 const mateSelectedMembers = (members) => {
   const nextGeneration = mateMembers(members)
   const survivingMembers = selectSurvivors(nextGeneration)
@@ -340,5 +358,6 @@ const mateGeneration = (generation) => {
 
 export {
   mateGeneration,
-  mateSelectedMembers
+  mateSelectedMembers,
+  mitosis
 }
