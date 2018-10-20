@@ -71,14 +71,6 @@ const StyledNewBeatPanel = styled.div`
 `
 
 
-@observer
-class NewBeatPanel extends Component {
-  render() {
-    return
-  }
-}
-
-
 @enhanceWithClickOutside
 @observer
 class NewBeatManager extends Component {
@@ -111,6 +103,7 @@ class NewBeatManager extends Component {
     }
 
     store.addBeatToCurrentGen(emptyBeat)
+    this.toggleShow()
   }
 
   render() {
@@ -128,7 +121,10 @@ class NewBeatManager extends Component {
         return (
           <NewBeatOption
             key={i}
-            onClick={() => { store.addBeatToCurrentGen(beat) }}
+            onClick={() => {
+              store.addBeatToCurrentGen(beat)
+              this.toggleShow()
+            }}
           >
             {beat.key}
           </NewBeatOption>
@@ -142,7 +138,10 @@ class NewBeatManager extends Component {
       return (
         <NewBeatOption
           key={i}
-          onClick={() => { store.addBeatToCurrentGen(beat) }}
+          onClick={
+            () => { store.addBeatToCurrentGen(beat)
+            this.toggleShow()
+          }}
         >
           {beat.name}
         </NewBeatOption>
@@ -176,11 +175,25 @@ class NewBeatManager extends Component {
               </select>
               steps
 
-              <BeatOptionHeader>Presets</BeatOptionHeader>
-              {presetOptions}
+              {
+                presetOptions.length > 0 ?
+                  (
+                    <div>
+                      <BeatOptionHeader>Presets</BeatOptionHeader>
+                      {presetOptions}
+                    </div>
+                  ) : null
+              }
 
-              <BeatOptionHeader>From Family Tree</BeatOptionHeader>
-              {copyOptions}
+              {
+                copyOptions.length > 0 && copyOptions[0].length > 0 ?
+                  (
+                    <div>
+                      <BeatOptionHeader>From Family Tree</BeatOptionHeader>
+                      {copyOptions}
+                    </div>
+                  ) : null
+              }
             </div>
           </div>
         </StyledNewBeatPanel>

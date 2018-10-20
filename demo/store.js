@@ -66,7 +66,15 @@ class Store {
   }
 
   @computed get currentBeat() {
-    return this.currentGeneration[this.beatNum]
+    if (this.currentGeneration.length > 0) {
+      return this.currentGeneration[this.beatNum]
+    }
+  }
+
+  @computed get currentBeatResolution() {
+    if (this.currentBeat != null) {
+      return this.currentBeat.tracks[0].sequence.length
+    }
   }
 
   @computed get allBeatKeys() {
@@ -491,9 +499,9 @@ class Store {
   }
 
   @action addBeatToCurrentGen = (beat) => {
-    this.currentBeat.tracks.forEach((track)=>{
-      this.trackPreviewers[track.sample] = false
-    })
+    //this.currentBeat.tracks.forEach((track)=>{
+      //this.trackPreviewers[track.sample] = false
+    //})
     let newBeatNum = this.currentGeneration.length
 
     this.allGenerations[this.generation].push({
