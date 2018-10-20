@@ -95,12 +95,22 @@ class NewBeatManager extends Component {
   }
 
   addEmptyBeat = () => {
+    const numSteps = parseInt(this.stepsSelect.value)
     let emptyBeat = {
       name   : "",
-      tracks : [],
+      score  : 0,
+      tracks : [
+        {
+          trackType : "sampler",
+          sample   : "samples/kick.wav",
+          sequence : (new Array(numSteps).fill(0)),
+          mute     : false,
+          solo     : false,
+        },
+      ],
     }
 
-    //store.addBeatToCurrentGen(emptyBeat)
+    store.addBeatToCurrentGen(emptyBeat)
   }
 
   render() {

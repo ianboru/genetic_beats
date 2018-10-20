@@ -84,13 +84,12 @@ class Store {
   //
 
   @action toggleTrackPreviewer = (index)=> {
-    console.log("played")
     this.trackPreviewers[index] = !this.trackPreviewers[index]
     if(this.trackPreviewers[index]){
       setTimeout(()=>{
-        this.toggleTrackPreviewer([index]) 
+        this.toggleTrackPreviewer([index])
       }, 1000)
-    } 
+    }
   }
   @action addArrangement = () => {
     this.arrangements.push([])

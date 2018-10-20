@@ -218,8 +218,6 @@ class Track extends Component {
 
 
   renderSamplePreviewer = () => {
-    console.log("rendering previews")
-    console.log(toJS(this.props.track))
     if(this.props.track.trackType == "synth"){
       return(
           <span>
