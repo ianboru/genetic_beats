@@ -49,7 +49,6 @@ Up For Grabs
 
 Beta:
 * Letting user know what a beat/track is (in terms of what the buttons do)
-* Play/Mute/Solo should really work for synth
 * Color generation and beat number inside of cytoscape nodes to distinguish them
 * Color stars same as node rating color
 * Randomize Best Beats and Create Song should be two options under the same action
