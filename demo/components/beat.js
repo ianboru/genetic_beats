@@ -234,7 +234,7 @@ class Track extends Component {
             >
               <Sequencer
                 bars       = {1}
-                resolution = {4}
+                resolution = {this.props.track.sequence.length}
               >
                 <Synth
                   key   = {this.props.track.key + "synth"}
