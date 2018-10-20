@@ -83,7 +83,7 @@ class NewBeatPanel extends Component {
 @observer
 class NewBeatManager extends Component {
   state = {
-    show : true,
+    show : false,
   }
 
   toggleShow = () => {
