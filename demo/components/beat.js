@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import chroma from "chroma-js"
 import { toJS } from "mobx"
 import {
   Song,
@@ -25,6 +26,7 @@ import {allNotesInRange} from "../utils"
 import store from "../store"
 import {
   lightGray,
+  lightBlue,
 } from "../colors"
 
 
@@ -95,13 +97,19 @@ class GainSlider extends Component {
 }
 
 
+const NoteWrapper = styled.div`
+  background-color: ${props => props.highlight ? chroma(lightBlue).darken(2.2) : "transparent"};
+  display: inline-block;
+`
+
+
 const StyledNote = styled.div`
   background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
   border-radius: 2px;
   cursor: pointer;
   display: inline-block;
   height: 20px;
-  margin: 3px;
+  margin: 0 5px;
   font-size: 15px;
   width: 20px;
 
@@ -115,15 +123,18 @@ const StyledNote = styled.div`
 class Note extends Component {
   render() {
     const active = this.props.index == store.currentLitNote && store.playingCurrentBeat
+    const highlight = Math.floor(this.props.index / 4) % 2 === 0
 
     return (
-      <StyledNote
-        on          = {this.props.value === 1}
-        active      = {active}
-        onMouseDown = {this.props.onClick}
-        onMouseOver = {this.props.onMouseOver}
-        className   = "note"
-      >&nbsp;</StyledNote>
+      <NoteWrapper highlight={highlight}>
+        <StyledNote
+          on          = {this.props.value === 1}
+          active      = {active}
+          onMouseDown = {this.props.onClick}
+          onMouseOver = {this.props.onMouseOver}
+          className   = "note"
+        >&nbsp;</StyledNote>
+      </NoteWrapper>
     )
   }
 }
@@ -261,7 +272,7 @@ class Track extends Component {
   }
 
   render() {
-      const notes = this.props.track.sequence.map( (note, i) => {
+    const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
           key     = {`${i}.${note}`}
