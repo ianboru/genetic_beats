@@ -24,7 +24,8 @@ class Store {
   @observable hoveredBeatKey     = ""
   @observable beatNum            = 0
   @observable generation         = 0
-  @observable allGenerations     = [beatTemplates]
+  @observable allGenerations     = [[]]
+  //@observable allGenerations     = [beatTemplates]
   @observable samples            = samples
   @observable synthGain          = 0.5
   @observable synthGainCorrection= 2
