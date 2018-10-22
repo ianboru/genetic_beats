@@ -49,6 +49,7 @@ class Store {
   @observable trackPreviewers    = {}
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
+  @observable showAddNewBeat     = false
   @observable noteTimer
   @observable arrangementTimer
   @observable currentSong
@@ -497,6 +498,14 @@ class Store {
 
   @action toggleMetronome = () => {
     this.metronome = !this.metronome
+  }
+
+  @action toggleAddNewBeat = (show) => {
+    if (show != null) {
+      this.showAddNewBeat = !this.showAddNewBeat
+    } else {
+      this.showAddNewBeat = show
+    }
   }
 
   @action addBeatToCurrentGen = (beat) => {

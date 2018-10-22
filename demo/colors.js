@@ -24,7 +24,7 @@ export {
   yellow,
   lightGray,
 
-  panelBackground, 
+  panelBackground,
   headerFooterBgColor,
   itemBgColor,
 }

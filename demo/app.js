@@ -147,10 +147,10 @@ class BeatDisplay extends Component {
       }
     })(store.currentBeat)
 
-    if (!beat) {
+    if (!beat || store.showAddNewBeat) {
       return (
         <div style={{ textAlign: "center" }}>
-          nothing rn
+          <NewBeatManager />
         </div>
       )
     }
@@ -299,7 +299,9 @@ class App extends Component {
                   Beat
                 </BigText>
 
-                <NewBeatManager />
+                <Button onClick={() => { store.toggleAddNewBeat(true) }}>
+                  + Beat
+                </Button>
               </Header>
 
               <BeatDisplay />

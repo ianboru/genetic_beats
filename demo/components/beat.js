@@ -98,8 +98,12 @@ class GainSlider extends Component {
 
 
 const NoteWrapper = styled.div`
-  background-color: ${props => props.highlight ? chroma(lightBlue).darken(2.2) : "transparent"};
+  border-right: ${props => props.separator ? "1px solid white" : "0"};
   display: inline-block;
+
+  &:last-child {
+    border-right: 0;
+  }
 `
 
 
@@ -123,10 +127,10 @@ const StyledNote = styled.div`
 class Note extends Component {
   render() {
     const active = this.props.index == store.currentLitNote && store.playingCurrentBeat
-    const highlight = Math.floor(this.props.index / 4) % 2 === 0
+    const separator = this.props.index % 4 === 3
 
     return (
-      <NoteWrapper highlight={highlight}>
+      <NoteWrapper separator={separator}>
         <StyledNote
           on          = {this.props.value === 1}
           active      = {active}
