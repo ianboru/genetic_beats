@@ -1,7 +1,4 @@
-let staticFilePath = ""
-if (process.env.NODE_ENV === "PRODUCTION") {
-  staticFilePath = "/static/"
-}
+const staticFilePath = "/static/"
 
 
 export default {

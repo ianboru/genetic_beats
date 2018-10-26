@@ -1,9 +1,5 @@
 syntax: glob
 
-
-# NOTE: Delete this and commit production-compiled assets before deploying
-dist
-
 # Directories
 node_modules
 site_media

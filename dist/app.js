@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/";
+/******/ 	__webpack_require__.p = "/static/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -20432,53 +20432,53 @@
 
 	var Header = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__Header',
-	  componentId: 'sc-1v87twx-0'
+	  componentId: 'sc-1a9j2e0-0'
 	})(['background:', ';width:100%;padding:0px 3px;box-sizing:border-box;'], _colors.headerFooterBgColor);
 
 	var Footer = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__Footer',
-	  componentId: 'sc-1v87twx-1'
+	  componentId: 'sc-1a9j2e0-1'
 	})(['background:', ';position:absolute;bottom:0;left:0;right:0;width:100%;padding:0px 3px;box-sizing:border-box;'], _colors.headerFooterBgColor);
 
 	var BackgroundText = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__BackgroundText',
-	  componentId: 'sc-1v87twx-2'
+	  componentId: 'sc-1a9j2e0-2'
 	})(['left:10px;top:50px;position:absolute;']);
 
 	var BigText = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__BigText',
-	  componentId: 'sc-1v87twx-3'
+	  componentId: 'sc-1a9j2e0-3'
 	})(['display:', ';color:#555;font-family:"Hind Madurai";font-size:50px;vertical-align:middle;'], function (props) {
 	  return props.inlineBlock ? "inline-block" : "block";
 	});
 
 	var BeatOuterContainer = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__BeatOuterContainer',
-	  componentId: 'sc-1v87twx-4'
+	  componentId: 'sc-1a9j2e0-4'
 	})(['flex:1;position:relative;top:0;left:0;right:0;bottom:0;']);
 
 	var BeatContainer = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__BeatContainer',
-	  componentId: 'sc-1v87twx-5'
+	  componentId: 'sc-1a9j2e0-5'
 	})(['position:relative;top:0;left:0;right:0;bottom:60px;']);
 
 	var PanelLabel = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__PanelLabel',
-	  componentId: 'sc-1v87twx-6'
+	  componentId: 'sc-1a9j2e0-6'
 	})(['font-size:28px;font-family:"Hind Madurai";margin:0 0 5px;&::after{content:"";clear:both;display:table;}']);
 
 	var AddNewBeatButton = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__AddNewBeatButton',
-	  componentId: 'sc-1v87twx-7'
+	  componentId: 'sc-1a9j2e0-7'
 	})(['background:', ';border-radius:40px;border:2px solid darkgreen;color:white;cursor:pointer;display:inline-block;font-size:30px;height:40px;left:20px;position:absolute;text-align:center;top:25px;width:40px;transition:all 0.1s;&:hover{background:', ';}'], _colors.green, (0, _chromaJs2.default)(_colors.green).darken(0.8));
 
 	var InfoRow = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__InfoRow',
-	  componentId: 'sc-1v87twx-8'
+	  componentId: 'sc-1a9j2e0-8'
 	})(['text-align:center;color:gray;font-size:16px;padding:10px;']);
 	var Spacer = _styledComponents2.default.div.withConfig({
 	  displayName: 'app__Spacer',
-	  componentId: 'sc-1v87twx-9'
+	  componentId: 'sc-1a9j2e0-9'
 	})(['height:', 'px;'], function (props) {
 	  return props.height ? props.height : 10;
 	});
@@ -51355,17 +51355,14 @@
 
 /***/ },
 /* 120 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {"use strict";
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var staticFilePath = "";
-	if (process.env.NODE_ENV === "PRODUCTION") {
-	  staticFilePath = "/static/";
-	}
+	var staticFilePath = "/static/";
 
 	exports.default = {
 
@@ -51525,7 +51522,6 @@
 	  }
 
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 121 */
@@ -52507,29 +52503,29 @@
 
 	var StyledArrangement = _styledComponents2.default.div.withConfig({
 	  displayName: "arrangement__StyledArrangement",
-	  componentId: "kx5kwp-0"
+	  componentId: "mrvjsm-0"
 	})(["background:", ";border-top:1px solid ", ";height:125px;overflow:visible;"], _colors.itemBgColor, _colors.lightGray);
 
 	var StyledBlock = _styledComponents2.default.div.withConfig({
 	  displayName: "arrangement__StyledBlock",
-	  componentId: "kx5kwp-1"
+	  componentId: "mrvjsm-1"
 	})(["border-right:1px solid ", ";background-color:", ";display:inline-block;height:100%;width:80px;position:relative;vertical-align:top;text-align:center;cursor:pointer;&:hover{color:black;background-color:lightGray;}"], _colors.lightGray, function (props) {
 	  return props.highlight ? "#e9573f" : _colors.itemBgColor;
 	});
 
 	var AddBlockButton = _styledComponents2.default.div.withConfig({
 	  displayName: "arrangement__AddBlockButton",
-	  componentId: "kx5kwp-2"
+	  componentId: "mrvjsm-2"
 	})(["cursor:pointer;font-size:30px;&:hover{color:red;}"]);
 
 	var DeleteBlockButton = _styledComponents2.default.div.withConfig({
 	  displayName: "arrangement__DeleteBlockButton",
-	  componentId: "kx5kwp-3"
+	  componentId: "mrvjsm-3"
 	})(["position:absolute;top:0;right:5px;text-align:center;cursor:pointer;font-size:20px;&:hover{color:red;}"]);
 
 	var ArrangementControls = _styledComponents2.default.div.withConfig({
 	  displayName: "arrangement__ArrangementControls",
-	  componentId: "kx5kwp-4"
+	  componentId: "mrvjsm-4"
 	})([""]);
 
 	var Block = (0, _mobxReact.observer)(_class = function (_Component) {
@@ -58223,7 +58219,7 @@
 	  }
 	}).withConfig({
 	  displayName: "button__Button",
-	  componentId: "sc-1e1nxh7-0"
+	  componentId: "sc-14tnzw6-0"
 	})(["background-color:", ";border-radius:3px;border:3px solid ", ";color:white;float:", ";font-family:\"Ubuntu\";cursor:pointer;font-size:", ";margin:6px 3px;padding:", ";transition:all 0.2s;min-width:100px;&:hover{background:", ";color:white;}"], function (props) {
 	  return props.color;
 	}, function (props) {
@@ -69697,7 +69693,7 @@
 
 	var StyledTempoControl = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__StyledTempoControl",
-	  componentId: "sc-10nhhu4-0"
+	  componentId: "sc-1aohiw9-0"
 	})(["display:inline-block;input[type=\"number\"]{width:45px;font-size:16px;}"]);
 
 	var TempoControl = (0, _mobxReact.observer)(_class = function (_Component) {
@@ -69738,7 +69734,7 @@
 
 	var Column = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__Column",
-	  componentId: "sc-10nhhu4-1"
+	  componentId: "sc-1aohiw9-1"
 	})(["display:table-cell;text-align:", ";width:", ";"], function (props) {
 	  return props.textLeft ? "left" : "center";
 	}, function (props) {
@@ -69795,14 +69791,14 @@
 
 	var NoteWrapper = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__NoteWrapper",
-	  componentId: "sc-10nhhu4-2"
+	  componentId: "sc-1aohiw9-2"
 	})(["border-right:", ";display:inline-block;&:last-child{border-right:0;}"], function (props) {
 	  return props.separator ? "1px solid white" : "0";
 	});
 
 	var StyledNote = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__StyledNote",
-	  componentId: "sc-10nhhu4-3"
+	  componentId: "sc-1aohiw9-3"
 	})(["background-color:", ";border-radius:2px;cursor:pointer;display:inline-block;height:20px;margin:0 5px;font-size:15px;width:20px;&:hover{background-color:", ";}"], function (props) {
 	  return props.active ? "pink" : props.on ? "red" : "gray";
 	}, function (props) {
@@ -69853,26 +69849,26 @@
 
 	var RemoveTrackButton = _styledComponents2.default.span.withConfig({
 	  displayName: "beat__RemoveTrackButton",
-	  componentId: "sc-10nhhu4-4"
+	  componentId: "sc-1aohiw9-4"
 	})(["color:white;cursor:pointer;font-size:30px;margin-left:5px;position:relative;top:-12px;height:15px;width:15px;display:inline-block;vertical-align:middle;&:hover{color:red;}"]);
 
 	var MuteTrackButton = _styledComponents2.default.span.withConfig({
 	  displayName: "beat__MuteTrackButton",
-	  componentId: "sc-10nhhu4-5"
+	  componentId: "sc-1aohiw9-5"
 	})(["background-color:", ";border-radius:2px;color:black;cursor:pointer;display:inline-block;font-size:15px;height:20px;margin:3px;margin-left:10px;width:20px;&:hover{background-color:orange;}"], function (props) {
 	  return props.active ? "orange" : "gray";
 	});
 
 	var SoloTrackButton = _styledComponents2.default.span.withConfig({
 	  displayName: "beat__SoloTrackButton",
-	  componentId: "sc-10nhhu4-6"
+	  componentId: "sc-1aohiw9-6"
 	})(["background-color:", ";border-radius:2px;color:black;cursor:pointer;display:inline-block;font-size:15px;height:20px;margin:3px;width:20px;&:hover{background-color:green;}"], function (props) {
 	  return props.active ? "green" : "gray";
 	});
 
 	var StyledTrack = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__StyledTrack",
-	  componentId: "sc-10nhhu4-7"
+	  componentId: "sc-1aohiw9-7"
 	})(["display:table-row;"]);
 
 	var Track = (0, _mobxReact.observer)(_class5 = function (_Component4) {
@@ -70108,32 +70104,32 @@
 
 	var StyledBeat = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__StyledBeat",
-	  componentId: "sc-10nhhu4-8"
+	  componentId: "sc-1aohiw9-8"
 	})(["display:table;position:relative;margin:0 auto;"]);
 
 	var BeatInfo = _styledComponents2.default.span.withConfig({
 	  displayName: "beat__BeatInfo",
-	  componentId: "sc-10nhhu4-9"
+	  componentId: "sc-1aohiw9-9"
 	})(["margin:0 10px;"]);
 
 	var BILabel = _styledComponents2.default.span.withConfig({
 	  displayName: "beat__BILabel",
-	  componentId: "sc-10nhhu4-10"
+	  componentId: "sc-1aohiw9-10"
 	})(["color:#77777f;margin:4px;"]);
 
 	var BIData = _styledComponents2.default.span.withConfig({
 	  displayName: "beat__BIData",
-	  componentId: "sc-10nhhu4-11"
+	  componentId: "sc-1aohiw9-11"
 	})(["color:white;margin:4px;"]);
 
 	var StyledPlayControls = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__StyledPlayControls",
-	  componentId: "sc-10nhhu4-12"
+	  componentId: "sc-1aohiw9-12"
 	})(["display:inline-block;vertical-align:middle;svg{display:inline-block;transition:0.2s color;vertical-align:middle;}svg:hover{cursor:pointer;color:lightgreen;}"]);
 
 	var ControlPanel = _styledComponents2.default.div.withConfig({
 	  displayName: "beat__ControlPanel",
-	  componentId: "sc-10nhhu4-13"
+	  componentId: "sc-1aohiw9-13"
 	})(["display:table-row;width:100%;"]);
 
 	var PlayControls = (0, _mobxReact.observer)(_class7 = (_temp3 = _class8 = function (_Component5) {
@@ -70485,32 +70481,32 @@
 
 	var StyledConfigControl = _styledComponents2.default.div.withConfig({
 	  displayName: "configControl__StyledConfigControl",
-	  componentId: "sc-1s9n3ap-0"
+	  componentId: "s7lsl9-0"
 	})(["background:#444;color:black;display:inline-block;position:relative;width:", "px;height:", "px;&::after{content:\"\";clear:both;display:table;}"], rightBlockWidth + leftBlockWidth, height);
 
 	var Label = _styledComponents2.default.div.withConfig({
 	  displayName: "configControl__Label",
-	  componentId: "sc-1s9n3ap-1"
+	  componentId: "s7lsl9-1"
 	})(["color:white;width:", "px;display:inline-block;padding:1px 8px;font-family:\"Hind Madurai\";box-sizing:border-box;"], 200);
 
 	var StyledRange = _styledComponents2.default.input.withConfig({
 	  displayName: "configControl__StyledRange",
-	  componentId: "sc-1s9n3ap-2"
+	  componentId: "s7lsl9-2"
 	})(["margin:auto;-webkit-appearance:none;position:relative;overflow:hidden;height:26px;width:100%;cursor:pointer;border-radius:0;&::-webkit-slider-runnable-track{background:#ddd;}&::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:40px;background:#fff;box-shadow:-100vw 0 0 100vw #0980B2;border:2px solid #555;}&::-moz-range-track{height:40px;background:#ddd;}&::-moz-range-thumb{background:#fff;height:40px;width:20px;border:3px solid #999;border-radius:0 !important;box-shadow:-100vw 0 0 100vw #0980B2;box-sizing:border-box;}&::-ms-fill-lower{background:#0980B2;}&::-ms-thumb{background:#fff;border:2px solid #999;height:40px;width:20px;box-sizing:border-box;}&::-ms-ticks-after{display:none;}&::-ms-ticks-before{display:none;}&::-ms-track{background:#ddd;color:transparent;height:40px;border:none;}&::-ms-tooltip{display:none;}"]);
 
 	var InputField = _styledComponents2.default.input.withConfig({
 	  displayName: "configControl__InputField",
-	  componentId: "sc-1s9n3ap-3"
+	  componentId: "s7lsl9-3"
 	})(["display:inline-block;font-size:17px;height:100%;margin:0;border:0;padding:0;text-align:center;width:", "px;"], leftBlockWidth);
 
 	var LeftBlock = _styledComponents2.default.div.withConfig({
 	  displayName: "configControl__LeftBlock",
-	  componentId: "sc-1s9n3ap-4"
+	  componentId: "s7lsl9-4"
 	})(["bottom:0;display:inline-block;left:0;position:absolute;top:0;width:", "px;"], leftBlockWidth);
 
 	var RightBlock = _styledComponents2.default.div.withConfig({
 	  displayName: "configControl__RightBlock",
-	  componentId: "sc-1s9n3ap-5"
+	  componentId: "s7lsl9-5"
 	})(["bottom:0;display:inline-block;right:0;position:absolute;top:0;width:", "px;"], rightBlockWidth);
 
 	var ConfigControl = (0, _mobxReact.observer)(_class = function (_Component) {
@@ -70643,22 +70639,22 @@
 
 	var BeatOptionHeader = _styledComponents2.default.div.withConfig({
 	  displayName: "newBeatManager__BeatOptionHeader",
-	  componentId: "d87u6s-0"
+	  componentId: "sc-1ritg5d-0"
 	})(["font-weight bold;margin:8px 4px 12px;"]);
 
 	var NewBeatOption = _styledComponents2.default.div.withConfig({
 	  displayName: "newBeatManager__NewBeatOption",
-	  componentId: "d87u6s-1"
+	  componentId: "sc-1ritg5d-1"
 	})(["background-color:", ";border-radius:3px;border:1px solid #555;display:inline-block;margin:3px;padding:4px 10px;cursor:pointer;transition:all 0.2s;&:hover{background-color:", ";}"], (0, _chromaJs2.default)(_colors.green).darken(0.1), (0, _chromaJs2.default)("green").brighten(1.2));
 
 	var NewBeatHeader = _styledComponents2.default.div.withConfig({
 	  displayName: "newBeatManager__NewBeatHeader",
-	  componentId: "d87u6s-2"
+	  componentId: "sc-1ritg5d-2"
 	})(["font-size:32px;font-family:\"Hind Madurai\";"]);
 
 	var StyledNewBeatPanel = _styledComponents2.default.div.withConfig({
 	  displayName: "newBeatManager__StyledNewBeatPanel",
-	  componentId: "d87u6s-3"
+	  componentId: "sc-1ritg5d-3"
 	})(["background-color:", ";font-family:sans-serif;font-size:16px;padding:10px;border-top:1px solid ", ";"], _colors.headerFooterBgColor, _colors.lightGray);
 
 	var NewBeatManager = (0, _mobxReact.observer)(_class = function (_Component) {
@@ -70846,7 +70842,7 @@
 
 	var StyledFamilySelect = _styledComponents2.default.span.withConfig({
 	  displayName: "familySelect__StyledFamilySelect",
-	  componentId: "sc-1oy332b-0"
+	  componentId: "teubv8-0"
 	})(["select{font-size:16px;}"]);
 
 	var FamilySelect = (0, _mobxReact.observer)(_class = function (_Component) {
@@ -70949,7 +70945,7 @@
 
 	var StyledFamilyTree = _styledComponents2.default.div.withConfig({
 	  displayName: "familyTree__StyledFamilyTree",
-	  componentId: "x793f4-0"
+	  componentId: "sc-14vq00l-0"
 	})(["margin:0;padding:", "px ", "px ", "px;display:inline-block;vertical-align:top;"], topPadding, sidePadding, bottomPadding);
 
 	var FamilyTree = (0, _mobxReact.observer)(_class = function (_React$Component) {
@@ -101325,21 +101321,21 @@
 
 	var StyledMatingControls = _styledComponents2.default.div.withConfig({
 	  displayName: "matingControls__StyledMatingControls",
-	  componentId: "sc-25x0me-0"
+	  componentId: "leucbk-0"
 	})(["display:inline-block;position:relative;float:", ";"], function (props) {
 	  return props.right ? "right" : props.left ? "left" : "none";
 	});
 
 	var ControlsHeader = _styledComponents2.default.div.withConfig({
 	  displayName: "matingControls__ControlsHeader",
-	  componentId: "sc-25x0me-1"
+	  componentId: "leucbk-1"
 	})(["display:inline-block;font-size:18px;font-family:\"Hind Madurai\";margin:6px;margin-top:", ";"], function (props) {
 	  return props.topMargin == null || props.topMargin ? "18px" : 0;
 	});
 
 	var StyledMatingControlPanel = _styledComponents2.default.div.withConfig({
 	  displayName: "matingControls__StyledMatingControlPanel",
-	  componentId: "sc-25x0me-2"
+	  componentId: "leucbk-2"
 	})(["background-color:", ";border-radius:3px;border:2px solid ", ";box-shadow:0px 0px 5px 3px rgba(255,255,255,0.8);display:inline-block;font-family:sans-serif;font-size:16px;right:10px;min-height:200px;padding:15px;position:absolute;top:52px;visibility:", ";z-index:1;"], _colors.panelBackground, _colors.blue, function (props) {
 	  return props.show ? "visible" : "hidden";
 	});
@@ -101561,7 +101557,7 @@
 
 	var StyledStarRating = _styledComponents2.default.span.withConfig({
 	  displayName: "starRating__StyledStarRating",
-	  componentId: "ijahgf-0"
+	  componentId: "zhzhl7-0"
 	})(["display:inline-block;margin:31px 0 25px;svg:hover{cursor:pointer;}"]);
 
 	var StarRating = (0, _mobxReact.observer)(_class = (_temp2 = _class2 = function (_Component) {

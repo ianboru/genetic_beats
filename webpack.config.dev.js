@@ -4,9 +4,9 @@ const webpack = require('webpack');
 module.exports = {
   entry: [ './app/index' ],
   output: {
-    path: __dirname,
-    filename: 'bundle.js',
-    publicPath: '/',
+    path: path.join(__dirname, 'dist'),
+    filename: 'app.js',
+    publicPath: '/static/',
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
