@@ -8,7 +8,7 @@ import {
   Sequencer,
   Sampler,
   Synth,
-} from "../../src"
+} from "../react-music"
 
 import {
   MdPlayArrow,

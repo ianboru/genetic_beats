@@ -2,10 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: [
-    'react-hot-loader/patch',
-    './demo/index',
-  ],
+  entry: [ './app/index' ],
   output: {
     path: __dirname,
     filename: 'bundle.js',
@@ -17,16 +14,12 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: 'babel?plugins=react-hot-loader/babel',
-      include: [
-        path.join(__dirname, 'src'),
-        path.join(__dirname, 'demo'),
-      ],
+      exclude: /node_modules/,
+      loader: "babel-loader",
     }, {
       test: /\.css$/,
       include: [
-        path.join(__dirname, 'src'),
-        path.join(__dirname, 'demo'),
+        path.join(__dirname, 'app'),
       ],
       loader: 'style!css!postcss',
     }],

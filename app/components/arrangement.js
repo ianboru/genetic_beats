@@ -3,7 +3,7 @@ import {
   Song,
   Sequencer,
   Sampler,
-} from "../../src"
+} from "../react-music"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import Scheduler from '../utils/scheduler';
-import store from "../../demo/store"
+import store from "../../store"
 type Props = {
   children?: any;
   playing?: boolean;

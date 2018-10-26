@@ -6,7 +6,7 @@ import {
   Sequencer,
   Sampler,
   Synth,
-} from "../../src"
+} from "../react-music"
 
 import store from "../store"
 

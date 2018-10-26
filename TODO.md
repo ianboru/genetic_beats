@@ -1,10 +1,7 @@
 John
 ----
 
-Beta:
-* Current beat area starts with big button to add beat to current generation and message about where
-  the button will be after using it the first time
-
+* Get it working in production
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * "How do I get to the next beat easily? There should be a keyboard shortcut for that"
@@ -28,10 +25,7 @@ Note:
 Ian
 ---
 
-Beta:
 * More responsive editing/beat switching (lag)
-
-
 * Add templates/archs for random arrangement
     * Change create song to be based on number of samples / note density
 * Fix mouse-off state for family tree nodes

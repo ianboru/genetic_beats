@@ -6,7 +6,7 @@ import {
   MoogFilter,
   Reverb,
   Synth,
-} from '../src';
+} from './react-music';
 
 
 
