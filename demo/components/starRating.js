@@ -24,9 +24,8 @@ const colors = [
 ]
 
 const StyledStarRating = styled.span`
-  vertical-align: middle;
   display: inline-block;
-  margin: 6px 25px 0;
+  margin: 31px 0 25px;
 
   svg:hover {
     cursor: pointer;

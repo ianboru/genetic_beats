@@ -4,6 +4,7 @@ import ReactFileReader from 'react-file-reader'
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import SplitPane from "react-split-pane"
+import chroma from "chroma-js"
 
 import {
   MdChevronLeft,
@@ -109,6 +110,27 @@ const PanelLabel = styled.div`
   }
 `
 
+const AddNewBeatButton = styled.div`
+  background: ${green};
+  border-radius: 40px;
+  border: 2px solid darkgreen;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 30px;
+  height: 40px;
+  left: 20px;
+  position: absolute;
+  text-align: center;
+  top: 25px;
+  width: 40px;
+  transition: all 0.1s;
+
+  &:hover {
+    background: ${chroma(green).darken(0.8)};
+  }
+`
+
 const InfoRow = styled.div`
   text-align: center;
   color: gray;
@@ -158,9 +180,16 @@ class BeatDisplay extends Component {
     return (
       <div>
         <Header style={{
-          borderTop: `1px solid ${lightGray}`,
-          textAlign: "center",
+          borderTop : `1px solid ${lightGray}`,
+          textAlign : "center",
+          position  : "relative",
         }}>
+          <AddNewBeatButton
+            onClick={() => { store.toggleAddNewBeat(true) }}
+          >
+            +
+          </AddNewBeatButton>
+
           <StarRating
             score = {store.currentBeat.score}
             handleSetScore = { (score) => {
@@ -298,10 +327,6 @@ class App extends Component {
                 <BigText inlineBlock>
                   Beat
                 </BigText>
-
-                <Button onClick={() => { store.toggleAddNewBeat(true) }}>
-                  + Beat
-                </Button>
               </Header>
 
               <BeatDisplay />

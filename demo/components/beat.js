@@ -25,6 +25,7 @@ import {allNotesInRange} from "../utils"
 
 import store from "../store"
 import {
+  green,
   lightGray,
   lightBlue,
 } from "../colors"
@@ -642,7 +643,7 @@ class Beat extends Component {
           <Column />
           <Column />
           <Column textLeft>
-          <Button small onClick={this.handleMitosis}>
+          <Button small color={[green]} onClick={this.handleMitosis}>
               Mitosis
             </Button>
             <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
