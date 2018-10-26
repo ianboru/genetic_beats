@@ -178,7 +178,6 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
         if(note == 1){
           let randomInteger = Math.floor(Math.random() * 100)
           let leaveNoteProbability = Math.pow(Math.E, -1*(samplerDensityPerStep[index])/exponentialConstant)*100
-          console.log(samplerDensityPerStep[index], leaveNoteProbability, randomInteger)
           if(randomInteger > leaveNoteProbability){
             track.sequence[index] = 0
             if(index < track.sequence.length-1){
@@ -192,7 +191,6 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
     if(track.sequence.includes(1)){
       mutatedBeat.tracks.push(track)
     }
-   
   })
   return mutatedBeat
 }
@@ -288,7 +286,6 @@ const matePair = (momBeat, dadBeat) => {
     childBeat = mutateByKillTrack(childBeat)
   }
   childBeat = mutateByAddTrack(childBeat)
-  console.log(childBeat)
   childBeat = mutateSamplersByMusicalEnhancement(childBeat)
   childBeat = mutateSynthsByMusicalEnhancement(childBeat)
 
@@ -299,7 +296,6 @@ const mateMembers = (members)=> {
   let nextGeneration = []
   members.forEach( (momBeat, momIndex) => {
     members.slice(momIndex+1).forEach( (dadBeat, dadIndex) => {
-      console.log("indices", momIndex, dadIndex+momIndex+1)
       if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
         dadBeat = normalizeSubdivisions(dadBeat, momBeat.tracks[0].sequence.length)
       } else {
@@ -317,7 +313,6 @@ const mateMembers = (members)=> {
 }
 const mitosis = (originalBeat) => {
   let newBeat = JSON.parse(JSON.stringify(toJS(originalBeat)))
-  console.log(toJS(newBeat))
   let mutatedTracks = []
   newBeat.tracks.forEach((track)=>{
     track.sequence = mutateSequence(track.sequence)
@@ -328,7 +323,6 @@ const mitosis = (originalBeat) => {
     newBeat = mutateByKillTrack(newBeat)
   }
   newBeat = mutateByAddTrack(newBeat)
-  console.log(newBeat)
   newBeat = mutateSamplersByMusicalEnhancement(newBeat)
   newBeat = mutateSynthsByMusicalEnhancement(newBeat)
   return newBeat

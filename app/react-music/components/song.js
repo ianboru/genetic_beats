@@ -110,8 +110,6 @@ export default class Song extends Component {
     return Math.max(...Object.keys(this.bars).map((b) => this.bars[b]));
   }
   bufferLoaded() {
-    console.log("buffer loaded")
-
     if (Object.keys(this.buffers).length === 0) {
       this.setState({
         buffersLoaded: true,
@@ -125,7 +123,6 @@ export default class Song extends Component {
       callback(e.playbackTime);
     });
     this.scheduler.insert(e.playbackTime + ((this.barInterval * maxBars) / 1000), this.loop);
-    console.log("loop scheduled ")
     store.resetCurrentLitNote()
     store.resetCurrentLitBeat()
 

@@ -51875,7 +51875,6 @@
 	        if (note == 1) {
 	          var randomInteger = Math.floor(Math.random() * 100);
 	          var leaveNoteProbability = Math.pow(Math.E, -1 * samplerDensityPerStep[index] / exponentialConstant) * 100;
-	          console.log(samplerDensityPerStep[index], leaveNoteProbability, randomInteger);
 	          if (randomInteger > leaveNoteProbability) {
 	            track.sequence[index] = 0;
 	            if (index < track.sequence.length - 1) {
@@ -51990,7 +51989,6 @@
 	    childBeat = mutateByKillTrack(childBeat);
 	  }
 	  childBeat = mutateByAddTrack(childBeat);
-	  console.log(childBeat);
 	  childBeat = mutateSamplersByMusicalEnhancement(childBeat);
 	  childBeat = mutateSynthsByMusicalEnhancement(childBeat);
 
@@ -52001,7 +51999,6 @@
 	  var nextGeneration = [];
 	  members.forEach(function (momBeat, momIndex) {
 	    members.slice(momIndex + 1).forEach(function (dadBeat, dadIndex) {
-	      console.log("indices", momIndex, dadIndex + momIndex + 1);
 	      if (momBeat.tracks[0].sequence.length > dadBeat.tracks[0].sequence.length) {
 	        dadBeat = (0, _utils.normalizeSubdivisions)(dadBeat, momBeat.tracks[0].sequence.length);
 	      } else {
@@ -52019,7 +52016,6 @@
 	};
 	var mitosis = function mitosis(originalBeat) {
 	  var newBeat = JSON.parse(JSON.stringify((0, _mobx.toJS)(originalBeat)));
-	  console.log((0, _mobx.toJS)(newBeat));
 	  var mutatedTracks = [];
 	  newBeat.tracks.forEach(function (track) {
 	    track.sequence = mutateSequence(track.sequence);
@@ -52030,7 +52026,6 @@
 	    newBeat = mutateByKillTrack(newBeat);
 	  }
 	  newBeat = mutateByAddTrack(newBeat);
-	  console.log(newBeat);
 	  newBeat = mutateSamplersByMusicalEnhancement(newBeat);
 	  newBeat = mutateSynthsByMusicalEnhancement(newBeat);
 	  return newBeat;
@@ -57765,8 +57760,6 @@
 	  }, {
 	    key: 'bufferLoaded',
 	    value: function bufferLoaded() {
-	      console.log("buffer loaded");
-
 	      if (Object.keys(this.buffers).length === 0) {
 	        this.setState({
 	          buffersLoaded: true
@@ -57784,7 +57777,6 @@
 	        callback(e.playbackTime);
 	      });
 	      this.scheduler.insert(e.playbackTime + this.barInterval * maxBars / 1000, this.loop);
-	      console.log("loop scheduled ");
 	      _store2.default.resetCurrentLitNote();
 	      _store2.default.resetCurrentLitBeat();
 	    }
