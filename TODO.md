@@ -40,7 +40,9 @@ Next Beta
 Up For Grabs
 ------------
 
-Beta:
+* Investigate error/rerender while playing song (possibly also slowing down playback)
+* Metronome broken
+
 * Letting user know what a beat/track is (in terms of what the buttons do)
 * Color generation and beat number inside of cytoscape nodes to distinguish them
 * Color stars same as node rating color
