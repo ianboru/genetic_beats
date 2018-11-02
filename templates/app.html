@@ -12,6 +12,7 @@
     <div id='root'></div>
 
     {% if debug %}
+    <script src="http://localhost:35729/livereload.js"></script>
     {% else %}
     <script>window.sentry_public_dsn = "{% sentry_public_dsn %}";</script>
     {% endif %}

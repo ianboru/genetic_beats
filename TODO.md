@@ -1,7 +1,6 @@
 John
 ----
 
-* Get it working in production
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * "How do I get to the next beat easily? There should be a keyboard shortcut for that"

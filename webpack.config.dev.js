@@ -1,27 +1,43 @@
 const path = require('path');
 const webpack = require('webpack');
+const LiveReloadPlugin = require("webpack-livereload-plugin")
 
 module.exports = {
-  entry: [ './app/index' ],
+  entry: './app/index',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'app.js',
     publicPath: '/static/',
   },
-  plugins: [
-    new webpack.NoErrorsPlugin(),
-  ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: "babel-loader",
-    }, {
-      test: /\.css$/,
-      include: [
-        path.join(__dirname, 'app'),
-      ],
-      loader: 'style!css!postcss',
-    }],
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      }, {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+          },
+          {
+            loader: 'sass-loader',
+          },
+        ],
+      },
+    ],
   },
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new LiveReloadPlugin(),
+  ],
 };
