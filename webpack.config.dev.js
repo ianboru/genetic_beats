@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const LiveReloadPlugin = require("webpack-livereload-plugin")
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './app/index',
@@ -37,6 +38,7 @@ module.exports = {
     ],
   },
   plugins: [
+    //new BundleAnalyzerPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new LiveReloadPlugin(),
   ],

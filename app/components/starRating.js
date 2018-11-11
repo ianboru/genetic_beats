@@ -3,9 +3,9 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import {
-  TiStarFullOutline,
-  TiStarOutline,
-} from "react-icons/ti"
+  MdStar,
+  MdStarBorder,
+} from "react-icons/md"
 
 
 const starSize = 40
@@ -67,8 +67,8 @@ class StarRating extends Component {
       const score = this.state.score || this.props.score
 
       return i < score ?
-        <TiStarFullOutline {...props} /> :
-        <TiStarOutline {...props} />
+        <MdStar {...props} /> :
+        <MdStarBorder {...props} />
     })
 
     return (
