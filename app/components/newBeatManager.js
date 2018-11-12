@@ -9,12 +9,7 @@ import { deepClone } from "../utils"
 
 import beatTemplates from "../beatTemplates"
 import store from "../store"
-import {
-  green,
-  headerFooterBgColor,
-  lightGray,
-  burntOrange,
-} from "../colors"
+import { colors } from "../colors"
 
 
 const BeatOptionHeader = styled.div`
@@ -23,7 +18,7 @@ const BeatOptionHeader = styled.div`
 `
 
 const NewBeatOption = styled.div`
-  background-color: ${chroma(green).darken(0.1)};
+  background-color: ${chroma(colors.green.base).darken(0.1)};
   border-radius: 3px;
   border: 1px solid #555;
   display: inline-block;
@@ -43,11 +38,11 @@ const NewBeatHeader = styled.div`
 `
 
 const StyledNewBeatPanel = styled.div`
-  background-color: ${headerFooterBgColor};
+  background-color: ${colors.gray.darkest};
   font-family: sans-serif;
   font-size: 16px;
   padding: 10px;
-  border-top: 1px solid ${lightGray};
+  border-top: 1px solid ${colors.gray.light};
 `
 
 
@@ -166,7 +161,7 @@ class NewBeatManager extends Component {
 
         {
           store.currentBeat ?
-            <Button small color={[burntOrange]} onClick={store.toggleAddNewBeat}>Cancel</Button>
+            <Button small color={[colors.red.darker]} onClick={store.toggleAddNewBeat}>Cancel</Button>
             :
             null
         }

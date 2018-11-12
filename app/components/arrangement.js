@@ -12,10 +12,7 @@ import Player from "./player"
 
 import store from "../store"
 import { normalizeSubdivisions } from "../utils"
-import {
-  itemBgColor,
-  lightGray,
-} from "../colors"
+import { colors } from "../colors"
 
 import {
   DragDropContext,
@@ -25,15 +22,15 @@ import {
 
 
 const StyledArrangement = styled.div`
-  background: ${itemBgColor};
-  border-top: 1px solid ${lightGray};
+  background: ${colors.gray.darkest};
+  border-top: 1px solid ${colors.gray.light};
   height: 125px;
   overflow: visible;
 `
 
 const StyledBlock = styled.div`
-  border-right: 1px solid ${lightGray};
-  background-color: ${props => props.highlight ? "#e9573f" : itemBgColor};
+  border-right: 1px solid ${colors.gray.light};
+  background-color: ${props => props.highlight ? "#e9573f" : colors.gray.darkest};
   display: inline-block;
   height: 100%;
   width: 80px;
@@ -43,7 +40,7 @@ const StyledBlock = styled.div`
   cursor: pointer;
   &:hover {
     color: black;
-    background-color: lightGray;
+    background-color: ${colors.gray.light};
   }
 `
 

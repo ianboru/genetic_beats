@@ -2,21 +2,11 @@ import React, { Component } from "react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import {
-  blue,
-  burntOrange,
-  green,
-  lightBlue,
-  lighterBlue,
-  red,
-  salmon,
-  yellow,
-  lightGray,
-} from "../colors"
+import { colors } from "../colors"
 
 
-const buttonColor = blue
-const altColor = lighterBlue
+const buttonColor = colors.blue.base
+const altColor = colors.blue.lighter
 
 const Button = styled.button.attrs({
   color: props => props.color && props.color[0] || buttonColor,

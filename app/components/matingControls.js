@@ -7,11 +7,7 @@ import Button from "./button"
 import ConfigControl from "./configControl"
 
 import store from "../store"
-import {
-  blue,
-  lightBlue,
-  panelBackground,
-} from "../colors"
+import { colors } from "../colors"
 
 
 const StyledMatingControls = styled.div`
@@ -30,9 +26,9 @@ const ControlsHeader = styled.div`
 
 
 const StyledMatingControlPanel = styled.div`
-  background-color: ${panelBackground};
+  background-color: ${colors.gray.light};
   border-radius: 3px;
-  border: 2px solid ${blue};
+  border: 2px solid ${colors.blue.base};
   box-shadow: 0px 0px 5px 3px rgba(255, 255, 255, 0.8);
   display: inline-block;
   font-family: sans-serif;

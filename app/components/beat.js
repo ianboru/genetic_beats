@@ -24,11 +24,7 @@ import ConfigControl from "./configControl"
 import {allNotesInRange} from "../utils"
 
 import store from "../store"
-import {
-  green,
-  lightGray,
-  lightBlue,
-} from "../colors"
+import { colors } from "../colors"
 
 
 const StyledTempoControl = styled.div`
@@ -643,7 +639,7 @@ class Beat extends Component {
           <Column />
           <Column />
           <Column textLeft>
-          <Button small color={[green]} onClick={this.handleMitosis}>
+          <Button small color={[colors.green.base]} onClick={this.handleMitosis}>
               Mitosis
             </Button>
             <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>

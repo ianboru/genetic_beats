@@ -1,30 +1,49 @@
-const darkerBlueGray = "#1d1f27"
-const blue = "#0980B2"
-const burntOrange = "#A30700"
-const green = "#32B209"
-const lightBlue = "#1495CC"
-const lighterBlue = "#3A9FCC"
-const red = "#FF002A"
-const salmon = "#D1949E"
-const yellow = "#FFF419"
-const lightGray = "#292B30"
 
-const panelBackground = lightGray
-const headerFooterBgColor = darkerBlueGray
-const itemBgColor = darkerBlueGray
+const colors = {
+  gray: {
+    light   : "#292B30",
+    darkest : "#1d1f27",
+  },
+  blue: {
+    lighter : "#3A9FCC",
+    light   : "#1495CC",
+    base    : "#0980B2",
+  },
+  red: {
+    //salmon      : "#D1949E",
+    lighter : "#D1949E",
+    base    : "#FF002A",
+    //burntOrange : "#A30700",
+    darker  : "#A30700",
+  },
+  green: {
+    base : "#32B209",
+  },
+  yellow: {
+    base : "#FFF419",
+  },
+}
+
+//panelBackground     : lightGray,
+//headerFooterBgColor : darkerBlueGray,
+//itemBgColor         : darkerBlueGray,
+
+const semanticColors = {
+  primary: {},
+  neutral: {},
+  accents: {
+    default: {},
+    warning: {},
+    danger: {},
+    info: {},
+  },
+}
+
+
+const getColor = {
+}
 
 export {
-  blue,
-  burntOrange,
-  green,
-  lightBlue,
-  lighterBlue,
-  red,
-  salmon,
-  yellow,
-  lightGray,
-
-  panelBackground,
-  headerFooterBgColor,
-  itemBgColor,
+  colors,
+  getColor,
 }

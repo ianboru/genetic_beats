@@ -14,21 +14,7 @@ import {
 import store from "./store"
 import { mateGeneration, mateSelectedMembers} from "./generateChildren"
 import "./index.css"
-import {
-  blue,
-  burntOrange,
-  green,
-  itemBgColor,
-  lightBlue,
-  lighterBlue,
-  red,
-  salmon,
-  yellow,
-  lightGray,
-
-  panelBackground,
-  headerFooterBgColor,
-} from "./colors"
+import { colors } from "./colors"
 
 import Arrangement from "./components/arrangement"
 import Beat from "./components/beat"
@@ -50,14 +36,14 @@ if (process.env.SENTRY_PUBLIC_DSN) {
 
 
 const Header = styled.div`
-  background: ${headerFooterBgColor};
+  background: ${colors.gray.darkest};
   width: 100%;
   padding: 0px 3px;
   box-sizing: border-box;
 `
 
 const Footer = styled.div`
-  background: ${headerFooterBgColor};
+  background: ${colors.gray.darkest};
   position: absolute;
   bottom: 0;
   left: 0;
@@ -111,7 +97,7 @@ const PanelLabel = styled.div`
 `
 
 const AddNewBeatButton = styled.div`
-  background: ${green};
+  background: ${colors.green.base};
   border-radius: 40px;
   border: 2px solid darkgreen;
   color: white;
@@ -127,7 +113,7 @@ const AddNewBeatButton = styled.div`
   transition: all 0.1s;
 
   &:hover {
-    background: ${chroma(green).darken(0.8)};
+    background: ${chroma(colors.green.base).darken(0.8)};
   }
 `
 
@@ -180,7 +166,7 @@ class BeatDisplay extends Component {
     return (
       <div>
         <Header style={{
-          borderTop : `1px solid ${lightGray}`,
+          borderTop : `1px solid ${colors.gray.light}`,
           textAlign : "center",
           position  : "relative",
         }}>
@@ -200,8 +186,8 @@ class BeatDisplay extends Component {
         </Header>
 
         <div style={{
-          overflow: "auto",
-          background: itemBgColor,
+          overflow   : "auto",
+          background : colors.gray.darkest,
         }}>
           {beat}
         </div>
@@ -311,8 +297,8 @@ class App extends Component {
         onChange    = { (size) => {
           this.setState( { familyTreeWidth : size })
         } }
-        pane1Style={{backgroundColor: panelBackground}}
-        pane2Style={{backgroundColor: panelBackground}}
+        pane1Style={{backgroundColor: colors.gray.light}}
+        pane2Style={{backgroundColor: colors.gray.light}}
       >
         <SplitPane split="horizontal" defaultSize={600} minSize={600} maxSize={600}>
           <BeatOuterContainer>
@@ -359,7 +345,7 @@ class App extends Component {
         <div>
           <Header>
             <PanelLabel>
-              <Button large color={[green]} onClick={this.handleMate}>
+              <Button large color={[colors.green.base]} onClick={this.handleMate}>
                 Mate
               </Button>
 
