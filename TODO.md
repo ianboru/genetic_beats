@@ -20,6 +20,9 @@ John
 Note:
 * Can the synth preview not use global state?
 
+Maintenance:
+* react-beautiful-dnd update: https://github.com/atlassian/react-beautiful-dnd/releases/tag/v10.0.0
+
 
 Ian
 ---
