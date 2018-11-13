@@ -13,6 +13,12 @@ import Player from "./player"
 import store from "../store"
 import { normalizeSubdivisions } from "../utils"
 import { colors } from "../colors"
+import {
+  MdPlayArrow,
+  MdSkipNext,
+  MdSkipPrevious,
+  MdStop,
+} from "react-icons/md"
 
 import {
   DragDropContext,
@@ -67,6 +73,10 @@ const DeleteBlockButton = styled.div`
 `
 
 const ArrangementControls = styled.div`
+  text-align : center;
+  button{
+    margin-buttom : 20px;
+  }
 `
 
 
@@ -233,8 +243,13 @@ class Arrangement extends Component {
       store.createSong()
     }
   }
-
+static defaultProps = {
+    size: 80,
+  }
   render() {
+    const {
+      size,
+    } = this.props
     let arrangementOptions = []
     store.arrangements.forEach((arrangement,index) => {
       arrangementOptions.push(
@@ -277,10 +292,14 @@ class Arrangement extends Component {
     })
 
     const playButtonText = store.playingArrangement ? "Stop" : "Play"
+    const PlayStopButton = store.playingArrangement ? MdStop : MdPlayArrow
+
+
 
     const onDragEnd = (result) => {
       store.moveBeatInArrangement(result.source.index, result.destination.index)
     }
+//            <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
 
     return (
     <DragDropContext
@@ -288,16 +307,18 @@ class Arrangement extends Component {
       >
         <div>
           <ArrangementControls>
-            <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
-            <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
-            <Button onClick={this.createSong}>Create Song</Button>
-            <Button onClick={store.addArrangement}>Add Arrangement</Button>
-            <select
-                  onChange={this.handleSelectArrangement}
-                  value={store.currentArrangementIndex}
-                >
-                  {arrangementOptions}
-            </select>
+            
+            <div>
+              <h3>Create Beat Arrangement</h3>
+              <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
+              <Button onClick={this.createSong}>Song with Arcs</Button>
+              <Button onClick={store.addArrangement}>Blank Arrangement</Button>
+              <br/>
+              <PlayStopButton
+                size    = {size}
+                onClick = {store.togglePlayArrangement}
+              />
+            </div>
           </ArrangementControls>
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
