@@ -9,6 +9,7 @@ import styled from "styled-components"
 
 import Button from "./button"
 import Player from "./player"
+import { toJS } from "mobx"
 
 import store from "../store"
 import { normalizeSubdivisions } from "../utils"
@@ -145,56 +146,6 @@ class Arrangement extends Component {
     store.moveBeatInArrangement(this.state.lastClicked,destinationIndex)
   }
 
-  concatenateBeats = (beats, resolution) => {
-    let finalBeat = {"tracks":[]}
-    let uniqueSamples = {}
-    let numUniqueSamples = 0
-    let allSamples = []
-
-    beats.forEach( (beat,i)=>{
-      beat.tracks.forEach(( track, i )=>{
-        const sample = track.sample
-        if( uniqueSamples[sample] == null  ){
-          uniqueSamples[sample] = numUniqueSamples
-          finalBeat.tracks.push({
-            "sample": sample,
-            "sequence" : [],
-            "trackType" : track.trackType
-          })
-          ++numUniqueSamples
-        }
-      })
-    })
-
-    beats.forEach( (beat, i) => {
-      let beatSamples = []
-      beat.tracks.forEach(( track, i )=>{
-        const sample = track.sample
-        const sampleIndex = uniqueSamples[sample]
-        if(finalBeat.tracks[sampleIndex].sequence.length > 0  ){
-            finalBeat.tracks[sampleIndex].sequence = finalBeat.tracks[sampleIndex].sequence.concat(track.sequence)
-        }else{
-          finalBeat.tracks[sampleIndex].sequence = track.sequence
-        }
-        if (!beatSamples.includes(sample)){
-          beatSamples.push(sample)
-        }
-      })
-      // fill one measure of zeros if samples weren't in current beat
-      for (var sample in uniqueSamples){
-        const sampleIndex = uniqueSamples[sample]
-
-        if(!beatSamples.includes(sample)){
-           finalBeat.tracks[sampleIndex].sequence =
-           finalBeat.tracks[sampleIndex].sequence.concat(
-            new Array(resolution).fill(0)
-           )
-        }
-      }
-    })
-    return finalBeat
-  }
-
   getMaxSubdivisions = (beats) => {
     let maxSubdivisions = 0
     beats.forEach( (beatKey, i) => {
@@ -261,28 +212,39 @@ static defaultProps = {
 
     let backgroundColor = ""
     const beatBlocks = store.currentArrangement.map( (beatKey, i) => {
+      let splitKey = beatKey.split(".")
+      console.log('beat key ', beatKey, i, store.currentLitBeat)
+      const currentBeatResolution = store.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
+      const currentBeat = store.allGenerations[splitKey[0]][splitKey[1]]
       const highlight = (i === store.currentLitBeat && store.playingArrangement)
-
       return (
-        <Block
-          key       = {i}
-          index     = {i}
-          beatKey   = {beatKey}
-          highlight = {highlight}
-          lastClicked = {this.state.lastClicked}
-          deleteBlock = {()=>{this.deleteBlock(i)}}
-          handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
-          handleMoveBeat = {this.handleMoveBeat}
-          handleMouseDown = {()=>{this.handleMouseDown(i)}}
-          handleMouseUp = {()=>{this.handleMouseUp(i)}}
-        />
+        <div >
+          <Block 
+            key       = {i}
+            index     = {i}
+            beatKey   = {beatKey}
+            highlight = {highlight}
+            lastClicked = {this.state.lastClicked}
+            deleteBlock = {()=>{this.deleteBlock(i)}}
+            handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
+            handleMoveBeat = {this.handleMoveBeat}
+            handleMouseDown = {()=>{this.handleMouseDown(i)}}
+            handleMouseUp = {()=>{this.handleMouseUp(i)}}
+          />
+           <Player
+            beat       = {currentBeat}
+            playing    = {highlight}
+            resolution = {currentBeatResolution}
+            bars       = {1}
+          />
+        </div>
+
+        
       )
     })
 
     // get max subdivisions
-    const maxSubdivisions = this.getMaxSubdivisions(store.currentArrangement)
-    const normalizedBeats = this.getNormalizedBeats(store.currentArrangement, maxSubdivisions)
-    const finalArrangementBeat = this.concatenateBeats(normalizedBeats, maxSubdivisions)
+
     const beatKeyOptions = store.allBeatKeys.map((key) => {
       return (
         <option key={key} value={key}>
@@ -291,16 +253,11 @@ static defaultProps = {
       )
     })
 
-    const playButtonText = store.playingArrangement ? "Stop" : "Play"
     const PlayStopButton = store.playingArrangement ? MdStop : MdPlayArrow
-
-
 
     const onDragEnd = (result) => {
       store.moveBeatInArrangement(result.source.index, result.destination.index)
     }
-//            <Button onClick={store.togglePlayArrangement}>{playButtonText}</Button>
-
     return (
     <DragDropContext
         onDragEnd = {onDragEnd}
@@ -342,13 +299,6 @@ static defaultProps = {
                   </p>
                   <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
                 </StyledBlock>
-
-                <Player
-                  beat       = {finalArrangementBeat}
-                  playing    = {store.playingArrangement}
-                  resolution = {maxSubdivisions}
-                  bars       = {store.currentArrangement.length}
-                />
               </StyledArrangement>
             )}
           </Droppable>

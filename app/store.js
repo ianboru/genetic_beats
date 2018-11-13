@@ -38,6 +38,7 @@ class Store {
   @observable noteMutationRate   = 8
   @observable playingCurrentBeat = false
   @observable playingArrangement = false
+  @observable arrangementBlockPlaying = []
   @observable numSurvivors       = 6
   @observable numChildren        = 3
   @observable fitnessPercentile  = 70
@@ -61,6 +62,7 @@ class Store {
   //
 
   @computed get currentArrangement() {
+    console.log("current arr ", this.arrangements[this.currentArrangementIndex])
     return this.arrangements[this.currentArrangementIndex]
   }
 
@@ -201,9 +203,11 @@ class Store {
 
   @action incrementCurrentLitBeat = () => {
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
+    console.log("lit beat" , this.currentLitBeat,this.currentArrangement.length )
   }
 
   @action resetArrangementTimer = () => {
+    console.log("resettting timer")
     if(this.playingArrangement){
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
@@ -261,9 +265,9 @@ class Store {
   }
 
   @action deleteBeatFromArrangement = (index) => {
-    if(this.playingArrangement){
+    /*if(this.playingArrangement){
       this.togglePlayArrangement()
-    }
+    }*/
     this.arrangements[this.currentArrangementIndex].splice(index,1)
     this.updateFamilyInStorage()
   }

@@ -124,7 +124,6 @@ export default class Song extends Component {
     });
     this.scheduler.insert(e.playbackTime + ((this.barInterval * maxBars) / 1000), this.loop);
     store.resetCurrentLitNote()
-    store.resetCurrentLitBeat()
 
   }
   render(): React.Element<any> {
