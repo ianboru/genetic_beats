@@ -11,15 +11,12 @@ module.exports = {
     publicPath: '/static/',
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
         SENTRY_PUBLIC_DSN: JSON.stringify('https://00a502ca99b5403e8813bdae38a78df3@sentry.io/1253637')
       },
     }),
-    // Remove this line to troubleshoot in production
-    new webpack.optimize.UglifyJsPlugin(),
   ],
   module: {
     rules: [
@@ -50,6 +47,7 @@ module.exports = {
   },
   plugins: [
     //new BundleAnalyzerPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new LiveReloadPlugin(),
   ],
 };

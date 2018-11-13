@@ -7,7 +7,7 @@ module.exports = {
   entry: './app/index',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'app.js',
+    filename: 'app-dev.js',
     publicPath: '/static/',
   },
   module: {

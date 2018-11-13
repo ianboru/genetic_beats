@@ -11,11 +11,12 @@
 <body>
     <div id='root'></div>
 
-    {% if debug %}
+{% if debug %}
     <script src="http://localhost:35729/livereload.js"></script>
-    {% else %}
+    <script src="{% static "app-dev.js" %}"></script>
+{% else %}
     <script>window.sentry_public_dsn = "{% sentry_public_dsn %}";</script>
-    {% endif %}
     <script src="{% static "app.js" %}"></script>
+{% endif %}
 </body>
 </html>

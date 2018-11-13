@@ -4,7 +4,7 @@
   "description": "Evolve ur beats",
   "scripts": {
     "start": "webpack --watch --mode development --config webpack.config.dev.js",
-    "build": "webpack --mode production --config webpack.config.dev.js",
+    "build": "webpack --mode production --config webpack.config.js",
     "clean": "rimraf dist",
     "dist": "npm run clean && webpack && cp -a public/. dist/",
     "lint": "eslint app --fix",
