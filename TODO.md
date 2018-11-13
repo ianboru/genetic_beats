@@ -1,11 +1,15 @@
 John
 ----
 
+* Hide mating side panel and arrangement panel by default
+    * Show side panel when there are 2 or more beats
+    * Show arrangement panel after there is 2? or more generations
+
+
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * "How do I get to the next beat easily? There should be a keyboard shortcut for that"
 * Add number of subdivisions (aka note size in our case) to beat info header
-* Visual divisions every 4 notes
 * (up)Load all existing samples
 * Disable text select anywhere user swipe, click quickly, or drag & drop
 * Arrangement needs to be on one line (scroll) because of react-beautiful-dnd limitations
@@ -26,6 +30,9 @@ Maintenance:
 
 Ian
 ---
+
+* Randomize Best Beats and Create Song should be two options under the same action
+  ("Generate Arrangement") show song "contour" or more info in a tooltip
 
 * More responsive editing/beat switching (lag)
 * Add templates/archs for random arrangement
@@ -48,8 +55,6 @@ Up For Grabs
 * Letting user know what a beat/track is (in terms of what the buttons do)
 * Color generation and beat number inside of cytoscape nodes to distinguish them
 * Color stars same as node rating color
-* Randomize Best Beats and Create Song should be two options under the same action
-  ("Generate Arrangement") show song "contour" or more info in a tooltip
 * Big magic button for "Create New Arrangement"
 
 
