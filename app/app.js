@@ -284,6 +284,96 @@ class App extends Component {
     }
   }
 
+  renderBeatPanel = () => {
+    return (
+      <BeatOuterContainer>
+        <BeatContainer>
+          <Player
+            beat       = {store.currentBeat}
+            playing    = {store.playingCurrentBeat}
+            resolution = {store.currentBeatResolution}
+          />
+
+          <Header>
+            <BigText inlineBlock>
+              Beat
+            </BigText>
+          </Header>
+
+          <BeatDisplay />
+        </BeatContainer>
+      </BeatOuterContainer>
+    )
+  }
+
+  renderFamilyTreePanel = () => {
+    return (
+      <div>
+        <Header>
+          <PanelLabel>
+            <Button large color={[colors.green.base]} onClick={this.handleMate}>
+              Mate
+            </Button>
+
+            <Button
+              active  = {store.selectPairMode}
+              onClick = {store.toggleSelectPairMode}
+            >
+              Select beats to mate
+            </Button>
+
+            <MatingControls />
+          </PanelLabel>
+        </Header>
+
+        <BackgroundText>
+          <BigText>
+            Family Tree
+          </BigText>
+        </BackgroundText>
+
+        <FamilyTree
+          height     = {this.state.familyTreeHeight}
+          width      = {this.state.familyTreeWidth}
+          familyTree = {store.allGenerations}
+        />
+
+        <Footer>
+          <InfoRow>
+            scroll to zoom
+          </InfoRow>
+        </Footer>
+        {typeof DevTools !== "undefined" ? <DevTools /> : null}
+      </div>
+    )
+  }
+
+  renderArrangementPanel = () => {
+    return (
+      <div>
+        <Header>
+          <PanelLabel>
+            Arrangement
+          </PanelLabel>
+        </Header>
+
+        <Arrangement/>
+
+        <Footer>
+          <FamilySelect />
+
+          <Button title="Start new family" onClick={this.newFamilyTree}>
+            New Family
+          </Button>
+
+          <Button title="Clear all saved families" onClick={this.clearSavedFamilies}>
+            Clear All
+          </Button>
+        </Footer>
+      </div>
+    )
+  }
+
   render() {
     //<input type="file" onChange={this.handleUploadSample} ></input>
     return (
@@ -301,84 +391,12 @@ class App extends Component {
         pane2Style={{backgroundColor: colors.gray.light}}
       >
         <SplitPane split="horizontal" defaultSize={600} minSize={600} maxSize={600}>
-          <BeatOuterContainer>
-            <BeatContainer>
-              <Player
-                beat       = {store.currentBeat}
-                playing    = {store.playingCurrentBeat}
-                resolution = {store.currentBeatResolution}
-              />
+          {this.renderBeatPanel()}
 
-              <Header>
-                <BigText inlineBlock>
-                  Beat
-                </BigText>
-              </Header>
-
-              <BeatDisplay />
-            </BeatContainer>
-          </BeatOuterContainer>
-
-          <div>
-            <Header>
-              <PanelLabel>
-                Arrangement
-              </PanelLabel>
-            </Header>
-
-            <Arrangement/>
-
-            <Footer>
-              <FamilySelect />
-
-              <Button title="Start new family" onClick={this.newFamilyTree}>
-                New Family
-              </Button>
-
-              <Button title="Clear all saved families" onClick={this.clearSavedFamilies}>
-                Clear All
-              </Button>
-            </Footer>
-          </div>
+          {this.renderArrangementPanel()}
         </SplitPane>
 
-        <div>
-          <Header>
-            <PanelLabel>
-              <Button large color={[colors.green.base]} onClick={this.handleMate}>
-                Mate
-              </Button>
-
-              <Button
-                active  = {store.selectPairMode}
-                onClick = {store.toggleSelectPairMode}
-              >
-                Select beats to mate
-              </Button>
-
-              <MatingControls />
-            </PanelLabel>
-          </Header>
-
-          <BackgroundText>
-            <BigText>
-              Family Tree
-            </BigText>
-          </BackgroundText>
-
-          <FamilyTree
-            height     = {this.state.familyTreeHeight}
-            width      = {this.state.familyTreeWidth}
-            familyTree = {store.allGenerations}
-          />
-
-          <Footer>
-            <InfoRow>
-              scroll to zoom
-            </InfoRow>
-          </Footer>
-          {typeof DevTools !== "undefined" ? <DevTools /> : null}
-        </div>
+        {this.renderFamilyTreePanel()}
       </SplitPane>
     )
   }
