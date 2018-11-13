@@ -343,6 +343,16 @@ class App extends Component {
             <BigText inlineBlock>
               Beat
             </BigText>
+
+            {store.allGenerations.length >= 2 ?
+              <Button right onClick={store.toggleShowCreateArrangement}>
+                {store.showCreateArrangement ?
+                  "Hide Beat Arrangement" :
+                  "Create Beat Arrangement"
+                }
+              </Button> :
+              null
+            }
           </Header>
 
           <BeatDisplay />
@@ -444,7 +454,9 @@ class App extends Component {
   render() {
     //<input type="file" onChange={this.handleUploadSample} ></input>
 
-    if (store.allGenerations[0].length >= 2 && store.allGenerations.length >= 2) {
+    if (store.allGenerations[0].length >= 2 &&
+        store.allGenerations.length >= 2 &&
+        store.showCreateArrangement) {
       return this.renderBeatFamilyTreeArrangement()
     } else if (store.allGenerations[0].length >= 2) {
       return this.renderBeatFamilyTree()

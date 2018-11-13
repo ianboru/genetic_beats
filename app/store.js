@@ -28,7 +28,7 @@ class Store {
   //@observable allGenerations     = [beatTemplates]
   @observable samples            = samples
   @observable synthGain          = 0.5
-  @observable synthGainCorrection= 2
+  @observable synthGainCorrection = 2
   @observable synthSolo          = false
   @observable synthMute          = false
   @observable numSolo            = 0
@@ -50,6 +50,7 @@ class Store {
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
   @observable showAddNewBeat     = false
+  @observable showCreateArrangement = false
   @observable noteTimer
   @observable arrangementTimer
   @observable currentSong
@@ -594,6 +595,10 @@ class Store {
     this.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
     })
+  }
+
+  @action toggleShowCreateArrangement = () => {
+    this.showCreateArrangement = !this.showCreateArrangement
   }
 }
 
