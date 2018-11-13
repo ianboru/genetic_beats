@@ -127,6 +127,7 @@ const Spacer = styled.div`
   height: ${props => props.height ? props.height : 10}px;
 `
 
+
 const familyTreeWidth = 440
 
 
@@ -205,8 +206,29 @@ class App extends Component {
       familyTreeHeight : window.innerHeight,
       familyTreeWidth  : familyTreeWidth,
     }
+
+    const horizontalSplitOptions = {
+      onKeyPress  : this.handleKeyPress,
+      split       : "vertical",
+      primary     : "second",
+      defaultSize : this.state.familyTreeWidth,
+      minSize     : 400,
+      maxSize     : 800,
+      onChange    : (size) => { this.setState( { familyTreeWidth : size }) },
+      pane1Style  : {backgroundColor: colors.gray.light},
+      pane2Style  : {backgroundColor: colors.gray.light},
+    }
+
+    const verticalSplitOptions = {
+      split       : "horizontal",
+      defaultSize : 600,
+      minSize     : 600,
+      maxSize     : 600,
+    }
+
     //store.fetchAllSamples()
   }
+
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyPress, false);
     window.addEventListener("resize", this.handleWindowResize)
@@ -284,6 +306,29 @@ class App extends Component {
     }
   }
 
+  getHorizontalSplitOptions = () => {
+    return {
+      onKeyPress  : this.handleKeyPress,
+      split       : "vertical",
+      primary     : "second",
+      defaultSize : familyTreeWidth,
+      minSize     : 400,
+      maxSize     : 800,
+      onChange    : (size) => { this.setState( { familyTreeWidth : size }) },
+      pane1Style  : {backgroundColor: colors.gray.light},
+      pane2Style  : {backgroundColor: colors.gray.light},
+    }
+  }
+
+  getVerticalSplitOptions = () => {
+    return {
+      split       : "horizontal",
+      defaultSize : 600,
+      minSize     : 600,
+      maxSize     : 600,
+    }
+  }
+
   renderBeatPanel = () => {
     return (
       <BeatOuterContainer>
@@ -351,12 +396,6 @@ class App extends Component {
   renderArrangementPanel = () => {
     return (
       <div>
-        <Header>
-          <PanelLabel>
-            Arrangement
-          </PanelLabel>
-        </Header>
-
         <Arrangement/>
 
         <Footer>
@@ -374,23 +413,24 @@ class App extends Component {
     )
   }
 
-  render() {
-    //<input type="file" onChange={this.handleUploadSample} ></input>
+  renderBeat = () => {
+    return this.renderBeatPanel()
+  }
+
+  renderBeatFamilyTree = () => {
     return (
-      <SplitPane
-        onKeyPress={this.handleKeyPress}
-        split       = "vertical"
-        primary     = "second"
-        defaultSize = {familyTreeWidth}
-        minSize     = {400}
-        maxSize     = {800}
-        onChange    = { (size) => {
-          this.setState( { familyTreeWidth : size })
-        } }
-        pane1Style={{backgroundColor: colors.gray.light}}
-        pane2Style={{backgroundColor: colors.gray.light}}
-      >
-        <SplitPane split="horizontal" defaultSize={600} minSize={600} maxSize={600}>
+      <SplitPane {...this.getHorizontalSplitOptions()}>
+        {this.renderBeatPanel()}
+
+        {this.renderFamilyTreePanel()}
+      </SplitPane>
+    )
+  }
+
+  renderBeatFamilyTreeArrangement = () => {
+    return (
+      <SplitPane {...this.getHorizontalSplitOptions()}>
+        <SplitPane {...this.getVerticalSplitOptions()}>
           {this.renderBeatPanel()}
 
           {this.renderArrangementPanel()}
@@ -399,6 +439,18 @@ class App extends Component {
         {this.renderFamilyTreePanel()}
       </SplitPane>
     )
+  }
+
+  render() {
+    //<input type="file" onChange={this.handleUploadSample} ></input>
+
+    if (store.allGenerations[0].length >= 2 && store.allGenerations.length >= 2) {
+      return this.renderBeatFamilyTreeArrangement()
+    } else if (store.allGenerations[0].length >= 2) {
+      return this.renderBeatFamilyTree()
+    } else {
+      return this.renderBeat()
+    }
   }
 }
 

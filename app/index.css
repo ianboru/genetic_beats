@@ -1,8 +1,9 @@
 html, body {
-  height: 100%;
-  font-size: 22px;
+  background-color: rgb(41, 43, 48);
   color: white;
   font-family: "Hind Madurai";
+  font-size: 22px;
+  height: 100%;
 }
 
 input {
