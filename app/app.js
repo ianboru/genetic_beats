@@ -12,6 +12,7 @@ import {
 } from "react-icons/md"
 
 import store from "./store"
+import { mitosis} from "./generateChildren"
 import { mateGeneration, mateSelectedMembers} from "./generateChildren"
 import "./index.css"
 import { colors } from "./colors"
@@ -96,27 +97,6 @@ const PanelLabel = styled.div`
   }
 `
 
-const AddNewBeatButton = styled.div`
-  background: ${colors.green.base};
-  border-radius: 40px;
-  border: 2px solid darkgreen;
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 30px;
-  height: 40px;
-  left: 20px;
-  position: absolute;
-  text-align: center;
-  top: 25px;
-  width: 40px;
-  transition: all 0.1s;
-
-  &:hover {
-    background: ${chroma(colors.green.base).darken(0.8)};
-  }
-`
-
 const InfoRow = styled.div`
   text-align: center;
   color: gray;
@@ -171,12 +151,6 @@ class BeatDisplay extends Component {
           textAlign : "center",
           position  : "relative",
         }}>
-          <AddNewBeatButton
-            onClick={() => { store.toggleAddNewBeat(true) }}
-          >
-            +
-          </AddNewBeatButton>
-
           <StarRating
             score = {store.currentBeat.score}
             handleSetScore = { (score) => {
@@ -329,26 +303,49 @@ class App extends Component {
     }
   }
 
+  handleMitosis = () => {
+    const newBeat = mitosis(store.currentBeat)
+    store.addBeatToCurrentGen(newBeat)
+  }
+
   renderBeatPanel = () => {
     return (
       <BeatOuterContainer>
         <BeatContainer>
-          
-
           <Header>
             <BigText inlineBlock>
-              Beat
-            </BigText>
+              <Button
+                large
+                onClick={() => { store.toggleAddNewBeat(true) }}
+              >
+                Add New Beat
+              </Button>
 
-            {store.allGenerations.length >= 2 ?
-              <Button right onClick={store.toggleShowCreateArrangement}>
-                {store.showCreateArrangement ?
-                  "Hide Beat Arrangement" :
-                  "Create Beat Arrangement"
-                }
-              </Button> :
-              null
-            }
+              {store.allGenerations[0].length >= 1 ?
+                <Button
+                  large
+                  color={[colors.green.base]}
+                  onClick = {this.handleMitosis}
+                >
+                  Mitosis
+                </Button> :
+                null
+              }
+
+              {(store.allGenerations[0].length >= 2 &&
+                store.allGenerations.length >= 1) ?
+                  <Button
+                    large
+                    color={[colors.yellow.dark]}
+                    onClick={store.toggleShowCreateArrangement}>
+                    {store.showCreateArrangement ?
+                      "Hide Beat Arrangement" :
+                      "Create Beat Arrangement"
+                    }
+                  </Button> :
+                  null
+              }
+            </BigText>
           </Header>
 
           <BeatDisplay />
@@ -451,7 +448,7 @@ class App extends Component {
     //<input type="file" onChange={this.handleUploadSample} ></input>
 
     if (store.allGenerations[0].length >= 2 &&
-        store.allGenerations.length >= 2 &&
+        store.allGenerations.length >= 1 &&
         store.showCreateArrangement) {
       return this.renderBeatFamilyTreeArrangement()
     } else if (store.allGenerations[0].length >= 2) {

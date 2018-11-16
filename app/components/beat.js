@@ -17,7 +17,6 @@ import {
   MdStop,
 } from "react-icons/md"
 import Player from "./player"
-import { mitosis} from "../generateChildren"
 
 import Button from "./button"
 import ConfigControl from "./configControl"
@@ -570,10 +569,7 @@ class Beat extends Component {
       })
     }
   }
-  handleMitosis = () => {
-    const newBeat = mitosis(this.props.beat)
-    store.addBeatToCurrentGen(newBeat)
-  }
+
   render() {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
@@ -645,9 +641,6 @@ class Beat extends Component {
           <Column />
           <Column />
           <Column textLeft>
-          <Button small color={[colors.green.base]} onClick={this.handleMitosis}>
-              Mitosis
-            </Button>
             <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
               Add beat to arrangement
             </Button>

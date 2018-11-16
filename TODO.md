@@ -1,3 +1,10 @@
+* Fix shitty bug with mitosis
+* Hide preset options under a Presets button
+* Hide steps option
+* Highlight notes in intermediate color until they're gonna play
+* Highlight notes while arrangement beats are playing
+
+
 John
 ----
 
