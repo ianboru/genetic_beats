@@ -202,6 +202,11 @@ class Arrangement extends Component {
       const currentBeatResolution = store.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       const currentBeat = store.allGenerations[splitKey[0]][splitKey[1]]
       const highlight = (i === store.currentLitBeat && store.playingArrangement)
+
+      if(highlight){
+        console.log(splitKey)
+        store.selectBeat(splitKey[0],splitKey[1])
+      }
       return (
         <Block
           index     = {i}

@@ -187,7 +187,7 @@ class Store {
   }
 
   @action resetNoteTimer = () => {
-    if(this.playingCurrentBeat){
+    if(this.playingCurrentBeat||this.playingArrangement){
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       const millisecondsPerNote = millisecondsPerBeat * 4/ this.currentBeat.tracks[0].sequence.length
       clearInterval(this.noteTimer)
@@ -248,7 +248,6 @@ class Store {
     this.spaceButtonTarget = "currentArrangement"
     this.playingCurrentBeat = false
     this.playingArrangement = !this.playingArrangement
-    clearInterval(this.noteTimer)
     this.resetArrangementTimer()
     this.currentLitNote = 0
   }
@@ -416,6 +415,7 @@ class Store {
   }
 
   @action selectBeat = (generation, beatNum) => {
+    console.log(this.currentLitBeat, this.playingArrangement, this.playingCurrentBeat)
     const selectedKey = `${generation}.${beatNum}`
 
     this.generation = generation

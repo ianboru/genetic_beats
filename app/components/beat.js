@@ -123,7 +123,7 @@ const StyledNote = styled.div`
 @observer
 class Note extends Component {
   render() {
-    const active = this.props.index == store.currentLitNote && store.playingCurrentBeat
+    const active = this.props.index == store.currentLitNote && (store.playingCurrentBeat || store.playingArrangement)
     const separator = this.props.index % 4 === 3
 
     return (
@@ -571,6 +571,7 @@ class Beat extends Component {
   }
 
   render() {
+    console.log("beatas " , toJS(this.props.beat), toJS(store.currentBeat))
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
