@@ -257,9 +257,9 @@ class Store {
   }
 
   @action addBeatToArrangement = (beatKey) => {
-    if(this.playingArrangement){
+    /*if(this.playingArrangement){
       this.togglePlayArrangement()
-    }
+    }*/
     this.arrangements[this.currentArrangementIndex].push(beatKey)
     this.updateFamilyInStorage()
   }

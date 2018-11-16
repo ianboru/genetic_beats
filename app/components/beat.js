@@ -16,6 +16,8 @@ import {
   MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
+import Player from "./player"
+console.log("Play a " , Player)
 import { mitosis} from "../generateChildren"
 
 import Button from "./button"
@@ -591,6 +593,11 @@ class Beat extends Component {
 
     return (
       <StyledBeat>
+        <Player
+          beat       = {store.currentBeat}
+          playing    = {store.playingCurrentBeat && store.currentBeat.key == this.props.beat.key}
+          resolution = {store.currentBeatResolution}
+        />
         <ControlPanel>
           <Column>
             <Button

@@ -333,11 +333,7 @@ class App extends Component {
     return (
       <BeatOuterContainer>
         <BeatContainer>
-          <Player
-            beat       = {store.currentBeat}
-            playing    = {store.playingCurrentBeat}
-            resolution = {store.currentBeatResolution}
-          />
+          
 
           <Header>
             <BigText inlineBlock>
