@@ -3,8 +3,7 @@
 * Hide steps option
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
-
-
+* Play preview doesn't change when new sample is select
 John
 ----
 

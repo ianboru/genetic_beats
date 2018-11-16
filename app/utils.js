@@ -147,7 +147,7 @@ function generateFamilyName(){
 }
 
 const noteLetters = ["c","d","e","f","g","a","b"]
-const octaves = [2,3,4]
+const octaves = [2,3]
 
 let allNotesInRange = []
 octaves.forEach((octave)=>{
