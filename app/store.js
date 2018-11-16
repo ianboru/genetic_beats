@@ -62,7 +62,6 @@ class Store {
   //
 
   @computed get currentArrangement() {
-    console.log("current arr ", this.arrangements[this.currentArrangementIndex])
     return this.arrangements[this.currentArrangementIndex]
   }
 
@@ -203,11 +202,9 @@ class Store {
 
   @action incrementCurrentLitBeat = () => {
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
-    console.log("lit beat" , this.currentLitBeat,this.currentArrangement.length )
   }
 
   @action resetArrangementTimer = () => {
-    console.log("resettting timer")
     if(this.playingArrangement){
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)

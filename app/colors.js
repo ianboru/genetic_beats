@@ -1,3 +1,5 @@
+import chroma from "chroma-js"
+
 
 const colors = {
   gray: {
@@ -21,6 +23,7 @@ const colors = {
   },
   yellow: {
     base : "#FFF419",
+    dark : "#b2ae00",
   },
 }
 

@@ -17,7 +17,6 @@ import {
   MdStop,
 } from "react-icons/md"
 import Player from "./player"
-console.log("Play a " , Player)
 import { mitosis} from "../generateChildren"
 
 import Button from "./button"

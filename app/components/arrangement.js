@@ -37,7 +37,7 @@ const StyledArrangement = styled.div`
 
 const StyledBlock = styled.div`
   border-right: 1px solid ${colors.gray.light};
-  background-color: ${props => props.highlight ? "#e9573f" : colors.gray.darkest};
+  background-color: ${props => props.highlight ? "#e9573f" : colors.yellow.dark};
   display: inline-block;
   height: 100%;
   width: 80px;
@@ -47,7 +47,7 @@ const StyledBlock = styled.div`
   cursor: pointer;
   &:hover {
     color: black;
-    background-color: ${colors.gray.light};
+    background-color: ${colors.yellow.base};
   }
 `
 
@@ -98,6 +98,7 @@ class Block extends Component {
             <DeleteBlockButton onClick={this.props.deleteBlock}>
               &times;
             </DeleteBlockButton>
+            {this.props.children}
           </StyledBlock>
         )}
       </Draggable>
@@ -109,7 +110,6 @@ class Block extends Component {
 class Arrangement extends Component {
   state = {
     beatToAdd : store.allBeatKeys[0],
-    lastClicked : -1,
   }
 
   deleteBlock = (index) => {
@@ -134,16 +134,6 @@ class Arrangement extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     store.selectBeat(generation,beatNum)
-  }
-
-  handleMouseDown = (arrangementIndex) => {
-    this.setState({
-      lastClicked: arrangementIndex
-    })
-  }
-
-  handleMouseUp = (destinationIndex) => {
-    store.moveBeatInArrangement(this.state.lastClicked,destinationIndex)
   }
 
   getMaxSubdivisions = (beats) => {
@@ -184,6 +174,7 @@ class Arrangement extends Component {
       store.randomizeBestBeats()
     }
   }
+
   createSong = () => {
     const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
     if (store.currentArrangement.length > 0) {
@@ -194,13 +185,8 @@ class Arrangement extends Component {
       store.createSong()
     }
   }
-static defaultProps = {
-    size: 80,
-  }
+
   render() {
-    const {
-      size,
-    } = this.props
     let arrangementOptions = []
     store.arrangements.forEach((arrangement,index) => {
       arrangementOptions.push(
@@ -213,33 +199,25 @@ static defaultProps = {
     let backgroundColor = ""
     const beatBlocks = store.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
-      console.log('beat key ', beatKey, i, store.currentLitBeat)
       const currentBeatResolution = store.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       const currentBeat = store.allGenerations[splitKey[0]][splitKey[1]]
       const highlight = (i === store.currentLitBeat && store.playingArrangement)
       return (
-        <div >
-          <Block 
-            key       = {i}
-            index     = {i}
-            beatKey   = {beatKey}
-            highlight = {highlight}
-            lastClicked = {this.state.lastClicked}
-            deleteBlock = {()=>{this.deleteBlock(i)}}
-            handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
-            handleMoveBeat = {this.handleMoveBeat}
-            handleMouseDown = {()=>{this.handleMouseDown(i)}}
-            handleMouseUp = {()=>{this.handleMouseUp(i)}}
-          />
-           <Player
+        <Block
+          index     = {i}
+          beatKey   = {beatKey}
+          highlight = {highlight}
+          deleteBlock = {()=>{this.deleteBlock(i)}}
+          handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
+          handleMoveBeat = {this.handleMoveBeat}
+        >
+          <Player
             beat       = {currentBeat}
             playing    = {highlight}
             resolution = {currentBeatResolution}
             bars       = {1}
           />
-        </div>
-
-        
+        </Block>
       )
     })
 
@@ -258,21 +236,22 @@ static defaultProps = {
     const onDragEnd = (result) => {
       store.moveBeatInArrangement(result.source.index, result.destination.index)
     }
+
     return (
-    <DragDropContext
+      <DragDropContext
         onDragEnd = {onDragEnd}
       >
         <div>
           <ArrangementControls>
-            
+
             <div>
               <h3>Create Beat Arrangement</h3>
-              <Button onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
-              <Button onClick={this.createSong}>Song with Arcs</Button>
-              <Button onClick={store.addArrangement}>Blank Arrangement</Button>
+              <Button color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
+              <Button color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
+              <Button color={[colors.yellow.dark]} onClick={store.addArrangement}>Blank Arrangement</Button>
               <br/>
               <PlayStopButton
-                size    = {size}
+                size    = {80}
                 onClick = {store.togglePlayArrangement}
               />
             </div>
@@ -284,7 +263,6 @@ static defaultProps = {
                 innerRef={provided.innerRef}
                 {...provided.droppableProps}
               >
-
                 {beatBlocks}
                 {provided.placeholder}
 
