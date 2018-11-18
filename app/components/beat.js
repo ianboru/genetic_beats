@@ -229,7 +229,6 @@ class Track extends Component {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
 
-
   renderSamplePreviewer = () => {
     if(this.props.track.trackType == "synth"){
       return(
@@ -256,14 +255,15 @@ class Track extends Component {
               </Sequencer>
             </Song>
           </span>
-
-
       )
-    }else{
+    } else {
       return (
         <span>
-          <button style={{verticalAlign:"middle"}} onClick={() => this.samplePreviewer.play()}>Play</button>
-          <audio ref={ref => this.samplePreviewer = ref}>
+          <button
+            style   = {{verticalAlign:"middle"}}
+            onClick = {() => this.samplePreviewer.play()}
+          >Play</button>
+          <audio key={this.props.track.sample} ref={ref => this.samplePreviewer = ref}>
             <source src={store.samples[this.props.track.sample].path}/>
           </audio>
         </span>
