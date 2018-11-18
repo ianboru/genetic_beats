@@ -458,20 +458,32 @@ class PlayControls extends Component {
 }
 
 
+const StyledAddTrackButton = styled.div`
+  background: ${colors.gray.darkest};
+  border-radius: 3px;
+  border: 1px solid #777;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 6px;
+  padding: 2px 0;
+  text-align: center;
+  transition: background-color 0.2s;
+  width: 100%;
+
+  &:hover {
+    background: #444;
+  }
+
+  &:active {
+    background: #333;
+  }
+`
+
+
 @observer
-class Beat extends Component {
+class AddTrackButton extends Component {
   state = {
-    mousedown : false,
-    activeMuteAll : false,
-    activeSoloAll : false,
-  }
-
-  handleAddSamplerTrack = () => {
-    this.handleAddTrack("sampler")
-  }
-
-  handleAddSynthTrack = () => {
-    this.handleAddTrack("synth")
+    showTrackTypes: false,
   }
 
   handleAddTrack = (trackType) => {
@@ -492,6 +504,55 @@ class Beat extends Component {
 
     const sequence = Array(steps).fill(0)
     store.addTrackToCurrentBeat({sample, sequence, trackType})
+  }
+
+  handleAddSamplerTrack = () => {
+    this.handleAddTrack("sampler")
+    this.toggleShowTrackTypes()
+  }
+
+  handleAddSynthTrack = () => {
+    this.handleAddTrack("synth")
+    this.toggleShowTrackTypes()
+  }
+
+  toggleShowTrackTypes = () => {
+    this.setState({ showTrackTypes: !this.state.showTrackTypes})
+  }
+
+  renderTrackTypes = () => {
+    return (
+      <div>
+        <Button small onClick={this.handleAddSamplerTrack}>Add Sampler</Button>
+        <Button small onClick={this.handleAddSynthTrack}>Add Synth</Button>
+      </div>
+    )
+  }
+
+  renderAddInstrument = () => {
+    return (
+      <StyledAddTrackButton onClick={this.toggleShowTrackTypes}>
+        Add Instrument
+      </StyledAddTrackButton>
+    )
+  }
+
+  render() {
+    if (this.state.showTrackTypes) {
+      return this.renderTrackTypes()
+    } else {
+      return this.renderAddInstrument()
+    }
+  }
+}
+
+
+@observer
+class Beat extends Component {
+  state = {
+    mousedown : false,
+    activeMuteAll : false,
+    activeSoloAll : false,
   }
 
   handleEdit = (track, note) => {
@@ -659,12 +720,16 @@ class Beat extends Component {
         <div style={{display:"table-row"}}>
           <Column />
           <Column />
-          <Column textLeft>
+          <Column />
+        </div>
+        <div style={{display:"table-row"}}>
+          <Column />
+          <Column />
+          <Column style={{textAlign: "center"}}>
+            <AddTrackButton beat={this.props.beat} />
             <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
               Add beat to arrangement
             </Button>
-            <Button small onClick={this.handleAddSamplerTrack}>+ Sampler track</Button>
-            <Button small onClick={this.handleAddSynthTrack}>+ Synth track</Button>
           </Column>
         </div>
       </StyledBeat>
