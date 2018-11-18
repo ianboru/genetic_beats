@@ -142,7 +142,7 @@ class Note extends Component {
 
 const trackNameStyles = {
   display       : "inline-block",
-  width         : 160,
+  width         : 190,
   textAlign     : "center",
 }
 
@@ -377,7 +377,9 @@ class Track extends Component {
 const StyledBeat = styled.div`
   display: table;
   position: relative;
-  margin: 0 auto;
+  margin: 0px auto 15px;
+  border: 2px solid #ccc;
+  padding: 10px;
 `
 
 const BeatInfo = styled.span`
