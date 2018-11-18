@@ -4,6 +4,9 @@
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
 * Play preview doesn't change when new sample is select
+* Click-swiping across notes to set or unset doesn't work across multiple tracks
+
+
 John
 ----
 

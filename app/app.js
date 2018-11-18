@@ -115,7 +115,9 @@ const familyTreeWidth = 440
 class BeatDisplay extends Component {
   render() {
     const beat = ((beat) => {
-      if (beat) {
+      if (!beat) {
+        return null
+      } else {
         const keyInfo = beat.key.split(".")
         const generation = keyInfo[0]
         const beatNum = keyInfo[1]
@@ -130,9 +132,6 @@ class BeatDisplay extends Component {
             handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
           />
         )
-      } else {
-        <div>
-        </div>
       }
     })(store.currentBeat)
 
@@ -196,8 +195,8 @@ class App extends Component {
     const verticalSplitOptions = {
       split       : "horizontal",
       defaultSize : 600,
-      minSize     : 600,
-      maxSize     : 600,
+      minSize     : 200,
+      maxSize     : 800,
     }
 
     //store.fetchAllSamples()
@@ -298,8 +297,8 @@ class App extends Component {
     return {
       split       : "horizontal",
       defaultSize : 600,
-      minSize     : 600,
-      maxSize     : 600,
+      minSize     : 400,
+      maxSize     : 700,
     }
   }
 
@@ -314,12 +313,14 @@ class App extends Component {
         <BeatContainer>
           <Header>
             <BigText inlineBlock>
-              <Button
-                large
-                onClick={() => { store.toggleAddNewBeat(true) }}
-              >
-                Add New Beat
-              </Button>
+              { store.allGenerations[0].length >= 1 ?
+                <Button
+                  large
+                  onClick={() => { store.toggleAddNewBeat(true) }}
+                >
+                  Add New Beat
+                </Button> : null
+              }
 
               {store.allGenerations[0].length >= 1 ?
                 <Button
@@ -328,8 +329,7 @@ class App extends Component {
                   onClick = {this.handleMitosis}
                 >
                   Mitosis
-                </Button> :
-                null
+                </Button> : null
               }
 
               {(store.allGenerations[0].length >= 2 &&
@@ -342,8 +342,7 @@ class App extends Component {
                       "Hide Beat Arrangement" :
                       "Create Beat Arrangement"
                     }
-                  </Button> :
-                  null
+                  </Button> : null
               }
             </BigText>
           </Header>
