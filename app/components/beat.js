@@ -142,7 +142,7 @@ class Note extends Component {
 
 const trackNameStyles = {
   display       : "inline-block",
-  width         : 160,
+  width         : 190,
   textAlign     : "center",
 }
 
@@ -229,7 +229,6 @@ class Track extends Component {
     this.props.handleSampleChange(this.props.trackNum, e.target.value)
   }
 
-
   renderSamplePreviewer = () => {
     if(this.props.track.trackType == "synth"){
       return(
@@ -256,14 +255,15 @@ class Track extends Component {
               </Sequencer>
             </Song>
           </span>
-
-
       )
-    }else{
+    } else {
       return (
         <span>
-          <button style={{verticalAlign:"middle"}} onClick={() => this.samplePreviewer.play()}>Play</button>
-          <audio ref={ref => this.samplePreviewer = ref}>
+          <button
+            style   = {{verticalAlign:"middle"}}
+            onClick = {() => this.samplePreviewer.play()}
+          >Play</button>
+          <audio key={this.props.track.sample} ref={ref => this.samplePreviewer = ref}>
             <source src={store.samples[this.props.track.sample].path}/>
           </audio>
         </span>
@@ -349,11 +349,13 @@ class Track extends Component {
           <MuteTrackButton
             active={activeMute}
             onClick={()=>{this.props.handleMuteTrack(track)}}
+            title="Mute"
           >M</MuteTrackButton>
 
           <SoloTrackButton
             active={activeSolo}
             onClick={()=>{this.props.handleSoloTrack(track)}}
+            title="Solo"
           >S</SoloTrackButton>
         </Column>
 
@@ -377,7 +379,9 @@ class Track extends Component {
 const StyledBeat = styled.div`
   display: table;
   position: relative;
-  margin: 0 auto;
+  margin: 0px auto 15px;
+  border: 2px solid #ccc;
+  padding: 10px;
 `
 
 const BeatInfo = styled.span`
@@ -430,18 +434,24 @@ class PlayControls extends Component {
 
     return (
       <StyledPlayControls>
-        <MdSkipPrevious
-          size    = {size}
-          onClick = {store.prevBeat}
-        />
-        <PlayStopButton
-          size    = {size}
-          onClick = {store.togglePlayCurrentBeat}
-        />
-        <MdSkipNext
-          size    = {size}
-          onClick = {store.nextBeat}
-        />
+        <span title="Previous Beat">
+          <MdSkipPrevious
+            size    = {size}
+            onClick = {store.prevBeat}
+          />
+        </span>
+        <span title="Play / Stop">
+          <PlayStopButton
+            size    = {size}
+            onClick = {store.togglePlayCurrentBeat}
+          />
+        </span>
+        <span title="Next Beat">
+          <MdSkipNext
+            size    = {size}
+            onClick = {store.nextBeat}
+          />
+        </span>
       </StyledPlayControls>
     )
   }
@@ -627,12 +637,20 @@ class Beat extends Component {
             <MuteTrackButton
               active={this.state.activeMuteAll}
               onClick={()=>{this.handleMuteAll()}}
+              title="Mute All"
             >M</MuteTrackButton>
 
             <SoloTrackButton
               active={this.state.activeSoloAll}
               onClick={()=>{this.handleSoloAll()}}
+              title="Solo All"
             >S</SoloTrackButton>
+          </Column>
+
+          <Column>
+            <span style={{ fontSize: 16}}>
+              Volume
+            </span>
           </Column>
         </ControlPanel>
 
