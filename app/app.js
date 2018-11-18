@@ -313,9 +313,21 @@ class App extends Component {
       <BeatOuterContainer>
         <BeatContainer>
           <Header>
-            <BigText inlineBlock>
+              <div style={{marginLeft: "15px", marginBottom: "25px"}} >
+                <FamilySelect />
+              
+                <Button  style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Start new family" onClick={this.newFamilyTree}>
+                  New Family
+                </Button>
+
+                <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Clear all saved families" onClick={this.clearSavedFamilies}>
+                  Clear All
+                </Button>
+              </div>
+
               { store.allGenerations[0].length >= 1 ?
-                <Button
+                <Button 
+                  style={{marginLeft: "15px"}}
                   large
                   onClick={() => { store.toggleAddNewBeat(true) }}
                 >
@@ -345,7 +357,6 @@ class App extends Component {
                     }
                   </Button> : null
               }
-            </BigText>
           </Header>
 
           <BeatDisplay />
@@ -400,18 +411,6 @@ class App extends Component {
     return (
       <div>
         <Arrangement/>
-
-        <Footer>
-          <FamilySelect />
-
-          <Button title="Start new family" onClick={this.newFamilyTree}>
-            New Family
-          </Button>
-
-          <Button title="Clear all saved families" onClick={this.clearSavedFamilies}>
-            Clear All
-          </Button>
-        </Footer>
       </div>
     )
   }

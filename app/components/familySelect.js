@@ -28,7 +28,7 @@ class FamilySelect extends Component {
     familyNamesOptions.push(store.familyName)
     return (
       <StyledFamilySelect>
-        Current Family: <select
+        Current Beat Family: <select
           defaultValue = {store.familyName}
           onChange = {this.handleSelectFamily}
         >
