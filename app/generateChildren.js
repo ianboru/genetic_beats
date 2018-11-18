@@ -14,8 +14,7 @@ const getFitnessThreshold = (generation) => {
   let fitnessPercentile = store.fitnessPercentile/100
   let allScores = generation.map((beat) => { return beat.score })
   allScores = allScores.sort( (a, b) => (a - b) )
-
-  let percentileIndex = Math.floor(allScores.length * fitnessPercentile) - 1
+  let percentileIndex = Math.ceil(allScores.length * fitnessPercentile) - 1
   return allScores[percentileIndex]
 }
 
@@ -74,7 +73,10 @@ const mutateByAddTrack = (beat) => {
 
 const selectFitMembers = (generation) => {
   const fitnessThreshold = getFitnessThreshold(generation)
-  const fitMembers = generation.filter(beat => beat.score >= fitnessThreshold)
+  let fitMembers = generation
+  if(fitMembers.length < 3){
+    generation.filter(beat => beat.score >= fitnessThreshold)
+  } 
   return fitMembers
 }
 
@@ -286,8 +288,12 @@ const matePair = (momBeat, dadBeat) => {
     childBeat = mutateByKillTrack(childBeat)
   }
   childBeat = mutateByAddTrack(childBeat)
-  childBeat = mutateSamplersByMusicalEnhancement(childBeat)
-  childBeat = mutateSynthsByMusicalEnhancement(childBeat)
+  if(childBeat.tracks.length > 0){
+    childBeat = mutateSamplersByMusicalEnhancement(childBeat)
+  }
+  if(childBeat.tracks.length > 0){
+    childBeat = mutateSynthsByMusicalEnhancement(childBeat)
+  }
 
   return childBeat
 }
