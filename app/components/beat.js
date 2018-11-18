@@ -349,11 +349,13 @@ class Track extends Component {
           <MuteTrackButton
             active={activeMute}
             onClick={()=>{this.props.handleMuteTrack(track)}}
+            title="Mute"
           >M</MuteTrackButton>
 
           <SoloTrackButton
             active={activeSolo}
             onClick={()=>{this.props.handleSoloTrack(track)}}
+            title="Solo"
           >S</SoloTrackButton>
         </Column>
 
@@ -432,18 +434,24 @@ class PlayControls extends Component {
 
     return (
       <StyledPlayControls>
-        <MdSkipPrevious
-          size    = {size}
-          onClick = {store.prevBeat}
-        />
-        <PlayStopButton
-          size    = {size}
-          onClick = {store.togglePlayCurrentBeat}
-        />
-        <MdSkipNext
-          size    = {size}
-          onClick = {store.nextBeat}
-        />
+        <span title="Previous Beat">
+          <MdSkipPrevious
+            size    = {size}
+            onClick = {store.prevBeat}
+          />
+        </span>
+        <span title="Play / Stop">
+          <PlayStopButton
+            size    = {size}
+            onClick = {store.togglePlayCurrentBeat}
+          />
+        </span>
+        <span title="Next Beat">
+          <MdSkipNext
+            size    = {size}
+            onClick = {store.nextBeat}
+          />
+        </span>
       </StyledPlayControls>
     )
   }
@@ -629,12 +637,20 @@ class Beat extends Component {
             <MuteTrackButton
               active={this.state.activeMuteAll}
               onClick={()=>{this.handleMuteAll()}}
+              title="Mute All"
             >M</MuteTrackButton>
 
             <SoloTrackButton
               active={this.state.activeSoloAll}
               onClick={()=>{this.handleSoloAll()}}
+              title="Solo All"
             >S</SoloTrackButton>
+          </Column>
+
+          <Column>
+            <span style={{ fontSize: 16}}>
+              Volume
+            </span>
           </Column>
         </ControlPanel>
 
