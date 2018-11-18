@@ -660,6 +660,17 @@ class Beat extends Component {
 
     return (
       <StyledBeat>
+        {store.showCreateArrangement ? <button  title="Add to Arrangement" id="addBeatToArrangement" onClick={() => store.addBeatToArrangement(this.props.beat.key)} style={{
+          position: "absolute",
+          background: "#b2ae00",
+          color: "white",
+          bottom: "-10px",
+          left: "-10px",
+          fontSize : "25pt",
+          fontWeight : "bold",
+          borderRadius : "100%",
+          verticalAlign : "middle"
+        }} >+</button> : null}
         <Player
           beat       = {store.currentBeat}
           playing    = {store.playingCurrentBeat && store.currentBeat.key == this.props.beat.key}
@@ -727,9 +738,6 @@ class Beat extends Component {
           <Column />
           <Column style={{textAlign: "center"}}>
             <AddTrackButton beat={this.props.beat} />
-            <Button small onClick={() => store.addBeatToArrangement(this.props.beat.key)}>
-              Add beat to arrangement
-            </Button>
           </Column>
         </div>
       </StyledBeat>
