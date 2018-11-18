@@ -22,8 +22,9 @@ const colors = {
     base : "#32B209",
   },
   yellow: {
-    base : "#FFF419",
-    dark : "#b2ae00",
+    base   : "#FFF419",
+    dark   : "#b2ae00",
+    darker : chroma("#b2ae00").darken(0.5),
   },
 }
 

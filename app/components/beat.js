@@ -11,6 +11,7 @@ import {
 } from "../react-music"
 
 import {
+  MdAdd,
   MdPlayArrow,
   MdSkipNext,
   MdSkipPrevious,
@@ -547,6 +548,27 @@ class AddTrackButton extends Component {
 }
 
 
+const AddToArrangementButton = styled.button`
+  position: absolute;
+  background: ${colors.yellow.dark};
+  border: 2px solid white;
+  color: white;
+  bottom: -10px;
+  left: -10px;
+  font-size: 35px;
+  font-weight: bold;
+  border-radius: 100%;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s;
+
+  &:hover {
+    background: ${colors.yellow.darker};
+  }
+`
+
+
 @observer
 class Beat extends Component {
   state = {
@@ -660,17 +682,11 @@ class Beat extends Component {
 
     return (
       <StyledBeat>
-        {store.showCreateArrangement ? <button  title="Add to Arrangement" id="addBeatToArrangement" onClick={() => store.addBeatToArrangement(this.props.beat.key)} style={{
-          position: "absolute",
-          background: "#b2ae00",
-          color: "white",
-          bottom: "-10px",
-          left: "-10px",
-          fontSize : "25pt",
-          fontWeight : "bold",
-          borderRadius : "100%",
-          verticalAlign : "middle"
-        }} >+</button> : null}
+        {store.showCreateArrangement ?
+            <AddToArrangementButton
+              title="Add to Arrangement"
+              onClick={() => store.addBeatToArrangement(this.props.beat.key)}
+            ><MdAdd size={25} /></AddToArrangementButton> : null}
         <Player
           beat       = {store.currentBeat}
           playing    = {store.playingCurrentBeat && store.currentBeat.key == this.props.beat.key}
