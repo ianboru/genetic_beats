@@ -40,20 +40,23 @@ const NewBeatHeader = styled.div`
 const StyledNewBeatPanel = styled.div`
   background-color: ${colors.gray.darkest};
   font-family: sans-serif;
-  font-size: 16px;
   padding: 10px;
   border-top: 1px solid ${colors.gray.light};
+
 `
 
 
 @observer
 class NewBeatManager extends Component {
+  state = {
+    addingPreset : false
+  }
   handleClickOutside = () => {
     store.toggleAddNewBeat(false)
   }
 
   addEmptyBeat = () => {
-    const numSteps = parseInt(this.stepsSelect.value)
+    const numSteps = 16//parseInt(this.stepsSelect.value)
     let emptyBeat = {
       name   : "",
       score  : 0,
@@ -116,54 +119,40 @@ class NewBeatManager extends Component {
 
     return (
       <StyledNewBeatPanel>
-        <NewBeatHeader>
-          Add new beat from
-        </NewBeatHeader>
-
-        <NewBeatOption onClick={this.addEmptyBeat}>
-          Empty Beat
-        </NewBeatOption>
-
-        &nbsp;
-        with
-        &nbsp;
-
-        <select
-          ref={(c) => { this.stepsSelect = c }}
-          defaultValue={16}
-          style={{ fontSize: 20 }}
-        >
-          {stepOptions}
-        </select>
-
-        &nbsp;
-        steps
-
-        {
-          presetOptions.length > 0 ?
-            (
+        
+        { 
+          !this.state.addingPreset ? 
+          <div>
+            <NewBeatHeader style={{fontSize : "30pt"}}>
+              Add new beat
+            </NewBeatHeader>
+            <NewBeatOption style={{ display : "inline-block", fontSize : "30pt"}} onClick={this.addEmptyBeat}>
+              Empty Beat
+            </NewBeatOption> 
+             <NewBeatOption style={{ display : "inline-block", fontSize : "30pt"}} onClick={()=>{
+              this.setState({
+                addingPreset : true
+              })
+            }}>
+              Preset
+            </NewBeatOption> 
+          </div>
+          : null
+        }
+        
+         
+        
+        { presetOptions.length > 0 && this.state.addingPreset ?
               <div>
                 <BeatOptionHeader>Presets</BeatOptionHeader>
                 {presetOptions}
               </div>
-            ) : null
+             : null
         }
-
-        {
-          copyOptions.length > 0 && copyOptions[0].length > 0 ?
-            (
-              <div>
-                <BeatOptionHeader>From Family Tree</BeatOptionHeader>
-                {copyOptions}
-              </div>
-            ) : null
-        }
-
-        {
-          store.currentBeat ?
-            <Button small color={[colors.red.darker]} onClick={store.toggleAddNewBeat}>Cancel</Button>
-            :
-            null
+        { store.currentBeat ?
+            <Button small color={[colors.red.darker]} onClick={store.toggleAddNewBeat}>
+              Cancel
+            </Button> : null
         }
       </StyledNewBeatPanel>
     )
