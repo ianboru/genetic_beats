@@ -59,6 +59,7 @@
     "postcss-plugin": "1.0.0",
     "postcss-sass": "0.3.5",
     "postcss-syntax": "0.34.0",
+    "react-svg-loader": "^2.1.0",
     "rimraf": "2.6.2",
     "sass-loader": "7.1.0",
     "style-loader": "0.22.1",
