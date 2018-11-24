@@ -56,7 +56,8 @@ const Footer = styled.div`
 
 const BackgroundText = styled.div`
   left: 10px;
-  top: 50px;
+  right: 10px;
+  bottom: 40px;
   position: absolute;
 `
 
@@ -66,6 +67,7 @@ const BigText = styled.div`
   font-family: "Hind Madurai";
   font-size: 50px;
   vertical-align: middle;
+  text-align: center;
 `
 
 const BeatOuterContainer = styled.div`
@@ -108,7 +110,7 @@ const Spacer = styled.div`
 `
 
 
-const familyTreeWidth = 440
+const familyTreeWidth = 300
 
 
 @observer
@@ -185,8 +187,8 @@ class App extends Component {
       split       : "vertical",
       primary     : "second",
       defaultSize : this.state.familyTreeWidth,
-      minSize     : 400,
-      maxSize     : 800,
+      minSize     : 200,
+      maxSize     : 600,
       onChange    : (size) => { this.setState( { familyTreeWidth : size }) },
       pane1Style  : {backgroundColor: colors.gray.light},
       pane2Style  : {backgroundColor: colors.gray.light},
