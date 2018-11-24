@@ -182,25 +182,6 @@ class App extends Component {
       familyTreeWidth  : familyTreeWidth,
     }
 
-    const horizontalSplitOptions = {
-      onKeyPress  : this.handleKeyPress,
-      split       : "vertical",
-      primary     : "second",
-      defaultSize : this.state.familyTreeWidth,
-      minSize     : 200,
-      maxSize     : 600,
-      onChange    : (size) => { this.setState( { familyTreeWidth : size }) },
-      pane1Style  : {backgroundColor: colors.gray.light},
-      pane2Style  : {backgroundColor: colors.gray.light},
-    }
-
-    const verticalSplitOptions = {
-      split       : "horizontal",
-      defaultSize : 600,
-      minSize     : 200,
-      maxSize     : 800,
-    }
-
     //store.fetchAllSamples()
   }
 
@@ -287,8 +268,8 @@ class App extends Component {
       split       : "vertical",
       primary     : "second",
       defaultSize : familyTreeWidth,
-      minSize     : 400,
-      maxSize     : 800,
+      minSize     : 300,
+      maxSize     : 500,
       onChange    : (size) => { this.setState( { familyTreeWidth : size }) },
       pane1Style  : {backgroundColor: colors.gray.light},
       pane2Style  : {backgroundColor: colors.gray.light},
