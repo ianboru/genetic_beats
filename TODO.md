@@ -1,6 +1,4 @@
 * Fix shitty bug with mitosis
-* Hide preset options under a Presets button
-* Hide steps option
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
 * Play preview doesn't change when new sample is select
@@ -9,11 +7,6 @@
 
 John
 ----
-
-* Hide mating side panel and arrangement panel by default
-    * Show side panel when there are 2 or more beats
-    * Show arrangement panel after there is 2? or more generations
-
 
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
