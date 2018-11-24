@@ -10,7 +10,7 @@ import {
 
 const starSize = 40
 const NUM_STARS = 10
-const colors = [
+const rainbow = [
   "#FF0000",
   "#FF3400",
   "#FF6900",
@@ -22,7 +22,20 @@ const colors = [
   "#35FF00",
   "#00FF00",
 ]
+const blueGradient = [
+  "#ffffff",
+  "#e5eff7",
+  "#cbdfef",
+  "#b0cfe6",
+  "#96bfde",
+  "#7cafd6",
+  "#629fce",
+  "#478fc5",
+  "#2d7fbd",
+  "#136fb5",
+]
 
+const colors = blueGradient
 const StyledStarRating = styled.span`
   display: inline-block;
   margin: 31px 0 10px;
@@ -59,7 +72,7 @@ class StarRating extends Component {
       const props = {
         key          : i,
         size         : starSize,
-        //color        : colors[i],
+        color        : colors[i],
         onMouseEnter : (e) => this.handleStarHover(e, i),
         onClick      : this.handleStarClick,
       }
