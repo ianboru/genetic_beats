@@ -10,7 +10,13 @@ import { deepClone } from "../utils"
 import beatTemplates from "../beatTemplates"
 import store from "../store"
 import { colors } from "../colors"
-
+import Player from "./player"
+import {
+  MdPlayArrow,
+  MdSkipNext,
+  MdSkipPrevious,
+  MdStop,
+} from "react-icons/md"
 
 const BeatOptionHeader = styled.div`
   font-weight bold;
@@ -49,7 +55,8 @@ const StyledNewBeatPanel = styled.div`
 @observer
 class NewBeatManager extends Component {
   state = {
-    addingPreset : false
+    addingPreset : false,
+    playingPresets : beatTemplates.map(()=>{false})
   }
   handleClickOutside = () => {
     store.toggleAddNewBeat(false)
@@ -74,7 +81,16 @@ class NewBeatManager extends Component {
     store.addBeatToCurrentGen(emptyBeat)
     store.toggleAddNewBeat()
   }
-
+  togglePlayPreset = (beatIndex)=>{
+    const playingPresets = this.state.playingPresets.map((preset,i)=>{
+      if(beatIndex == i){
+        return !preset
+      }else{
+        return false
+      }
+    })
+    this.setState({playingPresets})
+  }
   render() {
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -104,16 +120,32 @@ class NewBeatManager extends Component {
     })
 
     const presetOptions = beatTemplates.map( (beat, i) => {
+      const PlayStopButton = this.state.playingPresets[i] ? MdStop : MdPlayArrow
       return (
-        <NewBeatOption
-          key={i}
-          onClick={
-            () => { store.addBeatToCurrentGen(beat)
-            store.toggleAddNewBeat()
-          }}
-        >
-          {beat.name}
-        </NewBeatOption>
+        <div style={{display: "inline-block"}}>
+           <PlayStopButton
+                  size    = {40}
+                  onClick = {()=>{this.togglePlayPreset(i)}}
+            />
+            <br/>
+            <Player
+              beat       = {beat}
+              playing    = {this.state.playingPresets[i]}
+              resolution = {beat.tracks[0].sequence.length}
+              bars       = {1}
+            />
+          <NewBeatOption
+            key={i}
+            onClick={
+              () => { store.addBeatToCurrentGen(beat)
+              store.toggleAddNewBeat()
+            }}
+          >
+            {beat.name}
+            
+          </NewBeatOption>
+        </div>
+
       )
     })
 
