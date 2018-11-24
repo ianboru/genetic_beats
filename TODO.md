@@ -1,5 +1,4 @@
 Beta test session todos:
-* Metronome broken
 * Set up Let's Encrypt on server
 * Make sure Sentry is working on the frontend (credentials on desktop?)
 * Mating with minimal or non-preset beats breaks things

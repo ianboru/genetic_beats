@@ -719,7 +719,6 @@ class Beat extends Component {
               <MetronomeIcon
                 height  = {35}
                 width   = {25}
-                active  = {store.metronome}
                 onClick = {store.toggleMetronome}
               />
             </MetronomeButton>

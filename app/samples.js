@@ -2,7 +2,6 @@ const staticFilePath = "/static/"
 
 
 export default {
-  
   "samples/6581__ST_012.wav": {
     name: "buzz1",
     path: staticFilePath + "samples/6581__ST_012.wav",
