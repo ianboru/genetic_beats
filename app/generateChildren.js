@@ -74,7 +74,6 @@ const mutateByAddTrack = (beat) => {
 const selectFitMembers = (generation) => {
   const fitnessThreshold = getFitnessThreshold(generation)
   let fitMembers = generation
-  console.log(fitnessThreshold, fitMembers.length)
 
   if(fitMembers.length >= 3){
     fitMembers = generation.filter(beat => beat.score >= fitnessThreshold)

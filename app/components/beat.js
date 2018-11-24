@@ -593,7 +593,6 @@ class Beat extends Component {
   handleEdit = (track, note) => {
     let { beat } = this.props
     this.props.handleToggleNote(track, note)
-    console.log(toJS(beat))
   }
 
   handleSampleChange = (track, sample) => {

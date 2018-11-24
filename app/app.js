@@ -310,7 +310,6 @@ class App extends Component {
   }
 
   renderBeatPanel = () => {
-    console.log(store.allGenerations)
     return (
       <BeatOuterContainer>
         <BeatContainer>
