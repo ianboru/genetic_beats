@@ -27,6 +27,9 @@ import {allNotesInRange} from "../utils"
 import store from "../store"
 import { colors } from "../colors"
 
+import Metronome from "../svg/metronome.svg"
+import MetronomeActive from "../svg/metronome-active.svg"
+
 
 const StyledTempoControl = styled.div`
   display: inline-block;
@@ -569,6 +572,16 @@ const AddToArrangementButton = styled.button`
 `
 
 
+const MetronomeButton = styled.div`
+  display: inline-block;
+  margin-bottom: -8px;
+  margin-left: 10px;
+  margin-right: 15px;
+  padding: 0;
+  vertical-align: middle;
+`
+
+
 @observer
 class Beat extends Component {
   state = {
@@ -680,6 +693,9 @@ class Beat extends Component {
       )
     })
 
+
+    const MetronomeIcon = store.metronome ? MetronomeActive : Metronome
+
     return (
       <StyledBeat>
         {store.showCreateArrangement ?
@@ -693,32 +709,39 @@ class Beat extends Component {
           resolution = {store.currentBeatResolution}
         />
         <ControlPanel>
-          <Column>
-            <Button
-              small
-              active  = {store.metronome}
-              onClick = {store.toggleMetronome}
-            >
-              Metronome
-            </Button>
-          </Column>
+          <Column />
 
           <Column>
             <PlayControls />
           </Column>
 
           <Column textLeft>
+            <MetronomeButton>
+              <MetronomeIcon
+                height  = {35}
+                width   = {25}
+                active  = {store.metronome}
+                onClick = {store.toggleMetronome}
+              />
+            </MetronomeButton>
+
             <TempoControl />
 
-            <BeatInfo>
-              <BILabel>Beat</BILabel>
-              <BIData>{this.props.beat.key}</BIData>
-            </BeatInfo>
+            <div style={{
+              textAlign : "right",
+              width      : "55%",
+              display    : "inline-block",
+            }}>
+              <BeatInfo>
+                <BILabel>Beat</BILabel>
+                <BIData>{this.props.beat.key}</BIData>
+              </BeatInfo>
 
-            <BeatInfo>
-              <BILabel>Score</BILabel>
-              <BIData>{this.props.beat.score}</BIData>
-            </BeatInfo>
+              <BeatInfo>
+                <BILabel>Score</BILabel>
+                <BIData>{this.props.beat.score}</BIData>
+              </BeatInfo>
+            </div>
           </Column>
 
           <Column>
