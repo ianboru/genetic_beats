@@ -179,9 +179,6 @@ class Store {
   @action resetCurrentLitNote = () => {
     this.currentLitNote =  0
   }
-  @action resetCurrentLitBeat = () => {
-    this.currentLitBeat =  0
-  }
   @action incrementCurrentLitNote = () => {
     this.currentLitNote = (this.currentLitNote + 1)%this.currentBeat.tracks[0].sequence.length
   }
@@ -213,7 +210,6 @@ class Store {
       }, millisecondsPerBeat*4)
     }else{
       clearInterval(this.arrangementTimer)
-      this.currentLitBeat  = 0
     }
   }
 
@@ -234,7 +230,6 @@ class Store {
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
     this.resetNoteTimer()
-    this.currentLitBeat = 0
   }
   @action togglePlay = () => {
     if(this.spaceButtonTarget == "currentBeat"){
@@ -250,7 +245,6 @@ class Store {
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
     this.resetArrangementTimer()
-    this.currentLitNote = 0
   }
 
   @action addBeatToArrangement = (beatKey) => {
@@ -430,7 +424,10 @@ class Store {
       this.selectedBeats = [selectedKey]
     }
   }
-
+  @action setCurrentLitBeat = (beatNum) => {
+    console.log("setting lit beat to ", beatNum)
+    this.currentLitBeat = beatNum
+  }
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []

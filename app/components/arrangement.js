@@ -134,6 +134,7 @@ class Arrangement extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     store.selectBeat(generation,beatNum)
+    store.setCurrentLitBeat(arrangementIndex)
   }
 
   getMaxSubdivisions = (beats) => {
@@ -201,7 +202,7 @@ class Arrangement extends Component {
       let splitKey = beatKey.split(".")
       const currentBeatResolution = store.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       const currentBeat = store.allGenerations[splitKey[0]][splitKey[1]]
-      const highlight = (i === store.currentLitBeat && store.playingArrangement)
+      const highlight = (i === store.currentLitBeat )
       return (
         <Block
           index     = {i}
@@ -213,7 +214,7 @@ class Arrangement extends Component {
         >
           <Player
             beat       = {currentBeat}
-            playing    = {highlight}
+            playing    = {highlight && store.playingArrangement}
             resolution = {currentBeatResolution}
             bars       = {1}
           />
