@@ -334,8 +334,8 @@ class App extends Component {
                     color={[colors.yellow.dark]}
                     onClick={store.toggleShowCreateArrangement}>
                     {store.showCreateArrangement ?
-                      "Hide Beat Arrangement" :
-                      "Create Beat Arrangement"
+                      "Hide Beat Arrangements" :
+                      "Show Beat Arrangements"
                     }
                   </Button> : null
               }

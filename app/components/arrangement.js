@@ -247,7 +247,7 @@ class Arrangement extends Component {
           <ArrangementControls>
 
             <div>
-              <h3>Show Beat Arrangement</h3>
+              <h3>Beat Arrangement</h3>
               <select 
                   style={{fontSize : '20px', marginBottom : '15px'}}
                   onChange={this.handleSelectArrangement}
