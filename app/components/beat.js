@@ -327,8 +327,8 @@ class Track extends Component {
         const noteString = noteName + "-" + synthType
         return (
           <option
-            key   = {noteString}
-            value = {noteString}
+            key   = {noteName}
+            value = {noteName}
           >{noteString}</option>
         )
       })
