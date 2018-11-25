@@ -16,7 +16,7 @@ newFamilyNames.push(newFamilyName)
 
 configure({ enforceActions: "always" })
 
-
+console.log("guaranteed")
 class Store {
   //
   // STATE
@@ -348,6 +348,8 @@ class Store {
     let sampleDifference
     let differenceComparitor
     let lastBeat
+    let numTries = 0
+
     sectionLengths.forEach((lengthDefinition)=>{
       const [length, complexity] = lengthDefinition.split("-")
       for (let i=0; i < Math.abs(length); i++) {
@@ -369,14 +371,17 @@ class Store {
           }
           const scoreComparitor = Math.pow(Math.E, -1*exponentialScoreConstant/randomBeat.score)
           if (
-              (differenceComparitor > Math.random() || i == 0) &&
+              ((differenceComparitor > Math.random() || i == 0) &&
               probability/getNormalProbability(mean, mean, sd ) > Math.random() &&
-              scoreComparitor > Math.random()
+              scoreComparitor > Math.random()) ||
+              (!acceptedBeat && numTries > 50)
             ) {
             this.arrangements[this.currentArrangementIndex].push(randomBeat.key)
             acceptedBeat = true
             lastBeat = randomBeat
+            numTries = 0
           }
+          ++numTries
         }
       }
     })

@@ -367,9 +367,9 @@ class App extends Component {
         <Header>
           <PanelLabel>
             <Button large color={[colors.green.base]} onClick={this.handleMate}>
-              Mate
+              Mate generation
             </Button>
-
+            <br/>
             <Button
               active  = {store.selectPairMode}
               onClick = {store.toggleSelectPairMode}
