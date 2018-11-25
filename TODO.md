@@ -3,12 +3,8 @@ Beta test session todos:
 * John: Make sure Sentry is working on the frontend (credentials on desktop?)
 * John: Arrangement panel default height not visible and should also be scrollable
 * John: Improve console error messages
-* Ian: Mating with minimal or non-preset beats breaks things
-    * Mating / missing beat bugs
-    * Make sure to filter out 0-track beats during mating/mitosis
-* Ian: Beat delete button in arrangement too small
+
 * Ian: We need to display the list of arrangement somewhere, this got lost
-* Ian: Users should be able to preview preset beats
 
 
 Other Stuff:

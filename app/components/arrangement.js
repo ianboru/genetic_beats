@@ -243,13 +243,23 @@ class Arrangement extends Component {
         onDragEnd = {onDragEnd}
       >
         <div>
+
           <ArrangementControls>
 
             <div>
-              <h3>Create Beat Arrangement</h3>
-              <Button color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
-              <Button color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
-              <Button color={[colors.yellow.dark]} onClick={store.addArrangement}>Blank Arrangement</Button>
+              <h3>Show Beat Arrangement</h3>
+              <select 
+                  style={{fontSize : '20px', marginBottom : '15px'}}
+                  onChange={this.handleSelectArrangement}
+                  value={store.currentArrangementIndex}
+                >
+                  {arrangementOptions}
+              </select>
+              <br/>
+              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
+              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
+              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={store.addArrangement}>Blank Arrangement</Button>
+              
               <br/>
               <PlayStopButton
                 size    = {80}
