@@ -66,7 +66,7 @@ const DeleteBlockButton = styled.div`
   right: 5px;
   text-align: center;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 25px;
 
   &:hover {
     color: red;
