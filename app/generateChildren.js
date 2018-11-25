@@ -244,13 +244,17 @@ const mutateSynthsByMusicalEnhancement = (beat) => {
   return mutatedBeat
 }
 const mutateSequence = (sequence) => {
-  const mutatedSequence = sequence.map((note) => {
+  let mutatedSequence = sequence.map((note) => {
     const randomInteger = Math.floor(Math.random() * 100)
     if(randomInteger < store.noteMutationRate){
       note = 1 - note
     }
     return note
   })
+  const randomIndex = Math.floor(Math.random() * sequence.length)
+  if(!mutatedSequence.includes(1)){
+    mutatedSequence[randomIndex] = 1
+  } 
   return mutatedSequence
 }
 
@@ -311,7 +315,9 @@ const mateMembers = (members)=> {
 
       for (let i=0; i < store.numChildren; i++) {
         const childBeat = matePair(momBeat, dadBeat)
-        nextGeneration.push(childBeat)
+        if(childBeat.tracks.length){
+          nextGeneration.push(childBeat)
+        }
       }
     })
   })
@@ -323,15 +329,22 @@ const mitosis = (originalBeat) => {
   let mutatedTracks = []
   newBeat.tracks.forEach((track)=>{
     track.sequence = mutateSequence(track.sequence)
-    mutatedTracks.push(track)
+    if(track.sequence.includes(1)){
+      mutatedTracks.push(track)
+    }
   })
   newBeat.tracks = mutatedTracks
   if (originalBeat.tracks.length > 1) {
     newBeat = mutateByKillTrack(newBeat)
   }
   newBeat = mutateByAddTrack(newBeat)
-  newBeat = mutateSamplersByMusicalEnhancement(newBeat)
-  newBeat = mutateSynthsByMusicalEnhancement(newBeat)
+  if(newBeat.tracks.length > 1){
+      newBeat = mutateSamplersByMusicalEnhancement(newBeat)
+  }
+  if(newBeat.tracks.length > 1){
+    newBeat = mutateSynthsByMusicalEnhancement(newBeat)
+  }
+
   return newBeat
 }
 const mateSelectedMembers = (members) => {
