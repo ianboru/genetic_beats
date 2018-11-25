@@ -11,14 +11,6 @@ module.exports = {
     filename: 'app.js',
     publicPath: '/static/',
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-        SENTRY_PUBLIC_DSN: JSON.stringify('https://00a502ca99b5403e8813bdae38a78df3@sentry.io/1253637')
-      },
-    }),
-  ],
   module: {
     rules: [
       {
@@ -63,5 +55,11 @@ module.exports = {
     //new BundleAnalyzerPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new LiveReloadPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+        SENTRY_PUBLIC_DSN: JSON.stringify('https://00a502ca99b5403e8813bdae38a78df3@sentry.io/1253637')
+      },
+    }),
   ],
 };
