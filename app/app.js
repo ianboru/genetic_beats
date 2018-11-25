@@ -289,7 +289,7 @@ class App extends Component {
     store.addBeatToCurrentGen(store.currentBeat)
   }
 
-  handleMitosis = () => {
+  handleMutate = () => {
     const newBeat = mitosis(store.currentBeat)
     store.addBeatToCurrentGen(newBeat)
   }
@@ -325,9 +325,9 @@ class App extends Component {
                 <Button
                   large
                   color={[colors.green.base]}
-                  onClick = {this.handleMitosis}
+                  onClick = {this.handleMutate}
                 >
-                  Mitosis
+                  Mutate
                 </Button> : null
               }
 
