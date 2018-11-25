@@ -285,6 +285,10 @@ class App extends Component {
     }
   }
 
+  handleDuplicate = () => {
+    store.addBeatToCurrentGen(store.currentBeat)
+  }
+
   handleMitosis = () => {
     const newBeat = mitosis(store.currentBeat)
     store.addBeatToCurrentGen(newBeat)
@@ -297,7 +301,7 @@ class App extends Component {
           <Header>
               <div style={{marginLeft: "15px", marginBottom: "25px"}} >
                 <FamilySelect />
-              
+
                 <Button  style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Start new family" onClick={this.newFamilyTree}>
                   New Family
                 </Button>
@@ -307,8 +311,8 @@ class App extends Component {
                 </Button>
               </div>
 
-              { store.allGenerations[0].length >= 1 ?
-                <Button 
+              {store.allGenerations[0].length >= 1 ?
+                <Button
                   style={{marginLeft: "15px"}}
                   large
                   onClick={() => { store.toggleAddNewBeat(true) }}
@@ -324,6 +328,16 @@ class App extends Component {
                   onClick = {this.handleMitosis}
                 >
                   Mitosis
+                </Button> : null
+              }
+
+              {store.allGenerations[0].length >= 1 ?
+                <Button
+                  large
+                  color={[colors.green.base]}
+                  onClick = {this.handleDuplicate}
+                >
+                  Duplicate
                 </Button> : null
               }
 
