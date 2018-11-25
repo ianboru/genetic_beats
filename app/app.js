@@ -285,7 +285,7 @@ class App extends Component {
     }
   }
 
-  handleDuplicate = () => {
+  handleClone = () => {
     store.addBeatToCurrentGen(store.currentBeat)
   }
 
@@ -335,9 +335,9 @@ class App extends Component {
                 <Button
                   large
                   color={[colors.green.base]}
-                  onClick = {this.handleDuplicate}
+                  onClick = {this.handleClone}
                 >
-                  Duplicate
+                  Clone
                 </Button> : null
               }
 
