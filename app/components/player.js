@@ -12,12 +12,19 @@ import store from "../store"
 
 
 const generateSamplers = (beat, samples) => {
-  let convertedSynthSequence = []
+  const synthTypes = ["sine","square"]
+  let convertedSynthSequences = {}
+  let synthType = null
   let samplers = beat.tracks.map((track, i) => {
     if(track.trackType == "synth"){
+
+      synthType = track.synthType ? track.synthType : "sine"
+      if(!convertedSynthSequences[synthType]){
+        convertedSynthSequences[synthType] = []
+      }
       track.sequence.forEach((note, j) => {
         if (note === 1 && !track.mute) { 
-          convertedSynthSequence.push([j, 2, track.sample]) 
+          convertedSynthSequences[synthType].push([j, 2, track.sample]) 
         }
       })
     }else{
@@ -33,14 +40,20 @@ const generateSamplers = (beat, samples) => {
       />)
     }
   })
-  samplers.push(
-    <Synth
-      key   = {"synth" + store.generation + "."+ store.beatNum}
-      type  = {"square"}
-      steps = {convertedSynthSequence}
-      gain  = {store.synthGain/store.synthGainCorrection}
-    />
-  ) 
+  synthTypes.forEach((synthType)=>{
+    if(convertedSynthSequences[synthType]){
+      samplers.push(
+        <Synth
+          key   = {"synth" + store.generation + "."+ store.beatNum}
+          type  = {synthType}
+          steps = {convertedSynthSequences[synthType]}
+          gain  = {store.synthGain/store.synthGainCorrection[synthType]}
+        />
+      ) 
+    }
+    
+  })
+  
 
   return samplers
 }

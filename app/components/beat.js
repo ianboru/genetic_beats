@@ -235,6 +235,7 @@ class Track extends Component {
 
   renderSamplePreviewer = () => {
     if(this.props.track.trackType == "synth"){
+      const synthType = this.props.track.synthType ? this.props.track.synthType : "sine" 
       return(
           <span>
             <button
@@ -252,9 +253,9 @@ class Track extends Component {
               >
                 <Synth
                   key   = {this.props.track.key + "synth"}
-                  type  = {"square"}
+                  type  = {synthType }
                   steps = {[[0, 2, this.props.track.sample]]}
-                  gain  = {store.synthGain/store.synthGainCorrection}
+                  gain  = {store.synthGain/store.synthGainCorrection[synthType]}
                 />
               </Sequencer>
             </Song>
@@ -322,11 +323,13 @@ class Track extends Component {
 
     if (track.trackType === "synth") {
       sampleOptions = allNotesInRange.map( (noteName) => {
+        const synthType = track.synthType ? track.synthType : "sine"
+        const noteString = noteName + "-" + synthType
         return (
           <option
-            key   = {noteName}
-            value = {noteName}
-          >{noteName}</option>
+            key   = {noteString}
+            value = {noteString}
+          >{noteString}</option>
         )
       })
     }

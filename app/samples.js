@@ -113,7 +113,7 @@ export default {
     name: "Titan Snare 3 - C",
     path: staticFilePath + "samples/Snares/Cymatics - Titan Snare 3 - C.wav",
     gain: 0.5,
-    gainCorrection: 0.5,
+    gainCorrection: 0.4,
     mute: false,
     solo: false,
   },

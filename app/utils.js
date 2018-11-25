@@ -90,11 +90,11 @@ const getSubarray = (array, indexList) => {
 }
 
 
-const findInJSON = (object, key, value) => {
+const findInJSON = (object, key1, value1, key2, value2 ) => {
   let result = {}
   let found = false
   object.forEach((element) => {
-    if (element[key] && element[key] == value ) {
+    if (element[key1] && element[key1] == value1  && element[key2] == value2) {
       result = element
       found = true
     }

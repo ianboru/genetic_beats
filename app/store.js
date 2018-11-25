@@ -28,7 +28,7 @@ class Store {
   //@observable allGenerations     = [beatTemplates]
   @observable samples            = samples
   @observable synthGain          = 0.5
-  @observable synthGainCorrection = 2
+  @observable synthGainCorrection = {'sine' : 1, "square" : 2}
   @observable synthSolo          = false
   @observable synthMute          = false
   @observable numSolo            = 0
@@ -341,9 +341,9 @@ class Store {
     let probability
     let mean
     const sd = (maxNoteDensity-minNoteDensity)/10
-    const sectionLengths = ["4-low", "8-medium", "4-high","4-medium","4-low"]
+    const sectionLengths = ["2-low", "4-medium", "3-high","1-low","3-high","1-low"]
     const exponentialConstant = 1
-    const exponentialScoreConstant = 7
+    const exponentialScoreConstant = 10
     const minSampleDifference = 2
     let sampleDifference
     let differenceComparitor
@@ -367,7 +367,7 @@ class Store {
             sampleDifference =  calculateSampleDifference(lastBeat, randomBeat)
             differenceComparitor = Math.pow(Math.E, -1*(sampleDifference-minSampleDifference)/exponentialConstant)
           }
-          const scoreComparitor = Math.pow(Math.E, -1*(maxScore-randomBeat.score)/exponentialScoreConstant)
+          const scoreComparitor = Math.pow(Math.E, -1*exponentialScoreConstant/randomBeat.score)
           if (
               (differenceComparitor > Math.random() || i == 0) &&
               probability/getNormalProbability(mean, mean, sd ) > Math.random() &&
@@ -425,7 +425,6 @@ class Store {
     }
   }
   @action setCurrentLitBeat = (beatNum) => {
-    console.log("setting lit beat to ", beatNum)
     this.currentLitBeat = beatNum
   }
   @action toggleSelectPairMode = () => {
