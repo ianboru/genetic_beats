@@ -508,9 +508,10 @@ class AddTrackButton extends Component {
     } else if (trackType === "synth") {
       sample = allNotesInRange[0]
     }
-
+    //TODO move to ui control
+    const synthType = "square"
     const sequence = Array(steps).fill(0)
-    store.addTrackToCurrentBeat({sample, sequence, trackType})
+    store.addTrackToCurrentBeat({sample, sequence, trackType, synthType})
   }
 
   handleAddSamplerTrack = () => {
