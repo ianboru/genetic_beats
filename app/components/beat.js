@@ -588,6 +588,7 @@ const MetronomeButton = styled.div`
   margin-right: 15px;
   padding: 0;
   vertical-align: middle;
+  cursor: pointer;
 `
 
 
