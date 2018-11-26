@@ -16,7 +16,6 @@ newFamilyNames.push(newFamilyName)
 
 configure({ enforceActions: "always" })
 
-console.log("guaranteed")
 class Store {
   //
   // STATE

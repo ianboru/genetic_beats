@@ -367,7 +367,7 @@ class App extends Component {
         <Header>
           <PanelLabel>
             <Button large color={[colors.green.base]} onClick={this.handleMate}>
-              Mate Generation
+              Mate {store.selectPairMode ? "Selected Beats" : "Generation"}
             </Button>
             <br/>
             <Button

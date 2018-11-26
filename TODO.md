@@ -1,10 +1,5 @@
 Beta test session todos:
-* John: Set up Let's Encrypt on server
-* John: Make sure Sentry is working on the frontend (credentials on desktop?)
-* John: Arrangement panel default height not visible and should also be scrollable
 * John: Improve console error messages
-
-* Ian: We need to display the list of arrangement somewhere, this got lost
 
 
 Other Stuff:
@@ -17,6 +12,7 @@ Other Stuff:
 John
 ----
 
+* John: Set up Let's Encrypt on server
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * Arrow keys to go to next/previous beat
