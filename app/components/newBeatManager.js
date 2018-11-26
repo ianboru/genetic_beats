@@ -91,6 +91,7 @@ class NewBeatManager extends Component {
     })
     this.setState({playingPresets})
   }
+
   render() {
     const stepOptions = [ 2, 4, 8, 16, 32 ].map( (stepCount) => {
       return (
@@ -102,10 +103,10 @@ class NewBeatManager extends Component {
     })
 
     let copyOptions = store.allGenerations.map( (generation, i) => {
-      const generationOptions = generation.map( (beat, i) => {
+      const generationOptions = generation.map( (beat, j) => {
         return (
           <NewBeatOption
-            key={i}
+            key={j}
             onClick={() => {
               store.addBeatToCurrentGen(beat)
               store.toggleAddNewBeat()
@@ -122,27 +123,25 @@ class NewBeatManager extends Component {
     const presetOptions = beatTemplates.map( (beat, i) => {
       const PlayStopButton = this.state.playingPresets[i] ? MdStop : MdPlayArrow
       return (
-        <div style={{display: "inline-block"}}>
-           <PlayStopButton
-                  size    = {40}
-                  onClick = {()=>{this.togglePlayPreset(i)}}
-            />
-            <br/>
-            <Player
-              beat       = {beat}
-              playing    = {this.state.playingPresets[i]}
-              resolution = {beat.tracks[0].sequence.length}
-              bars       = {1}
-            />
+        <div key={i} style={{display: "inline-block"}}>
+          <PlayStopButton
+                size    = {40}
+                onClick = {()=>{this.togglePlayPreset(i)}}
+          />
+          <br/>
+          <Player
+            beat       = {beat}
+            playing    = {this.state.playingPresets[i]}
+            resolution = {beat.tracks[0].sequence.length}
+            bars       = {1}
+          />
           <NewBeatOption
-            key={i}
             onClick={
               () => { store.addBeatToCurrentGen(beat)
               store.toggleAddNewBeat()
             }}
           >
             {beat.name}
-            
           </NewBeatOption>
         </div>
 
