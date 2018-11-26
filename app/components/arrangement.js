@@ -6,6 +6,7 @@ import {
 } from "../react-music"
 import {observer} from "mobx-react"
 import styled from "styled-components"
+import chroma from "chroma-js"
 
 import Button from "./button"
 import Player from "./player"
@@ -51,7 +52,7 @@ const StyledBlock = styled.div`
   cursor: pointer;
   &:hover {
     color: black;
-    background-color: ${colors.yellow.base};
+    background-color: ${props => props.highlight ? chroma("#e9573f").brighten(0.5) : colors.yellow.base};
   }
 `
 
@@ -215,6 +216,7 @@ class Arrangement extends Component {
       return (
         <Block
           index     = {i}
+          key       = {i}
           beatKey   = {beatKey}
           highlight = {highlight}
           deleteBlock = {() => { this.deleteBlock(i) }}
