@@ -31,8 +31,12 @@ import {
 const StyledArrangement = styled.div`
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
-  height: 125px;
-  overflow: visible;
+  height: 100px;
+  overflow-x: auto;
+  overflow-y: none;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
 `
 
 const StyledBlock = styled.div`
@@ -40,7 +44,7 @@ const StyledBlock = styled.div`
   background-color: ${props => props.highlight ? "#e9573f" : colors.yellow.dark};
   display: inline-block;
   height: 100%;
-  width: 80px;
+  width: 60px;
   position: relative;
   vertical-align: top;
   text-align: center;
@@ -53,6 +57,7 @@ const StyledBlock = styled.div`
 
 const AddBlockButton = styled.div`
   cursor: pointer;
+  display: inline-block;
   font-size: 30px;
 
   &:hover {
@@ -74,7 +79,6 @@ const DeleteBlockButton = styled.div`
 `
 
 const ArrangementControls = styled.div`
-  text-align : center;
   button{
     margin-buttom : 20px;
   }
@@ -208,7 +212,10 @@ class Arrangement extends Component {
           index     = {i}
           beatKey   = {beatKey}
           highlight = {highlight}
-          deleteBlock = {()=>{this.deleteBlock(i)}}
+          deleteBlock = {(e) => {
+            this.deleteBlock(i)
+            return false
+          }}
           handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
           handleMoveBeat = {this.handleMoveBeat}
         >
@@ -245,25 +252,36 @@ class Arrangement extends Component {
         <div>
 
           <ArrangementControls>
+            <div style={{ textAlign: "left" }}>
+              Current Beat Arrangement:&nbsp;
 
-            <div>
-              <h3>Beat Arrangement</h3>
-              <select 
-                  style={{fontSize : '20px', marginBottom : '15px'}}
+              <select
+                  style={{fontSize : '20px'}}
                   onChange={this.handleSelectArrangement}
                   value={store.currentArrangementIndex}
                 >
                   {arrangementOptions}
               </select>
-              <br/>
+
+              <Button
+                style   = {{background : colors.gray.darkest, marginLeft : "20px"}}
+                color   = {[colors.yellow.dark]}
+                onClick = {store.addArrangement}
+              >
+                New Arrangement
+              </Button>
+            </div>
+
+            <div>
               <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
               <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
-              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={store.addArrangement}>Blank Arrangement</Button>
-              
-              <br/>
+            </div>
+
+            <div>
               <PlayStopButton
                 size    = {80}
                 onClick = {store.togglePlayArrangement}
+                style={{verticalAlign: "middle"}}
               />
             </div>
           </ArrangementControls>
@@ -278,14 +296,14 @@ class Arrangement extends Component {
                 {provided.placeholder}
 
                 <StyledBlock>
-                  <p>
+                  <div>
                     <select
                       defaultValue={beatKeyOptions[0]}
                       onChange={this.handleSelectBeatToAdd}
                     >
                       {beatKeyOptions}
                     </select>
-                  </p>
+                  </div>
                   <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
                 </StyledBlock>
               </StyledArrangement>
