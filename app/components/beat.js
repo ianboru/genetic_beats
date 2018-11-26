@@ -235,7 +235,7 @@ class Track extends Component {
 
   renderSamplePreviewer = () => {
     if(this.props.track.trackType == "synth"){
-      const synthType = this.props.track.synthType ? this.props.track.synthType : "sine" 
+      const synthType = this.props.track.synthType ? this.props.track.synthType : "sine"
       return(
           <span>
             <button
@@ -468,7 +468,7 @@ class PlayControls extends Component {
 const StyledAddTrackButton = styled.div`
   background: ${colors.gray.darkest};
   border-radius: 3px;
-  border: 1px solid #777;
+  border: 2px solid ${colors.green.base};
   cursor: pointer;
   font-size: 18px;
   margin-top: 6px;
@@ -531,8 +531,13 @@ class AddTrackButton extends Component {
   renderTrackTypes = () => {
     return (
       <div>
-        <Button small onClick={this.handleAddSamplerTrack}>Add Sampler</Button>
-        <Button small onClick={this.handleAddSynthTrack}>Add Synth</Button>
+        <Button small onClick={this.handleAddSamplerTrack}>Add Sampler Track</Button>
+        <Button small onClick={this.handleAddSynthTrack}>Add Synth Track</Button>
+        <Button
+          small
+          color   = {[colors.red.base]}
+          onClick = {this.toggleShowTrackTypes}
+        >Cancel</Button>
       </div>
     )
   }
