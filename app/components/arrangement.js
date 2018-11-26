@@ -28,18 +28,15 @@ import {
 } from "react-beautiful-dnd"
 
 
-const ArrangementWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: none;
-  height: 100px;
-`
-
 const StyledArrangement = styled.div`
-  white-space: nowrap;
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
+  height: 100px;
+  overflow-x: auto;
+  overflow-y: none;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
 `
 
 const StyledBlock = styled.div`
@@ -291,27 +288,25 @@ class Arrangement extends Component {
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
             {provided => (
-              <ArrangementWrapper>
-                <StyledArrangement
-                  innerRef={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {beatBlocks}
-                  {provided.placeholder}
+              <StyledArrangement
+                innerRef={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {beatBlocks}
+                {provided.placeholder}
 
-                  <StyledBlock>
-                    <div>
-                      <select
-                        defaultValue={beatKeyOptions[0]}
-                        onChange={this.handleSelectBeatToAdd}
-                      >
-                        {beatKeyOptions}
-                      </select>
-                    </div>
-                    <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
-                  </StyledBlock>
-                </StyledArrangement>
-              </ArrangementWrapper>
+                <StyledBlock>
+                  <div>
+                    <select
+                      defaultValue={beatKeyOptions[0]}
+                      onChange={this.handleSelectBeatToAdd}
+                    >
+                      {beatKeyOptions}
+                    </select>
+                  </div>
+                  <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
+                </StyledBlock>
+              </StyledArrangement>
             )}
           </Droppable>
         </div>
