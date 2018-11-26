@@ -99,7 +99,10 @@ class Block extends Component {
             {...provided.dragHandleProps}
           >
             <p>{this.props.beatKey}</p>
-            <DeleteBlockButton onClick={this.props.deleteBlock}>
+            <DeleteBlockButton onClick={(e) => {
+              this.props.deleteBlock()
+              e.stopPropagation()
+            }}>
               &times;
             </DeleteBlockButton>
             {this.props.children}
@@ -212,11 +215,8 @@ class Arrangement extends Component {
           index     = {i}
           beatKey   = {beatKey}
           highlight = {highlight}
-          deleteBlock = {(e) => {
-            this.deleteBlock(i)
-            return false
-          }}
-          handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
+          deleteBlock = {() => { this.deleteBlock(i) }}
+          handleClickBeat = {()=>{this.handleClickBeat(beatKey, i)}}
           handleMoveBeat = {this.handleMoveBeat}
         >
           <Player
