@@ -544,7 +544,7 @@ class AddTrackButton extends Component {
 
   renderAddInstrument = () => {
     return (
-      <StyledAddTrackButton onClick={this.toggleShowTrackTypes}>
+      <StyledAddTrackButton onClick={this.toggleShowTrackTypes} title="Add a new sampler or synth instrument track">
         Add Instrument
       </StyledAddTrackButton>
     )

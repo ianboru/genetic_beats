@@ -316,6 +316,7 @@ class App extends Component {
                   style={{marginLeft: "15px"}}
                   large
                   onClick={() => { store.toggleAddNewBeat(true) }}
+                  title="Add a new empty or preset template beat to the current generation"
                 >
                   Add New Beat
                 </Button> : null
@@ -326,6 +327,7 @@ class App extends Component {
                   large
                   color={[colors.green.base]}
                   onClick = {this.handleMutate}
+                  title="Create a new mutated beat from the current beat"
                 >
                   Mutate
                 </Button> : null
@@ -336,6 +338,7 @@ class App extends Component {
                   large
                   color={[colors.green.base]}
                   onClick = {this.handleClone}
+                  title="Create an exact copy of the current beat"
                 >
                   Clone
                 </Button> : null
