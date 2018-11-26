@@ -79,7 +79,9 @@ const DeleteBlockButton = styled.div`
 `
 
 const ArrangementControls = styled.div`
-  button{
+  margin-left: 15px;
+
+  button {
     margin-buttom : 20px;
   }
 `
@@ -250,7 +252,6 @@ class Arrangement extends Component {
         onDragEnd = {onDragEnd}
       >
         <div>
-
           <ArrangementControls>
             <div style={{ textAlign: "left" }}>
               Current Beat Arrangement:&nbsp;
@@ -276,15 +277,15 @@ class Arrangement extends Component {
               <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
               <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
             </div>
-
-            <div>
-              <PlayStopButton
-                size    = {80}
-                onClick = {store.togglePlayArrangement}
-                style={{verticalAlign: "middle"}}
-              />
-            </div>
           </ArrangementControls>
+
+          <div>
+            <PlayStopButton
+              size    = {80}
+              onClick = {store.togglePlayArrangement}
+              style={{verticalAlign: "middle"}}
+            />
+          </div>
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
             {provided => (
