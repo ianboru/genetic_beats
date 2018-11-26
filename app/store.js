@@ -57,6 +57,8 @@ class Store {
   @observable currentSong
   @observable currentArrangementIndex = 0
   @observable spaceButtonTarget = "currentBeat"
+
+
   //
   // COMPUTED VALUES
   //

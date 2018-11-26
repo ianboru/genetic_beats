@@ -278,10 +278,10 @@ class App extends Component {
 
   getVerticalSplitOptions = () => {
     return {
-      split       : "horizontal",
-      defaultSize : 600,
-      minSize     : 400,
-      maxSize     : 700,
+      style : {
+        position: "relative",
+        height: "100%",
+      }
     }
   }
 
@@ -302,7 +302,7 @@ class App extends Component {
               <div style={{marginLeft: "15px", marginBottom: "25px"}} >
                 <FamilySelect />
 
-                <Button  style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Start new family" onClick={this.newFamilyTree}>
+                <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Start new family" onClick={this.newFamilyTree}>
                   New Family
                 </Button>
 
@@ -367,7 +367,7 @@ class App extends Component {
         <Header>
           <PanelLabel>
             <Button large color={[colors.green.base]} onClick={this.handleMate}>
-              Mate generation
+              Mate Generation
             </Button>
             <br/>
             <Button
@@ -405,7 +405,15 @@ class App extends Component {
 
   renderArrangementPanel = () => {
     return (
-      <div>
+      <div style={{
+        background: "#1d1f27",
+        position: "absolute",
+        borderTop: "1px solid gray",
+        boxShadow: "0px -4px 5px 0px #111",
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }}>
         <Arrangement/>
       </div>
     )
@@ -428,11 +436,11 @@ class App extends Component {
   renderBeatFamilyTreeArrangement = () => {
     return (
       <SplitPane {...this.getHorizontalSplitOptions()}>
-        <SplitPane {...this.getVerticalSplitOptions()}>
+        <div {...this.getVerticalSplitOptions()}>
           {this.renderBeatPanel()}
 
           {this.renderArrangementPanel()}
-        </SplitPane>
+        </div>
 
         {this.renderFamilyTreePanel()}
       </SplitPane>

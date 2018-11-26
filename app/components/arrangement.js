@@ -28,11 +28,18 @@ import {
 } from "react-beautiful-dnd"
 
 
+const ArrangementWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: none;
+  height: 100px;
+`
+
 const StyledArrangement = styled.div`
+  white-space: nowrap;
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
-  height: 125px;
-  overflow: visible;
 `
 
 const StyledBlock = styled.div`
@@ -40,7 +47,7 @@ const StyledBlock = styled.div`
   background-color: ${props => props.highlight ? "#e9573f" : colors.yellow.dark};
   display: inline-block;
   height: 100%;
-  width: 80px;
+  width: 60px;
   position: relative;
   vertical-align: top;
   text-align: center;
@@ -53,6 +60,7 @@ const StyledBlock = styled.div`
 
 const AddBlockButton = styled.div`
   cursor: pointer;
+  display: inline-block;
   font-size: 30px;
 
   &:hover {
@@ -74,7 +82,6 @@ const DeleteBlockButton = styled.div`
 `
 
 const ArrangementControls = styled.div`
-  text-align : center;
   button{
     margin-buttom : 20px;
   }
@@ -208,7 +215,10 @@ class Arrangement extends Component {
           index     = {i}
           beatKey   = {beatKey}
           highlight = {highlight}
-          deleteBlock = {()=>{this.deleteBlock(i)}}
+          deleteBlock = {(e) => {
+            this.deleteBlock(i)
+            return false
+          }}
           handleClickBeat = {()=>{this.handleClickBeat(beatKey,i)}}
           handleMoveBeat = {this.handleMoveBeat}
         >
@@ -245,50 +255,63 @@ class Arrangement extends Component {
         <div>
 
           <ArrangementControls>
+            <div style={{ textAlign: "left" }}>
+              Current Beat Arrangement:&nbsp;
 
-            <div>
-              <h3>Beat Arrangement</h3>
-              <select 
-                  style={{fontSize : '20px', marginBottom : '15px'}}
+              <select
+                  style={{fontSize : '20px'}}
                   onChange={this.handleSelectArrangement}
                   value={store.currentArrangementIndex}
                 >
                   {arrangementOptions}
               </select>
-              <br/>
+
+              <Button
+                style   = {{background : colors.gray.darkest, marginLeft : "20px"}}
+                color   = {[colors.yellow.dark]}
+                onClick = {store.addArrangement}
+              >
+                New Arrangement
+              </Button>
+            </div>
+
+            <div>
               <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
               <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
-              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={store.addArrangement}>Blank Arrangement</Button>
-              
-              <br/>
+            </div>
+
+            <div>
               <PlayStopButton
                 size    = {80}
                 onClick = {store.togglePlayArrangement}
+                style={{verticalAlign: "middle"}}
               />
             </div>
           </ArrangementControls>
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
             {provided => (
-              <StyledArrangement
-                innerRef={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {beatBlocks}
-                {provided.placeholder}
+              <ArrangementWrapper>
+                <StyledArrangement
+                  innerRef={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {beatBlocks}
+                  {provided.placeholder}
 
-                <StyledBlock>
-                  <p>
-                    <select
-                      defaultValue={beatKeyOptions[0]}
-                      onChange={this.handleSelectBeatToAdd}
-                    >
-                      {beatKeyOptions}
-                    </select>
-                  </p>
-                  <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
-                </StyledBlock>
-              </StyledArrangement>
+                  <StyledBlock>
+                    <div>
+                      <select
+                        defaultValue={beatKeyOptions[0]}
+                        onChange={this.handleSelectBeatToAdd}
+                      >
+                        {beatKeyOptions}
+                      </select>
+                    </div>
+                    <AddBlockButton onClick={this.addBlock}>+</AddBlockButton>
+                  </StyledBlock>
+                </StyledArrangement>
+              </ArrangementWrapper>
             )}
           </Droppable>
         </div>
