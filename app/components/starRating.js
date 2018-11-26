@@ -10,7 +10,7 @@ import {
 
 const starSize = 40
 const NUM_STARS = 10
-const rainbow = [
+const redGreenGradient = [
   "#FF0000",
   "#FF3400",
   "#FF6900",
@@ -22,7 +22,7 @@ const rainbow = [
   "#35FF00",
   "#00FF00",
 ]
-const blueGradient = [
+const whiteBlueGradient = [
   "#ffffff",
   "#e5eff7",
   "#cbdfef",
@@ -35,7 +35,7 @@ const blueGradient = [
   "#136fb5",
 ]
 
-const colors = blueGradient
+const colors = whiteBlueGradient
 const StyledStarRating = styled.span`
   display: inline-block;
   margin: 31px 0 10px;
