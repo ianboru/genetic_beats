@@ -3,6 +3,7 @@ Beta test session todos:
 
 
 Other Stuff:
+* Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
 * Play preview doesn't change when new sample is select
