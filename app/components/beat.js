@@ -70,7 +70,7 @@ const Column = styled.div`
 class GainSlider extends Component {
   handleGainChange = (e) => {
     if(this.props.trackType == "synth"){
-      store.setSynthGain(e.target.value / 100)
+      store.setSynthGain(e.target.value / 100, this.props.synthType)
     }else{
       store.setGain(this.props.sample, e.target.value / 100)
     }
@@ -80,7 +80,7 @@ class GainSlider extends Component {
     const { sample } = this.props
     let gain
     if(this.props.trackType == "synth"){
-      gain = store.synthGain * 100
+      gain = store.synthGain[this.props.synthType] * 100
     }else{
       gain = store.samples[sample].gain * 100
     }
@@ -252,10 +252,10 @@ class Track extends Component {
                 resolution = {this.props.track.sequence.length}
               >
                 <Synth
-                  key   = {this.props.track.key + "synth"}
+                  key   = {this.props.track.key + this.props.synthType + "synth"}
                   type  = {synthType }
                   steps = {[[0, 2, this.props.track.sample]]}
-                  gain  = {store.synthGain/store.synthGainCorrection[synthType]}
+                  gain  = {store.synthGain[synthType]/store.synthGainCorrection[synthType]}
                 />
               </Sequencer>
             </Song>
@@ -367,7 +367,7 @@ class Track extends Component {
         </Column>
 
         <Column>
-          <GainSlider sample={track.sample} trackType={track.trackType} />
+          <GainSlider sample={track.sample} trackType={track.trackType} synthType={track.synthType}/>
         </Column>
 
         <Column>

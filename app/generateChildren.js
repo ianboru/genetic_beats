@@ -103,6 +103,7 @@ const mateTracks = (momTrack,momScore, dadTrack, dadScore) => {
     sequence: childSequence,
     sample : momTrack.sample,
     trackType : momTrack.trackType,
+    synthType : momTrack.synthType
   }
   return childTrack
 }
@@ -269,13 +270,10 @@ const matePair = (momBeat, dadBeat) => {
 
   // handle all mom samples
   momBeat.tracks.forEach( (momTrack) => {
-    console.log("just mom", momTrack)
-
     const dadTrack = findInJSON(dadBeat.tracks, 'sample', momTrack.sample,'synthType',momTrack.synthType)
     if (dadTrack) {
-      console.log("dadTrack ", toJS(dadTrack))
-
-      childBeat.tracks.push(mateTracks(momTrack, momBeat.score, dadTrack, dadBeat.score))
+      const childTrack = mateTracks(momTrack, momBeat.score, dadTrack, dadBeat.score)
+      childBeat.tracks.push(childTrack)
     } else {
       childBeat.tracks.push({
         sample    : momTrack.sample,

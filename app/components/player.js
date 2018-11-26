@@ -44,10 +44,10 @@ const generateSamplers = (beat, samples) => {
     if(convertedSynthSequences[synthType]){
       samplers.push(
         <Synth
-          key   = {"synth" + store.generation + "."+ store.beatNum}
+          key   = {"synth" + synthType +  store.generation + "."+ store.beatNum}
           type  = {synthType}
           steps = {convertedSynthSequences[synthType]}
-          gain  = {store.synthGain/store.synthGainCorrection[synthType]}
+          gain  = {store.synthGain[synthType]/store.synthGainCorrection[synthType]}
         />
       ) 
     }

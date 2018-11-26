@@ -27,7 +27,7 @@ class Store {
   @observable allGenerations     = [[]]
   //@observable allGenerations     = [beatTemplates]
   @observable samples            = samples
-  @observable synthGain          = 0.5
+  @observable synthGain          = {'sine' : .5,'square' : .5}
   @observable synthGainCorrection = {'sine' : 1, "square" : 2}
   @observable synthSolo          = false
   @observable synthMute          = false
@@ -343,7 +343,7 @@ class Store {
     const sd = (maxNoteDensity-minNoteDensity)/10
     const sectionLengths = ["2-low", "4-medium", "3-high","1-low","3-high","1-low"]
     const exponentialConstant = 1
-    const exponentialScoreConstant = 10
+    const exponentialScoreConstant = 8
     const minSampleDifference = 2
     let sampleDifference
     let differenceComparitor
@@ -555,8 +555,8 @@ class Store {
     this.updateFamilyInStorage()
   }
 
-  @action setSynthGain = (gain) => {
-    this.synthGain = gain
+  @action setSynthGain = (gain, synthType) => {
+    this.synthGain[synthType] = gain
   }
 
   @action setScore = (score) => {
