@@ -1,6 +1,8 @@
 Beta test session todos:
 * John: Improve console error messages
 
+For initial creation of beats from template, template screen should not close unless a button is clicked.
+Stars should reset when switching beats 
 
 Other Stuff:
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
