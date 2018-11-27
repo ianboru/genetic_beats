@@ -78,6 +78,13 @@ const selectFitMembers = (generation) => {
   if(fitMembers.length >= 3){
     fitMembers = generation.filter(beat => beat.score >= fitnessThreshold)
   } 
+  if(fitMembers.length < 2){
+    let allScores = generation.map((beat) => { return beat.score })
+    allScores = allScores.sort( (a, b) => (a - b) )
+    fitMembers.push(generation[generation.length - 2])
+    console.log("scores ",allScores)
+  }
+  console.log("selected members" ,fitMembers)
   return fitMembers
 }
 
@@ -362,8 +369,11 @@ const mateSelectedMembers = (members) => {
 }
 const mateGeneration = (generation) => {
   const fitMembers = selectFitMembers(generation)
+  console.log("mating surviving members")
   const nextGeneration = mateMembers(fitMembers)
+  console.log("next gen created")
   const survivingMembers = selectSurvivors(nextGeneration)
+  console.log("survived")
   const reindexedMembers = survivingMembers.map( (beat, i) => {
     return { ...beat,
       key: `${store.generation + 1}.${i}`,
