@@ -81,10 +81,10 @@ const selectFitMembers = (generation) => {
   if(fitMembers.length < 2){
     let allScores = generation.map((beat) => { return beat.score })
     allScores = allScores.sort( (a, b) => (a - b) )
-    fitMembers.push(generation[generation.length - 2])
+    fitMembers = generation.filter(beat => beat.score >= allScores[allScores.length-2])
     console.log("scores ",allScores)
   }
-  console.log("selected members" ,fitMembers)
+  console.log("selected members" ,toJS(fitMembers[0]), toJS(fitMembers[1]))
   return fitMembers
 }
 
