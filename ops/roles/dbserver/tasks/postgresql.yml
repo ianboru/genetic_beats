@@ -8,15 +8,16 @@
                   state=present update_cache=yes
 
 - name: Install PostgreSQL and PostGIS system packages
-  apt: name={{ item }} state=present
-  with_items:
-    - postgresql-10-postgis-2.4
-    - postgresql-server-dev-10
-    - gdal-bin
-    - libproj-dev
-    - libpq-dev
-    - libgeoip1
-    - python-psycopg2 # Needed for Ansible provisioning
+  apt:
+    state: present
+    name:
+      - postgresql-10-postgis-2.4
+      - postgresql-server-dev-10
+      - gdal-bin
+      - libproj-dev
+      - libpq-dev
+      - libgeoip1
+      - python-psycopg2 # Needed for Ansible provisioning
 
 - name: Install psycopg2 for other ansible tasks
   command: "python3 -m pip install psycopg2==2.7.5"
