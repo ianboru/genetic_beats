@@ -61,17 +61,17 @@
 
 
 # Nginx Setup
-- name: Install site nginx config
-  template: src=nginx/sites/{{ env }}.conf backup=yes
-            dest=/etc/nginx/sites-available/{{ site_name }}
-            owner=root group=root mode=0644
-  register: site_nginx_config
-
-- name: Enable site nginx config
-  file: dest=/etc/nginx/sites-enabled/{{ site_name }}
-        src=/etc/nginx/sites-available/{{ site_name }}
-        state=link owner=root group=root mode=0644
-  register: site_nginx_config_enabled
+#- name: Install site nginx config
+#  template: src=nginx/sites/{{ env }}.conf backup=yes
+#            dest=/etc/nginx/sites-available/{{ site_name }}
+#            owner=root group=root mode=0644
+#  register: site_nginx_config
+#
+#- name: Enable site nginx config
+#  file: dest=/etc/nginx/sites-enabled/{{ site_name }}
+#        src=/etc/nginx/sites-available/{{ site_name }}
+#        state=link owner=root group=root mode=0644
+#  register: site_nginx_config_enabled
 
 - name: Install python-passlib
   apt: name=python-passlib state=present

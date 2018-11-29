@@ -21,5 +21,6 @@
         owner={{ ansible_ssh_user }} group=www-pub mode=0775
 
 - include_tasks: nodejs.yml
+- include_tasks: letsencrypt.yml
 - include_tasks: nginx.yml
 - include_tasks: site.yml
