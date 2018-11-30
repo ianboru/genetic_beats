@@ -61,6 +61,8 @@
 
 
 # Nginx Setup
+# NOTE: This config is partly managed by Let's Encrypt's certbot and
+# running these 2 tasks could overwrite certbot's changes.
 #- name: Install site nginx config
 #  template: src=nginx/sites/{{ env }}.conf backup=yes
 #            dest=/etc/nginx/sites-available/{{ site_name }}
@@ -72,6 +74,7 @@
 #        src=/etc/nginx/sites-available/{{ site_name }}
 #        state=link owner=root group=root mode=0644
 #  register: site_nginx_config_enabled
+
 
 - name: Install python-passlib
   apt: name=python-passlib state=present
