@@ -45,8 +45,6 @@ class TempoControl extends Component {
   render() {
     return (
       <StyledTempoControl>
-        <BILabel>Tempo</BILabel>
-
         <input
           type     = "number"
           value    = {store.tempo}
@@ -54,6 +52,8 @@ class TempoControl extends Component {
           max      = {200}
           onChange = { e => store.setTempo(parseInt(e.target.value)) }
         />
+        &nbsp;
+        <BILabel>Tempo</BILabel>
       </StyledTempoControl>
     )
   }
@@ -421,7 +421,7 @@ const StyledPlayControls = styled.div`
   }
 `
 
-const ControlPanel = styled.div`
+const TableRow = styled.div`
   display: table-row;
   width: 100%;
 `
@@ -584,8 +584,7 @@ const AddToArrangementButton = styled.button`
 const MetronomeButton = styled.div`
   display: inline-block;
   margin-bottom: -8px;
-  margin-left: 10px;
-  margin-right: 15px;
+  margin-right: 5px;
   padding: 0;
   vertical-align: middle;
   cursor: pointer;
@@ -717,14 +716,14 @@ class Beat extends Component {
           playing    = {store.playingCurrentBeat && store.currentBeat.key == this.props.beat.key}
           resolution = {store.currentBeatResolution}
         />
-        <ControlPanel>
+        <TableRow>
           <Column />
 
           <Column>
             <PlayControls />
           </Column>
 
-          <Column textLeft>
+          <Column>
             <MetronomeButton>
               <MetronomeIcon
                 height  = {35}
@@ -734,12 +733,13 @@ class Beat extends Component {
             </MetronomeButton>
 
             <TempoControl />
+          </Column>
+        </TableRow>
+        <TableRow>
+          <Column />
 
-            <div style={{
-              textAlign : "right",
-              width      : "55%",
-              display    : "inline-block",
-            }}>
+          <Column>
+            <div>
               <BeatInfo>
                 <BILabel>Beat</BILabel>
                 <BIData>{this.props.beat.key}</BIData>
@@ -751,6 +751,8 @@ class Beat extends Component {
               </BeatInfo>
             </div>
           </Column>
+
+          <Column />
 
           <Column>
             <MuteTrackButton
@@ -771,7 +773,7 @@ class Beat extends Component {
               Volume
             </span>
           </Column>
-        </ControlPanel>
+        </TableRow>
 
         {tracks}
 
