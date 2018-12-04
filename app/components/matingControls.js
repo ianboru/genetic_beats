@@ -79,6 +79,7 @@ class MatingControl extends Component {
             changeHandler = {store.setNoteMutationRate}
             min           = {0}
             max           = {100}
+            title         = "The likelihood that a note changes during mutation or mating"
           />
           <ConfigControl
             name          = "Sample Mutation Rate"
@@ -86,6 +87,7 @@ class MatingControl extends Component {
             changeHandler = {store.setSampleMutationRate}
             min           = {0}
             max           = {100}
+            title         = "The likelihood that a sample is added or removed during mutation or mating"
           />
 
           <ControlsHeader>
@@ -98,6 +100,7 @@ class MatingControl extends Component {
             changeHandler = {store.setNumChildren}
             min           = {1}
             max           = {20}
+            title         = "The number of children produced by set of parents during mating"
           />
           <ConfigControl
             name          = "Number of Survivors"
@@ -105,6 +108,7 @@ class MatingControl extends Component {
             changeHandler = {store.setNumSurvivors}
             min           = {1}
             max           = {20}
+            title         = "The maximum number of children in a new generation"
           />
           <ConfigControl
             name          = "Fitness Threshold"
@@ -112,6 +116,7 @@ class MatingControl extends Component {
             changeHandler = {store.setFitnessPercentile}
             min           = {0}
             max           = {100}
+            title         = "The minimum level of fitness a parent must have to mate"
           />
         </StyledMatingControlPanel>
       </StyledMatingControls>
