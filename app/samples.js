@@ -121,7 +121,7 @@ export default {
     name: "Dubstep Snare 6 - G",
     path: staticFilePath + "samples/Snares/Cymatics - Dubstep Snare 6 - G.wav",
     gain: 0.5,
-    gainCorrection: 0.7,
+    gainCorrection: 0.4,
     mute: false,
     solo: false,
   },
