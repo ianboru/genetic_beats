@@ -1,8 +1,34 @@
+John:
+* Current arrangement beat to add should follow currently selected beat (instead of always being 0.0)
+* Tooltips should appear faster and be more prominent
+    * Show mating controls help info as tool tips
+* Beat ID should be more prominent
+* BUG: Star rating not resetting on new beat and sometimes not working?
+* The delete track button was associated with the gain
+* Add to arrangement button should be “empty”
+* Improve console error messages
+
+
+Ian:
+* Preview volume should be same as default play volume
+* Bug: Synth didn’t get muted right away when something else was soloed (took until the beat played through)
+* Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :(
+* Beat preview buttons for presets are unclear / out of place
+* Beat arrangement panel very unclear
+    * Needs redesign, but in the meantime add label for arrangement creation buttons
+
+
+Pair:
+* Progress indicator for beat in arrangement
+
+
+
+
+
 Beta test session todos:
-* John: Improve console error messages
 
 For initial creation of beats from template, template screen should not close unless a button is clicked.
-Stars should reset when switching beats 
+Stars should reset when switching beats
 
 Other Stuff:
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
@@ -12,10 +38,11 @@ Other Stuff:
 * Click-swiping across notes to set or unset doesn't work across multiple tracks
 
 
+
+
 John
 ----
 
-* John: Set up Let's Encrypt on server
 * Enable dragging current beat into arrangement (improvement over "add to arrangement" button)
 * Select/generation logic & visuals
 * Arrow keys to go to next/previous beat
@@ -36,6 +63,7 @@ Maintenance:
 * react-beautiful-dnd update: https://github.com/atlassian/react-beautiful-dnd/releases/tag/v10.0.0
 
 
+
 Ian
 ---
 
@@ -45,11 +73,13 @@ Ian
 * Fix mouse-off state for family tree nodes
 
 
+
 Next Beta
 ---------
 
 * Refactor & cleanup
 * Create our own non-canvas family tree renderer
+
 
 
 Up For Grabs
@@ -80,6 +110,26 @@ Future potential
     * Make it possible to add two of same sample for now?
 * Add config options in general for random arrangement
 * Effects for synth
+
+
+Aryn (More Recent - Beta 1.0) User Test
+---------------------------------------
+
+* Family stuff confusing
+* Not clear how to start
+* Play should warn when user is trying to play an empty beat or arrangement
+* Adding instruments is weird/confusing - sampler vs synth not clear
+* Give user tips for adjusting volume and other small/helpful behaviors
+* Prompt through the process (ie, prompt to mutate after first beat has some instruments or mate after a few beats have been created)
+    * Suggest mutate for when user is close to a good sound but can’t quite get it
+* Redo family tree!
+* Mention that beats are always editable
+* Aryn wished she knew how to find bass sounds (segment sampler sounds by “type”?)
+* Aryn started to run out of inspiration after a while - not sure what to do next (check out presets, mutate, play with arrangement would have been cool)
+* Ability to “favorite” or rename beats
+* Share beats with other people!
+* Gain not saved with family info
+    * Make gain independent between beats
 
 
 Aryn and Josh User Test
