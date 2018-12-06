@@ -1,4 +1,4 @@
-import { action, configure, computed, observable, toJS } from "mobx"
+import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
 import beatTemplates from "./beatTemplates"
 import samples from "./samples"
@@ -49,6 +49,7 @@ class Store {
   @observable currentLitBeat     = 0
   @observable showAddNewBeat     = false
   @observable showCreateArrangement = false
+  @observable arrangementBeatToAdd = "0.0"
   @observable noteTimer
   @observable arrangementTimer
   @observable currentSong
@@ -71,6 +72,8 @@ class Store {
   @computed get currentBeat() {
     if (this.currentGeneration.length > 0) {
       return this.currentGeneration[this.beatNum]
+    } else {
+      return false
     }
   }
 
@@ -604,10 +607,21 @@ class Store {
   @action toggleShowCreateArrangement = () => {
     this.showCreateArrangement = !this.showCreateArrangement
   }
+
+  @action setArrangementBeatToAdd = (key) => {
+    this.arrangementBeatToAdd = key
+  }
 }
 
 const store = new Store()
 
+
+const followCurrentBeat = reaction(
+  () => { return store.currentBeat.key },
+  key => {
+    store.setArrangementBeatToAdd(store.currentBeat.key)
+  }
+)
 
 
 export default store
