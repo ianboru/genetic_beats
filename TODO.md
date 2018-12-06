@@ -10,7 +10,6 @@ John:
 
 
 Ian:
-* Preview volume should be same as default play volume
 
 * Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :(
 * Beat preview buttons for presets are unclear / out of place

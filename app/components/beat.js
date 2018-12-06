@@ -276,7 +276,9 @@ class Track extends Component {
     }
 
   }
-
+  componentDidMount(){
+     this.samplePreviewer.volume = store.samples[this.props.track.sample].gain
+  }
   render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
