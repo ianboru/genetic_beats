@@ -11,7 +11,7 @@ John:
 
 Ian:
 * Preview volume should be same as default play volume
-* Bug: Synth didn’t get muted right away when something else was soloed (took until the beat played through)
+
 * Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :(
 * Beat preview buttons for presets are unclear / out of place
 * Beat arrangement panel very unclear
@@ -31,6 +31,7 @@ For initial creation of beats from template, template screen should not close un
 Stars should reset when switching beats
 
 Other Stuff:
+* mute solo highlight makes it seem like both can be on 
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
@@ -98,9 +99,7 @@ Up For Grabs
     * Maybe just prompt if people want to “engineer” the beat before rating?
 * Title for “current beat” (like arrangement/family tree)?
 
-
-Future potential
-----------------
+* Bug: Synth didn’t get muted right away when something else was soloed (took until the beat played through) ** likely related to beat repeat refresh behavior  
 
 * Export beat or arrangement as sound file would be amazing
 * "Seems like it would be a lot of fun in a group situation"
@@ -155,3 +154,6 @@ Aryn and Josh User Test
       * rating is trying to account for 2 things:
         * how good a beat is
         * how good it is in the context of an arrangement with the other generated beats
+
+refactor:
+- not easy to follow solo/mute flow; when set vs when used

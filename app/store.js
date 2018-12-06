@@ -28,8 +28,6 @@ class Store {
   @observable samples            = samples
   @observable synthGain          = {'sine' : .5,'square' : .5}
   @observable synthGainCorrection = {'sine' : 1, "square" : 2}
-  @observable synthSolo          = false
-  @observable synthMute          = false
   @observable numSolo            = 0
   @observable selectPairMode     = false
   @observable selectedBeats      = []
@@ -528,6 +526,9 @@ class Store {
   }
 
   @action addTrackToCurrentBeat = (track) => {
+    if(this.numSolo > 0){
+      track.mute = true
+    }
     this.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
     })

@@ -15,6 +15,7 @@ const generateSamplers = (beat, samples) => {
   const synthTypes = ["sine","square"]
   let convertedSynthSequences = {}
   let synthType = null
+
   let samplers = beat.tracks.map((track, i) => {
     if(track.trackType == "synth"){
 
