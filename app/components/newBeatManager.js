@@ -122,12 +122,11 @@ class NewBeatManager extends Component {
     const presetOptions = beatTemplates.map( (beat, i) => {
       const PlayStopButton = this.state.playingPresets[i] ? MdStop : MdPlayArrow
       return (
-        <div key={i} style={{display: "inline-block"}}>
+        <div key={i} style={{display: "inline-block", border : "1px solid white"}}>
           <PlayStopButton
                 size    = {40}
                 onClick = {()=>{this.togglePlayPreset(i)}}
           />
-          <br/>
           <Player
             beat       = {beat}
             playing    = {this.state.playingPresets[i]}
@@ -136,9 +135,10 @@ class NewBeatManager extends Component {
           />
           <NewBeatOption
             onClick={
-              () => { store.addBeatToCurrentGen(beat)
-              store.toggleAddNewBeat()
-            }}
+              () => { 
+                      store.addBeatToCurrentGen(beat)
+                      store.toggleAddNewBeat()
+                }}
           >
             {beat.name}
           </NewBeatOption>
