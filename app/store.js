@@ -47,7 +47,7 @@ class Store {
   @observable trackPreviewers    = {}
   @observable currentLitNote     = 0
   @observable currentLitBeat     = 0
-  @observable showAddNewBeat     = true
+  @observable showAddNewBeat     = false
   @observable showCreateArrangement = false
   @observable arrangementBeatToAdd = "0.0"
   @observable noteTimer
