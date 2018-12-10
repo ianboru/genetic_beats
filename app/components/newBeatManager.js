@@ -80,7 +80,6 @@ class NewBeatManager extends Component {
     store.addBeatToCurrentGen(emptyBeat)
     store.toggleAddNewBeat()
   }
-
   togglePlayPreset = (beatIndex)=>{
     const playingPresets = this.state.playingPresets.map((preset,i)=>{
       if(beatIndex == i){
