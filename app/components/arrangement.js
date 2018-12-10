@@ -118,16 +118,12 @@ class Block extends Component {
 
 @observer
 class Arrangement extends Component {
-  state = {
-    beatToAdd : store.allBeatKeys[0],
-  }
-
   deleteBlock = (index) => {
     store.deleteBeatFromArrangement(index)
   }
 
   addBlock = () => {
-    store.addBeatToArrangement(this.state.beatToAdd)
+    store.addBeatToArrangement(store.arrangementBeatToAdd)
   }
 
   handleSelectArrangement = (evt) => {
@@ -135,10 +131,9 @@ class Arrangement extends Component {
   }
 
   handleSelectBeatToAdd = (evt) => {
-    this.setState({
-      beatToAdd : evt.target.value
-    })
+    store.setArrangementBeatToAdd(evt.target.value)
   }
+
   handleClickBeat = (beatKey, arrangementIndex) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
@@ -249,6 +244,10 @@ class Arrangement extends Component {
       store.moveBeatInArrangement(result.source.index, result.destination.index)
     }
 
+    // This variable is accessed inside of a callback so mobx
+    // can't see when it changes I guess.
+    store.arrangementBeatToAdd
+
     return (
       <DragDropContext
         onDragEnd = {onDragEnd}
@@ -301,8 +300,8 @@ class Arrangement extends Component {
                 <StyledBlock>
                   <div>
                     <select
-                      defaultValue={beatKeyOptions[0]}
-                      onChange={this.handleSelectBeatToAdd}
+                      value    = {store.arrangementBeatToAdd}
+                      onChange = {this.handleSelectBeatToAdd}
                     >
                       {beatKeyOptions}
                     </select>

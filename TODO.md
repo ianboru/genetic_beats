@@ -1,5 +1,4 @@
 John:
-* Current arrangement beat to add should follow currently selected beat (instead of always being 0.0)
 * Tooltips should appear faster and be more prominent
     * Show mating controls help info as tool tips
 * Beat ID should be more prominent
@@ -15,6 +14,7 @@ Ian:
 * Beat preview buttons for presets are unclear / out of place
 * Beat arrangement panel very unclear
     * Needs redesign, but in the meantime add label for arrangement creation buttons
+* Add beat without leaving presets screen
 
 
 Pair:
