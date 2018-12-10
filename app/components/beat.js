@@ -11,6 +11,7 @@ import {
 } from "../react-music"
 
 import {
+  MdDeleteForever,
   MdAdd,
   MdPlayArrow,
   MdSkipNext,
@@ -156,6 +157,7 @@ const RemoveTrackButton = styled.span`
   cursor: pointer;
   font-size: 30px;
   margin-left: 5px;
+  margin-right: 10px;
   position: relative;
   top: -12px;
   height: 15px;
@@ -377,9 +379,9 @@ class Track extends Component {
         <Column>
           <RemoveTrackButton
             className = "remove-track"
-            title     = {"Delete track}"}
+            title     = {"Delete track"}
             onClick   = {this.handleRemoveTrack}
-          >&times;</RemoveTrackButton>
+          ><MdDeleteForever/></RemoveTrackButton>
         </Column>
       </StyledTrack>
     )

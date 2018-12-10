@@ -3,14 +3,13 @@ John:
     * Show mating controls help info as tool tips
 * Beat ID should be more prominent
 * BUG: Star rating not resetting on new beat and sometimes not working?
-* The delete track button was associated with the gain
 * Add to arrangement button should be “empty”
 * Improve console error messages
 
 
 Ian:
 
-* Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :(
+* Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :( - can't reprodoce 
 
 
 
