@@ -38,7 +38,7 @@ class Store {
   @observable arrangementBlockPlaying = []
   @observable numSurvivors       = 6
   @observable numChildren        = 3
-  @observable fitnessPercentile  = 70
+  @observable fitnessPercentile  = 65
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable tempo              = 100
