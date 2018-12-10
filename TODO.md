@@ -1,8 +1,9 @@
 John:
+
 * Tooltips should appear faster and be more prominent
     * Show mating controls help info as tool tips
 * Beat ID should be more prominent
-* BUG: Star rating not resetting on new beat and sometimes not working?
+* BUG: Star rating sometimes not working
 * Add to arrangement button should be “empty”
 * Improve console error messages
 

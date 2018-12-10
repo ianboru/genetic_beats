@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import chroma from "chroma-js"
 
 import {
   MdStar,
@@ -52,34 +53,36 @@ class StarRating extends Component {
   }
 
   state = {
-    score: null,
+    hover: null,
   }
 
   handleStarHover = (e, i) => {
-    this.setState({ score: i+1 })
+    this.setState({ hover: i+1 })
   }
 
   handleStarUnhover = (e) => {
-    this.setState({ score: null })
+    this.setState({ hover: null })
   }
 
   handleStarClick = (e) => {
-    this.props.handleSetScore(this.state.score)
+    this.props.handleSetScore(this.state.hover)
   }
 
   render() {
     const stars = Array(NUM_STARS).fill(0).map( (temp, i) => {
-      const props = {
+      const hover = this.state.hover || 0
+      const score = this.props.score || 0
+      const dimmedColor = `rgba(${chroma(colors[i]).alpha(0.5).rgba()})`
+
+      let props = {
         key          : i,
         size         : starSize,
-        color        : colors[i],
+        color        : (i < hover || hover === 0) ? colors[i] : dimmedColor,
         onMouseEnter : (e) => this.handleStarHover(e, i),
         onClick      : this.handleStarClick,
       }
 
-      const score = this.state.score || this.props.score
-
-      return i < score ?
+      return (i < score) ?
         <MdStar {...props} /> :
         <MdStarBorder {...props} />
     })
