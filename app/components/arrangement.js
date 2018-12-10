@@ -270,7 +270,7 @@ class Arrangement extends Component {
                 color   = {[colors.yellow.dark]}
                 onClick = {store.addArrangement}
               >
-                New Arrangement
+              Blank Song
               </Button>
             </div>
             <div >
