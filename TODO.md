@@ -11,10 +11,7 @@ John:
 Ian:
 
 * Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :(
-* Beat preview buttons for presets are unclear / out of place
-* Beat arrangement panel very unclear
-    * Needs redesign, but in the meantime add label for arrangement creation buttons
-* Add beat without leaving presets screen
+
 
 
 Pair:
@@ -30,6 +27,7 @@ For initial creation of beats from template, template screen should not close un
 Stars should reset when switching beats
 
 Other Stuff:
+* Add beat without leaving presets screen
 * mute solo highlight makes it seem like both can be on 
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
 * Highlight notes in intermediate color until they're gonna play

@@ -254,8 +254,8 @@ class Arrangement extends Component {
       >
         <div>
           <ArrangementControls>
-            <div style={{ textAlign: "left" }}>
-              Current Beat Arrangement:&nbsp;
+            <div style={{ textAlign: "left" , "margin-top" : "15px", "margin-bottom": "15px" }}>
+              <span style={{color: colors.gray.lightest}}>Current Song:&nbsp;</span>
 
               <select
                   style={{fontSize : '20px'}}
@@ -273,19 +273,21 @@ class Arrangement extends Component {
                 New Arrangement
               </Button>
             </div>
-
-            <div>
-              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
-              <Button style={{fontSize : '20px'}} color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
+            <div >
+              Create song automatically:&nbsp;&nbsp;&nbsp;
+            
+              <Button color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
+              <Button color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
             </div>
           </ArrangementControls>
 
           <div>
+            {store.currentArrangement.length > 0 ? 
             <PlayStopButton
               size    = {80}
               onClick = {store.togglePlayArrangement}
-              style={{verticalAlign: "middle"}}
-            />
+              style={{verticalAlign: "middle", "marginBottom" : "15px"}}
+            /> : null}
           </div>
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">

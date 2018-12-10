@@ -311,16 +311,7 @@ class App extends Component {
                 </Button>
               </div>
 
-              {store.allGenerations[0].length >= 1 ?
-                <Button
-                  style={{marginLeft: "15px"}}
-                  large
-                  onClick={() => { store.toggleAddNewBeat(true) }}
-                  title="Add a new empty or preset template beat to the current generation"
-                >
-                  Add New Beat
-                </Button> : null
-              }
+              
 
               {store.allGenerations[0].length >= 1 ?
                 <Button
@@ -343,7 +334,16 @@ class App extends Component {
                   Clone
                 </Button> : null
               }
-
+              {store.allGenerations[0].length >= 1 ?
+                <Button
+                  style={{marginLeft: "15px"}}
+                  large
+                  onClick={() => { store.toggleAddNewBeat(true) }}
+                  title="Add a new empty or preset template beat to the current generation"
+                >
+                  Add New Beat
+                </Button> : null
+              }
               {(store.allGenerations[0].length >= 2 &&
                 store.allGenerations.length >= 1) ?
                   <Button
@@ -351,8 +351,8 @@ class App extends Component {
                     color={[colors.yellow.dark]}
                     onClick={store.toggleShowCreateArrangement}>
                     {store.showCreateArrangement ?
-                      "Hide Beat Arrangements" :
-                      "Show Beat Arrangements"
+                      "Hide Song" :
+                      "Create Song"
                     }
                   </Button> : null
               }

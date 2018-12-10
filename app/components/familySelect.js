@@ -1,11 +1,13 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import { colors } from "../colors"
 
 import store from "../store"
 
 
 const StyledFamilySelect = styled.span`
+  color :  ${colors.gray.lightest};
   select {
     font-size: 16px;
   }

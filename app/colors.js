@@ -3,6 +3,7 @@ import chroma from "chroma-js"
 
 const colors = {
   gray: {
+    lightest : "#c2c4c6",
     light   : "#292B30",
     darkest : "#1d1f27",
   },
