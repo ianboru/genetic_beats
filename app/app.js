@@ -17,31 +17,23 @@ import { mateGeneration, mateSelectedMembers} from "./generateChildren"
 import "./index.css"
 import { colors } from "./colors"
 
+import Header from "./styledComponents/header"
+
 import Arrangement from "./components/arrangement"
-import Beat from "./components/beat"
 import Button from "./components/button"
 import ConfigControl from "./components/configControl"
-import NewBeatManager from "./components/newBeatManager"
 import FamilySelect from "./components/familySelect"
 import FamilyTree from "./components/familyTree"
 import MatingControls from "./components/matingControls"
-import Player from "./components/player"
-import StarRating from "./components/starRating"
+import BeatDisplay from "./beatDisplay"
 
-//import DevTools from "mobx-react-devtools"
+import DevTools from "mobx-react-devtools"
 
 
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
 
-
-const Header = styled.div`
-  background: ${colors.gray.darkest};
-  width: 100%;
-  padding: 0px 3px;
-  box-sizing: border-box;
-`
 
 const Footer = styled.div`
   background: ${colors.gray.darkest};
@@ -113,64 +105,6 @@ const Spacer = styled.div`
 const familyTreeWidth = 300
 
 
-@observer
-class BeatDisplay extends Component {
-  render() {
-    const beat = ((beat) => {
-      if (!beat) {
-        return null
-      } else {
-        const keyInfo = beat.key.split(".")
-        const generation = keyInfo[0]
-        const beatNum = keyInfo[1]
-
-        return (
-          <Beat
-            key               = {beat.key}
-            ref               = {r => { this.beat = r }}
-            beat              = {beat}
-            handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
-            handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
-            handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
-          />
-        )
-      }
-    })(store.currentBeat)
-
-    if (!beat || store.showAddNewBeat) {
-      return (
-        <div style={{ textAlign: "center" }}>
-          <NewBeatManager />
-        </div>
-      )
-    }
-
-    return (
-      <div>
-        <Header style={{
-          borderTop : `1px solid ${colors.gray.light}`,
-          textAlign : "center",
-          position  : "relative",
-        }}>
-          <StarRating
-            score = {store.currentBeat.score}
-            handleSetScore = { (score) => {
-              store.setScore(score)
-              store.nextBeat()
-            }}
-          />
-        </Header>
-
-        <div style={{
-          overflow   : "auto",
-          background : colors.gray.darkest,
-        }}>
-          {beat}
-        </div>
-      </div>
-    )
-  }
-}
 
 
 @observer
@@ -310,8 +244,6 @@ class App extends Component {
                   Clear All
                 </Button>
               </div>
-
-              
 
               {store.allGenerations[0].length >= 1 ?
                 <Button
@@ -453,11 +385,11 @@ class App extends Component {
   render() {
     //<input type="file" onChange={this.handleUploadSample} ></input>
 
-    if (store.allGenerations[0].length >= 2 &&
+    if (store.allGenerations[0].length >= 1 &&
         store.allGenerations.length >= 1 &&
         store.showCreateArrangement) {
       return this.renderBeatFamilyTreeArrangement()
-    } else if (store.allGenerations[0].length >= 2) {
+    } else if (store.allGenerations[0].length >= 1) {
       return this.renderBeatFamilyTree()
     } else {
       return this.renderBeat()
