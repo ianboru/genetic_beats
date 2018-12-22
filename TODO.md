@@ -1,3 +1,37 @@
+Refactor:
+
+* Any component file with >200 lines should only contain 1 component
+  * 627 ./app//store.js
+    * Split into multiple stores for each section of the app
+      * Arrangement
+      * Family / Generation CRUD
+      * Playback
+      * Mutation Controls
+  * 327 ./app//components/arrangement.js
+  * 804 ./app//components/beat.js
+    * Components:
+      * TempoControl, PlayControls
+      * GainSlider, Note, Track, AddTrackButton, Beat
+  * 390 ./app//generateChildren.js
+    * Move mutate* functions to their own file
+    * Move mate* functions to their own file
+    * Cleanup
+  * 469 ./app//app.js
+    * Move StarRating into Beat and get rid of BeatDisplay or move to own file
+* Try to extract / separate visual style stuff from functional stuff (reusable components with separate concerns)
+* Move some stuff into "screens" folder, distinguished from "components"
+* Remove beat select and eventually replace with drag/drop mating
+* Redesign sample selection (to test sample without changing)
+    * Categorize samples
+* In app.js, switch render conditions to only rely on explicity "show*" boolean values and not other arbitrary state
+    * Might be the wrong way to do it, but this needs to be improved somehow
+    * NewBeatManager shouldn't be inside of BeatDisplay
+* Safari breaks on this.context right now. React version? in react-music scheduler.js
+* Star fill on mouse down
+
+
+
+
 John:
 
 * Tooltips should appear faster and be more prominent
@@ -10,7 +44,7 @@ John:
 
 Ian:
 
-* Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :( - can't reprodoce 
+* Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :( - can't reprodoce
 
 
 
@@ -28,7 +62,7 @@ Stars should reset when switching beats
 
 Other Stuff:
 * Add beat without leaving presets screen
-* mute solo highlight makes it seem like both can be on 
+* mute solo highlight makes it seem like both can be on
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
@@ -46,7 +80,6 @@ John
 * Arrow keys to go to next/previous beat
 * Add number of subdivisions (aka note size in our case) to beat info header
 * Disable text select anywhere user swipe, click quickly, or drag & drop
-* Arrangement needs to be on one line (scroll) because of react-beautiful-dnd limitations
 * Refactor track/sample/synth so that synths are one track, other benefits
 * Concept of active beat, selected beats, non-selected beats
     * By default, selected beats are the current gen and next/prev iterate through them
@@ -96,7 +129,7 @@ Up For Grabs
     * Maybe just prompt if people want to “engineer” the beat before rating?
 * Title for “current beat” (like arrangement/family tree)?
 
-* Bug: Synth didn’t get muted right away when something else was soloed (took until the beat played through) ** likely related to beat repeat refresh behavior  
+* Bug: Synth didn’t get muted right away when something else was soloed (took until the beat played through) ** likely related to beat repeat refresh behavior
 
 * Export beat or arrangement as sound file would be amazing
 * "Seems like it would be a lot of fun in a group situation"
