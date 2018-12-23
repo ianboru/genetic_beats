@@ -40,9 +40,7 @@ const selectFitMembers = (generation) => {
     let allScores = generation.map((beat) => { return beat.score })
     allScores = allScores.sort( (a, b) => (a - b) )
     fitMembers = generation.filter(beat => beat.score >= allScores[allScores.length-2])
-    console.log("scores ",allScores)
   }
-  console.log("selected members" ,toJS(fitMembers[0]), toJS(fitMembers[1]))
   return fitMembers
 }
 
@@ -62,5 +60,9 @@ const rankSequenceFitness= (momSequence, momScore, dadSequence, dadScore) => {
     weakestSequence : weakestSequence,
   }
 }
-
+export {
+  selectSurvivors,
+  selectFitMembers,
+  rankSequenceFitness
+}
 
