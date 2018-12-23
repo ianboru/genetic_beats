@@ -80,9 +80,9 @@ class GainSlider extends Component {
   render() {
     const { sample } = this.props
     let gain
-    if(this.props.trackType == "synth"){
+    if (this.props.trackType === "synth") {
       gain = store.synthGain[this.props.synthType] * 100
-    }else{
+    } else {
       gain = store.samples[sample].gain * 100
     }
     return (

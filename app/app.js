@@ -23,44 +23,15 @@ import Arrangement from "./components/arrangement"
 import Button from "./components/button"
 import ConfigControl from "./components/configControl"
 import FamilySelect from "./components/familySelect"
-import FamilyTree from "./components/familyTree"
-import MatingControls from "./components/matingControls"
 import BeatDisplay from "./beatDisplay"
+import FamilyTreeDisplay from "./familyTreeDisplay"
 
-import DevTools from "mobx-react-devtools"
 
 
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
 
-
-const Footer = styled.div`
-  background: ${colors.gray.darkest};
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  padding: 0px 3px;
-  box-sizing: border-box;
-`
-
-const BackgroundText = styled.div`
-  left: 10px;
-  right: 10px;
-  bottom: 40px;
-  position: absolute;
-`
-
-const BigText = styled.div`
-  display: ${props => props.inlineBlock ? "inline-block" : "block"};
-  color: #555;
-  font-family: "Hind Madurai";
-  font-size: 50px;
-  vertical-align: middle;
-  text-align: center;
-`
 
 const BeatOuterContainer = styled.div`
   flex: 1;
@@ -79,24 +50,6 @@ const BeatContainer = styled.div`
   bottom: 60px;
 `
 
-const PanelLabel = styled.div`
-  font-size: 28px;
-  font-family: "Hind Madurai";
-  margin: 0 0 5px;
-
-  &::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-`
-
-const InfoRow = styled.div`
-  text-align: center;
-  color: gray;
-  font-size: 16px;
-  padding: 10px;
-`
 const Spacer = styled.div`
   height: ${props => props.height ? props.height : 10}px;
 `
@@ -296,48 +249,6 @@ class App extends Component {
     )
   }
 
-  renderFamilyTreePanel = () => {
-    return (
-      <div>
-        <Header>
-          <PanelLabel>
-            <Button large color={[colors.green.base]} onClick={this.handleMate}>
-              Mate {store.selectPairMode ? "Selected Beats" : "Generation"}
-            </Button>
-            <br/>
-            <Button
-              active  = {store.selectPairMode}
-              onClick = {store.toggleSelectPairMode}
-            >
-              Select beats to mate
-            </Button>
-
-            <MatingControls />
-          </PanelLabel>
-        </Header>
-
-        <BackgroundText>
-          <BigText>
-            Family Tree
-          </BigText>
-        </BackgroundText>
-
-        <FamilyTree
-          height     = {this.state.familyTreeHeight}
-          width      = {this.state.familyTreeWidth}
-          familyTree = {store.allGenerations}
-        />
-
-        <Footer>
-          <InfoRow>
-            scroll to zoom
-          </InfoRow>
-        </Footer>
-        {typeof DevTools !== "undefined" ? <DevTools /> : null}
-      </div>
-    )
-  }
-
   renderArrangementPanel = () => {
     return (
       <div style={{
@@ -363,7 +274,10 @@ class App extends Component {
       <SplitPane {...this.getHorizontalSplitOptions()}>
         {this.renderBeatPanel()}
 
-        {this.renderFamilyTreePanel()}
+        <FamilyTreeDisplay
+          familyTreeHeight = {this.state.familyTreeHeight}
+          familyTreeWidth  = {this.state.familyTreeWidth}
+        />
       </SplitPane>
     )
   }
@@ -377,7 +291,10 @@ class App extends Component {
           {this.renderArrangementPanel()}
         </div>
 
-        {this.renderFamilyTreePanel()}
+        <FamilyTreeDisplay
+          familyTreeHeight = {this.state.familyTreeHeight}
+          familyTreeWidth  = {this.state.familyTreeWidth}
+        />
       </SplitPane>
     )
   }
