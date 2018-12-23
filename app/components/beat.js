@@ -4,19 +4,14 @@ import styled from "styled-components"
 import chroma from "chroma-js"
 import { toJS } from "mobx"
 
-import {
-  MdAdd,
-  MdPlayArrow,
-  MdSkipNext,
-  MdSkipPrevious,
-  MdStop,
-} from "react-icons/md"
+import { MdAdd } from "react-icons/md"
 import Player from "./player"
 
 import AddTrackButton from "./addTrackButton"
 import Button from "./button"
 import ConfigControl from "./configControl"
 import Note from "./note"
+import PlayControls from "./playControls"
 import Track from "./track"
 
 import store from "../store"
@@ -81,64 +76,10 @@ const BIData = styled.span`
   margin: 4px;
 `
 
-const StyledPlayControls = styled.div`
-  display: inline-block;
-  vertical-align: middle;
-
-  svg {
-    display: inline-block;
-    transition: 0.2s color;
-    vertical-align: middle;
-  }
-
-  svg:hover {
-    cursor: pointer;
-    color: lightgreen;
-  }
-`
-
 const TableRow = styled.div`
   display: table-row;
   width: 100%;
 `
-
-@observer
-class PlayControls extends Component {
-  static defaultProps = {
-    size: 40,
-  }
-
-  render() {
-    const {
-      size,
-    } = this.props
-
-    const PlayStopButton = store.playingCurrentBeat ? MdStop : MdPlayArrow
-
-    return (
-      <StyledPlayControls>
-        <span title="Previous Beat">
-          <MdSkipPrevious
-            size    = {size}
-            onClick = {store.prevBeat}
-          />
-        </span>
-        <span title="Play / Stop">
-          <PlayStopButton
-            size    = {size}
-            onClick = {store.togglePlayCurrentBeat}
-          />
-        </span>
-        <span title="Next Beat">
-          <MdSkipNext
-            size    = {size}
-            onClick = {store.nextBeat}
-          />
-        </span>
-      </StyledPlayControls>
-    )
-  }
-}
 
 
 const AddToArrangementButton = styled.button`
