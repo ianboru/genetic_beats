@@ -1,5 +1,5 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
-console.log("started arrangment store")
+import familyStore from "./familyStore"
 class ArrangementStore {  
   @observable arrangements       = [ [] ]
   @observable showCreateArrangement = false
@@ -13,7 +13,6 @@ class ArrangementStore {
     return this.arrangements[this.currentArrangementIndex]
   }
   @action toggleShowCreateArrangement = () => {
-    console.log("SHOW CREATE AR")
     this.showCreateArrangement = !this.showCreateArrangement
   }
 

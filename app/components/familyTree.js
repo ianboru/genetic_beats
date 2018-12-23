@@ -5,7 +5,7 @@ import styled from "styled-components"
 import cytoscape from 'cytoscape'
 
 import store from "../store"
-
+import familyStore from "../familyStore"
 
 const footerClearance = 90
 
@@ -64,7 +64,7 @@ class FamilyTree extends React.Component {
             edges.push({ data: { source: intermediateNodeKey, target: beat.key, visible: 0  } })
           }
 
-          const selectedBeats = store.selectPairMode ? store.selectedBeats : [`${store.generation}.${store.beatNum}`]
+          const selectedBeats = familyStore.selectPairMode ? familyStore.selectedBeats : [`${familyStore.generation}.${familyStore.beatNum}`]
           nodes.push({ data: {
             selected : selectedBeats.includes(beat.key) ? 1 : 0,
             id       : beat.key,
@@ -148,13 +148,13 @@ class FamilyTree extends React.Component {
     render() {
       // Mobx will only respond to state used in react components' render methods
       // This is a hack so that this component re-renders when it's supposed to
-      store.selectedBeats.join("")
-      store.generation
-      store.beatNum
-      store.currentGeneration
+      familyStore.selectedBeats.join("")
+      familyStore.generation
+      familyStore.beatNum
+      familyStore.currentGeneration
       store.hoveredBeatKey
 
-      store.allGenerations.forEach( (generation) => {
+      familyStore.allGenerations.forEach( (generation) => {
         generation.forEach( (beat) => { beat })
       })
 

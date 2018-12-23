@@ -17,7 +17,7 @@ import {
   MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
-
+import familyStore from '../familyStore'
 const BeatOptionHeader = styled.div`
   font-weight bold;
   margin: 8px 4px 12px;
@@ -76,8 +76,10 @@ class NewBeatManager extends Component {
         },
       ],
     }
-
-    store.addBeatToCurrentGen(emptyBeat)
+    this.setState({
+      addingPreset : true
+    })
+    familyStore.addBeatToCurrentGen(emptyBeat)
     store.toggleAddNewBeat()
   }
   togglePlayPreset = (beatIndex)=>{
@@ -101,13 +103,13 @@ class NewBeatManager extends Component {
       )
     })
 
-    let copyOptions = store.allGenerations.map( (generation, i) => {
+    let copyOptions = familyStore.allGenerations.map( (generation, i) => {
       const generationOptions = generation.map( (beat, j) => {
         return (
           <NewBeatOption
             key={j}
             onClick={() => {
-              store.addBeatToCurrentGen(beat)
+              familyStore.addBeatToCurrentGen(beat)
               store.toggleAddNewBeat()
             }}
           >
@@ -136,7 +138,7 @@ class NewBeatManager extends Component {
           <NewBeatOption
             onClick={
               () => { 
-                      store.addBeatToCurrentGen(beat)
+                      familyStore.addBeatToCurrentGen(beat)
                       store.toggleAddNewBeat()
                 }}
           >

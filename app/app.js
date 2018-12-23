@@ -185,6 +185,7 @@ class App extends Component {
   }
 
   renderBeatPanel = () => {
+    console.log(familyStore)
     return (
       <BeatOuterContainer>
         <BeatContainer>

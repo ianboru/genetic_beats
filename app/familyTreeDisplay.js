@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 
-import store from "./store"
+import familyStore from "./familyStore"
 import { colors } from "./colors"
 
 import Button from "./components/button"
@@ -68,12 +68,12 @@ class FamilyTreeDisplay extends Component {
         <Header>
           <PanelLabel>
             <Button large color={[colors.green.base]} onClick={this.handleMate}>
-              Mate {store.selectPairMode ? "Selected Beats" : "Generation"}
+              Mate {familyStore.selectPairMode ? "Selected Beats" : "Generation"}
             </Button>
             <br/>
             <Button
-              active  = {store.selectPairMode}
-              onClick = {store.toggleSelectPairMode}
+              active  = {familyStore.selectPairMode}
+              onClick = {familyStore.toggleSelectPairMode}
             >
               Select beats to mate
             </Button>
@@ -91,7 +91,7 @@ class FamilyTreeDisplay extends Component {
         <FamilyTree
           height     = {this.props.familyTreeHeight}
           width      = {this.props.familyTreeWidth}
-          familyTree = {store.allGenerations}
+          familyTree = {familyStore.allGenerations}
         />
 
         <Footer>
