@@ -1,6 +1,11 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import {
+  Sequencer,
+  Song,
+  Synth,
+} from "../react-music"
 
 import { MdDeleteForever } from "react-icons/md"
 
@@ -14,7 +19,6 @@ import Column from "../styledComponents/column"
 import GainSlider from "./gainSlider"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
-
 
 
 const trackNameStyles = {
