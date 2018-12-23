@@ -87,7 +87,7 @@ class Store {
   //
   // ACTIONS
   //
-  
+
  @action setHoveredBeat = (beatKey) => {
     this.hoveredBeatKey = beatKey
   }
@@ -136,6 +136,7 @@ class Store {
       }
     })
   }
+  
   @action unmuteUnsoloAll = () => {
     this.currentBeat.tracks.forEach((track)=>{
       track.mute = false
@@ -427,10 +428,7 @@ class Store {
     })
   }
 
-  @action toggleShowCreateArrangement = () => {
-    this.showCreateArrangement = !this.showCreateArrangement
-  }
-
+  
   @action setArrangementBeatToAdd = (key) => {
     this.arrangementBeatToAdd = key
   }

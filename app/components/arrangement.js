@@ -28,7 +28,7 @@ import {
   Droppable,
 } from "react-beautiful-dnd"
 
-
+import arrangementStore from '../arrangementStore'
 const StyledArrangement = styled.div`
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
@@ -119,19 +119,19 @@ class Block extends Component {
 @observer
 class Arrangement extends Component {
   deleteBlock = (index) => {
-    store.deleteBeatFromArrangement(index)
+    arrangementStore.deleteBeatFromArrangement(index)
   }
 
   addBlock = () => {
-    store.addBeatToArrangement(store.arrangementBeatToAdd)
+    arrangementStore.addBeatToArrangement(arrangementStore.arrangementBeatToAdd)
   }
 
   handleSelectArrangement = (evt) => {
-    store.selectArrangement(parseInt(evt.target.value))
+    arrangementStore.selectArrangement(parseInt(evt.target.value))
   }
 
   handleSelectBeatToAdd = (evt) => {
-    store.setArrangementBeatToAdd(evt.target.value)
+    arrangementStore.setArrangementBeatToAdd(evt.target.value)
   }
 
   handleClickBeat = (beatKey, arrangementIndex) => {
@@ -139,7 +139,7 @@ class Arrangement extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     store.selectBeat(generation,beatNum)
-    store.setCurrentLitBeat(arrangementIndex)
+    arrangementStore.setCurrentLitBeat(arrangementIndex)
   }
 
   getMaxSubdivisions = (beats) => {
@@ -172,29 +172,29 @@ class Arrangement extends Component {
 
   randomizeBestBeats = () => {
     const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
-    if (store.currentArrangement.length > 0) {
+    if (arrangementStore.currentArrangement.length > 0) {
       if (confirm(confirmMessage)) {
-        store.randomizeBestBeats()
+        arrangementStore.randomizeBestBeats()
       }
     } else {
-      store.randomizeBestBeats()
+      arrangementStore.randomizeBestBeats()
     }
   }
 
   createSong = () => {
     const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
-    if (store.currentArrangement.length > 0) {
+    if (arrangementStore.currentArrangement.length > 0) {
       if (confirm(confirmMessage)) {
-        store.createSong()
+        arrangementStore.createSong()
       }
     } else {
-      store.createSong()
+      arrangementStore.createSong()
     }
   }
 
   render() {
     let arrangementOptions = []
-    store.arrangements.forEach((arrangement,index) => {
+    arrangementStore.arrangements.forEach((arrangement,index) => {
       arrangementOptions.push(
         <option key={index} value={index}>
           {index}
@@ -203,11 +203,11 @@ class Arrangement extends Component {
     })
 
     let backgroundColor = ""
-    const beatBlocks = store.currentArrangement.map( (beatKey, i) => {
+    const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
       const currentBeatResolution = store.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       const currentBeat = store.allGenerations[splitKey[0]][splitKey[1]]
-      const highlight = (i === store.currentLitBeat )
+      const highlight = (i === arrangementStore.currentLitBeat )
       return (
         <Block
           index     = {i}
@@ -260,7 +260,7 @@ class Arrangement extends Component {
               <select
                   style={{fontSize : '20px'}}
                   onChange={this.handleSelectArrangement}
-                  value={store.currentArrangementIndex}
+                  value={arrangementStore.currentArrangementIndex}
                 >
                   {arrangementOptions}
               </select>
@@ -268,7 +268,7 @@ class Arrangement extends Component {
               <Button
                 style   = {{background : colors.gray.darkest, marginLeft : "20px"}}
                 color   = {[colors.yellow.dark]}
-                onClick = {store.addArrangement}
+                onClick = {arrangementStore.addArrangement}
               >
               Blank Song
               </Button>
@@ -282,7 +282,7 @@ class Arrangement extends Component {
           </ArrangementControls>
 
           <div>
-            {store.currentArrangement.length > 0 ? 
+            {arrangementStore.currentArrangement.length > 0 ? 
             <PlayStopButton
               size    = {80}
               onClick = {store.togglePlayArrangement}

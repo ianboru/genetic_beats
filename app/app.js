@@ -12,6 +12,9 @@ import {
 } from "react-icons/md"
 
 import store from "./store"
+import arrangementStore from "./arrangementStore"
+import familyStore from "./familyStore"
+
 import { mutateBeat } from "./mutate"
 import { mateGeneration, mateSelectedMembers} from "./mate"
 import "./index.css"
@@ -141,37 +144,37 @@ class App extends Component {
 
   clearSavedFamilies = () => {
     if (confirm("Are you sure you want to clear all families?")) {
-      store.clearSavedFamilies()
+      familyStore.clearSavedFamilies()
       window.location.reload()
     }
   }
 
   handleMate = () => {
-    if (store.generation < store.allGenerations.length - 1 && !store.selectPairMode) {
-      if (confirm(`Mating now will clear all generations after the currently selected one (${store.generation}).`)) {
-        store.killSubsequentGenerations()
+    if (familyStore.generation < famileStore.allGenerations.length - 1 && !familyStore.selectPairMode) {
+      if (confirm(`Mating now will clear all generations after the currently selected one (${familyStore.generation}).`)) {
+        familyStore.killSubsequentGenerations()
       } else {
         return
       }
     }
 
     let options = {}
-    let members = store.currentGeneration
+    let members = familyStore.currentGeneration
     let nextGeneration
-    if (store.selectPairMode) {
-      members = store.selectedBeats.map( (currentKey) => {
+    if (familyStore.selectPairMode) {
+      members = familyStore.selectedBeats.map( (currentKey) => {
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
-        return store.allGenerations[generation][beatNum]
+        return famileStore.allGenerations[generation][beatNum]
       })
       nextGeneration = mateSelectedMembers(members)
     } else {
       nextGeneration = mateGeneration(members)
     }
 
-    store.addGeneration(nextGeneration)
-    if(store.selectPairMode){store.toggleSelectPairMode()}
+    familyStore.addGeneration(nextGeneration)
+    if(familyStore.selectPairMode){familyStore.toggleSelectPairMode()}
   }
 
   handleUploadSample = (files) => {
@@ -220,12 +223,12 @@ class App extends Component {
   }
 
   handleClone = () => {
-    store.addBeatToCurrentGen(store.currentBeat)
+    familyStore.addBeatToCurrentGen(store.currentBeat)
   }
 
   handleMutate = () => {
     const newBeat = mutateBeat(store.currentBeat)
-    store.addBeatToCurrentGen(newBeat)
+    familyStore.addBeatToCurrentGen(newBeat)
   }
 
   renderBeatPanel = () => {
@@ -245,7 +248,7 @@ class App extends Component {
                 </Button>
               </div>
 
-              {store.allGenerations[0].length >= 1 ?
+              {famileStore.allGenerations[0].length >= 1 ?
                 <Button
                   large
                   color={[colors.green.base]}
@@ -256,7 +259,7 @@ class App extends Component {
                 </Button> : null
               }
 
-              {store.allGenerations[0].length >= 1 ?
+              {famileStore.allGenerations[0].length >= 1 ?
                 <Button
                   large
                   color={[colors.green.base]}
@@ -266,7 +269,7 @@ class App extends Component {
                   Clone
                 </Button> : null
               }
-              {store.allGenerations[0].length >= 1 ?
+              {famileStore.allGenerations[0].length >= 1 ?
                 <Button
                   style={{marginLeft: "15px"}}
                   large
@@ -276,13 +279,13 @@ class App extends Component {
                   Add New Beat
                 </Button> : null
               }
-              {(store.allGenerations[0].length >= 2 &&
-                store.allGenerations.length >= 1) ?
+              {(famileStore.allGenerations[0].length >= 2 &&
+                famileStore.allGenerations.length >= 1) ?
                   <Button
                     large
                     color={[colors.yellow.dark]}
-                    onClick={store.toggleShowCreateArrangement}>
-                    {store.showCreateArrangement ?
+                    onClick={() =>{arrangementStore.toggleShowCreateArrangement()}}>
+                    {arrangementStore.showCreateArrangement ?
                       "Hide Song" :
                       "Create Song"
                     }
@@ -302,12 +305,12 @@ class App extends Component {
         <Header>
           <PanelLabel>
             <Button large color={[colors.green.base]} onClick={this.handleMate}>
-              Mate {store.selectPairMode ? "Selected Beats" : "Generation"}
+              Mate {familyStore.selectPairMode ? "Selected Beats" : "Generation"}
             </Button>
             <br/>
             <Button
-              active  = {store.selectPairMode}
-              onClick = {store.toggleSelectPairMode}
+              active  = {familyStore.selectPairMode}
+              onClick = {familyStore.toggleSelectPairMode}
             >
               Select beats to mate
             </Button>
@@ -325,7 +328,7 @@ class App extends Component {
         <FamilyTree
           height     = {this.state.familyTreeHeight}
           width      = {this.state.familyTreeWidth}
-          familyTree = {store.allGenerations}
+          familyTree = {famileStore.allGenerations}
         />
 
         <Footer>
@@ -385,11 +388,11 @@ class App extends Component {
   render() {
     //<input type="file" onChange={this.handleUploadSample} ></input>
 
-    if (store.allGenerations[0].length >= 1 &&
-        store.allGenerations.length >= 1 &&
-        store.showCreateArrangement) {
+    if (famileStore.allGenerations[0].length >= 1 &&
+        famileStore.allGenerations.length >= 1 &&
+        arrangementStore.showCreateArrangement) {
       return this.renderBeatFamilyTreeArrangement()
-    } else if (store.allGenerations[0].length >= 1) {
+    } else if (famileStore.allGenerations[0].length >= 1) {
       return this.renderBeatFamilyTree()
     } else {
       return this.renderBeat()
