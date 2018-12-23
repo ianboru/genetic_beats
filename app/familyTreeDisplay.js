@@ -62,6 +62,34 @@ const PanelLabel = styled.div`
 
 @observer
 class FamilyTreeDisplay extends Component {
+  handleMate = () => {
+    if (store.generation < store.allGenerations.length - 1 && !store.selectPairMode) {
+      if (confirm(`Mating now will clear all generations after the currently selected one (${store.generation}).`)) {
+        store.killSubsequentGenerations()
+      } else {
+        return
+      }
+    }
+
+    let options = {}
+    let members = store.currentGeneration
+    let nextGeneration
+    if (store.selectPairMode) {
+      members = store.selectedBeats.map( (currentKey) => {
+        const currentKeyInfo = currentKey.split(".")
+        const generation = currentKeyInfo[0]
+        const beatNum = currentKeyInfo[1]
+        return store.allGenerations[generation][beatNum]
+      })
+      nextGeneration = mateSelectedMembers(members)
+    } else {
+      nextGeneration = mateGeneration(members)
+    }
+
+    store.addGeneration(nextGeneration)
+    if(store.selectPairMode){store.toggleSelectPairMode()}
+  }
+
   render() {
     return (
       <div>
