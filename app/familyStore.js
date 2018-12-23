@@ -1,5 +1,14 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
-class fanilyStore {  
+import {
+  deepClone,
+  generateFamilyName,
+} from "./utils"
+const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
+const newFamilyName = generateFamilyName()
+let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
+newFamilyNames.push(newFamilyName)
+
+class FamilyStore {  
   @observable beatNum            = 0
   @observable generation         = 0
   @observable allGenerations     = [[]]
@@ -7,6 +16,11 @@ class fanilyStore {
   @observable selectedBeats      = []
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
+  
+  @computed get currentGeneration() {
+    return this.allGenerations[this.generation]
+  }
+
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
@@ -29,7 +43,6 @@ class fanilyStore {
     const familyNames = JSON.parse(localStorage.getItem("familyNames"))
     this.familyNames = familyNames
   }
-
   
 
   @action clearSavedFamilies = (state) => {
@@ -58,18 +71,12 @@ class fanilyStore {
     this.arrangements = [ [] ]
     this.currentArrangementIndex = 0
   }
-  @action toggleAddNewBeat = (show) => {
-    if (show != null) {
-      this.showAddNewBeat = !this.showAddNewBeat
-    } else {
-      this.showAddNewBeat = show
-    }
-  }
 
   @action addBeatToCurrentGen = (beat) => {
     //this.currentBeat.tracks.forEach((track)=>{
       //this.trackPreviewers[track.sample] = false
     //})
+    console.log("adding beat")
     let newBeatNum = this.currentGeneration.length
 
     this.allGenerations[this.generation].push({
