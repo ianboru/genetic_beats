@@ -12,8 +12,8 @@ import {
 } from "react-icons/md"
 
 import store from "./store"
-import { mitosis} from "./generateChildren"
-import { mateGeneration, mateSelectedMembers} from "./generateChildren"
+import { mutateBeat } from "./mutate"
+import { mateGeneration, mateSelectedMembers} from "./mate"
 import "./index.css"
 import { colors } from "./colors"
 
@@ -290,7 +290,7 @@ class App extends Component {
   }
 
   handleMutate = () => {
-    const newBeat = mitosis(store.currentBeat)
+    const newBeat = mutateBeat(store.currentBeat)
     store.addBeatToCurrentGen(newBeat)
   }
 
