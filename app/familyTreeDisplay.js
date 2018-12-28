@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 import store from "./store"
 import { colors } from "./colors"
+import { mateGeneration, mateSelectedMembers} from "./mate"
 
 import Button from "./components/button"
 import Header from "./styledComponents/header"

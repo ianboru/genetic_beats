@@ -13,7 +13,6 @@ import {
 
 import store from "./store"
 import { mutateBeat } from "./mutate"
-import { mateGeneration, mateSelectedMembers} from "./mate"
 import "./index.css"
 import { colors } from "./colors"
 
