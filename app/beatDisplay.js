@@ -38,7 +38,6 @@ class BeatDisplay extends Component {
         )
       }
     })(familyStore.currentBeat)
-    console.log("beat display", beat, store.showAddNewBeat)
     if (!beat || store.showAddNewBeat) {
       return (
         <div style={{ textAlign: "center" }}>

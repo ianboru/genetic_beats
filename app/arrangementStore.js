@@ -66,7 +66,6 @@ class ArrangementStore {
       })
     })
     allScores = allScores.sort( (a, b) => (a - b) )
-    console.log("all scrores", allScores)
     let percentileIndex = Math.floor(allScores.length * store.fitnessPercentile/100) - 1
     familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
@@ -84,7 +83,6 @@ class ArrangementStore {
         }
       })
     })
-    console.log("all arra", toJS(this.arrangements))
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }

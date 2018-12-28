@@ -217,12 +217,10 @@ class Store {
   }
 
   @action toggleAddNewBeat = (show) => {
-    console.log("toggling show ", show)
     if (show != null) {
       this.showAddNewBeat = !this.showAddNewBeat
     } else {
       this.showAddNewBeat = show
-      console.log("new show ", show)
     }
   }
 

@@ -23,7 +23,6 @@ class FamilyStore {
   }
 
   @computed get currentBeat() {
-    console.log("current beat generation ", toJS(this.currentGeneration))
     if (this.currentGeneration.length > 0) {
       return this.currentGeneration[this.beatNum]
     } else {
