@@ -16,7 +16,6 @@ import arrangementStore from "./arrangementStore"
 import familyStore from "./familyStore"
 
 import { mutateBeat } from "./mutate"
-import { mateGeneration, mateSelectedMembers} from "./mate"
 import "./index.css"
 import { colors } from "./colors"
 

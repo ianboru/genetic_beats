@@ -57,7 +57,6 @@ class NewBeatManager extends Component {
     addingPreset : false,
     playingPresets : beatTemplates.map(()=>{false})
   }
-
   addEmptyBeat = () => {
     const numSteps = 16
     let emptyBeat = {

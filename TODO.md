@@ -14,8 +14,6 @@ Refactor:
       * GainSlider, Note, Track, AddTrackButton, Beat
   * 390 ./app//mutate, select, mate.js
     * Cleanup
-  * 469 ./app//app.js
-    * Move StarRating into Beat and get rid of BeatDisplay or move to own file
 * Try to extract / separate visual style stuff from functional stuff (reusable components with separate concerns)
 * Move some stuff into "screens" folder, distinguished from "components"
 * Remove beat select and eventually replace with drag/drop mating
