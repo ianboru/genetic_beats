@@ -12,9 +12,7 @@ Refactor:
     * Components:
       * TempoControl, PlayControls
       * GainSlider, Note, Track, AddTrackButton, Beat
-  * 390 ./app//generateChildren.js
-    * Move mutate* functions to their own file
-    * Move mate* functions to their own file
+  * 390 ./app//mutate, select, mate.js
     * Cleanup
   * 469 ./app//app.js
     * Move StarRating into Beat and get rid of BeatDisplay or move to own file
