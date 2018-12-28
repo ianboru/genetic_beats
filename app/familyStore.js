@@ -3,7 +3,7 @@ import {
   deepClone,
   generateFamilyName,
 } from "./utils"
-
+import store from "./store"
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
@@ -89,7 +89,7 @@ class FamilyStore {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
-    this.resetNoteTimer()
+    store.resetNoteTimer()
     this.updateFamilyInStorage()
   }
 
@@ -98,14 +98,26 @@ class FamilyStore {
     // #TODO MOVE TO ARRANGEMNTSOTRE this.arrangements = [ [] ]
     //this.currentArrangementIndex = 0
   }
-
+  @action incrementBeatNum = (direction) => {
+    const currentGeneration = this.allGenerations[this.generation]
+    if(direction === "up"){
+      this.beatNum = (this.beatNum + 1) % this.currentGeneration.length
+    }else{
+      if (this.beatNum == 0) {
+        this.beatNum = currentGeneration.length - 1
+      } else {
+        this.beatNum = (this.beatNum - 1) % currentGeneration.length
+      }
+    }
+  }
+  
 
   @action addTrackToCurrentBeat = (track) => {
     if(this.numSolo > 0){
       track.mute = true
     }
     this.currentBeat.tracks.forEach((track)=>{
-      this.trackPreviewers[track.sample] = false
+      store.trackPreviewers[track.sample] = false
     })
     this.currentBeat.tracks.push(track)
   }
@@ -141,7 +153,7 @@ class FamilyStore {
 
     this.generation = generation
     this.beatNum = beatNum
-    this.resetNoteTimer()
+    store.resetNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -180,7 +192,7 @@ class FamilyStore {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
-    this.resetNoteTimer()
+    store.resetNoteTimer()
     this.updateFamilyInStorage()
   }
 
@@ -195,7 +207,7 @@ class FamilyStore {
 
     this.generation = generation
     this.beatNum = beatNum
-    this.resetNoteTimer()
+    store.resetNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -262,7 +274,7 @@ class FamilyStore {
 
   @action addBeatToCurrentGen = (beat) => {
     //this.currentBeat.tracks.forEach((track)=>{
-      //this.trackPreviewers[track.sample] = false
+      //store.trackPreviewers[track.sample] = false
     //})
     let newBeatNum = this.currentGeneration.length
 
@@ -280,7 +292,7 @@ class FamilyStore {
       track.mute = true
     }
     this.currentBeat.tracks.forEach((track)=>{
-      this.trackPreviewers[track.sample] = false
+      store.trackPreviewers[track.sample] = false
     })
     this.currentBeat.tracks.push(track)
   }

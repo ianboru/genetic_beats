@@ -128,7 +128,7 @@ class FamilyTree extends React.Component {
         const idData = this.id().split(".")
         const generation = parseInt(idData[0])
         const beatNum = parseInt(idData[1])
-        store.selectBeat(generation, beatNum)
+        familyStore.selectBeat(generation, beatNum)
       })
 
       this.cy.on('mouseover', 'node', function(evt) {

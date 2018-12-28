@@ -13,6 +13,7 @@ import Player from "./player"
 import { toJS } from "mobx"
 
 import store from "../store"
+import familyStore from "../familyStore"
 import { normalizeSubdivisions } from "../utils"
 import { colors } from "../colors"
 import {
@@ -138,7 +139,7 @@ class Arrangement extends Component {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
-    store.selectBeat(generation,beatNum)
+    familyStore.selectBeat(generation,beatNum)
     arrangementStore.setCurrentLitBeat(arrangementIndex)
   }
 
@@ -148,7 +149,7 @@ class Arrangement extends Component {
       const beatKeySplit = beatKey.split(".")
       const generation = parseInt(beatKeySplit[0])
       const childIndex = parseInt(beatKeySplit[1])
-      const beat = store.allGenerations[generation][childIndex]
+      const beat = familyStore.allGenerations[generation][childIndex]
       const subdivisions = beat["tracks"][0].sequence.length
       if(subdivisions > maxSubdivisions){
         maxSubdivisions = subdivisions
@@ -163,7 +164,7 @@ class Arrangement extends Component {
       const beatKeySplit = beatKey.split(".")
       const generation = parseInt(beatKeySplit[0])
       const childIndex = parseInt(beatKeySplit[1])
-      const beat = store.allGenerations[generation][childIndex]
+      const beat = [generation][childIndex]
       const normalizedBeat = normalizeSubdivisions(beat,maxSubdivisions)
       normalizedBeats.push(normalizedBeat)
     })
@@ -205,8 +206,8 @@ class Arrangement extends Component {
     let backgroundColor = ""
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
-      const currentBeatResolution = store.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
-      const currentBeat = store.allGenerations[splitKey[0]][splitKey[1]]
+      const currentBeatResolution = family[splitKey[0]][splitKey[1]].tracks[0].sequence.length
+      const currentBeat = family[splitKey[0]][splitKey[1]]
       const highlight = (i === arrangementStore.currentLitBeat )
       return (
         <Block
@@ -230,7 +231,7 @@ class Arrangement extends Component {
 
     // get max subdivisions
 
-    const beatKeyOptions = store.allBeatKeys.map((key) => {
+    const beatKeyOptions = familyStore.allBeatKeys.map((key) => {
       return (
         <option key={key} value={key}>
           {key}

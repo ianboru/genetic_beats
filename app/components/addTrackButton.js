@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import store from "../store"
+import familyStore from "../familyStore"
 import { colors } from "../colors"
 
 import Button from "./button"
@@ -55,7 +56,7 @@ class AddTrackButton extends Component {
     //TODO move to ui control
     const synthType = "square"
     const sequence = Array(steps).fill(0)
-    store.addTrackToCurrentBeat({sample, sequence, trackType, synthType})
+    familyStore.addTrackToCurrentBeat({sample, sequence, trackType, synthType})
   }
 
   handleAddSamplerTrack = () => {

@@ -1,5 +1,9 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import familyStore from "./familyStore"
+import {
+  getNormalProbability,
+  calculateSampleDifference ,
+} from "./utils"
 class ArrangementStore {  
   @observable arrangements       = [ [] ]
   @observable showCreateArrangement = false
@@ -7,6 +11,7 @@ class ArrangementStore {
   @observable currentSong
   @observable currentArrangementIndex = 0
   @observable arrangementBlockPlaying = []
+  @observable currentLitBeat     = 0
 
 
   @computed get currentArrangement() {
@@ -41,12 +46,12 @@ class ArrangementStore {
   }
  @action addBeatToArrangement = (beatKey) => {
     this.arrangements[this.currentArrangementIndex].push(beatKey)
-    this.updateFamilyInStorage()
+    familyStore.updateFamilyInStorage()
   }
 
   @action deleteBeatFromArrangement = (index) => {
     this.arrangements[this.currentArrangementIndex].splice(index,1)
-    this.updateFamilyInStorage()
+    familyStore.updateFamilyInStorage()
   }
 
   @action randomizeBestBeats = () => {
@@ -60,7 +65,7 @@ class ArrangementStore {
       })
     })
     allScores = allScores.sort( (a, b) => (a - b) )
-
+    console.log("all scrores", allScores)
     let percentileIndex = Math.floor(allScores.length * this.fitnessPercentile/100) - 1
     familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
@@ -78,6 +83,7 @@ class ArrangementStore {
         }
       })
     })
+    console.log("all arra", this.arrangements)
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
@@ -174,7 +180,7 @@ class ArrangementStore {
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
-    this.updateFamilyInStorage()
+    familyStore.updateFamilyInStorage()
   }
 
   @action setCurrentSong = (song) => {

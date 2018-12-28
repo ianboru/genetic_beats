@@ -15,7 +15,7 @@ import {
   normalizeSubdivisions,
 } from './utils'
 import store from "./store"
-
+import familyStore from "./familyStore"
 const mateMembers = (members)=> {
   let nextGeneration = []
   members.forEach( (momBeat, momIndex) => {
@@ -42,7 +42,7 @@ const mateSelectedMembers = (members) => {
   const survivingMembers = selectSurvivors(nextGeneration)
   const reindexedMembers = survivingMembers.map( (beat, i) => {
     return { ...beat,
-      key: `${store.allGenerations.length }.${i}`,
+      key: `${familyStore.allGenerations.length }.${i}`,
     }
   })
   return reindexedMembers
@@ -53,7 +53,7 @@ const mateGeneration = (generation) => {
   const survivingMembers = selectSurvivors(nextGeneration)
   const reindexedMembers = survivingMembers.map( (beat, i) => {
     return { ...beat,
-      key: `${store.generation + 1}.${i}`,
+      key: `${familyStore.generation + 1}.${i}`,
     }
   })
   store.unmuteUnsoloAll()

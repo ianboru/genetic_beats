@@ -9,6 +9,7 @@ import {
   calculateSampleDifference ,
 } from "./utils"
 import familyStore from "./familyStore"
+import arrangementStore from "./arrangementStore"
 configure({ enforceActions: "always" })
 
 class Store {
@@ -33,7 +34,6 @@ class Store {
   @observable metronome          = false
   @observable trackPreviewers    = {}
   @observable currentLitNote     = 0
-  @observable currentLitBeat     = 0
   @observable showAddNewBeat     = false
   @observable noteTimer
   @observable arrangementTimer
@@ -145,7 +145,7 @@ class Store {
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
       this.arrangementTimer = setInterval(()=>{
-        this.incrementCurrentLitBeat()
+        arrangementStore.incrementCurrentLitBeat()
       }, millisecondsPerBeat*4)
     }else{
       clearInterval(this.arrangementTimer)
@@ -244,9 +244,9 @@ class Store {
     if(wasPlaying){
       this.playingCurrentBeat = false
     }
-    const currentGeneration = this.allGenerations[this.generation]
+    
     this.unmuteUnsoloAll()
-    this.beatNum = (this.beatNum + 1) % currentGeneration.length
+    familyStore.incrementBeatNum("up")
     this.currentLitNote = 0
     if(wasPlaying){
       this.playingCurrentBeat = true
@@ -258,14 +258,8 @@ class Store {
   }
 
   @action prevBeat = () => {
-    const currentGeneration = this.allGenerations[this.generation]
+    familyStore.incrementBeatNum("down")
     this.unmuteUnsoloAll()
-    if (this.beatNum == 0) {
-      this.beatNum = currentGeneration.length - 1
-    } else {
-      this.beatNum = (this.beatNum - 1) % currentGeneration.length
-    }
-
     this.currentLitNote = 0
     this.resetNoteTimer()
     familyStore.currentBeat.tracks.forEach((track)=>{

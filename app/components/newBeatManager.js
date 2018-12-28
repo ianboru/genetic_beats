@@ -193,7 +193,7 @@ class NewBeatManager extends Component {
              : null
         }
 
-        { store.currentBeat ?
+        { familyStore.currentBeat ?
             <Button small color={[colors.red.darker]} onClick={store.toggleAddNewBeat}>
               Cancel
             </Button> : null
