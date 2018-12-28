@@ -10,6 +10,7 @@ import {
 import { MdDeleteForever } from "react-icons/md"
 
 import store from "../store"
+import familyStore from "../familyStore"
 
 import Note from "./note"
 
@@ -63,10 +64,10 @@ class Track extends Component {
 
     if(wasClicked){
       handleEdit(trackNum, noteNumber)
-    }else if(!wasClicked && wasOn && store.currentBeat.tracks[trackNum].sequence[noteNumber]){
+    }else if(!wasClicked && wasOn && familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]){
       handleEdit(trackNum, noteNumber)
     }
-    else if(!wasClicked && !wasOn && !store.currentBeat.tracks[trackNum].sequence[noteNumber]){
+    else if(!wasClicked && !wasOn && !familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]){
       handleEdit(trackNum, noteNumber)
     }
   }
@@ -136,7 +137,7 @@ class Track extends Component {
           onClick = {(e) => {
               this.setState({
                 lastEntered : i,
-                lastClickedNoteWasOn :  store.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
+                lastClickedNoteWasOn :  familyStore.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
               })
               this.handleNoteToggle(i,note,true)
           }}

@@ -15,6 +15,7 @@ import PlayControls from "./playControls"
 import Track from "./track"
 
 import store from "../store"
+import familyStore from "../familyStore"
 import { colors } from "../colors"
 
 import Metronome from "../svg/metronome.svg"
@@ -234,9 +235,9 @@ class Beat extends Component {
               onClick={() => store.addBeatToArrangement(this.props.beat.key)}
             ><MdAdd size={25} /></AddToArrangementButton> : null}
         <Player
-          beat       = {store.currentBeat}
-          playing    = {store.playingCurrentBeat && store.currentBeat.key == this.props.beat.key}
-          resolution = {store.currentBeatResolution}
+          beat       = {familyStore.currentBeat}
+          playing    = {store.playingCurrentBeat && familyStore.currentBeat.key == this.props.beat.key}
+          resolution = {familyStore.currentBeatResolution}
         />
         <TableRow>
           <Column />

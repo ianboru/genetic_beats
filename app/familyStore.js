@@ -3,6 +3,7 @@ import {
   deepClone,
   generateFamilyName,
 } from "./utils"
+
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
@@ -20,6 +21,32 @@ class FamilyStore {
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
+
+  @computed get currentBeat() {
+    console.log("current beat generation ", toJS(this.currentGeneration))
+    if (this.currentGeneration.length > 0) {
+      return this.currentGeneration[this.beatNum]
+    } else {
+      return false
+    }
+  }
+
+  @computed get currentBeatResolution() {
+    if (this.currentBeat != null) {
+      return this.currentBeat.tracks[0].sequence.length
+    }
+  }
+
+  @computed get allBeatKeys() {
+    let beatKeys = []
+    this.allGenerations.forEach((generation) => {
+      generation.forEach((beat) => {
+        beatKeys.push(beat.key)
+      })
+    })
+    return beatKeys
+  }
+
 
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
@@ -68,25 +95,10 @@ class FamilyStore {
 
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
-    this.arrangements = [ [] ]
-    this.currentArrangementIndex = 0
+    // #TODO MOVE TO ARRANGEMNTSOTRE this.arrangements = [ [] ]
+    //this.currentArrangementIndex = 0
   }
 
-  @action addBeatToCurrentGen = (beat) => {
-    //this.currentBeat.tracks.forEach((track)=>{
-      //this.trackPreviewers[track.sample] = false
-    //})
-    console.log("adding beat")
-    let newBeatNum = this.currentGeneration.length
-
-    this.allGenerations[this.generation].push({
-      ...deepClone(beat),
-      key: `${this.generation}.${newBeatNum}`,
-      score: 0,
-    })
-
-    this.beatNum = newBeatNum
-  }
 
   @action addTrackToCurrentBeat = (track) => {
     if(this.numSolo > 0){
@@ -116,6 +128,182 @@ class FamilyStore {
   @action setScore = (score) => {
     this.currentBeat.score = score
     this.currentLitNote = 0
+    this.updateFamilyInStorage()
+  }
+  @action killSubsequentGenerations = () => {
+    this.allGenerations = this.allGenerations.slice(0, this.generation+1)
+    this.arrangements = [ [] ]
+    this.currentArrangementIndex = 0
+  }
+
+  @action selectBeat = (generation, beatNum) => {
+    const selectedKey = `${generation}.${beatNum}`
+
+    this.generation = generation
+    this.beatNum = beatNum
+    this.resetNoteTimer()
+
+    if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.push(selectedKey)
+    } else if (this.selectPairMode && this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.splice( this.selectedBeats.indexOf(selectedKey), 1 )
+    } else {
+      this.selectedBeats = [selectedKey]
+    }
+  }
+  
+  @action toggleSelectPairMode = () => {
+    this.selectPairMode = !this.selectPairMode
+    this.selectedBeats = []
+  }
+
+  @action setGeneration = (generation) => {
+    this.generation = generation
+  }
+
+  @action selectFamily = (familyName) => {
+    this.familyName = familyName
+    // SIDE EFFECT
+    const familyData = JSON.parse(localStorage.getItem(familyName))
+    this.allGenerations = familyData.family
+    this.arrangements = familyData.arrangements
+    this.currentArrangementIndex = 0
+    this.beatNum = 0
+    this.generation = 0
+
+    const familyNames = JSON.parse(localStorage.getItem("familyNames"))
+    this.familyNames = familyNames
+  }
+
+  
+  @action addGeneration = (newGeneration) => {
+    this.allGenerations.push(newGeneration)
+    this.generation++
+    this.beatNum = 0
+    this.resetNoteTimer()
+    this.updateFamilyInStorage()
+  }
+
+  @action killSubsequentGenerations = () => {
+    this.allGenerations = this.allGenerations.slice(0, this.generation+1)
+    this.arrangements = [ [] ]
+    this.currentArrangementIndex = 0
+  }
+
+  @action selectBeat = (generation, beatNum) => {
+    const selectedKey = `${generation}.${beatNum}`
+
+    this.generation = generation
+    this.beatNum = beatNum
+    this.resetNoteTimer()
+
+    if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.push(selectedKey)
+    } else if (this.selectPairMode && this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.splice( this.selectedBeats.indexOf(selectedKey), 1 )
+    } else {
+      this.selectedBeats = [selectedKey]
+    }
+  }
+  
+  @action toggleSelectPairMode = () => {
+    this.selectPairMode = !this.selectPairMode
+    this.selectedBeats = []
+  }
+
+  @action setGeneration = (generation) => {
+    this.generation = generation
+  }
+
+  @action selectFamily = (familyName) => {
+    this.familyName = familyName
+    // SIDE EFFECT
+    const familyData = JSON.parse(localStorage.getItem(familyName))
+    this.allGenerations = familyData.family
+    this.arrangements = familyData.arrangements
+    this.currentArrangementIndex = 0
+    this.beatNum = 0
+    this.generation = 0
+
+    const familyNames = JSON.parse(localStorage.getItem("familyNames"))
+    this.familyNames = familyNames
+  }
+
+  
+
+  @action clearSavedFamilies = (state) => {
+    // SIDE EFFECT
+    localStorage.clear()
+  }
+
+  @action updateFamilyInStorage = () => {
+    localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
+
+    localStorage.setItem(this.familyName, JSON.stringify({
+      family :this.allGenerations,
+      arrangements : this.arrangements,
+    }))
+  }
+
+  @action clearSavedFamilies = (state) => {
+    // SIDE EFFECT
+    localStorage.clear()
+  }
+
+  @action updateFamilyInStorage = () => {
+    localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
+
+    localStorage.setItem(this.familyName, JSON.stringify({
+      family :this.allGenerations,
+      arrangements : this.arrangements,
+    }))
+  }
+
+
+  @action addBeatToCurrentGen = (beat) => {
+    //this.currentBeat.tracks.forEach((track)=>{
+      //this.trackPreviewers[track.sample] = false
+    //})
+    let newBeatNum = this.currentGeneration.length
+
+    this.allGenerations[this.generation].push({
+      ...deepClone(beat),
+      key: `${this.generation}.${newBeatNum}`,
+      score: 0,
+    })
+
+    this.beatNum = newBeatNum
+  }
+
+  @action addTrackToCurrentBeat = (track) => {
+    if(this.numSolo > 0){
+      track.mute = true
+    }
+    this.currentBeat.tracks.forEach((track)=>{
+      this.trackPreviewers[track.sample] = false
+    })
+    this.currentBeat.tracks.push(track)
+  }
+
+  @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
+    const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] = newNote
+    this.updateFamilyInStorage()
+  }
+
+  @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
+    // set new sample
+    this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
+    this.updateFamilyInStorage()
+  }
+
+  @action removeTrackFromBeat = (generation, beatNum, trackNum) => {
+    this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
+    this.updateFamilyInStorage()
+  }
+  @action setScore = (score) => {
+    this.currentBeat.score = score
+    store.resetCurrentLitNote()
     this.updateFamilyInStorage()
   }
 }

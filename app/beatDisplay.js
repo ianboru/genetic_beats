@@ -12,7 +12,7 @@ import Header from "./styledComponents/header"
 import Beat from "./components/beat"
 import NewBeatManager from "./components/newBeatManager"
 import StarRating from "./components/starRating"
-
+import familyStore from "./familyStore"
 
 
 @observer
@@ -31,14 +31,14 @@ class BeatDisplay extends Component {
             key               = {beat.key}
             ref               = {r => { this.beat = r }}
             beat              = {beat}
-            handleRemoveTrack = {(trackNum) => store.removeTrackFromBeat(generation, beatNum, trackNum) }
-            handleToggleNote  = {(trackNum, note) => store.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
-            handleSetSample   = {(trackNum, sample) => store.setSampleOnBeat(generation, beatNum, trackNum, sample) }
+            handleRemoveTrack = {(trackNum) => familyStore.removeTrackFromBeat(generation, beatNum, trackNum) }
+            handleToggleNote  = {(trackNum, note) => familyStore.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
+            handleSetSample   = {(trackNum, sample) => familyStore.setSampleOnBeat(generation, beatNum, trackNum, sample) }
           />
         )
       }
-    })(store.currentBeat)
-
+    })(familyStore.currentBeat)
+    console.log("beat display", beat, store.showAddNewBeat)
     if (!beat || store.showAddNewBeat) {
       return (
         <div style={{ textAlign: "center" }}>
@@ -55,9 +55,9 @@ class BeatDisplay extends Component {
           position  : "relative",
         }}>
           <StarRating
-            score = {store.currentBeat.score}
+            score = {familyStore.currentBeat.score}
             handleSetScore = { (score) => {
-              store.setScore(score)
+              familyStore.setScore(score)
               store.nextBeat()
             }}
           />

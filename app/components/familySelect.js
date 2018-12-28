@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import { colors } from "../colors"
 
-import store from "../store"
+import familyStore from "../familyStore"
 
 
 const StyledFamilySelect = styled.span`
@@ -16,22 +16,22 @@ const StyledFamilySelect = styled.span`
 @observer
 class FamilySelect extends Component {
   handleSelectFamily = (e) => {
-    store.selectFamily(e.target.value)
+    familyStore.selectFamily(e.target.value)
   }
 
   render() {
-    let familyNamesOptions = store.familyNames.map((name) => {
+    let familyNamesOptions = familyStore.familyNames.map((name) => {
       return (
         <option key={name} value={name}>
           {name}
         </option>
       )
     })
-    familyNamesOptions.push(store.familyName)
+    familyNamesOptions.push(familyStore.familyName)
     return (
       <StyledFamilySelect>
         Current Beat Family: <select
-          defaultValue = {store.familyName}
+          defaultValue = {familyStore.familyName}
           onChange = {this.handleSelectFamily}
         >
           {familyNamesOptions}

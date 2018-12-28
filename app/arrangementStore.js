@@ -53,9 +53,8 @@ class ArrangementStore {
     this.arrangements[this.currentArrangementIndex] = []
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
-
     let allScores = []
-    this.allGenerations.forEach((generation)=>{
+    familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
         allScores.push(beat.score)
       })
@@ -63,7 +62,7 @@ class ArrangementStore {
     allScores = allScores.sort( (a, b) => (a - b) )
 
     let percentileIndex = Math.floor(allScores.length * this.fitnessPercentile/100) - 1
-    this.allGenerations.forEach((generation)=>{
+    familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
         if(beat.score >= allScores[percentileIndex]){
           // roll a dice to repeat the beat
@@ -96,7 +95,7 @@ class ArrangementStore {
     let currentNoteDensity
     let maxScore = 0
     //calculate note density for each beat
-    this.allGenerations.forEach( (generation) => {
+    familyStore.allGenerations.forEach( (generation) => {
       generation.forEach((beat) =>{
         let numNotes = 0
         let numSteps = 0
@@ -181,9 +180,17 @@ class ArrangementStore {
   @action setCurrentSong = (song) => {
     this.currentSong = song
   }
+  @action setArrangementBeatToAdd = (key) => {
+    this.arrangementBeatToAdd = key
+  }
 }
 
-
+/*const followCurrentBeat = reaction(
+  () => { return familyStore.currentBeat.key },
+  key => {
+    this.setArrangementBeatToAdd(familyStore.currentBeat.key)
+  }
+)*/
 const arrangementStore = new ArrangementStore()
 
 

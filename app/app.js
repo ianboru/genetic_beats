@@ -146,11 +146,11 @@ class App extends Component {
   }
 
   handleClone = () => {
-    familyStore.addBeatToCurrentGen(store.currentBeat)
+    familyStore.addBeatToCurrentGen(familyStore.currentBeat)
   }
 
   handleMutate = () => {
-    const newBeat = mutateBeat(store.currentBeat)
+    const newBeat = mutateBeat(familyStore.currentBeat)
     familyStore.addBeatToCurrentGen(newBeat)
   }
 

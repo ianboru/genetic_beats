@@ -57,9 +57,6 @@ class NewBeatManager extends Component {
     addingPreset : false,
     playingPresets : beatTemplates.map(()=>{false})
   }
-  handleClickOutside = () => {
-    store.toggleAddNewBeat(false)
-  }
 
   addEmptyBeat = () => {
     const numSteps = 16
