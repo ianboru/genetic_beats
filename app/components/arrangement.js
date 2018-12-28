@@ -206,8 +206,8 @@ class Arrangement extends Component {
     let backgroundColor = ""
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
-      const currentBeatResolution = family[splitKey[0]][splitKey[1]].tracks[0].sequence.length
-      const currentBeat = family[splitKey[0]][splitKey[1]]
+      const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
+      const currentBeat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
       const highlight = (i === arrangementStore.currentLitBeat )
       return (
         <Block

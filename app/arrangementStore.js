@@ -1,5 +1,6 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import familyStore from "./familyStore"
+import store from "./store"
 import {
   getNormalProbability,
   calculateSampleDifference ,
@@ -66,7 +67,7 @@ class ArrangementStore {
     })
     allScores = allScores.sort( (a, b) => (a - b) )
     console.log("all scrores", allScores)
-    let percentileIndex = Math.floor(allScores.length * this.fitnessPercentile/100) - 1
+    let percentileIndex = Math.floor(allScores.length * store.fitnessPercentile/100) - 1
     familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
         if(beat.score >= allScores[percentileIndex]){
@@ -83,7 +84,7 @@ class ArrangementStore {
         }
       })
     })
-    console.log("all arra", this.arrangements)
+    console.log("all arra", toJS(this.arrangements))
     if(this.playingArrangement){
       this.togglePlayArrangement()
     }
