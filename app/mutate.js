@@ -1,4 +1,5 @@
 import store from "./store"
+import controlStore from "./controlStore"
 import { toJS } from "mobx"
 import { allNotesInRange } from "./utils"
 const mutateByKillTrack = (beat) => {
@@ -6,7 +7,7 @@ const mutateByKillTrack = (beat) => {
   beat.tracks.forEach((track, i) => {
     const randomInteger = Math.floor(Math.random() * 100)
     // divide mutateRate by number of tracks so the total chance of killing is the same as the rate
-    if(randomInteger > store.sampleMutationRate/beat.tracks.length ||
+    if(randomInteger > controlStore.sampleMutationRate/beat.tracks.length ||
        // Don't kill the last track
        (survivingTracks.length == 0 && i == beat.tracks.length-1)) {
       survivingTracks.push(track)
@@ -117,7 +118,7 @@ const mutateSynthsByMusicalEnhancement = (beat) => {
 const mutateSequence = (sequence) => {
   let mutatedSequence = sequence.map((note) => {
     const randomInteger = Math.floor(Math.random() * 100)
-    if(randomInteger < store.noteMutationRate){
+    if(randomInteger < controlStore.noteMutationRate){
       note = 1 - note
     }
     return note
@@ -132,7 +133,7 @@ const mutateSequence = (sequence) => {
 
 const mutateByAddTrack = (beat) => {
   let randomInteger = Math.floor(Math.random() * 100)
-  if (randomInteger < store.sampleMutationRate) {
+  if (randomInteger < controlStore.sampleMutationRate) {
     const currentBeatSampleKeys = beat.tracks.map(track => track.sample)
 
     let trackType = ""

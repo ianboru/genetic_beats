@@ -22,14 +22,8 @@ class Store {
   @observable synthGain          = {'sine' : .5,'square' : .5}
   @observable synthGainCorrection = {'sine' : 1, "square" : 2}
   @observable numSolo            = 0
-  
-  @observable sampleMutationRate = 15
-  @observable noteMutationRate   = 8
   @observable playingCurrentBeat = false
   @observable playingArrangement = false
-  @observable numSurvivors       = 6
-  @observable numChildren        = 3
-  @observable fitnessPercentile  = 65
   @observable tempo              = 100
   @observable metronome          = false
   @observable trackPreviewers    = {}
@@ -196,22 +190,6 @@ class Store {
     this.resetArrangementTimer()
   }
 
-  @action setSampleMutationRate = (sampleMutationRate) => {
-    this.sampleMutationRate = sampleMutationRate
-  }
-
-  @action setNumChildren = (numChildren) => {
-    this.numChildren = numChildren
-  }
-
-  @action setNumSurvivors = (numSurvivors) => {
-    this.numSurvivors = numSurvivors
-  }
-
-  @action setFitnessPercentile = (fitnessPercentile) => {
-    this.fitnessPercentile = fitnessPercentile
-  }
-
   @action toggleMetronome = () => {
     this.metronome = !this.metronome
   }
@@ -273,9 +251,5 @@ class Store {
 }
 
 const store = new Store()
-
-
-
-
 
 export default store

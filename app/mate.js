@@ -15,6 +15,7 @@ import {
   normalizeSubdivisions,
 } from './utils'
 import store from "./store"
+import controlStore from "./controlStore"
 import familyStore from "./familyStore"
 const mateMembers = (members)=> {
   let nextGeneration = []
@@ -26,7 +27,7 @@ const mateMembers = (members)=> {
         momBeat = normalizeSubdivisions(momBeat, dadBeat.tracks[0].sequence.length)
       }
 
-      for (let i=0; i < store.numChildren; i++) {
+      for (let i=0; i < controlStore.numChildren; i++) {
         const childBeat = matePair(momBeat, dadBeat)
         if(childBeat.tracks.length){
           nextGeneration.push(childBeat)

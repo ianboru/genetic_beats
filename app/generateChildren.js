@@ -8,10 +8,10 @@ import {
 } from "./utils"
 import { toJS } from "mobx"
 import store from "./store"
-
+import controlStore from "./controlStore"
 
 const getFitnessThreshold = (generation) => {
-  let fitnessPercentile = store.fitnessPercentile/100
+  let fitnessPercentile = controlStore.fitnessPercentile/100
   let allScores = generation.map((beat) => { return beat.score })
   allScores = allScores.sort( (a, b) => (a - b) )
   let percentileIndex = Math.ceil(allScores.length * fitnessPercentile) - 1
@@ -19,7 +19,7 @@ const getFitnessThreshold = (generation) => {
 }
 
 const selectSurvivors = (generation) => {
-  const numIndices = Math.min(store.numSurvivors, generation.length)
+  const numIndices = Math.min(controlStore.numSurvivors, generation.length)
   const randomIntegerArray = getRandomIndices(numIndices, generation.length)
   const survivors = randomIntegerArray.map((index)=>{
     return generation[index]

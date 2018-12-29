@@ -1,6 +1,7 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import familyStore from "./familyStore"
 import store from "./store"
+import controlStore from "./controlStore"
 import {
   getNormalProbability,
   calculateSampleDifference ,
@@ -66,7 +67,7 @@ class ArrangementStore {
       })
     })
     allScores = allScores.sort( (a, b) => (a - b) )
-    let percentileIndex = Math.floor(allScores.length * store.fitnessPercentile/100) - 1
+    let percentileIndex = Math.floor(allScores.length * controlStore.fitnessPercentile/100) - 1
     familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
         if(beat.score >= allScores[percentileIndex]){

@@ -5,7 +5,7 @@ import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
 import ConfigControl from "./configControl"
-
+import controlStore from "../controlStore"
 import store from "../store"
 import { colors } from "../colors"
 
@@ -75,16 +75,16 @@ class MatingControl extends Component {
 
           <ConfigControl
             name          = "Note Mutation Rate"
-            value         = {store.noteMutationRate}
-            changeHandler = {store.setNoteMutationRate}
+            value         = {controlStore.noteMutationRate}
+            changeHandler = {controlStore.setNoteMutationRate}
             min           = {0}
             max           = {100}
             title         = "The likelihood that a note changes during mutation or mating"
           />
           <ConfigControl
             name          = "Sample Mutation Rate"
-            value         = {store.sampleMutationRate}
-            changeHandler = {store.setSampleMutationRate}
+            value         = {controlStore.sampleMutationRate}
+            changeHandler = {controlStore.setSampleMutationRate}
             min           = {0}
             max           = {100}
             title         = "The likelihood that a sample is added or removed during mutation or mating"
@@ -96,24 +96,24 @@ class MatingControl extends Component {
 
           <ConfigControl
             name          = "Number of Children"
-            value         = {store.numChildren}
-            changeHandler = {store.setNumChildren}
+            value         = {controlStore.numChildren}
+            changeHandler = {controlStore.setNumChildren}
             min           = {1}
             max           = {20}
             title         = "The number of children produced by set of parents during mating"
           />
           <ConfigControl
             name          = "Number of Survivors"
-            value         = {store.numSurvivors}
-            changeHandler = {store.setNumSurvivors}
+            value         = {controlStore.numSurvivors}
+            changeHandler = {controlStore.setNumSurvivors}
             min           = {1}
             max           = {20}
             title         = "The maximum number of children in a new generation"
           />
           <ConfigControl
             name          = "Fitness Threshold"
-            value         = {store.fitnessPercentile}
-            changeHandler = {store.setFitnessPercentile}
+            value         = {controlStore.fitnessPercentile}
+            changeHandler = {controlStore.setFitnessPercentile}
             min           = {0}
             max           = {100}
             title         = "The minimum level of fitness a parent must have to mate"
