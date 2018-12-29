@@ -51,10 +51,10 @@ class ControlStore {
   
 }
 
-const control = new ControlStore()
+const controlStore = new ControlStore()
 
 
 
 
 
-export default ControlStore
+export default controlStore
