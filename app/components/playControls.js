@@ -10,6 +10,7 @@ import {
 } from "react-icons/md"
 
 import store from "../store"
+import playingStore from "../playingStore"
 
 
 const StyledPlayControls = styled.div`
@@ -40,8 +41,7 @@ class PlayControls extends Component {
       size,
     } = this.props
 
-    const PlayStopButton = store.playingCurrentBeat ? MdStop : MdPlayArrow
-
+    const PlayStopButton = playingStore.playingCurrentBeat ? MdStop : MdPlayArrow
     return (
       <StyledPlayControls>
         <span title="Previous Beat">
@@ -53,13 +53,13 @@ class PlayControls extends Component {
         <span title="Play / Stop">
           <PlayStopButton
             size    = {size}
-            onClick = {store.togglePlayCurrentBeat}
+            onClick = {playingStore.togglePlayCurrentBeat}
           />
         </span>
         <span title="Next Beat">
           <MdSkipNext
             size    = {size}
-            onClick = {store.nextBeat}
+            onClick = {playingStore.nextBeat}
           />
         </span>
       </StyledPlayControls>

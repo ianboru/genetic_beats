@@ -11,7 +11,8 @@ import { MdDeleteForever } from "react-icons/md"
 
 import store from "../store"
 import familyStore from "../familyStore"
-
+import playingStore from "../playingStore"
+  
 import Note from "./note"
 
 import { allNotesInRange } from "../utils"
@@ -87,10 +88,10 @@ class Track extends Component {
           <span>
             <button
               style   = {{verticalAlign:"middle"}}
-              onClick = {() => {store.toggleTrackPreviewer(this.props.track.sample) }}
+              onClick = {() => {playingStore.toggleTrackPreviewer(this.props.track.sample) }}
             >Play</button>
             <Song
-              playing = {store.trackPreviewers[this.props.track.sample]}
+              playing = {playingStore.trackPreviewers[this.props.track.sample]}
               tempo   = {store.tempo}
               ref     = {(c)=>{this.song=c}}
             >

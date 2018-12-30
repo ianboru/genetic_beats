@@ -113,9 +113,9 @@ class App extends Component {
   handleKeyPress = (e) => {
     if (e.code == "Space") {
       e.preventDefault()
-      store.togglePlay()
+      playingStore.togglePlay()
     } else if (e.code == "ArrowRight") {
-      store.nextBeat()
+      playingStore.nextBeat()
     } else if (e.code == "ArrowLeft") {
       store.prevBeat()
     }

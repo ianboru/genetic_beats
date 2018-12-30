@@ -64,6 +64,9 @@ const PanelLabel = styled.div`
 @observer
 class FamilyTreeDisplay extends Component {
   handleMate = () => {
+    if(familyStore.currentGeneration.length == 1){
+      return
+    }
     if (familyStore.generation < familyStore.allGenerations.length - 1 && !familyStore.selectPairMode) {
       if (confirm(`Mating now will clear all generations after the currently selected one (${familyStore.generation}).`)) {
         familyStore.killSubsequentGenerations()

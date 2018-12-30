@@ -16,6 +16,8 @@ import Track from "./track"
 
 import store from "../store"
 import familyStore from "../familyStore"
+import playingStore from "../playingStore"
+
 import { colors } from "../colors"
 
 import Metronome from "../svg/metronome.svg"
@@ -42,10 +44,10 @@ class TempoControl extends Component {
       <StyledTempoControl>
         <input
           type     = "number"
-          value    = {store.tempo}
+          value    = {playingStore.tempo}
           min      = {40}
           max      = {200}
-          onChange = { e => store.setTempo(parseInt(e.target.value)) }
+          onChange = { e => playingStore.setTempo(parseInt(e.target.value)) }
         />
         &nbsp;
         <BILabel>Tempo</BILabel>
@@ -225,7 +227,7 @@ class Beat extends Component {
     })
 
 
-    const MetronomeIcon = store.metronome ? MetronomeActive : Metronome
+    const MetronomeIcon = playingStore.metronome ? MetronomeActive : Metronome
 
     return (
       <StyledBeat>
@@ -236,7 +238,7 @@ class Beat extends Component {
             ><MdAdd size={25} /></AddToArrangementButton> : null}
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {store.playingCurrentBeat && familyStore.currentBeat.key == this.props.beat.key}
+          playing    = {playingStore.playingCurrentBeat && familyStore.currentBeat.key == this.props.beat.key}
           resolution = {familyStore.currentBeatResolution}
         />
         <TableRow>
@@ -251,7 +253,7 @@ class Beat extends Component {
               <MetronomeIcon
                 height  = {35}
                 width   = {25}
-                onClick = {store.toggleMetronome}
+                onClick = {playingStore.toggleMetronome}
               />
             </MetronomeButton>
 

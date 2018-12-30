@@ -57,7 +57,7 @@ class BeatDisplay extends Component {
             score = {familyStore.currentBeat.score}
             handleSetScore = { (score) => {
               familyStore.setScore(score)
-              store.nextBeat()
+              playingStore.nextBeat()
             }}
           />
         </Header>

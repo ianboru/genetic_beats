@@ -14,6 +14,8 @@ import { toJS } from "mobx"
 
 import store from "../store"
 import familyStore from "../familyStore"
+import playingStore from "../playingStore"
+
 import { normalizeSubdivisions } from "../utils"
 import { colors } from "../colors"
 import {
@@ -221,7 +223,7 @@ class Arrangement extends Component {
         >
           <Player
             beat       = {currentBeat}
-            playing    = {highlight && store.playingArrangement}
+            playing    = {highlight && playingStore.playingArrangement}
             resolution = {currentBeatResolution}
             bars       = {1}
           />
@@ -239,7 +241,7 @@ class Arrangement extends Component {
       )
     })
 
-    const PlayStopButton = store.playingArrangement ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.playingArrangement ? MdStop : MdPlayArrow
 
     const onDragEnd = (result) => {
       store.moveBeatInArrangement(result.source.index, result.destination.index)
@@ -286,7 +288,7 @@ class Arrangement extends Component {
             {arrangementStore.currentArrangement.length > 0 ? 
             <PlayStopButton
               size    = {80}
-              onClick = {store.togglePlayArrangement}
+              onClick = {playingStore.togglePlayArrangement}
               style={{verticalAlign: "middle", "marginBottom" : "15px"}}
             /> : null}
           </div>

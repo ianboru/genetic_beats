@@ -9,6 +9,7 @@ import {
 } from "../react-music"
 
 import store from "../store"
+import playingStore from "../playingStore"
 
 
 const generateSamplers = (beat, samples) => {
@@ -94,7 +95,7 @@ class Player extends Component {
     return (
       <Song
         playing = {playing}
-        tempo   = {store.tempo}
+        tempo   = {playingStore.tempo}
         ref     = {(c)=>{this.song=c}}
       >
         <Sequencer
@@ -102,7 +103,7 @@ class Player extends Component {
           resolution = {resolution}
         >
           {generateSamplers(beat, store.samples)}
-          {generateMetronomeSampler(resolution, store.metronome)}
+          {generateMetronomeSampler(resolution, playingStore.metronome)}
         </Sequencer>
       </Song>
     )

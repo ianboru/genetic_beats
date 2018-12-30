@@ -3,6 +3,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 
 import store from "../store"
+import playingStore from "../playingStore"
 
 
 const NoteWrapper = styled.div`
@@ -34,7 +35,7 @@ const StyledNote = styled.div`
 @observer
 class Note extends Component {
   render() {
-    const active = this.props.index == store.currentLitNote && store.playingCurrentBeat
+    const active = this.props.index == playingStore.currentLitNote && playingStore.playingCurrentBeat
     const separator = this.props.index % 4 === 3
 
     return (

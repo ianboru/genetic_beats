@@ -4,6 +4,8 @@ import {
   generateFamilyName,
 } from "./utils"
 import store from "./store"
+import playingStore from "./playingStore"
+
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
@@ -88,7 +90,7 @@ class FamilyStore {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
-    store.resetNoteTimer()
+    playingStore.resetNoteTimer()
     this.updateFamilyInStorage()
   }
 
@@ -116,7 +118,7 @@ class FamilyStore {
       track.mute = true
     }
     this.currentBeat.tracks.forEach((track)=>{
-      store.trackPreviewers[track.sample] = false
+      playingStore.trackPreviewers[track.sample] = false
     })
     this.currentBeat.tracks.push(track)
   }
@@ -152,7 +154,7 @@ class FamilyStore {
 
     this.generation = generation
     this.beatNum = beatNum
-    store.resetNoteTimer()
+    playingStore.resetNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -191,7 +193,7 @@ class FamilyStore {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
-    store.resetNoteTimer()
+    playingStore.resetNoteTimer()
     this.updateFamilyInStorage()
   }
 
@@ -206,7 +208,7 @@ class FamilyStore {
 
     this.generation = generation
     this.beatNum = beatNum
-    store.resetNoteTimer()
+    playingStore.resetNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -273,7 +275,7 @@ class FamilyStore {
 
   @action addBeatToCurrentGen = (beat) => {
     //this.currentBeat.tracks.forEach((track)=>{
-      //store.trackPreviewers[track.sample] = false
+      //playingStore.trackPreviewers[track.sample] = false
     //})
     let newBeatNum = this.currentGeneration.length
 
@@ -291,7 +293,7 @@ class FamilyStore {
       track.mute = true
     }
     this.currentBeat.tracks.forEach((track)=>{
-      store.trackPreviewers[track.sample] = false
+      playingStore.trackPreviewers[track.sample] = false
     })
     this.currentBeat.tracks.push(track)
   }
@@ -314,7 +316,7 @@ class FamilyStore {
   }
   @action setScore = (score) => {
     this.currentBeat.score = score
-    store.resetCurrentLitNote()
+    playingStore.resetCurrentLitNote()
     this.updateFamilyInStorage()
   }
 }

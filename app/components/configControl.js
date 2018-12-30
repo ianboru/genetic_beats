@@ -177,8 +177,8 @@ export default ConfigControl
 
 //<ConfigControl
   //name          = "Tempo"
-  //value         = {store.tempo}
-  //changeHandler = {store.setTempo}
+  //value         = {playingStore.tempo}
+  //changeHandler = {playingStore.setTempo}
   //min           = {40}
   //max           = {200}
 ///>

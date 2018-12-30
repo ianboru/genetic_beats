@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import Scheduler from '../utils/scheduler';
 import store from "../../store"
+import playingStore from "../../playingStore"
 type Props = {
   children?: any;
   playing?: boolean;
@@ -123,7 +124,7 @@ export default class Song extends Component {
       callback(e.playbackTime);
     });
     this.scheduler.insert(e.playbackTime + ((this.barInterval * maxBars) / 1000), this.loop);
-    store.resetCurrentLitNote()
+    playingStore.resetCurrentLitNote()
 
   }
   render(): React.Element<any> {
