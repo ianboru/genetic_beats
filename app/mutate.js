@@ -1,5 +1,5 @@
-import store from "./store"
-import controlStore from "./controlStore"
+import store from "./stores/store"
+import controlStore from "./stores/controlStore"
 import { toJS } from "mobx"
 import { allNotesInRange } from "./utils"
 const mutateByKillTrack = (beat) => {

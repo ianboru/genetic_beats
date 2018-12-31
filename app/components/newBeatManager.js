@@ -8,7 +8,7 @@ import Button from "./button"
 import { deepClone } from "../utils"
 
 import beatTemplates from "../beatTemplates"
-import store from "../store"
+import store from "../stores/store"
 import { colors } from "../colors"
 import Player from "./player"
 import {
@@ -17,7 +17,7 @@ import {
   MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
-import familyStore from '../familyStore'
+import familyStore from "../stores/familyStore"
 const BeatOptionHeader = styled.div`
   font-weight bold;
   margin: 8px 4px 12px;
@@ -133,7 +133,7 @@ class NewBeatManager extends Component {
           />
           <NewBeatOption
             onClick={
-              () => { 
+              () => {
                       familyStore.addBeatToCurrentGen(beat)
                       store.toggleAddNewBeat()
                 }}

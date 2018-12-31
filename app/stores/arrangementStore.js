@@ -5,8 +5,8 @@ import controlStore from "./controlStore"
 import {
   getNormalProbability,
   calculateSampleDifference ,
-} from "./utils"
-class ArrangementStore {  
+} from "../utils"
+class ArrangementStore {
   @observable arrangements       = [ [] ]
   @observable showCreateArrangement = false
   @observable arrangementBeatToAdd = "0.0"

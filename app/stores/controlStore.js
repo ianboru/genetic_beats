@@ -1,13 +1,13 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
-import beatTemplates from "./beatTemplates"
-import samples from "./samples"
+import beatTemplates from "../beatTemplates"
+import samples from "../samples"
 import {
   deepClone,
   generateFamilyName,
   getNormalProbability,
   calculateSampleDifference ,
-} from "./utils"
+} from "../utils"
 import familyStore from "./familyStore"
 import arrangementStore from "./arrangementStore"
 configure({ enforceActions: "always" })
@@ -25,8 +25,8 @@ class ControlStore {
   //
   // ACTIONS
   //
-  
- 
+
+
 
   @action setNoteMutationRate = (rate) => {
     this.noteMutationRate = rate
@@ -48,7 +48,7 @@ class ControlStore {
     this.fitnessPercentile = fitnessPercentile
   }
 
-  
+
 }
 
 const controlStore = new ControlStore()

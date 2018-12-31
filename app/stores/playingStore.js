@@ -1,13 +1,13 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
-import beatTemplates from "./beatTemplates"
-import samples from "./samples"
+import beatTemplates from "../beatTemplates"
+import samples from "../samples"
 import {
   deepClone,
   generateFamilyName,
   getNormalProbability,
   calculateSampleDifference ,
-} from "./utils"
+} from "../utils"
 import familyStore from "./familyStore"
 import arrangementStore from "./arrangementStore"
 configure({ enforceActions: "always" })
@@ -39,7 +39,7 @@ class PlayingStore {
       }, 1000)
     }
   }
-  
+
   @action resetCurrentLitNote = () => {
     this.currentLitNote =  0
   }
@@ -73,7 +73,7 @@ class PlayingStore {
     }
   }
 
-  
+
   @action togglePlayCurrentBeat = () => {
     this.spaceButtonTarget = "currentBeat"
     this.playingCurrentBeat = !this.playingCurrentBeat
@@ -97,8 +97,8 @@ class PlayingStore {
     this.resetArrangementTimer()
   }
 
- 
- 
+
+
   @action setTempo = (tempo) => {
     this.tempo = tempo
     this.resetNoteTimer()
@@ -109,14 +109,14 @@ class PlayingStore {
     this.metronome = !this.metronome
   }
 
-  
+
 
   @action nextBeat = () => {
     let wasPlaying = this.playingCurrentBeat
     if(wasPlaying){
       this.playingCurrentBeat = false
     }
-    
+
     this.unmuteUnsoloAll()
     familyStore.incrementBeatNum("up")
     this.currentLitNote = 0

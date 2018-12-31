@@ -8,8 +8,8 @@ import {
   Synth,
 } from "../react-music"
 
-import store from "../store"
-import playingStore from "../playingStore"
+import store from "../stores/store"
+import playingStore from "../stores/playingStore"
 
 
 const generateSamplers = (beat, samples) => {

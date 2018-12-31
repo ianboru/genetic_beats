@@ -9,8 +9,8 @@ import {
   MdStop,
 } from "react-icons/md"
 
-import store from "../store"
-import playingStore from "../playingStore"
+import store from "../stores/store"
+import playingStore from "../stores/playingStore"
 
 
 const StyledPlayControls = styled.div`

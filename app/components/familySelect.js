@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import { colors } from "../colors"
 
-import familyStore from "../familyStore"
+import familyStore from "../stores/familyStore"
 
 
 const StyledFamilySelect = styled.span`

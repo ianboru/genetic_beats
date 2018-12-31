@@ -14,9 +14,9 @@ import Note from "./note"
 import PlayControls from "./playControls"
 import Track from "./track"
 
-import store from "../store"
-import familyStore from "../familyStore"
-import playingStore from "../playingStore"
+import store from "../stores/store"
+import familyStore from "../stores/familyStore"
+import playingStore from "../stores/playingStore"
 
 import { colors } from "../colors"
 

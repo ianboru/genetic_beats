@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 
-import familyStore from "./familyStore"
+import familyStore from "./stores/familyStore"
 import { colors } from "./colors"
 import { mateGeneration, mateSelectedMembers} from "./mate"
 

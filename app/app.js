@@ -11,9 +11,9 @@ import {
   MdChevronRight,
 } from "react-icons/md"
 
-import store from "./store"
-import arrangementStore from "./arrangementStore"
-import familyStore from "./familyStore"
+import store from "./stores/store"
+import arrangementStore from "./stores/arrangementStore"
+import familyStore from "./stores/familyStore"
 
 import { mutateBeat } from "./mutate"
 import "./index.css"

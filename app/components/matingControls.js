@@ -5,8 +5,8 @@ import enhanceWithClickOutside from "react-click-outside"
 
 import Button from "./button"
 import ConfigControl from "./configControl"
-import controlStore from "../controlStore"
-import store from "../store"
+import controlStore from "../stores/controlStore"
+import store from "../stores/store"
 import { colors } from "../colors"
 
 

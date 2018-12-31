@@ -4,8 +4,8 @@ import styled from "styled-components"
 
 import cytoscape from 'cytoscape'
 
-import store from "../store"
-import familyStore from "../familyStore"
+import store from "../stores/store"
+import familyStore from "../stores/familyStore"
 
 const footerClearance = 90
 

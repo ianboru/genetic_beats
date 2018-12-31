@@ -14,9 +14,9 @@ import {
   findInJSON,
   normalizeSubdivisions,
 } from './utils'
-import store from "./store"
-import controlStore from "./controlStore"
-import familyStore from "./familyStore"
+import store from "./stores/store"
+import controlStore from "./stores/controlStore"
+import familyStore from "./stores/familyStore"
 const mateMembers = (members)=> {
   let nextGeneration = []
   members.forEach( (momBeat, momIndex) => {

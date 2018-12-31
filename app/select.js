@@ -7,8 +7,8 @@ import {
   allNotesInRange
 } from "./utils"
 import { toJS } from "mobx"
-import store from "./store"
-import controlStore from "./controlStore"
+import store from "./stores/store"
+import controlStore from "./stores/controlStore"
 
 const getFitnessThreshold = (generation) => {
   let fitnessPercentile = controlStore.fitnessPercentile/100

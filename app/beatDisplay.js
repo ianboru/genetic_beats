@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import store from "./store"
+import store from "./stores/store"
 import { colors } from "./colors"
 
 import Header from "./styledComponents/header"
@@ -12,7 +12,7 @@ import Header from "./styledComponents/header"
 import Beat from "./components/beat"
 import NewBeatManager from "./components/newBeatManager"
 import StarRating from "./components/starRating"
-import familyStore from "./familyStore"
+import familyStore from "./stores/familyStore"
 
 
 @observer

@@ -12,9 +12,9 @@ import Button from "./button"
 import Player from "./player"
 import { toJS } from "mobx"
 
-import store from "../store"
-import familyStore from "../familyStore"
-import playingStore from "../playingStore"
+import store from "../stores/store"
+import familyStore from "../stores/familyStore"
+import playingStore from "../stores/playingStore"
 
 import { normalizeSubdivisions } from "../utils"
 import { colors } from "../colors"
@@ -31,7 +31,7 @@ import {
   Droppable,
 } from "react-beautiful-dnd"
 
-import arrangementStore from '../arrangementStore'
+import arrangementStore from '../stores/arrangementStore'
 const StyledArrangement = styled.div`
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};

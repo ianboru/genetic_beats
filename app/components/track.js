@@ -9,9 +9,9 @@ import {
 
 import { MdDeleteForever } from "react-icons/md"
 
-import store from "../store"
-import familyStore from "../familyStore"
-import playingStore from "../playingStore"
+import store from "../stores/store"
+import familyStore from "../stores/familyStore"
+import playingStore from "../stores/playingStore"
   
 import Note from "./note"
 

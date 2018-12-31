@@ -1,13 +1,13 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
-import beatTemplates from "./beatTemplates"
-import samples from "./samples"
+import beatTemplates from "../beatTemplates"
+import samples from "../samples"
 import {
   deepClone,
   generateFamilyName,
   getNormalProbability,
   calculateSampleDifference ,
-} from "./utils"
+} from "../utils"
 import familyStore from "./familyStore"
 import arrangementStore from "./arrangementStore"
 configure({ enforceActions: "always" })
@@ -17,7 +17,6 @@ class Store {
   // STATE
   //
   @observable hoveredBeatKey     = ""
-  //@observable allGenerations     = [beatTemplates]
   @observable samples            = samples
   @observable synthGain          = {'sine' : .5,'square' : .5}
   @observable synthGainCorrection = {'sine' : 1, "square" : 2}
@@ -28,7 +27,7 @@ class Store {
   //
   // ACTIONS
   //
-  
+
  @action setHoveredBeat = (beatKey) => {
     this.hoveredBeatKey = beatKey
   }
@@ -36,7 +35,7 @@ class Store {
   @action clearHoveredBeat = () => {
     this.hoveredBeatKey = ""
   }
-  
+
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     familyStore.currentBeat.tracks.forEach((track)=>{
@@ -94,7 +93,7 @@ class Store {
       }
     }
   }
- 
+
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }

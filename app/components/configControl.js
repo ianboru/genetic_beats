@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 
-import store from "../store"
+import store from "../stores/store"
 
 
 const leftBlockWidth = 60
