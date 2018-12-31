@@ -1,30 +1,14 @@
 Refactor:
 
-* Any component file with >200 lines should only contain 1 component
-  * 627 ./app//store.js
-    * Split into multiple stores for each section of the app
-      * Arrangement
-      * Family / Generation CRUD
-      * Playback
-      * Mutation Controls
-  * 327 ./app//components/arrangement.js
-  * 804 ./app//components/beat.js
-    * Components:
-      * TempoControl, PlayControls
-      * GainSlider, Note, Track, AddTrackButton, Beat
-  * 390 ./app//mutate, select, mate.js
-    * Cleanup
 * Try to extract / separate visual style stuff from functional stuff (reusable components with separate concerns)
 * Move some stuff into "screens" folder, distinguished from "components"
-* Remove beat select and eventually replace with drag/drop mating
+
 * Redesign sample selection (to test sample without changing)
     * Categorize samples
-* In app.js, switch render conditions to only rely on explicity "show*" boolean values and not other arbitrary state
-    * Might be the wrong way to do it, but this needs to be improved somehow
-    * NewBeatManager shouldn't be inside of BeatDisplay
 * Safari breaks on this.context right now. React version? in react-music scheduler.js
 * Star fill on mouse down
-
+* GainSlider NaN issue on mutate action
+* Note rerendering issue: have columns light up
 
 
 
@@ -40,8 +24,9 @@ John:
 
 Ian:
 
-* Bug: Beat crashing (certain beat in 3rd gen that Aryn created) :( - can't reprodoce
-
+* In app.js, switch render conditions to only rely on explicity "show*" boolean values and not other arbitrary state
+    * Might be the wrong way to do it, but this needs to be improved somehow
+    * NewBeatManager shouldn't be inside of BeatDisplay
 
 
 Pair:
