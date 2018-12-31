@@ -12,7 +12,7 @@ import { MdDeleteForever } from "react-icons/md"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-  
+
 import Note from "./note"
 
 import { allNotesInRange } from "../utils"
@@ -122,13 +122,14 @@ class Track extends Component {
         </span>
       )
     }
-
   }
-  componentDidMount(){
+
+  componentDidMount() {
     if (this.props.track.trackType === "sampler") {
       this.samplePreviewer.volume = store.samples[this.props.track.sample].gain
     }
   }
+
   render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
@@ -233,8 +234,6 @@ class Track extends Component {
     )
   }
 }
-
-
 
 
 export default Track

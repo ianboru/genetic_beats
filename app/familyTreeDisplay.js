@@ -11,7 +11,7 @@ import Header from "./styledComponents/header"
 import MatingControls from "./components/matingControls"
 import FamilyTree from "./components/familyTree"
 
-import DevTools from "mobx-react-devtools"
+//import DevTools from "mobx-react-devtools"
 
 
 const BackgroundText = styled.div`
@@ -131,7 +131,7 @@ class FamilyTreeDisplay extends Component {
             scroll to zoom
           </InfoRow>
         </Footer>
-        {typeof DevTools !== "undefined" ? <DevTools /> : null}
+        {typeof DevTools !== "undefined" ? <DevTools highlightTimeout={500000} /> : null}
       </div>
     )
   }
