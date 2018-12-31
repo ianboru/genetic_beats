@@ -22,6 +22,12 @@ class PlayingStore {
   @observable metronome          = false
   @observable trackPreviewers    = {}
   @observable currentLitNote     = 0
+  @observable currentLitNotes    = [
+                          false,false,false,false,
+                          false,false,false,false,
+                          false,false,false,false,
+                          false,false,false,false
+                        ]
   @observable noteTimer
   @observable arrangementTimer
   @observable spaceButtonTarget = "currentBeat"
@@ -41,10 +47,14 @@ class PlayingStore {
   }
 
   @action resetCurrentLitNote = () => {
+    this.currentLitNotes[this.currentLitNote] = false
     this.currentLitNote =  0
   }
   @action incrementCurrentLitNote = () => {
     this.currentLitNote = (this.currentLitNote + 1)%familyStore.currentBeat.tracks[0].sequence.length
+    this.currentLitNotes[this.currentLitNote] = true
+    const lastLitNote = (this.currentLitNote-1)%16
+    this.currentLitNotes[lastLitNote] = false
   }
 
   @action resetNoteTimer = () => {
@@ -57,6 +67,7 @@ class PlayingStore {
       }, millisecondsPerNote)
     }else{
       clearInterval(this.noteTimer)
+      this.currentLitNotes[this.currentLitNote] = true
       this.currentLitNote = 0
     }
   }

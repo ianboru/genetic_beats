@@ -11,7 +11,7 @@ import Header from "./styledComponents/header"
 import MatingControls from "./components/matingControls"
 import FamilyTree from "./components/familyTree"
 
-//import DevTools from "mobx-react-devtools"
+import DevTools from "mobx-react-devtools"
 
 
 const BackgroundText = styled.div`

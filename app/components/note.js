@@ -35,7 +35,9 @@ const StyledNote = styled.div`
 @observer
 class Note extends Component {
   render() {
-    const active = this.props.index == playingStore.currentLitNote && playingStore.playingCurrentBeat
+    const active = playingStore.currentLitNotes[this.props.index]// && playingStore.playingCurrentBeat
+    //const active = playingStore.currentLitNotes[this.props.index] && playingStore.playingCurrentBeat
+
     const separator = this.props.index % 4 === 3
 
     return (

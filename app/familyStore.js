@@ -2,26 +2,24 @@ import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import {
   deepClone,
   generateFamilyName,
-} from "../utils"
+} from "./utils"
 import store from "./store"
 import playingStore from "./playingStore"
-import beatTemplates from "../beatTemplates"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
 newFamilyNames.push(newFamilyName)
 
-class FamilyStore {
+class FamilyStore {  
   @observable beatNum            = 0
   @observable generation         = 0
   @observable allGenerations     = [[]]
-  //@observable allGenerations     = [beatTemplates]
   @observable selectPairMode     = false
   @observable selectedBeats      = []
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
-
+  
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
@@ -73,7 +71,7 @@ class FamilyStore {
     const familyNames = JSON.parse(localStorage.getItem("familyNames"))
     this.familyNames = familyNames
   }
-
+  
 
   @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
@@ -113,7 +111,7 @@ class FamilyStore {
       }
     }
   }
-
+  
 
   @action addTrackToCurrentBeat = (track) => {
     if(this.numSolo > 0){
@@ -123,7 +121,6 @@ class FamilyStore {
       playingStore.trackPreviewers[track.sample] = false
     })
     this.currentBeat.tracks.push(track)
-    playingStore.addTrackToLitNotes(track)
   }
   @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
     const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
@@ -167,7 +164,7 @@ class FamilyStore {
       this.selectedBeats = [selectedKey]
     }
   }
-
+  
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
@@ -191,7 +188,7 @@ class FamilyStore {
     this.familyNames = familyNames
   }
 
-
+  
   @action addGeneration = (newGeneration) => {
     this.allGenerations.push(newGeneration)
     this.generation++
@@ -221,7 +218,7 @@ class FamilyStore {
       this.selectedBeats = [selectedKey]
     }
   }
-
+  
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
@@ -245,7 +242,7 @@ class FamilyStore {
     this.familyNames = familyNames
   }
 
-
+  
 
   @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
