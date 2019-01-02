@@ -1,6 +1,8 @@
 import React from "react"
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom"
 import styled from "styled-components"
+
+import {colors} from "./colors"
 
 import Arrangement from "./components/arrangement"
 import BeatDisplay from "./beatDisplay"
@@ -8,7 +10,7 @@ import FamilySelect from "./components/familySelect"
 import FamilyTreeDisplay from "./familyTreeDisplay"
 
 
-const TabButton = styled(Link)`
+const TabButton = styled(NavLink)`
   background: #888;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -32,9 +34,9 @@ const AppRouter = () => (
 
       <nav>
         <div>
-          <TabButton to="/">Beat</TabButton>
-          <TabButton to="/familytree/">Family Tree</TabButton>
-          <TabButton to="/arrangement/">Arrangement</TabButton>
+          <TabButton exact to="/" activeStyle={{background: "#666"}}>Beat</TabButton>
+          <TabButton to="/familytree/" activeStyle={{background: "#666"}}>Family Tree</TabButton>
+          <TabButton to="/arrangement/" activeStyle={{background: "#666"}}>Arrangement</TabButton>
         </div>
       </nav>
 
