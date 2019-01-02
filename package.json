@@ -25,7 +25,7 @@
     "react-dom": "16.6.1",
     "react-file-reader": "1.1.4",
     "react-icons": "3.2.2",
-    "react-split-pane": "0.1.82",
+    "react-router-dom": "^4.3.1",
     "styled-components": "3.4.5",
     "tunajs": "0.4.5",
     "uuid": "2.0.2"

@@ -5,6 +5,8 @@ import { colors } from "../colors"
 
 import familyStore from "../stores/familyStore"
 
+import Button from "./button"
+
 
 const StyledFamilySelect = styled.span`
   color :  ${colors.gray.lightest};
@@ -19,6 +21,19 @@ class FamilySelect extends Component {
     familyStore.selectFamily(e.target.value)
   }
 
+  newFamilyTree = () => {
+    if (confirm("Are you sure you want to start a new family tree?")) {
+      window.location.reload()
+    }
+  }
+
+  clearSavedFamilies = () => {
+    if (confirm("Are you sure you want to clear all families?")) {
+      familyStore.clearSavedFamilies()
+      window.location.reload()
+    }
+  }
+
   render() {
     let familyNamesOptions = familyStore.familyNames.map((name) => {
       return (
@@ -27,16 +42,28 @@ class FamilySelect extends Component {
         </option>
       )
     })
+
     familyNamesOptions.push(familyStore.familyName)
+
     return (
-      <StyledFamilySelect>
-        Current Beat Family: <select
-          defaultValue = {familyStore.familyName}
-          onChange = {this.handleSelectFamily}
-        >
-          {familyNamesOptions}
-        </select>
-      </StyledFamilySelect>
+      <div style={{marginLeft: "15px", marginBottom: "25px"}} >
+        <StyledFamilySelect>
+          Current Beat Family: <select
+            defaultValue = {familyStore.familyName}
+            onChange = {this.handleSelectFamily}
+          >
+            {familyNamesOptions}
+          </select>
+        </StyledFamilySelect>
+
+        <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Start new family" onClick={this.newFamilyTree}>
+          New Family
+        </Button>
+
+        <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Clear all saved families" onClick={this.clearSavedFamilies}>
+          Clear All
+        </Button>
+      </div>
     )
   }
 }

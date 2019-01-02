@@ -5,18 +5,32 @@ import styled from "styled-components"
 import chroma from "chroma-js"
 
 import store from "./stores/store"
+import arrangementStore from "./stores/arrangementStore"
+import familyStore from "./stores/familyStore"
+import playingStore from "./stores/playingStore"
+
 import { colors } from "./colors"
+import { mutateBeat } from "./mutate"
 
 import Header from "./styledComponents/header"
 
 import Beat from "./components/beat"
+import Button from "./components/button"
 import NewBeatManager from "./components/newBeatManager"
 import StarRating from "./components/starRating"
-import familyStore from "./stores/familyStore"
 
 
 @observer
 class BeatDisplay extends Component {
+  handleClone = () => {
+    familyStore.addBeatToCurrentGen(familyStore.currentBeat)
+  }
+
+  handleMutate = () => {
+    const newBeat = mutateBeat(familyStore.currentBeat)
+    familyStore.addBeatToCurrentGen(newBeat)
+  }
+
   render() {
     const beat = ((beat) => {
       if (!beat) {
@@ -48,25 +62,61 @@ class BeatDisplay extends Component {
 
     return (
       <div>
-        <Header style={{
-          borderTop : `1px solid ${colors.gray.light}`,
-          textAlign : "center",
-          position  : "relative",
-        }}>
-          <StarRating
-            score = {familyStore.currentBeat.score}
-            handleSetScore = { (score) => {
-              familyStore.setScore(score)
-              playingStore.nextBeat()
-            }}
-          />
-        </Header>
+        <div>
+          {familyStore.allGenerations[0].length >= 1 ?
+            <Button
+              large
+              color={[colors.green.base]}
+              onClick = {this.handleMutate}
+              title="Create a new mutated beat from the current beat"
+            >
+              Mutate
+            </Button> : null
+          }
 
-        <div style={{
-          overflow   : "auto",
-          background : colors.gray.darkest,
-        }}>
-          {beat}
+          {familyStore.allGenerations[0].length >= 1 ?
+            <Button
+              large
+              color={[colors.green.base]}
+              onClick = {this.handleClone}
+              title="Create an exact copy of the current beat"
+            >
+              Clone
+            </Button> : null
+          }
+          {familyStore.allGenerations[0].length >= 1 ?
+            <Button
+              style={{marginLeft: "15px"}}
+              large
+              onClick={() => { store.toggleAddNewBeat(true) }}
+              title="Add a new empty or preset template beat to the current generation"
+            >
+              Add New Beat
+            </Button> : null
+          }
+        </div>
+
+        <div>
+          <Header style={{
+            borderTop : `1px solid ${colors.gray.light}`,
+            textAlign : "center",
+            position  : "relative",
+          }}>
+            <StarRating
+              score = {familyStore.currentBeat.score}
+              handleSetScore = { (score) => {
+                familyStore.setScore(score)
+                playingStore.nextBeat()
+              }}
+            />
+          </Header>
+
+          <div style={{
+            overflow   : "auto",
+            background : colors.gray.darkest,
+          }}>
+            {beat}
+          </div>
         </div>
       </div>
     )

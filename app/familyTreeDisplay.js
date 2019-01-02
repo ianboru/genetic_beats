@@ -99,10 +99,15 @@ class FamilyTreeDisplay extends Component {
       <div>
         <Header>
           <PanelLabel>
-            <Button large color={[colors.green.base]} onClick={this.handleMate}>
+            <Button
+              large
+              style   = {{marginRight: "15px"}}
+              color   = {[colors.green.base]}
+              onClick = {this.handleMate}
+            >
               Mate {familyStore.selectPairMode ? "Selected Beats" : "Generation"}
             </Button>
-            <br/>
+
             <Button
               active  = {familyStore.selectPairMode}
               onClick = {familyStore.toggleSelectPairMode}
