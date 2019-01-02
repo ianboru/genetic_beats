@@ -17,7 +17,6 @@ import Header from "./styledComponents/header"
 import Beat from "./components/beat"
 import Button from "./components/button"
 import NewBeatManager from "./components/newBeatManager"
-import StarRating from "./components/starRating"
 
 
 @observer
@@ -97,20 +96,6 @@ class BeatDisplay extends Component {
         </div>
 
         <div>
-          <Header style={{
-            borderTop : `1px solid ${colors.gray.light}`,
-            textAlign : "center",
-            position  : "relative",
-          }}>
-            <StarRating
-              score = {familyStore.currentBeat.score}
-              handleSetScore = { (score) => {
-                familyStore.setScore(score)
-                playingStore.nextBeat()
-              }}
-            />
-          </Header>
-
           <div style={{
             overflow   : "auto",
             background : colors.gray.darkest,

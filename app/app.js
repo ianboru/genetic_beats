@@ -6,9 +6,9 @@ import { observer } from "mobx-react"
 import store from "./stores/store"
 import playingStore from "./stores/playingStore"
 
-import "./index.css"
-
 import AppRouter from "./appRouter"
+
+import "./index.css"
 
 
 if (process.env.SENTRY_PUBLIC_DSN) {

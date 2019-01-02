@@ -12,6 +12,8 @@ import Button from "./button"
 import ConfigControl from "./configControl"
 import Note from "./note"
 import PlayControls from "./playControls"
+import StarRating from "./starRating"
+import TempoControls from "./tempoControls"
 import Track from "./track"
 
 import store from "../stores/store"
@@ -20,48 +22,15 @@ import playingStore from "../stores/playingStore"
 
 import { colors } from "../colors"
 
-import Metronome from "../svg/metronome.svg"
-import MetronomeActive from "../svg/metronome-active.svg"
-
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
-
-
-const StyledTempoControl = styled.div`
-  display: inline-block;
-
-  input[type="number"] {
-    width: 45px;
-    font-size: 16px;
-  }
-`
-
-@observer
-class TempoControl extends Component {
-  render() {
-    return (
-      <StyledTempoControl>
-        <input
-          type     = "number"
-          value    = {playingStore.tempo}
-          min      = {40}
-          max      = {200}
-          onChange = { e => playingStore.setTempo(parseInt(e.target.value)) }
-        />
-        &nbsp;
-        <BILabel>Tempo</BILabel>
-      </StyledTempoControl>
-    )
-  }
-}
 
 
 const StyledBeat = styled.div`
   display: table;
   position: relative;
   margin: 0px auto 15px;
-  border: 2px solid #ccc;
   padding: 10px;
 `
 
@@ -103,16 +72,6 @@ const AddToArrangementButton = styled.button`
   &:hover {
     background: ${colors.yellow.darker};
   }
-`
-
-
-const MetronomeButton = styled.div`
-  display: inline-block;
-  margin-bottom: -8px;
-  margin-right: 5px;
-  padding: 0;
-  vertical-align: middle;
-  cursor: pointer;
 `
 
 
@@ -226,9 +185,6 @@ class Beat extends Component {
       )
     })
 
-
-    const MetronomeIcon = playingStore.metronome ? MetronomeActive : Metronome
-
     return (
       <StyledBeat>
         {store.showCreateArrangement ?
@@ -245,21 +201,14 @@ class Beat extends Component {
           <Column />
 
           <Column>
-            <PlayControls />
+            <TempoControls />
           </Column>
 
           <Column>
-            <MetronomeButton>
-              <MetronomeIcon
-                height  = {35}
-                width   = {25}
-                onClick = {playingStore.toggleMetronome}
-              />
-            </MetronomeButton>
-
-            <TempoControl />
+            <PlayControls />
           </Column>
         </TableRow>
+
         <TableRow>
           <Column />
 
@@ -269,15 +218,23 @@ class Beat extends Component {
                 <BILabel>Beat</BILabel>
                 <BIData>{this.props.beat.key}</BIData>
               </BeatInfo>
-
-              <BeatInfo>
-                <BILabel>Score</BILabel>
-                <BIData>{this.props.beat.score}</BIData>
-              </BeatInfo>
             </div>
           </Column>
 
-          <Column />
+          <Column>
+            <StarRating
+              score = {familyStore.currentBeat.score}
+              handleSetScore = { (score) => {
+                familyStore.setScore(score)
+                playingStore.nextBeat()
+              }}
+            />
+            <br />
+            <div>
+              <BILabel>Score</BILabel>
+              <BIData>{this.props.beat.score}</BIData>
+            </div>
+          </Column>
 
           <Column>
             <MuteTrackButton

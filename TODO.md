@@ -10,6 +10,8 @@ Refactor:
 * GainSlider NaN issue on mutate action
 * Note rerendering issue: have columns light up
 * BUG: Click Select beats to mate, click Mate Selected Beats (without selecting any), click Mate Generation -> console error
+* Flash notification to confirm actions (beat rated, track added/deleted)
+* "You've reached the max number of instruments"
 
 
 

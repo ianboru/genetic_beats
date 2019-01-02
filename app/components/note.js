@@ -18,12 +18,13 @@ const NoteWrapper = styled.div`
 const StyledNote = styled.div`
   background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
   border-radius: 2px;
+  border: 1px solid black;
   cursor: pointer;
   display: inline-block;
-  height: 20px;
-  margin: 0 5px;
+  height: 24px;
+  margin: 0;
   font-size: 15px;
-  width: 20px;
+  width: 24px;
 
   &:hover {
     background-color: ${props => props.active ? "lightpink" : props.on ? "#FF6666" : "darkgray" };
@@ -31,18 +32,15 @@ const StyledNote = styled.div`
 `
 
 
-
 @observer
 class Note extends Component {
   render() {
-    const active = this.props.index == playingStore.currentLitNote && playingStore.playingCurrentBeat
     const separator = this.props.index % 4 === 3
 
     return (
       <NoteWrapper separator={separator}>
         <StyledNote
           on          = {this.props.value === 1}
-          active      = {active}
           onMouseDown = {this.props.onClick}
           onMouseOver = {this.props.onMouseOver}
           className   = "note"

@@ -9,12 +9,19 @@ import {
   MdStop,
 } from "react-icons/md"
 
+import {colors} from "../colors"
+
 import store from "../stores/store"
 import playingStore from "../stores/playingStore"
 
 
 const StyledPlayControls = styled.div`
+  background: ${colors.gray.light};
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px #111;
   display: inline-block;
+  margin: 0 0 10px;
+  padding: 5px 20px;
   vertical-align: middle;
 
   svg {
@@ -33,7 +40,7 @@ const StyledPlayControls = styled.div`
 @observer
 class PlayControls extends Component {
   static defaultProps = {
-    size: 40,
+    size: 50,
   }
 
   render() {

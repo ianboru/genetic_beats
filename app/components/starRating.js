@@ -39,7 +39,7 @@ const whiteBlueGradient = [
 const colors = whiteBlueGradient
 const StyledStarRating = styled.span`
   display: inline-block;
-  margin: 31px 0 10px;
+  margin: 0;
 
   svg:hover {
     cursor: pointer;
