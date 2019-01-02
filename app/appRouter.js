@@ -26,6 +26,10 @@ const TabButton = styled(NavLink)`
   }
 `
 
+const ActiveTabButtonStyles = {
+  background: "#666",
+}
+
 
 const AppRouter = () => (
   <Router>
@@ -34,9 +38,9 @@ const AppRouter = () => (
 
       <nav>
         <div>
-          <TabButton exact to="/" activeStyle={{background: "#666"}}>Beat</TabButton>
-          <TabButton to="/familytree/" activeStyle={{background: "#666"}}>Family Tree</TabButton>
-          <TabButton to="/arrangement/" activeStyle={{background: "#666"}}>Arrangement</TabButton>
+          <TabButton exact to="/" activeStyle={ActiveTabButtonStyles}>Beat</TabButton>
+          <TabButton to="/familytree/" activeStyle={ActiveTabButtonStyles}>Family Tree</TabButton>
+          <TabButton to="/arrangement/" activeStyle={ActiveTabButtonStyles}>Arrangement</TabButton>
         </div>
       </nav>
 
