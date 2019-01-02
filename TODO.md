@@ -9,6 +9,7 @@ Refactor:
 * Star fill on mouse down
 * GainSlider NaN issue on mutate action
 * Note rerendering issue: have columns light up
+* BUG: Click Select beats to mate, click Mate Selected Beats (without selecting any), click Mate Generation -> console error
 
 
 
