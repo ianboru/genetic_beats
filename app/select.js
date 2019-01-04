@@ -3,7 +3,6 @@ import {
   getRandomIndices,
   getSubarray,
   findInJSON,
-  normalizeSubdivisions,
   allNotesInRange
 } from "./utils"
 import { toJS } from "mobx"

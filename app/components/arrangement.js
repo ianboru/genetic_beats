@@ -1,29 +1,19 @@
 import React, { Component } from "react"
-import {
-  Song,
-  Sequencer,
-  Sampler,
-} from "../react-music"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
+import ArrangementControls from "./arrangementControls"
 import Button from "./button"
 import Player from "./player"
 import { toJS } from "mobx"
 
 import store from "../stores/store"
+import arrangementStore from '../stores/arrangementStore'
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 
-import { normalizeSubdivisions } from "../utils"
 import { colors } from "../colors"
-import {
-  MdPlayArrow,
-  MdSkipNext,
-  MdSkipPrevious,
-  MdStop,
-} from "react-icons/md"
 
 import {
   DragDropContext,
@@ -31,7 +21,7 @@ import {
   Droppable,
 } from "react-beautiful-dnd"
 
-import arrangementStore from '../stores/arrangementStore'
+
 const StyledArrangement = styled.div`
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
@@ -82,14 +72,6 @@ const DeleteBlockButton = styled.div`
   }
 `
 
-const ArrangementControls = styled.div`
-  margin-left: 15px;
-
-  button {
-    margin-buttom : 20px;
-  }
-`
-
 
 @observer
 class Block extends Component {
@@ -129,10 +111,6 @@ class Arrangement extends Component {
     arrangementStore.addBeatToArrangement(arrangementStore.arrangementBeatToAdd)
   }
 
-  handleSelectArrangement = (evt) => {
-    arrangementStore.selectArrangement(parseInt(evt.target.value))
-  }
-
   handleSelectBeatToAdd = (evt) => {
     arrangementStore.setArrangementBeatToAdd(evt.target.value)
   }
@@ -169,16 +147,6 @@ class Arrangement extends Component {
   }
 
   render() {
-    let arrangementOptions = []
-    arrangementStore.arrangements.forEach((arrangement,index) => {
-      arrangementOptions.push(
-        <option key={index} value={index}>
-          {index}
-        </option>
-      )
-    })
-
-    let backgroundColor = ""
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
       const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
@@ -204,8 +172,6 @@ class Arrangement extends Component {
       )
     })
 
-    // get max subdivisions
-
     const beatKeyOptions = familyStore.allBeatKeys.map((key) => {
       return (
         <option key={key} value={key}>
@@ -213,8 +179,6 @@ class Arrangement extends Component {
         </option>
       )
     })
-
-    const PlayStopButton = playingStore.playingArrangement ? MdStop : MdPlayArrow
 
     const onDragEnd = (result) => {
       store.moveBeatInArrangement(result.source.index, result.destination.index)
@@ -229,42 +193,7 @@ class Arrangement extends Component {
         onDragEnd = {onDragEnd}
       >
         <div>
-          <ArrangementControls>
-            <div style={{ textAlign: "left" , marginTop : 15, marginBottom: 15 }}>
-              <span style={{color: colors.gray.lightest}}>Current Song:&nbsp;</span>
-
-              <select
-                  style={{fontSize : '20px'}}
-                  onChange={this.handleSelectArrangement}
-                  value={arrangementStore.currentArrangementIndex}
-                >
-                  {arrangementOptions}
-              </select>
-
-              <Button
-                style   = {{background : colors.gray.darkest, marginLeft : "20px"}}
-                color   = {[colors.yellow.dark]}
-                onClick = {arrangementStore.addArrangement}
-              >
-              Blank Song
-              </Button>
-            </div>
-            <div >
-              Create song automatically:&nbsp;&nbsp;&nbsp;
-
-              <Button color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
-              <Button color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
-            </div>
-          </ArrangementControls>
-
-          <div>
-            {arrangementStore.currentArrangement.length > 0 ?
-            <PlayStopButton
-              size    = {80}
-              onClick = {playingStore.togglePlayArrangement}
-              style={{verticalAlign: "middle", "marginBottom" : "15px"}}
-            /> : null}
-          </div>
+          <ArrangementControls />
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
             {provided => (
