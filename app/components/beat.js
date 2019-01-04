@@ -37,13 +37,13 @@ const StyledBeat = styled.div`
 const BILabel = styled.span`
   font-size: ${props => props.size ? props.size : 20}px;
   color: #77777f;
-  margin: 4px;
+  margin: 0 4px;
 `
 
 const BIData = styled.span`
   font-size: ${props => props.size ? props.size : 20}px;
   color: white;
-  margin: 4px;
+  margin: 0 4px;
 `
 
 const TableRow = styled.div`
@@ -83,6 +83,7 @@ const Controls = styled.div`
   background: ${colors.gray.light};
   display: inline-block;
   padding: 5px 10px;
+  margin-top: 10px;
   border-radius: 5px;
   box-shadow: 0px 0px 3px 1px #111;
   vertical-align: middle;
@@ -250,9 +251,6 @@ class Beat extends Component {
           </Column>
 
           <Column align="bottom">
-            <BILabel>Score</BILabel>
-            <BIData>{this.props.beat.score}</BIData>
-            <br />
             <StarRating
               score = {familyStore.currentBeat.score}
               handleSetScore = { (score) => {
@@ -260,7 +258,12 @@ class Beat extends Component {
                 playingStore.nextBeat()
               }}
             />
+            <div style={{marginTop: -14, marginBottom: 10}}>
+              <BILabel>Score</BILabel>
+              <BIData>{this.props.beat.score}</BIData>
+            </div>
           </Column>
+
           <Column>
           </Column>
           <Column>
