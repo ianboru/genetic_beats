@@ -40,6 +40,7 @@ const colors = whiteBlueGradient
 const StyledStarRating = styled.span`
   display: inline-block;
   margin: 0;
+  font-size: 10px;
 
   svg:hover {
     cursor: pointer;

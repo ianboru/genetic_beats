@@ -17,13 +17,8 @@ import familyStore from "../stores/familyStore"
 
 
 const StyledPlayControls = styled.div`
-  background: ${colors.gray.light};
-  border-radius: 5px;
-  box-shadow: 0px 0px 3px 1px #111;
-  display: inline-block;
-  margin: 0 0 10px;
-  padding: 5px 20px;
-  vertical-align: middle;
+  margin: 8px 28px;
+  vertical-align: baseline;
 
   svg {
     display: inline-block;

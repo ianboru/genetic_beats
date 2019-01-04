@@ -23,11 +23,11 @@ const MetronomeButton = styled.div`
 `
 
 const StyledTempoControls = styled.div`
-  display: inline-block;
+  margin: 8px;
 
   input[type="number"] {
     width: 45px;
-    font-size: 16px;
+    font-size: 14px;
   }
 `
 
@@ -38,27 +38,24 @@ class TempoControls extends Component {
     const MetronomeIcon = playingStore.metronome ? MetronomeActive : Metronome
 
     return (
-      <div>
-        <StyledTempoControls>
-          <MetronomeButton>
-            <MetronomeIcon
-              height  = {35}
-              width   = {25}
-              onClick = {playingStore.toggleMetronome}
-            />
-          </MetronomeButton>
-
-          <input
-            type     = "number"
-            value    = {playingStore.tempo}
-            min      = {40}
-            max      = {200}
-            onChange = { e => playingStore.setTempo(parseInt(e.target.value)) }
+      <StyledTempoControls>
+        <span style={{fontSize: 15}}>Tempo</span>
+        <input
+          type     = "number"
+          value    = {playingStore.tempo}
+          min      = {40}
+          max      = {200}
+          onChange = { e => playingStore.setTempo(parseInt(e.target.value)) }
+        />
+        &nbsp;
+        <MetronomeButton>
+          <MetronomeIcon
+            height  = {24}
+            width   = {25}
+            onClick = {playingStore.toggleMetronome}
           />
-          &nbsp;
-          <BILabel>Tempo</BILabel>
-        </StyledTempoControls>
-      </div>
+        </MetronomeButton>
+      </StyledTempoControls>
     )
   }
 }

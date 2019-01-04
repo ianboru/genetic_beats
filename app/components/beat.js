@@ -34,16 +34,14 @@ const StyledBeat = styled.div`
   padding: 10px;
 `
 
-const BeatInfo = styled.span`
-  margin: 0 10px;
-`
-
 const BILabel = styled.span`
+  font-size: ${props => props.size ? props.size : 20}px;
   color: #77777f;
   margin: 4px;
 `
 
 const BIData = styled.span`
+  font-size: ${props => props.size ? props.size : 20}px;
   color: white;
   margin: 4px;
 `
@@ -51,6 +49,12 @@ const BIData = styled.span`
 const TableRow = styled.div`
   display: table-row;
   width: 100%;
+`
+
+const HeaderTableRow = styled(TableRow)`
+  > div {
+    padding-bottom: 20px;
+  }
 `
 
 
@@ -72,6 +76,16 @@ const AddToArrangementButton = styled.button`
   &:hover {
     background: ${colors.yellow.darker};
   }
+`
+
+
+const Controls = styled.div`
+  background: ${colors.gray.light};
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px #111;
+  vertical-align: middle;
 `
 
 
@@ -197,15 +211,35 @@ class Beat extends Component {
           playing    = {playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key == this.props.beat.key}
           resolution = {familyStore.currentBeatResolution}
         />
-        <TableRow>
+        <HeaderTableRow>
+          <Column />
           <Column />
 
           <Column>
-            <TempoControls />
+            <Controls>
+              <PlayControls />
+              <TempoControls />
+            </Controls>
+
+          </Column>
+        </HeaderTableRow>
+
+        <TableRow>
+          <Column />
+          <Column />
+
+          <Column align="middle">
+            <BILabel size={30}>Beat</BILabel>
+            <BIData size={30}>{familyStore.beatNum}</BIData>
+            &nbsp;
+            &nbsp;
+            <BILabel size={30}>Generation</BILabel>
+            <BIData size={30}>{familyStore.generation}</BIData>
           </Column>
 
           <Column>
-            <PlayControls />
+          </Column>
+          <Column>
           </Column>
         </TableRow>
 
@@ -213,15 +247,12 @@ class Beat extends Component {
           <Column />
 
           <Column>
-            <div>
-              <BeatInfo>
-                <BILabel>Beat</BILabel>
-                <BIData>{this.props.beat.key}</BIData>
-              </BeatInfo>
-            </div>
           </Column>
 
-          <Column>
+          <Column align="bottom">
+            <BILabel>Score</BILabel>
+            <BIData>{this.props.beat.score}</BIData>
+            <br />
             <StarRating
               score = {familyStore.currentBeat.score}
               handleSetScore = { (score) => {
@@ -229,12 +260,20 @@ class Beat extends Component {
                 playingStore.nextBeat()
               }}
             />
-            <br />
-            <div>
-              <BILabel>Score</BILabel>
-              <BIData>{this.props.beat.score}</BIData>
-            </div>
           </Column>
+          <Column>
+          </Column>
+          <Column>
+          </Column>
+        </TableRow>
+
+        <TableRow>
+          <Column />
+
+          <Column>
+          </Column>
+
+          <Column />
 
           <Column align="bottom">
             <MuteTrackButton
@@ -250,7 +289,7 @@ class Beat extends Component {
             >S</SoloTrackButton>
           </Column>
 
-          <Column>
+          <Column align="bottom">
             <span style={{ fontSize: 16}}>
               Volume
             </span>
@@ -259,11 +298,6 @@ class Beat extends Component {
 
         {tracks}
 
-        <div style={{display:"table-row"}}>
-          <Column />
-          <Column />
-          <Column />
-        </div>
         <div style={{display:"table-row"}}>
           <Column />
           <Column />
