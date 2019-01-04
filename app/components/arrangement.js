@@ -230,7 +230,7 @@ class Arrangement extends Component {
       >
         <div>
           <ArrangementControls>
-            <div style={{ textAlign: "left" , "margin-top" : "15px", "margin-bottom": "15px" }}>
+            <div style={{ textAlign: "left" , marginTop : 15, marginBottom: 15 }}>
               <span style={{color: colors.gray.lightest}}>Current Song:&nbsp;</span>
 
               <select
@@ -251,14 +251,14 @@ class Arrangement extends Component {
             </div>
             <div >
               Create song automatically:&nbsp;&nbsp;&nbsp;
-            
+
               <Button color={[colors.yellow.dark]} onClick={this.randomizeBestBeats}>Randomize Best Beats</Button>
               <Button color={[colors.yellow.dark]} onClick={this.createSong}>Song with Arcs</Button>
             </div>
           </ArrangementControls>
 
           <div>
-            {arrangementStore.currentArrangement.length > 0 ? 
+            {arrangementStore.currentArrangement.length > 0 ?
             <PlayStopButton
               size    = {80}
               onClick = {playingStore.togglePlayArrangement}

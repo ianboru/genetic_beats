@@ -16,19 +16,19 @@ class Store {
   //
   // STATE
   //
+
   @observable hoveredBeatKey     = ""
   @observable samples            = samples
   @observable synthGain          = {'sine' : .5,'square' : .5}
   @observable synthGainCorrection = {'sine' : 1, "square" : 2}
   @observable numSolo            = 0
-  @observable showAddNewBeat     = false
 
 
   //
   // ACTIONS
   //
 
- @action setHoveredBeat = (beatKey) => {
+  @action setHoveredBeat = (beatKey) => {
     this.hoveredBeatKey = beatKey
   }
 
@@ -42,14 +42,6 @@ class Store {
 
   @action setAllSamples = (samples) => {
     this.samples = samples
-  }
-
-  @action toggleAddNewBeat = (show) => {
-    if (show != null) {
-      this.showAddNewBeat = !this.showAddNewBeat
-    } else {
-      this.showAddNewBeat = show
-    }
   }
 
   @action setGain = (sample, gain) => {

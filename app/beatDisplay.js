@@ -52,48 +52,37 @@ class BeatDisplay extends Component {
       }
     })(familyStore.currentBeat)
 
-    if (!beat || store.showAddNewBeat) {
-      return (
-        <div style={{ textAlign: "center" }}>
-          <NewBeatManager />
-        </div>
-      )
+    if (!beat) {
+      return <NewBeatManager />
     }
 
     return (
       <div>
         <div>
-          {familyStore.allGenerations[0].length >= 1 ?
-            <Button
-              large
-              color={[colors.green.base]}
-              onClick = {this.handleMutate}
-              title="Create a new mutated beat from the current beat"
-            >
-              Mutate
-            </Button> : null
-          }
+          <Button
+            style={{marginRight: "15px"}}
+            color={[colors.green.base]}
+            onClick={() => { familyStore.addEmptyBeatToCurrentGeneration () }}
+            title="Add a new empty or preset template beat to the current generation"
+          >
+            + New Empty Beat
+          </Button>
 
-          {familyStore.allGenerations[0].length >= 1 ?
-            <Button
-              large
-              color={[colors.green.base]}
-              onClick = {this.handleClone}
-              title="Create an exact copy of the current beat"
-            >
-              Clone
-            </Button> : null
-          }
-          {familyStore.allGenerations[0].length >= 1 ?
-            <Button
-              style={{marginLeft: "15px"}}
-              large
-              onClick={() => { store.toggleAddNewBeat(true) }}
-              title="Add a new empty or preset template beat to the current generation"
-            >
-              Add New Beat
-            </Button> : null
-          }
+          <Button
+            color={[colors.green.base]}
+            onClick = {this.handleMutate}
+            title="Create a new mutated beat from the current beat"
+          >
+            Mutate This Beat
+          </Button>
+
+          <Button
+            color={[colors.green.base]}
+            onClick = {this.handleClone}
+            title="Create an exact copy of the current beat"
+          >
+            Clone This Beat
+          </Button>
         </div>
 
         <div>

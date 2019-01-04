@@ -12,6 +12,9 @@ const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
 newFamilyNames.push(newFamilyName)
 
+
+const BEAT_STEPS = 16
+
 class FamilyStore {
   @observable beatNum            = 0
   @observable generation         = 0
@@ -259,7 +262,6 @@ class FamilyStore {
 
 
   @action addBeatToCurrentGen = (beat) => {
-    console.log(beat)
     const newBeatNum = this.currentGeneration.length
     const key = `${this.generation}.${newBeatNum}`
     playingStore.addBeatPlayer(key)
@@ -271,6 +273,23 @@ class FamilyStore {
     })
 
     this.beatNum = newBeatNum
+  }
+
+  @action addEmptyBeatToCurrentGeneration = () => {
+    let emptyBeat = {
+      name   : "",
+      score  : 0,
+      tracks : [
+        {
+          trackType : "sampler",
+          sample   : "samples/kick.wav",
+          sequence : (new Array(BEAT_STEPS).fill(0)),
+          mute     : false,
+          solo     : false,
+        },
+      ],
+    }
+    this.addBeatToCurrentGen(emptyBeat)
   }
 
   @action addTrackToCurrentBeat = (track) => {
