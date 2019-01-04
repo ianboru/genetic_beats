@@ -29,7 +29,28 @@ class ArrangementControls extends Component {
   handleSelectArrangement = (evt) => {
     arrangementStore.selectArrangement(parseInt(evt.target.value))
   }
+  randomizeBestBeats = () => {
+    const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
+    console.log("clicked randomize")
+    if (arrangementStore.currentArrangement.length > 0) {
+      if (confirm(confirmMessage)) {
+        arrangementStore.randomizeBestBeats()
+      }
+    } else {
+      arrangementStore.randomizeBestBeats()
+    }
+  }
 
+  createSong = () => {
+    const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
+    if (arrangementStore.currentArrangement.length > 0) {
+      if (confirm(confirmMessage)) {
+        arrangementStore.createSong()
+      }
+    } else {
+      arrangementStore.createSong()
+    }
+  }
   render() {
     const PlayStopButton = playingStore.playingArrangement ? MdStop : MdPlayArrow
 

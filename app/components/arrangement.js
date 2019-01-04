@@ -124,28 +124,6 @@ class Arrangement extends Component {
   }
 
 
-  randomizeBestBeats = () => {
-    const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
-    if (arrangementStore.currentArrangement.length > 0) {
-      if (confirm(confirmMessage)) {
-        arrangementStore.randomizeBestBeats()
-      }
-    } else {
-      arrangementStore.randomizeBestBeats()
-    }
-  }
-
-  createSong = () => {
-    const confirmMessage = "Creating song now will clear your existing arrangement.\nAre you sure you want to do that?"
-    if (arrangementStore.currentArrangement.length > 0) {
-      if (confirm(confirmMessage)) {
-        arrangementStore.createSong()
-      }
-    } else {
-      arrangementStore.createSong()
-    }
-  }
-
   render() {
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")

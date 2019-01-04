@@ -2,6 +2,8 @@ import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import familyStore from "./familyStore"
 import store from "./store"
 import controlStore from "./controlStore"
+import playingStore from "./playingStore"
+
 import {
   getNormalProbability,
   calculateSampleDifference ,
@@ -14,9 +16,11 @@ class ArrangementStore {
   @observable currentArrangementIndex = 0
   @observable arrangementBlockPlaying = []
   @observable currentLitBeat     = 0
-  @observable currentLitBeatKey     = 0
+  
 
-
+  @computed get currentLitBeatKey() {
+    return this.arrangements[this.currentArrangementIndex][this.currentLitBeat]
+  }
   @computed get currentArrangement() {
     return this.arrangements[this.currentArrangementIndex]
   }
@@ -27,8 +31,8 @@ class ArrangementStore {
   @action addArrangement = () => {
     this.arrangements.push([])
     this.currentArrangementIndex = this.arrangements.length-1
-    if(this.playingArrangement){
-      this.togglePlayArrangement()
+    if(playingStore.playingArrangement){
+      playingStore.togglePlayArrangement()
     }
   }
   @action selectArrangement = (index) => {
@@ -39,11 +43,10 @@ class ArrangementStore {
   }
   @action incrementCurrentLitBeat = () => {
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
-    this.currentLitBeatKey = this.arrangements[this.currentArrangementIndex][this.currentLitBeat]
   }
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
-    if(this.playingArrangement){
-      this.togglePlayArrangement()
+    if(playingStore.playingArrangement){
+      playingStore.togglePlayArrangement()
     }
     const beatToMove = this.arrangements[this.currentArrangementIndex].splice(currentIndex, 1)
     this.arrangements[this.currentArrangementIndex].splice(destinationIndex, 0, beatToMove[0])
@@ -86,8 +89,8 @@ class ArrangementStore {
         }
       })
     })
-    if(this.playingArrangement){
-      this.togglePlayArrangement()
+    if(playingStore.playingArrangement){
+      playingStore.togglePlayArrangement()
     }
   }
 
@@ -179,8 +182,8 @@ class ArrangementStore {
       }
     })
 
-    if(this.playingArrangement){
-      this.togglePlayArrangement()
+    if(playingStore.playingArrangement){
+      playingStore.togglePlayArrangement()
     }
     familyStore.updateFamilyInStorage()
   }

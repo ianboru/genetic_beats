@@ -86,12 +86,18 @@ class PlayingStore {
   }
 
   @action resetArrangementTimer = () => {
+    console.log("resetting timer")
     if(this.playingArrangement){
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
+      playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
+      console.log("first , " ,arrangementStore.currentLitBeatKey)
       this.arrangementTimer = setInterval(()=>{
+        let lastLitBeatKey = arrangementStore.currentLitBeatKey  
         arrangementStore.incrementCurrentLitBeat()
-        playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
+        if(arrangementStore.currentLitBeatKey != lastLitBeatKey){
+          playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
+        }
       }, millisecondsPerBeat*4)
     }else{
       clearInterval(this.arrangementTimer)
@@ -119,6 +125,12 @@ class PlayingStore {
     this.spaceButtonTarget = "currentArrangement"
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
+    console.log("playing arrangement " , this.playingArrangement)
+    if(!this.playingArrangement){
+      Object.keys(this.beatPlayers).forEach((currentKey)=>{
+        this.beatPlayers[currentKey] = false
+      })
+    }
     this.resetArrangementTimer()
   }
 
