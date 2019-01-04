@@ -153,7 +153,7 @@ class FamilyStore {
 
   @action selectBeat = (generation, beatNum) => {
     const selectedKey = `${generation}.${beatNum}`
-
+    console.log("selected beat", selectBeat)
     this.generation = generation
     this.beatNum = beatNum
     playingStore.resetNoteTimer()

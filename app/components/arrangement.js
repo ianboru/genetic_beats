@@ -145,33 +145,6 @@ class Arrangement extends Component {
     arrangementStore.setCurrentLitBeat(arrangementIndex)
   }
 
-  getMaxSubdivisions = (beats) => {
-    let maxSubdivisions = 0
-    beats.forEach( (beatKey, i) => {
-      const beatKeySplit = beatKey.split(".")
-      const generation = parseInt(beatKeySplit[0])
-      const childIndex = parseInt(beatKeySplit[1])
-      const beat = familyStore.allGenerations[generation][childIndex]
-      const subdivisions = beat["tracks"][0].sequence.length
-      if(subdivisions > maxSubdivisions){
-        maxSubdivisions = subdivisions
-      }
-    })
-    return maxSubdivisions
-  }
-
-  getNormalizedBeats = (beats, maxSubdivisions) => {
-    let normalizedBeats = []
-    beats.forEach( (beatKey, i) => {
-      const beatKeySplit = beatKey.split(".")
-      const generation = parseInt(beatKeySplit[0])
-      const childIndex = parseInt(beatKeySplit[1])
-      const beat = [generation][childIndex]
-      const normalizedBeat = normalizeSubdivisions(beat,maxSubdivisions)
-      normalizedBeats.push(normalizedBeat)
-    })
-    return normalizedBeats
-  }
 
   randomizeBestBeats = () => {
     const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"

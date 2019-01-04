@@ -24,10 +24,12 @@ import { colors } from "../colors"
 class Generation extends Component {
 
 
-  handleClickBeat = (beatKey, index) => {
+  handleClickBeat = (beatKey) => {
+    console.log(beatKey, "key")
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
+    console.log("selecting " , generation, beatNum)
     familyStore.selectBeat(generation,beatNum)
   }
 
@@ -35,7 +37,6 @@ class Generation extends Component {
   render() {
 
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
-      console.log(currentBeat)
       let splitKey = currentBeat.key.split(".")
       const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       const highlight = (currentBeat.key === familyStore.currentBeat.key )
@@ -44,6 +45,7 @@ class Generation extends Component {
           index     = {i}
           key       = {i}
           beatKey   = {currentBeat.key}
+          handleClickBeat = {()=>{this.handleClickBeat(currentBeat.key)}}
         >
           <Player
             beat       = {currentBeat}

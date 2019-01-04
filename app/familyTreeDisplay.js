@@ -97,7 +97,7 @@ class FamilyTreeDisplay extends Component {
   render() {
     const allgenerations = familyStore.allGenerations.map( (generation, i) => {
       return (
-        <div>
+        <div  key = {generation + "." + i}>
           <h3>Generation  {i}</h3>
           <Generation
             index     = {i}
