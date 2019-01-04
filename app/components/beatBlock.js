@@ -12,6 +12,7 @@ import {observer} from "mobx-react"
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
 
+
 const StyledBlock = styled.div`
   border: 1px solid ${colors.white};
 

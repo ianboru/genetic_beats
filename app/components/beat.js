@@ -236,7 +236,7 @@ class Beat extends Component {
             </div>
           </Column>
 
-          <Column>
+          <Column align="bottom">
             <MuteTrackButton
               active={this.state.activeMuteAll}
               onClick={()=>{this.handleMuteAll()}}
