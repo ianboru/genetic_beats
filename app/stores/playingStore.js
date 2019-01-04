@@ -21,6 +21,7 @@ class PlayingStore {
   @observable tempo              = 100
   @observable metronome          = false
   @observable trackPreviewers    = {}
+  @observable beatPlayers        = {}
   @observable currentLitNote     = 0
   @observable noteTimer
   @observable arrangementTimer
@@ -30,7 +31,18 @@ class PlayingStore {
   //
   // ACTIONS
   //
-
+  @action addBeatPlayer = (key) =>{
+    this.beatPlayers[key] = false
+  }
+  @action toggleBeatPlayer = (key) =>{
+    Object.keys(this.beatPlayers).forEach((currentKey)=>{
+      if(currentKey !== key){
+        this.beatPlayers[currentKey] = false
+      }
+    })
+    this.beatPlayers[key] = !this.beatPlayers[key]
+    console.log(key,toJS(this.beatPlayers))
+  }
   @action toggleTrackPreviewer = (index)=> {
     this.trackPreviewers[index] = !this.trackPreviewers[index]
     if(this.trackPreviewers[index]){
@@ -76,7 +88,8 @@ class PlayingStore {
 
   @action togglePlayCurrentBeat = () => {
     this.spaceButtonTarget = "currentBeat"
-    this.playingCurrentBeat = !this.playingCurrentBeat
+    this.toggleBeatPlayer(familyStore.currentBeat.key)
+    //this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
     this.resetNoteTimer()
@@ -112,16 +125,13 @@ class PlayingStore {
 
 
   @action nextBeat = () => {
-    let wasPlaying = this.playingCurrentBeat
-    if(wasPlaying){
-      this.playingCurrentBeat = false
-    }
-
+    let wasPlaying = this.beatPlayers[familyStore.currentBeat.key]
     this.unmuteUnsoloAll()
     familyStore.incrementBeatNum("up")
     this.currentLitNote = 0
     if(wasPlaying){
-      this.playingCurrentBeat = true
+      console.log("now  playing ",familyStore.currentBeat.key )
+      this.toggleBeatPlayer(familyStore.currentBeat.key)
       this.resetNoteTimer()
     }
     familyStore.currentBeat.tracks.forEach((track)=>{
@@ -130,15 +140,76 @@ class PlayingStore {
   }
 
   @action prevBeat = () => {
-    familyStore.incrementBeatNum("down")
+    let wasPlaying = this.beatPlayers[familyStore.currentBeat.key]
     this.unmuteUnsoloAll()
+    familyStore.incrementBeatNum("down")
     this.currentLitNote = 0
-    this.resetNoteTimer()
+    if(wasPlaying){
+      console.log("now  playing ",familyStore.currentBeat.key )
+      this.toggleBeatPlayer(familyStore.currentBeat.key)
+      this.resetNoteTimer()
+    }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
     })
   }
+@action toggleMuteAll = (lastState) => {
+    const newState = !lastState
+    familyStore.currentBeat.tracks.forEach((track)=>{
+      track.mute = newState
+      if(newState){
+        track.solo = lastState
+      }
+    })
+  }
 
+  @action toggleSoloAll = (lastState) => {
+    const newState = !lastState
+    familyStore.currentBeat.tracks.forEach((track)=>{
+      track.solo = newState
+      if(newState){
+        track.mute = lastState
+      }
+    })
+    if(lastState){
+      this.numSolo = 0
+    }else{
+      this.numSolo = familyStore.currentBeat.tracks.length
+
+    }
+  }
+  @action muteUnsolod = () => {
+    familyStore.currentBeat.tracks.forEach((track)=>{
+      if(!track.solo){
+        track.mute = true
+      }
+    })
+  }
+  @action unmuteUnsoloAll = () => {
+    familyStore.currentBeat.tracks.forEach((track)=>{
+      track.mute = false
+      track.solo = false
+    })
+  }
+  @action handleMuteTrack = (track) => {
+    if(this.numSolo == 0){
+      track.mute = !track.mute
+    }
+  }
+  @action handleSoloTrack = (track) => {
+    track.solo = !track.solo
+    if(track.solo){
+      ++this.numSolo
+      track.mute = false
+      this.muteUnsolod()
+    }else{
+      --this.numSolo
+      track.mute = true
+      if(this.numSolo == 0){
+        this.toggleMuteAll(true)
+      }
+    }
+  }
 }
 
 const playingStore = new PlayingStore()

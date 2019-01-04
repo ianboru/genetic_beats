@@ -153,7 +153,6 @@ class FamilyStore {
 
   @action selectBeat = (generation, beatNum) => {
     const selectedKey = `${generation}.${beatNum}`
-    console.log("selected beat", selectBeat)
     this.generation = generation
     this.beatNum = beatNum
     playingStore.resetNoteTimer()
@@ -203,22 +202,6 @@ class FamilyStore {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
     this.arrangements = [ [] ]
     this.currentArrangementIndex = 0
-  }
-
-  @action selectBeat = (generation, beatNum) => {
-    const selectedKey = `${generation}.${beatNum}`
-
-    this.generation = generation
-    this.beatNum = beatNum
-    playingStore.resetNoteTimer()
-
-    if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
-      this.selectedBeats.push(selectedKey)
-    } else if (this.selectPairMode && this.selectedBeats.includes(selectedKey)) {
-      this.selectedBeats.splice( this.selectedBeats.indexOf(selectedKey), 1 )
-    } else {
-      this.selectedBeats = [selectedKey]
-    }
   }
 
   @action toggleSelectPairMode = () => {
@@ -276,9 +259,7 @@ class FamilyStore {
 
 
   @action addBeatToCurrentGen = (beat) => {
-    //this.currentBeat.tracks.forEach((track)=>{
-      //playingStore.trackPreviewers[track.sample] = false
-    //})
+    playingStore.addBeatPlayer(beat.key)
     let newBeatNum = this.currentGeneration.length
 
     this.allGenerations[this.generation].push({

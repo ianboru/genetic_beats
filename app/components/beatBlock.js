@@ -54,17 +54,31 @@ const DeleteBlockButton = styled.div`
 
 @observer
 class BeatBlock extends Component {
+  handleClickBeat = (beatKey) => {
+    const idData = beatKey.split(".")
+    const generation = parseInt(idData[0])
+    const beatNum = parseInt(idData[1])
+    console.log("selecting " , generation, beatNum)
+  }
+  handleClickPlay = () => {
+    const beatKey = this.props.beatKey
+    const idData = beatKey.split(".")
+    const generation = parseInt(idData[0])
+    const beatNum = parseInt(idData[1])
+    console.log("playing " , generation, beatNum)
+    playingStore.toggleBeatPlayer(beatKey)
+  }
   render() {
-    const PlayStopButton = playingStore.playingCurrentBeat ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
 
     return (
         <StyledBlock
           highlight = {this.props.highlight}
-          onClick   = {this.props.handleClickBeat}
+          onHover   = {this.props.handleHover}
         >
           <PlayStopButton
             size    = {30}
-            onClick = {playingStore.togglePlayArrangement}
+            onClick = {this.handleClickPlay}
             style={{verticalAlign: "middle", "marginBottom" : "15px"}}
           /> 
           <p>{this.props.beatKey}</p>

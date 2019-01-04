@@ -17,6 +17,8 @@ import {
 import store from "./stores/store"
 import controlStore from "./stores/controlStore"
 import familyStore from "./stores/familyStore"
+import playingStore from "./stores/playingStore"
+
 const mateMembers = (members)=> {
   let nextGeneration = []
   members.forEach( (momBeat, momIndex) => {
@@ -57,7 +59,7 @@ const mateGeneration = (generation) => {
       key: `${familyStore.generation + 1}.${i}`,
     }
   })
-  store.unmuteUnsoloAll()
+  playingStore.unmuteUnsoloAll()
   return reindexedMembers
 }
 

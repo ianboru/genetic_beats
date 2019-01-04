@@ -94,7 +94,7 @@ class Beat extends Component {
   }
 
   handleMuteAll = () => {
-    store.toggleMuteAll(this.state.activeMuteAll)
+    playingStore.toggleMuteAll(this.state.activeMuteAll)
     this.setState({
       activeMuteAll : !this.state.activeMuteAll
     },()=>{
@@ -107,7 +107,7 @@ class Beat extends Component {
   }
 
   handleSoloAll = () => {
-    store.toggleSoloAll(this.state.activeSoloAll)
+    playingStore.toggleSoloAll(this.state.activeSoloAll)
 
     this.setState({
       activeSoloAll : !this.state.activeSoloAll
@@ -121,7 +121,7 @@ class Beat extends Component {
   }
 
   handleMuteTrack = (track) => {
-    store.handleMuteTrack(track)
+    playingStore.handleMuteTrack(track)
 
     if(!track.mute){
       this.setState({
@@ -146,7 +146,7 @@ class Beat extends Component {
   }
 
   handleSoloTrack = (track) => {
-    store.handleSoloTrack(track)
+    playingStore.handleSoloTrack(track)
     if(!track.solo){
       this.setState({
         activeSoloAll : false
@@ -194,7 +194,7 @@ class Beat extends Component {
             ><MdAdd size={25} /></AddToArrangementButton> : null}
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {playingStore.playingCurrentBeat && familyStore.currentBeat.key == this.props.beat.key}
+          playing    = {playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key == this.props.beat.key}
           resolution = {familyStore.currentBeatResolution}
         />
         <TableRow>

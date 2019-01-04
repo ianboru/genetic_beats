@@ -23,17 +23,6 @@ import { colors } from "../colors"
 @observer
 class Generation extends Component {
 
-
-  handleClickBeat = (beatKey) => {
-    console.log(beatKey, "key")
-    const idData = beatKey.split(".")
-    const generation = parseInt(idData[0])
-    const beatNum = parseInt(idData[1])
-    console.log("selecting " , generation, beatNum)
-    familyStore.selectBeat(generation,beatNum)
-  }
-
-
   render() {
 
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
@@ -45,11 +34,10 @@ class Generation extends Component {
           index     = {i}
           key       = {i}
           beatKey   = {currentBeat.key}
-          handleClickBeat = {()=>{this.handleClickBeat(currentBeat.key)}}
         >
           <Player
             beat       = {currentBeat}
-            playing    = {highlight && playingStore.playingArrangement}
+            playing    = {playingStore.beatPlayers[currentBeat.key]}
             resolution = {currentBeatResolution}
             bars       = {1}
           />

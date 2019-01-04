@@ -13,6 +13,7 @@ import {colors} from "../colors"
 
 import store from "../stores/store"
 import playingStore from "../stores/playingStore"
+import familyStore from "../stores/familyStore"
 
 
 const StyledPlayControls = styled.div`
@@ -48,13 +49,13 @@ class PlayControls extends Component {
       size,
     } = this.props
 
-    const PlayStopButton = playingStore.playingCurrentBeat ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.beatPlayers[familyStore.currentBeat.key] ? MdStop : MdPlayArrow
     return (
       <StyledPlayControls>
         <span title="Previous Beat">
           <MdSkipPrevious
             size    = {size}
-            onClick = {store.prevBeat}
+            onClick = {playingStore.prevBeat}
           />
         </span>
         <span title="Play / Stop">

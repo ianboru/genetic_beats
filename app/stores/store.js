@@ -36,64 +36,6 @@ class Store {
     this.hoveredBeatKey = ""
   }
 
-  @action toggleMuteAll = (lastState) => {
-    const newState = !lastState
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      track.mute = newState
-      if(newState){
-        track.solo = lastState
-      }
-    })
-  }
-
-  @action toggleSoloAll = (lastState) => {
-    const newState = !lastState
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      track.solo = newState
-      if(newState){
-        track.mute = lastState
-      }
-    })
-    if(lastState){
-      this.numSolo = 0
-    }else{
-      this.numSolo = familyStore.currentBeat.tracks.length
-
-    }
-  }
-  @action muteUnsolod = () => {
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      if(!track.solo){
-        track.mute = true
-      }
-    })
-  }
-  @action unmuteUnsoloAll = () => {
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      track.mute = false
-      track.solo = false
-    })
-  }
-  @action handleMuteTrack = (track) => {
-    if(this.numSolo == 0){
-      track.mute = !track.mute
-    }
-  }
-  @action handleSoloTrack = (track) => {
-    track.solo = !track.solo
-    if(track.solo){
-      ++this.numSolo
-      track.mute = false
-      this.muteUnsolod()
-    }else{
-      --this.numSolo
-      track.mute = true
-      if(this.numSolo == 0){
-        this.toggleMuteAll(true)
-      }
-    }
-  }
-
   @action addSample = (newSample) => {
     this.samples.push(newSample)
   }
