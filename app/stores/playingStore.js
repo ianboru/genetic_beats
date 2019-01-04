@@ -32,7 +32,19 @@ class PlayingStore {
   // ACTIONS
   //
   @action addBeatPlayer = (key) =>{
-    this.beatPlayers[key] = false
+    console.log("adding player ",key)
+    let beatPlaying = false
+    if(Object.keys(this.beatPlayers).length > 0){
+      Object.keys(this.beatPlayers).forEach((currentKey)=>{
+        if(this.beatPlayers[currentKey]){
+          console.log(currentKey, "was playing")
+          this.beatPlayers[currentKey] = false
+          beatPlaying = true
+        }
+      })
+    }
+    
+    this.beatPlayers[key] = beatPlaying
   }
   @action toggleBeatPlayer = (key) =>{
     Object.keys(this.beatPlayers).forEach((currentKey)=>{
@@ -104,7 +116,6 @@ class PlayingStore {
 
   @action togglePlayArrangement = () => {
     this.spaceButtonTarget = "currentArrangement"
-    this.playingCurrentBeat = false
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
     this.resetArrangementTimer()

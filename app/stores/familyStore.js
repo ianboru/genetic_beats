@@ -259,12 +259,14 @@ class FamilyStore {
 
 
   @action addBeatToCurrentGen = (beat) => {
-    playingStore.addBeatPlayer(beat.key)
-    let newBeatNum = this.currentGeneration.length
+    console.log(beat)
+    const newBeatNum = this.currentGeneration.length
+    const key = `${this.generation}.${newBeatNum}`
+    playingStore.addBeatPlayer(key)
 
     this.allGenerations[this.generation].push({
       ...deepClone(beat),
-      key: `${this.generation}.${newBeatNum}`,
+      key: key,
       score: 0,
     })
 
