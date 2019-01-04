@@ -91,6 +91,7 @@ class PlayingStore {
       clearInterval(this.arrangementTimer)
       this.arrangementTimer = setInterval(()=>{
         arrangementStore.incrementCurrentLitBeat()
+        playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
       }, millisecondsPerBeat*4)
     }else{
       clearInterval(this.arrangementTimer)

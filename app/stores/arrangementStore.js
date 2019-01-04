@@ -14,6 +14,7 @@ class ArrangementStore {
   @observable currentArrangementIndex = 0
   @observable arrangementBlockPlaying = []
   @observable currentLitBeat     = 0
+  @observable currentLitBeatKey     = 0
 
 
   @computed get currentArrangement() {
@@ -38,6 +39,7 @@ class ArrangementStore {
   }
   @action incrementCurrentLitBeat = () => {
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
+    this.currentLitBeatKey = this.arrangements[this.currentArrangementIndex][this.currentLitBeat]
   }
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
     if(this.playingArrangement){

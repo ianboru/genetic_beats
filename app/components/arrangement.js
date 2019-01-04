@@ -196,7 +196,7 @@ class Arrangement extends Component {
         >
           <Player
             beat       = {currentBeat}
-            playing    = {highlight && playingStore.beatsPlayers[currentBeat.key]}
+            playing    = {highlight && playingStore.beatPlayers[currentBeat.key]}
             resolution = {currentBeatResolution}
             bars       = {1}
           />
