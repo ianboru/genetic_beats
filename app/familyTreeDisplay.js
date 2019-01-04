@@ -10,7 +10,7 @@ import Button from "./components/button"
 import Header from "./styledComponents/header"
 import MatingControls from "./components/matingControls"
 import FamilyTree from "./components/familyTree"
-
+import Generation from "./components/generation"
 //import DevTools from "mobx-react-devtools"
 
 
@@ -93,8 +93,19 @@ class FamilyTreeDisplay extends Component {
     familyStore.addGeneration(nextGeneration)
     if(familyStore.selectPairMode){familyStore.toggleSelectPairMode()}
   }
-
+  
   render() {
+    const allgenerations = familyStore.allGenerations.map( (generation, i) => {
+      return (
+        <div>
+          <h3>Generation  {i}</h3>
+          <Generation
+            index     = {i}
+            key       = {generation + "." + i}
+          />
+        </div>
+      )
+    })
     return (
       <div>
         <Header>
@@ -125,17 +136,8 @@ class FamilyTreeDisplay extends Component {
           </BigText>
         </BackgroundText>
 
-        <FamilyTree
-          height     = {this.props.familyTreeHeight}
-          width      = {this.props.familyTreeWidth}
-          familyTree = {familyStore.allGenerations}
-        />
+        {allgenerations}
 
-        <Footer>
-          <InfoRow>
-            scroll to zoom
-          </InfoRow>
-        </Footer>
         {typeof DevTools !== "undefined" ? <DevTools highlightTimeout={500000} /> : null}
       </div>
     )
