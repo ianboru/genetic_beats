@@ -57,6 +57,21 @@ class StarRating extends Component {
 
   state = {
     hover: null,
+    tentative: null,
+  }
+
+  handleMouseEnter = (e, i) => {
+    this.handleStarHover(e, i)
+
+    if (this.state.tentative) {
+      this.handleTentativeClick(e, i)
+    }
+  }
+
+  handleMouseUp = (e) => {
+    if (this.state.tentative) {
+      this.props.handleSetScore(this.state.hover)
+    }
   }
 
   handleStarHover = (e, i) => {
@@ -64,25 +79,26 @@ class StarRating extends Component {
   }
 
   handleStarUnhover = (e) => {
-    this.setState({ hover: null })
+    this.setState({ hover: null, tentative: null })
   }
 
-  handleStarClick = (e) => {
-    this.props.handleSetScore(this.state.hover)
+  handleTentativeClick = (e, i) => {
+    this.setState({ tentative: i+1 })
   }
 
   render() {
     const stars = Array(NUM_STARS).fill(0).map( (temp, i) => {
       const hover = this.state.hover || 0
-      const score = this.props.score || 0
+      const score = this.props.score || this.state.tentative || 0
       const dimmedColor = `rgba(${chroma(colors[i]).alpha(0.5).rgba()})`
 
       let props = {
         key          : i,
         size         : starSize,
         color        : (i < hover || hover === 0) ? colors[i] : dimmedColor,
-        onMouseEnter : (e) => this.handleStarHover(e, i),
-        onClick      : this.handleStarClick,
+        onMouseEnter : (e) => this.handleMouseEnter(e, i),
+        onMouseDown  : (e) => this.handleTentativeClick(e, i),
+        onMouseUp    : this.handleMouseUp,
       }
 
       return (i < score) ?
@@ -99,7 +115,6 @@ class StarRating extends Component {
     )
   }
 }
-
 
 
 export default StarRating
