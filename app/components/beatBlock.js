@@ -11,15 +11,14 @@ import { colors } from "../colors"
 import {observer} from "mobx-react"
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
-
-
+import MiniBeat from "./miniBeat"
 const StyledBlock = styled.div`
   border: 1px solid ${colors.white};
 
   background-color: ${props => props.highlight ? "#e9573f" : colors.blue.dark};
   display: inline-block;
   height: 100%;
-  width: 100px;
+  width: 150px;
   position: relative;
   vertical-align: top;
   text-align: center;
@@ -66,10 +65,12 @@ class BeatBlock extends Component {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
-    console.log("playing " , generation, beatNum)
     playingStore.toggleBeatPlayer(beatKey)
   }
   render() {
+    const idData = this.props.beatKey.split(".")
+    const generation = parseInt(idData[0])
+    const beatNum = parseInt(idData[1])
     const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
 
     return (
@@ -83,6 +84,7 @@ class BeatBlock extends Component {
             style={{verticalAlign: "middle", "marginBottom" : "15px"}}
           /> 
           <p>{this.props.beatKey}</p>
+          <MiniBeat beat={familyStore.allGenerations[generation][beatNum]}></MiniBeat>
           <DeleteBlockButton onClick={(e) => {
             this.props.deleteBlock()
             e.stopPropagation()
