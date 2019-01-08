@@ -231,21 +231,6 @@ class FamilyStore {
   }
 
 
-
-  @action clearSavedFamilies = (state) => {
-    // SIDE EFFECT
-    localStorage.clear()
-  }
-
-  @action updateFamilyInStorage = () => {
-    localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
-
-    localStorage.setItem(this.familyName, JSON.stringify({
-      family :this.allGenerations,
-      arrangements : this.arrangements,
-    }))
-  }
-
   @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
     localStorage.clear()
@@ -262,7 +247,6 @@ class FamilyStore {
   @action changeActiveNote = (beatKey,currentLitNote) => {
     const splitKey = beatKey.split(".")
     let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes
-    console.log(currentLitNote)
     activeNotes.forEach( (note, i)=>{
       if(i == currentLitNote){
         activeNotes[i] = true
@@ -270,7 +254,6 @@ class FamilyStore {
         activeNotes[i] = false
       }
     })
-    console.log("changed active", toJS(activeNotes))
   }
 
   @action addBeatToCurrentGen = (beat) => {
