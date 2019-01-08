@@ -22,6 +22,7 @@ __pycache__
 *.tmproj
 .vagrant
 app-dev.js
+app-dev.js.map
 local_settings.py
 npm-debug.log
 pip-log.txt
