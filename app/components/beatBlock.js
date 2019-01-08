@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { toJS } from "mobx"
 
 import {
   MdPlayArrow,
@@ -58,7 +59,6 @@ class BeatBlock extends Component {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
-    console.log("selecting " , generation, beatNum)
   }
   handleClickPlay = () => {
     const beatKey = this.props.beatKey
@@ -72,7 +72,6 @@ class BeatBlock extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
-
     return (
         <StyledBlock
           highlight = {this.props.highlight}
@@ -84,7 +83,9 @@ class BeatBlock extends Component {
             style={{verticalAlign: "middle", "marginBottom" : "15px"}}
           /> 
           <p>{this.props.beatKey}</p>
-          <MiniBeat beat={familyStore.allGenerations[generation][beatNum]}></MiniBeat>
+          <MiniBeat 
+          beat={familyStore.allGenerations[generation][beatNum]}
+          />
           <DeleteBlockButton onClick={(e) => {
             this.props.deleteBlock()
             e.stopPropagation()

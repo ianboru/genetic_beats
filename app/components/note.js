@@ -45,13 +45,12 @@ const StyledNote = styled.div`
 @observer
 class Note extends Component {
   render() {
-    const active = this.props.index == playingStore.currentLitNote && playingStore.playingCurrentBeat
     const separator = this.props.index % 4 === 3
 
     return (
       <NoteWrapper separator={separator}>
         <StyledNote
-          active      = {active}
+          active      = {this.props.activeNotes[this.props.index]}
           on          = {this.props.value === 1}
           onMouseDown = {this.props.onClick}
           onMouseOver = {this.props.onMouseOver}

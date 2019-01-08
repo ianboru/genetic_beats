@@ -31,6 +31,7 @@ const mateMembers = (members)=> {
 
       for (let i=0; i < controlStore.numChildren; i++) {
         const childBeat = matePair(momBeat, dadBeat)
+        childBeat["activeNotes"] = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
         if(childBeat.tracks.length){
           nextGeneration.push(childBeat)
         }

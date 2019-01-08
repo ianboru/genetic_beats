@@ -136,6 +136,7 @@ class Track extends Component {
         <Note
           key     = {`${i}.${note}`}
           value   = {note}
+          activeNotes = {this.props.activeNotes}
           onClick = {(e) => {
               this.setState({
                 lastEntered : i,

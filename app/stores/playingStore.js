@@ -32,12 +32,10 @@ class PlayingStore {
   // ACTIONS
   //
   @action addBeatPlayer = (key) =>{
-    console.log("adding player ",key)
     let beatPlaying = false
     if(Object.keys(this.beatPlayers).length > 0){
       Object.keys(this.beatPlayers).forEach((currentKey)=>{
         if(this.beatPlayers[currentKey]){
-          console.log(currentKey, "was playing")
           this.beatPlayers[currentKey] = false
           beatPlaying = true
         }
@@ -53,7 +51,7 @@ class PlayingStore {
       }
     })
     this.beatPlayers[key] = !this.beatPlayers[key]
-    console.log(key,toJS(this.beatPlayers))
+    this.resetNoteTimer(key)
   }
   @action toggleTrackPreviewer = (index)=> {
     this.trackPreviewers[index] = !this.trackPreviewers[index]
@@ -67,17 +65,19 @@ class PlayingStore {
   @action resetCurrentLitNote = () => {
     this.currentLitNote =  0
   }
-  @action incrementCurrentLitNote = () => {
-    this.currentLitNote = (this.currentLitNote + 1)%familyStore.currentBeat.tracks[0].sequence.length
+  @action incrementCurrentLitNote = (key) => {
+    const splitKey = key.split(".")
+    this.currentLitNote = (this.currentLitNote + 1)%familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
+    familyStore.changeActiveNote(key, this.currentLitNote)
   }
 
-  @action resetNoteTimer = () => {
-    if(this.playingCurrentBeat){
+  @action resetNoteTimer = (beatKey) => {
+    if(this.beatPlayers[beatKey]){
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       const millisecondsPerNote = millisecondsPerBeat * 4/ familyStore.currentBeat.tracks[0].sequence.length
       clearInterval(this.noteTimer)
       this.noteTimer = setInterval(()=>{
-        this.incrementCurrentLitNote()
+        this.incrementCurrentLitNote(beatKey)
       }, millisecondsPerNote)
     }else{
       clearInterval(this.noteTimer)
@@ -86,7 +86,6 @@ class PlayingStore {
   }
 
   @action resetArrangementTimer = () => {
-    console.log("resetting timer")
     if(this.playingArrangement){
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
@@ -111,7 +110,7 @@ class PlayingStore {
     //this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
-    this.resetNoteTimer()
+    this.resetNoteTimer(familyStore.currentBeat.key)
   }
   @action togglePlay = () => {
     if(this.spaceButtonTarget == "currentBeat"){
@@ -138,7 +137,7 @@ class PlayingStore {
 
   @action setTempo = (tempo) => {
     this.tempo = tempo
-    this.resetNoteTimer()
+    this.resetNoteTimer(familyStore.currentBeat.key)
     this.resetArrangementTimer()
   }
 
@@ -156,7 +155,7 @@ class PlayingStore {
     if(wasPlaying){
       console.log("now  playing ",familyStore.currentBeat.key )
       this.toggleBeatPlayer(familyStore.currentBeat.key)
-      this.resetNoteTimer()
+      this.resetNoteTimer(familyStore.currentBeat.key)
     }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
@@ -171,7 +170,7 @@ class PlayingStore {
     if(wasPlaying){
       console.log("now  playing ",familyStore.currentBeat.key )
       this.toggleBeatPlayer(familyStore.currentBeat.key)
-      this.resetNoteTimer()
+      this.resetNoteTimer(familyStore.currentBeat.key)
     }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false

@@ -46,13 +46,15 @@ const TableRow = styled.div`
 class MiniBeat extends Component {
 
   render() {
+    //console.log("miini beat" ,toJS(this.props.beat))
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <MiniTrack
           key        = {`${this.props.beat.key}.${i}`}
           trackNum   = {i}
           track      = {track}
-          beatKey = {this.props.beatKey}
+          beatKey = {this.props.beat.key}
+          activeNotes = {this.props.beat.activeNotes}
 
         />
       )
@@ -96,6 +98,7 @@ class MiniTrack extends Component {
           value   = {note}
           index   = {i}
           beatKey = {this.props.beatKey}
+          activeNotes = {this.props.activeNotes}
         />
       )
     })
@@ -130,16 +133,12 @@ const StyledNote = styled.div`
 @observer
 class MiniNote extends Component {
   render() {
-    console.log("render note" , this.props.index, playingStore.currentLitNote, playingStore.beatPlayers[this.props.beatKey])
-    const active = this.props.index == playingStore.currentLitNote &&  playingStore.beatPlayers[this.props.beatKey]
     const separator = this.props.index % 4 === 3
-
+    //console.log("mini note", this.props.activeNotes[this.props.index])
     return (
         <StyledNote
-          active      = {active}
+          active      = {this.props.activeNotes[this.props.index]}
           on          = {this.props.value === 1}
-          onMouseDown = {this.props.onClick}
-          onMouseOver = {this.props.onMouseOver}
           className   = "note"
         >&nbsp;</StyledNote>
     )

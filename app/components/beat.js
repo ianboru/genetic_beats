@@ -196,6 +196,7 @@ class Beat extends Component {
           handleSampleChange = {this.handleSampleChange}
           handleMuteTrack = {this.handleMuteTrack}
           handleSoloTrack = {this.handleSoloTrack}
+          activeNotes = {this.props.beat.activeNotes}
         />
       )
     })
