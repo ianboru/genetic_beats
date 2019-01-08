@@ -1,14 +1,16 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 const LiveReloadPlugin = require("webpack-livereload-plugin")
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const ErrorOverlayPlugin = require("error-overlay-webpack-plugin");
+
 
 module.exports = {
-  entry: './app/index',
+  entry: ["./app/index"],
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'app-dev.js',
-    publicPath: '/static/',
+    path: path.join(__dirname, "dist"),
+    filename: "app-dev.js",
+    publicPath: "/static/",
   },
   module: {
     rules: [
@@ -16,22 +18,22 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
         },
       }, {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: "style-loader",
           },
           {
-            loader: 'css-loader',
+            loader: "css-loader",
           },
           {
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
           },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
           },
         ],
       }, {
@@ -52,7 +54,8 @@ module.exports = {
   },
   plugins: [
     //new BundleAnalyzerPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new ErrorOverlayPlugin(),
     new LiveReloadPlugin(),
   ],
+  devtool: "cheap-module-source-map",
 };
