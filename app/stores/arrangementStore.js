@@ -16,7 +16,6 @@ class ArrangementStore {
   @observable currentArrangementIndex = 0
   @observable arrangementBlockPlaying = []
   @observable currentLitBeat     = 0
-  
 
   @computed get currentLitBeatKey() {
     return this.arrangements[this.currentArrangementIndex][this.currentLitBeat]

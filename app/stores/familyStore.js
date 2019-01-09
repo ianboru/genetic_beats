@@ -24,7 +24,7 @@ class FamilyStore {
   @observable selectedBeats      = []
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
-
+  @observable currentHighlightedParent = ""
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
@@ -53,7 +53,10 @@ class FamilyStore {
     return beatKeys
   }
 
-
+  @action updateCurrentHighlightedParent = (beatKey)=>{
+    this.currentHighlightedParent = beatKey
+    console.log("highlighted " ,this.currentHighlightedParent)
+  }
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []

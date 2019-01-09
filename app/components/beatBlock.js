@@ -12,11 +12,18 @@ import { colors } from "../colors"
 import {observer} from "mobx-react"
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
+import arrangementStore from "../stores/arrangementStore"
+
 import MiniBeat from "./miniBeat"
 const StyledBlock = styled.div`
   border: 1px solid ${colors.white};
 
-  background-color: ${props => props.highlight ? "#e9573f" : colors.blue.dark};
+  background-color: ${props =>  
+    props.childHighlight ? 
+    colors.yellow.dark : props.highlight ? 
+    colors.gray.light : props.parentHighlight ?
+    colors.blue.lighter : "e9573f" 
+  };
   display: inline-block;
   height: 100%;
   width: 150px;
@@ -26,7 +33,7 @@ const StyledBlock = styled.div`
   cursor: pointer;
   &:hover {
     color: black;
-    background-color: ${props => props.highlight ? chroma("#e9573f").brighten(0.5) : colors.blue.base};
+    background-color: ${props => props.highlight ? chroma("#e9573f").brighten(0.5) : colors.red.lighter};
   }
 `
 
@@ -55,6 +62,9 @@ const DeleteBlockButton = styled.div`
 
 @observer
 class BeatBlock extends Component {
+  handleHover = ()=>{
+    familyStore.updateCurrentHighlightedParent(this.props.beatKey)
+  }
   handleClickBeat = (beatKey) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
@@ -66,16 +76,40 @@ class BeatBlock extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     playingStore.toggleBeatPlayer(beatKey)
+    familyStore.inactivateNotes(beatKey)
   }
   render() {
     const idData = this.props.beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
+    const beat = familyStore.allGenerations[generation][beatNum]
     const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
+    let childHighlight = false
+
+    if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent){
+      childHighlight = true
+    }
+
+    let parentHighlight = false
+
+    if(familyStore.currentHighlightedParent){
+      const hightlightedIdData = familyStore.currentHighlightedParent.split(".")
+      const highlightedBeat = familyStore.allGenerations[hightlightedIdData[0]][hightlightedIdData[1]]
+
+      console.log(toJS(highlightedBeat))
+      if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey){
+        parentHighlight = true
+      }
+      console.log("beatblock",childHighlight, parentHighlight, beat.key, familyStore.currentHighlightedParent,  toJS(highlightedBeat.momKey), toJS(highlightedBeat.dadKey))
+
+    }
+    
     return (
         <StyledBlock
           highlight = {this.props.highlight}
-          onHover   = {this.props.handleHover}
+          childHighlight = {childHighlight}
+          parentHighlight = {parentHighlight}
+          onMouseEnter   = {this.handleHover}
         >
           <PlayStopButton
             size    = {30}

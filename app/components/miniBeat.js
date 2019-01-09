@@ -46,7 +46,6 @@ const TableRow = styled.div`
 class MiniBeat extends Component {
 
   render() {
-    //console.log("miini beat" ,toJS(this.props.beat))
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <MiniTrack
@@ -134,7 +133,6 @@ const StyledNote = styled.div`
 class MiniNote extends Component {
   render() {
     const separator = this.props.index % 4 === 3
-    //console.log("mini note", this.props.activeNotes[this.props.index])
     return (
         <StyledNote
           active      = {this.props.activeNotes[this.props.index]}

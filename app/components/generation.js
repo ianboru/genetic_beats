@@ -28,7 +28,6 @@ class Generation extends Component {
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
       let splitKey = currentBeat.key.split(".")
       const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
-      const highlight = (currentBeat.key === familyStore.currentBeat.key )
       return (
         <BeatBlock
           index     = {i}
