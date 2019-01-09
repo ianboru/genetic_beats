@@ -11,7 +11,6 @@ import Header from "./styledComponents/header"
 import MatingControls from "./components/matingControls"
 import FamilyTree from "./components/familyTree"
 import Generation from "./components/generation"
-//import DevTools from "mobx-react-devtools"
 
 
 const BackgroundText = styled.div`
@@ -137,8 +136,6 @@ class FamilyTreeDisplay extends Component {
         </BackgroundText>
 
         {allgenerations}
-
-        {typeof DevTools !== "undefined" ? <DevTools highlightTimeout={500000} /> : null}
       </div>
     )
   }

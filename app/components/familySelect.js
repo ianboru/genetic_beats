@@ -7,6 +7,8 @@ import familyStore from "../stores/familyStore"
 
 import Button from "./button"
 
+//import DevTools from "mobx-react-devtools"
+
 
 const StyledFamilySelect = styled.span`
   color :  ${colors.gray.lightest};
@@ -63,6 +65,8 @@ class FamilySelect extends Component {
         <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Clear all saved families" onClick={this.clearSavedFamilies}>
           Clear All
         </Button>
+
+        {typeof DevTools !== "undefined" ? <DevTools highlightTimeout={500000} /> : null}
       </div>
     )
   }

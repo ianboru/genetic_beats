@@ -6,12 +6,15 @@ Refactor:
 * Redesign sample selection (to test sample without changing)
     * Categorize samples
 * Safari breaks on this.context right now. React version? in react-music scheduler.js
-* Star fill on mouse down
 * GainSlider NaN issue on mutate action
 * Note rerendering issue: have columns light up
 * BUG: Click Select beats to mate, click Mate Selected Beats (without selecting any), click Mate Generation -> console error
 * Flash notification to confirm actions (beat rated, track added/deleted)
 * "You've reached the max number of instruments"
+
+* Easily play a beat and all of its descendants / mutations / related beats
+* Remove mating from beat view, move it to Family Tree view
+* Record progression of a beat being made, adding/removing beats & tracks, etc
 
 
 
@@ -50,8 +53,6 @@ Other Stuff:
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
 * Highlight notes in intermediate color until they're gonna play
 * Highlight notes while arrangement beats are playing
-* Play preview doesn't change when new sample is select
-* Click-swiping across notes to set or unset doesn't work across multiple tracks
 
 
 

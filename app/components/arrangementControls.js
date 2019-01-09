@@ -31,7 +31,6 @@ class ArrangementControls extends Component {
   }
   randomizeBestBeats = () => {
     const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
-    console.log("clicked randomize")
     if (arrangementStore.currentArrangement.length > 0) {
       if (confirm(confirmMessage)) {
         arrangementStore.randomizeBestBeats()

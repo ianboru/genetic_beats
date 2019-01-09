@@ -65,6 +65,7 @@ class PlayingStore {
   @action resetCurrentLitNote = () => {
     this.currentLitNote =  0
   }
+
   @action incrementCurrentLitNote = (key) => {
     const splitKey = key.split(".")
     this.currentLitNote = (this.currentLitNote + 1)%familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
@@ -90,7 +91,6 @@ class PlayingStore {
       const millisecondsPerBeat = 1/(this.tempo/60/1000)
       clearInterval(this.arrangementTimer)
       playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
-      console.log("first , " ,arrangementStore.currentLitBeatKey)
       this.arrangementTimer = setInterval(()=>{
         let lastLitBeatKey = arrangementStore.currentLitBeatKey  
         arrangementStore.incrementCurrentLitBeat()
@@ -124,7 +124,6 @@ class PlayingStore {
     this.spaceButtonTarget = "currentArrangement"
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
-    console.log("playing arrangement " , this.playingArrangement)
     if(!this.playingArrangement){
       Object.keys(this.beatPlayers).forEach((currentKey)=>{
         this.beatPlayers[currentKey] = false
@@ -153,7 +152,6 @@ class PlayingStore {
     familyStore.incrementBeatNum("up")
     this.currentLitNote = 0
     if(wasPlaying){
-      console.log("now  playing ",familyStore.currentBeat.key )
       this.toggleBeatPlayer(familyStore.currentBeat.key)
       this.resetNoteTimer(familyStore.currentBeat.key)
     }
@@ -168,7 +166,6 @@ class PlayingStore {
     familyStore.incrementBeatNum("down")
     this.currentLitNote = 0
     if(wasPlaying){
-      console.log("now  playing ",familyStore.currentBeat.key )
       this.toggleBeatPlayer(familyStore.currentBeat.key)
       this.resetNoteTimer(familyStore.currentBeat.key)
     }
