@@ -13,7 +13,7 @@ import {observer} from "mobx-react"
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
 import arrangementStore from "../stores/arrangementStore"
-
+import chroma from "chroma-js"
 import MiniBeat from "./miniBeat"
 const StyledBlock = styled.div`
   border: 1px solid ${colors.white};
@@ -96,11 +96,9 @@ class BeatBlock extends Component {
       const hightlightedIdData = familyStore.currentHighlightedParent.split(".")
       const highlightedBeat = familyStore.allGenerations[hightlightedIdData[0]][hightlightedIdData[1]]
 
-      console.log(toJS(highlightedBeat))
       if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey){
         parentHighlight = true
       }
-      console.log("beatblock",childHighlight, parentHighlight, beat.key, familyStore.currentHighlightedParent,  toJS(highlightedBeat.momKey), toJS(highlightedBeat.dadKey))
 
     }
     

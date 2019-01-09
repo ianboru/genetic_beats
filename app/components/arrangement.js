@@ -12,7 +12,7 @@ import store from "../stores/store"
 import arrangementStore from '../stores/arrangementStore'
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-
+import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
 
 import {
@@ -25,7 +25,7 @@ import {
 const StyledArrangement = styled.div`
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
-  height: 100px;
+  height: 200px;
   overflow-x: auto;
   overflow-y: none;
   position: relative;
@@ -131,13 +131,11 @@ class Arrangement extends Component {
       const currentBeat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
       const highlight = (i === arrangementStore.currentLitBeat )
       return (
-        <Block
+        <BeatBlock
           index     = {i}
           key       = {i}
           beatKey   = {beatKey}
-          highlight = {highlight}
           deleteBlock = {() => { this.deleteBlock(i) }}
-          handleClickBeat = {()=>{this.handleClickBeat(beatKey, i)}}
           handleMoveBeat = {this.handleMoveBeat}
         >
           <Player
@@ -146,7 +144,7 @@ class Arrangement extends Component {
             resolution = {currentBeatResolution}
             bars       = {1}
           />
-        </Block>
+        </BeatBlock>
       )
     })
 

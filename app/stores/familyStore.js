@@ -258,7 +258,13 @@ class FamilyStore {
       }
     })
   }
-
+  @action inactivateNotes = (beatKey) => {
+    const splitKey = beatKey.split(".")
+    let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes
+    activeNotes.forEach( (note, i)=>{
+      activeNotes[i] = false
+    })
+  }
   @action addBeatToCurrentGen = (beat) => {
     beat["activeNotes"] = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     const newBeatNum = this.currentGeneration.length
