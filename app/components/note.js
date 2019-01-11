@@ -50,7 +50,7 @@ class Note extends Component {
     return (
       <NoteWrapper separator={separator}>
         <StyledNote
-          active      = {this.props.activeNotes[this.props.index]}
+          active      = {this.props.activeNotes[this.props.index].value}
           on          = {this.props.value === 1}
           onMouseDown = {this.props.onClick}
           onMouseOver = {this.props.onMouseOver}

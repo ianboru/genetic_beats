@@ -238,6 +238,7 @@ class FamilyStore {
     // SIDE EFFECT
     localStorage.clear()
   }
+
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
 
@@ -252,9 +253,9 @@ class FamilyStore {
     let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes
     activeNotes.forEach( (note, i)=>{
       if(i == currentLitNote){
-        activeNotes[i] = true
+        activeNotes[i].value = true
       }else{
-        activeNotes[i] = false
+        activeNotes[i].value = false
       }
     })
   }
@@ -266,13 +267,13 @@ class FamilyStore {
     })
   }
   @action addBeatToCurrentGen = (beat) => {
-    beat["activeNotes"] = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
     const newBeatNum = this.currentGeneration.length
     const key = `${this.generation}.${newBeatNum}`
     playingStore.addBeatPlayer(key)
 
     this.allGenerations[this.generation].push({
       ...deepClone(beat),
+      activeNotes: new Array(16).fill().map(() => { return { value: false } }),
       key: key,
       score: 0,
     })

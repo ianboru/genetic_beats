@@ -135,7 +135,7 @@ class MiniNote extends Component {
     const separator = this.props.index % 4 === 3
     return (
         <StyledNote
-          active      = {this.props.activeNotes[this.props.index]}
+          active      = {this.props.activeNotes[this.props.index].value}
           on          = {this.props.value === 1}
           className   = "note"
         >&nbsp;</StyledNote>

@@ -31,7 +31,6 @@ const mateMembers = (members)=> {
 
       for (let i=0; i < controlStore.numChildren; i++) {
         const childBeat = matePair(momBeat, dadBeat)
-        childBeat["activeNotes"] = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]
         if(childBeat.tracks.length){
           nextGeneration.push(childBeat)
         }
@@ -66,10 +65,11 @@ const mateGeneration = (generation) => {
 
 const matePair = (momBeat, dadBeat) => {
   let childBeat = {
-    tracks : [],
-    score  : 0,
-    momKey : momBeat.key,
-    dadKey : dadBeat.key,
+    activeNotes: new Array(16).fill().map(() => { return { value: false } }),
+    tracks      : [],
+    score       : 0,
+    momKey      : momBeat.key,
+    dadKey      : dadBeat.key,
     // child's key is added later
   }
 
