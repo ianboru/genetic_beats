@@ -15,7 +15,10 @@ import familyStore from "../stores/familyStore"
 import arrangementStore from "../stores/arrangementStore"
 import chroma from "chroma-js"
 import MiniBeat from "./miniBeat"
+import { deepClone } from "../utils"
+
 const StyledBlock = styled.div`
+
   border: 1px solid ${colors.white};
 
   background-color: ${props =>  
@@ -86,7 +89,7 @@ class BeatBlock extends Component {
     const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
     let childHighlight = false
 
-    if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent){
+    if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent && !this.props.arrangmentBlock){
       childHighlight = true
     }
 
@@ -96,12 +99,16 @@ class BeatBlock extends Component {
       const hightlightedIdData = familyStore.currentHighlightedParent.split(".")
       const highlightedBeat = familyStore.allGenerations[hightlightedIdData[0]][hightlightedIdData[1]]
 
-      if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey){
+      if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey && !this.props.arrangementBlock){
         parentHighlight = true
       }
 
     }
-    
+    let currentBeat = deepClone(familyStore.allGenerations[generation][beatNum])
+    console.log("block props" ,this.props)
+    if(!this.props.isCurrentBeat){
+      currentBeat.activeNotes = new Array(16).fill(false)
+    }
     return (
         <StyledBlock
           highlight = {this.props.highlight}
@@ -116,7 +123,7 @@ class BeatBlock extends Component {
           /> 
           <p>{this.props.beatKey}</p>
           <MiniBeat 
-          beat={familyStore.allGenerations[generation][beatNum]}
+          beat={currentBeat}
           />
           <DeleteBlockButton onClick={(e) => {
             this.props.deleteBlock()

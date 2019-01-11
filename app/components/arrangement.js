@@ -137,6 +137,8 @@ class Arrangement extends Component {
           beatKey   = {beatKey}
           deleteBlock = {() => { this.deleteBlock(i) }}
           handleMoveBeat = {this.handleMoveBeat}
+          isCurrentBeat = {highlight}
+          arrangementBlock = {true}
         >
           <Player
             beat       = {currentBeat}
