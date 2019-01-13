@@ -18,6 +18,8 @@ import Beat from "./components/beat"
 import Button from "./components/button"
 import NewBeatManager from "./components/newBeatManager"
 
+import Tooltip from "./components/tooltip"
+
 
 @observer
 class BeatDisplay extends Component {
@@ -59,14 +61,17 @@ class BeatDisplay extends Component {
     return (
       <div>
         <div>
-          <Button
-            style={{marginRight: "15px"}}
-            color={[colors.green.base]}
-            onClick={() => { familyStore.addEmptyBeatToCurrentGeneration () }}
-            title="Add a new empty or preset template beat to the current generation"
-          >
-            + New Empty Beat
-          </Button>
+          <Tooltip
+            position="bottom"
+            text="Add a new empty beat to the current generation">
+            <Button
+              style={{marginRight: "15px"}}
+              color={[colors.green.base]}
+              onClick={() => { familyStore.addEmptyBeatToCurrentGeneration () }}
+            >
+              + New Empty Beat
+            </Button>
+          </Tooltip>
 
           <Button
             color={[colors.green.base]}
