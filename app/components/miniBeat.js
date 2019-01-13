@@ -34,8 +34,6 @@ const StyledBeat = styled.div`
   padding: 5px;
 `
 
-
-
 const TableRow = styled.div`
   display: table-row;
   width: 100%;
@@ -49,12 +47,11 @@ class MiniBeat extends Component {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <MiniTrack
-          key        = {`${this.props.beat.key}.${i}`}
-          trackNum   = {i}
-          track      = {track}
-          beatKey = {this.props.beat.key}
+          key         = {`${this.props.beat.key}.${i}`}
+          trackNum    = {i}
+          track       = {track}
+          beatKey     = {this.props.beat.key}
           activeNotes = {this.props.beat.activeNotes}
-
         />
       )
     })
@@ -106,9 +103,7 @@ class MiniTrack extends Component {
 
     return (
       <StyledTrack>
-
-          {notes}
-
+        {notes}
       </StyledTrack>
     )
   }

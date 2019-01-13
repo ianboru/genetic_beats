@@ -1,5 +1,8 @@
 import React, { Component } from "react"
 import { toJS } from "mobx"
+import {observer} from "mobx-react"
+import styled from "styled-components"
+import chroma from "chroma-js"
 
 import {
   MdPlayArrow,
@@ -7,25 +10,27 @@ import {
   MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
-import styled from "styled-components"
-import { colors } from "../colors"
-import {observer} from "mobx-react"
+
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
 import arrangementStore from "../stores/arrangementStore"
-import chroma from "chroma-js"
+
 import MiniBeat from "./miniBeat"
+import Player from "./player"
+
+import { colors } from "../colors"
 import { deepClone } from "../utils"
+
 
 const StyledBlock = styled.div`
 
   border: 1px solid ${colors.white};
 
-  background-color: ${props =>  
-    props.childHighlight ? 
-    colors.yellow.dark : props.highlight ? 
+  background-color: ${props =>
+    props.childHighlight ?
+    colors.yellow.dark : props.highlight ?
     colors.gray.light : props.parentHighlight ?
-    colors.blue.lighter : "e9573f" 
+    colors.blue.lighter : "e9573f"
   };
   display: inline-block;
   height: 100%;
@@ -68,11 +73,13 @@ class BeatBlock extends Component {
   handleHover = ()=>{
     familyStore.updateCurrentHighlightedParent(this.props.beatKey)
   }
+
   handleClickBeat = (beatKey) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
   }
+
   handleClickPlay = () => {
     const beatKey = this.props.beatKey
     const idData = beatKey.split(".")
@@ -81,12 +88,14 @@ class BeatBlock extends Component {
     playingStore.toggleBeatPlayer(beatKey)
     familyStore.inactivateNotes(beatKey)
   }
+
   render() {
     const idData = this.props.beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
-    const beat = familyStore.allGenerations[generation][beatNum]
+    const beat = deepClone(familyStore.allGenerations[generation][beatNum])
     const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
+
     let childHighlight = false
 
     if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent && !this.props.arrangmentBlock){
@@ -102,37 +111,43 @@ class BeatBlock extends Component {
       if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey && !this.props.arrangementBlock){
         parentHighlight = true
       }
-
     }
-    let currentBeat = deepClone(familyStore.allGenerations[generation][beatNum])
+
     console.log("block props" ,this.props)
     if(!this.props.isCurrentBeat){
-      currentBeat.activeNotes = new Array(16).fill(false)
+      beat.activeNotes = new Array(16).fill(false)
     }
+
     return (
-        <StyledBlock
-          highlight = {this.props.highlight}
-          childHighlight = {childHighlight}
-          parentHighlight = {parentHighlight}
-          onMouseEnter   = {this.handleHover}
-        >
-          <PlayStopButton
-            size    = {30}
-            onClick = {this.handleClickPlay}
-            style={{verticalAlign: "middle", "marginBottom" : "15px"}}
-          /> 
-          <p>{this.props.beatKey}</p>
-          <MiniBeat 
-          beat={currentBeat}
-          />
-          <DeleteBlockButton onClick={(e) => {
-            this.props.deleteBlock()
-            e.stopPropagation()
-          }}>
-            &times;
-          </DeleteBlockButton>
-          {this.props.children}
-        </StyledBlock>
+      <StyledBlock
+        highlight = {this.props.highlight}
+        childHighlight = {childHighlight}
+        parentHighlight = {parentHighlight}
+        onMouseEnter   = {this.handleHover}
+      >
+        <PlayStopButton
+          size    = {30}
+          onClick = {this.handleClickPlay}
+          style={{verticalAlign: "middle", "marginBottom" : "15px"}}
+        />
+        <p>{this.props.beatKey}</p>
+        <MiniBeat
+          beat={beat}
+        />
+        <DeleteBlockButton onClick={(e) => {
+          this.props.deleteBlock()
+          e.stopPropagation()
+        }}>
+          &times;
+        </DeleteBlockButton>
+
+        <Player
+          beat       = {this.props.beat}
+          playing    = {this.props.isCurrentBeat && playingStore.beatPlayers[this.props.beat.key]}
+          resolution = {this.props.beat.tracks[0].sequence.length}
+          bars       = {1}
+        />
+      </StyledBlock>
     )
   }
 }

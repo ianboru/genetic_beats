@@ -5,7 +5,6 @@ import chroma from "chroma-js"
 
 import ArrangementControls from "./arrangementControls"
 import Button from "./button"
-import Player from "./player"
 import { toJS } from "mobx"
 
 import store from "../stores/store"
@@ -127,26 +126,19 @@ class Arrangement extends Component {
   render() {
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
-      const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       const currentBeat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
       const highlight = (i === arrangementStore.currentLitBeat )
       return (
         <BeatBlock
           index     = {i}
           key       = {i}
+          beat       = {currentBeat}
           beatKey   = {beatKey}
           deleteBlock = {() => { this.deleteBlock(i) }}
           handleMoveBeat = {this.handleMoveBeat}
           isCurrentBeat = {highlight}
           arrangementBlock = {true}
-        >
-          <Player
-            beat       = {currentBeat}
-            playing    = {highlight && playingStore.beatPlayers[currentBeat.key]}
-            resolution = {currentBeatResolution}
-            bars       = {1}
-          />
-        </BeatBlock>
+        />
       )
     })
 

@@ -41,9 +41,9 @@ class PlayingStore {
         }
       })
     }
-    
     this.beatPlayers[key] = beatPlaying
   }
+
   @action toggleBeatPlayer = (key) =>{
     Object.keys(this.beatPlayers).forEach((currentKey)=>{
       if(currentKey !== key){
@@ -53,6 +53,7 @@ class PlayingStore {
     this.beatPlayers[key] = !this.beatPlayers[key]
     this.resetNoteTimer(key)
   }
+
   @action toggleTrackPreviewer = (index)=> {
     this.trackPreviewers[index] = !this.trackPreviewers[index]
     if(this.trackPreviewers[index]){
@@ -92,7 +93,7 @@ class PlayingStore {
       clearInterval(this.arrangementTimer)
       playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
       this.arrangementTimer = setInterval(()=>{
-        let lastLitBeatKey = arrangementStore.currentLitBeatKey  
+        let lastLitBeatKey = arrangementStore.currentLitBeatKey
         arrangementStore.incrementCurrentLitBeat()
         if(arrangementStore.currentLitBeatKey != lastLitBeatKey){
           playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)

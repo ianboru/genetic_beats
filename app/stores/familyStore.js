@@ -25,6 +25,7 @@ class FamilyStore {
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable currentHighlightedParent = ""
+
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
@@ -263,7 +264,7 @@ class FamilyStore {
     const splitKey = beatKey.split(".")
     let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes
     activeNotes.forEach( (note, i)=>{
-      activeNotes[i] = false
+      activeNotes[i].value = false
     })
   }
   @action addBeatToCurrentGen = (beat) => {
