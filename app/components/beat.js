@@ -94,7 +94,6 @@ const Controls = styled.div`
 @observer
 class Beat extends Component {
   state = {
-    mousedown : false,
     activeMuteAll : false,
     activeSoloAll : false,
   }
@@ -105,10 +104,12 @@ class Beat extends Component {
   }
 
   componentDidMount() {
-    this.playReaction = reaction(
-      () => playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key === this.props.beat.key,
-      (playing) =>  { this.store.resetNoteTimer(playing) }
-    )
+    const isPlaying = () => (playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key === this.props.beat.key)
+
+    this.playReaction = reaction(isPlaying, (playing) => this.store.resetNoteTimer(playing))
+    if (isPlaying()) {
+      this.store.resetNoteTimer(true)
+    }
   }
 
   componentWillUnmount() {

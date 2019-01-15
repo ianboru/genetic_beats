@@ -15,7 +15,6 @@ class BeatStore {
 
   // ACTIONS
   @action incrementLitNote = () => {
-    console.log("INCREMENT")
     this.litNote = (this.litNote + 1) % BEAT_LENGTH
 
     this.activeNotes.forEach( (note, i) => {
@@ -40,11 +39,8 @@ class BeatStore {
     if (playing) {
       const msPerBeat = 1 / (playingStore.tempo / 60 / 1000)
       const msPerNote = msPerBeat * 4 / BEAT_LENGTH
-
-      console.log("START TIMER")
       this.noteTimer = setInterval(this.incrementLitNote, msPerNote)
     } else {
-      console.log("DISABLE TIMER")
       this.resetLitNote()
     }
   }
