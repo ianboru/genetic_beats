@@ -249,17 +249,6 @@ class FamilyStore {
     }))
   }
 
-  @action changeActiveNote = (beatKey,currentLitNote) => {
-    const splitKey = beatKey.split(".")
-    let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes
-    activeNotes.forEach( (note, i)=>{
-      if(i == currentLitNote){
-        activeNotes[i].value = true
-      }else{
-        activeNotes[i].value = false
-      }
-    })
-  }
   @action inactivateNotes = (beatKey) => {
     const splitKey = beatKey.split(".")
     let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes

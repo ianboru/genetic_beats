@@ -42,7 +42,6 @@ const TableRow = styled.div`
 
 @observer
 class MiniBeat extends Component {
-
   render() {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
@@ -51,7 +50,7 @@ class MiniBeat extends Component {
           trackNum    = {i}
           track       = {track}
           beatKey     = {this.props.beat.key}
-          activeNotes = {this.props.beat.activeNotes}
+          activeNotes = {playingStore.activeNotes}
         />
       )
     })

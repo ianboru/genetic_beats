@@ -26,6 +26,9 @@ class PlayingStore {
   @observable arrangementTimer
   @observable spaceButtonTarget = "currentBeat"
 
+  // Move activeNotes from beat into this store
+  @observable activeNotes = new Array(16).fill().map(() => { return { value: false } })
+
 
   //
   // ACTIONS
@@ -69,7 +72,15 @@ class PlayingStore {
   @action incrementCurrentLitNote = (key) => {
     const splitKey = key.split(".")
     this.currentLitNote = (this.currentLitNote + 1)%familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
-    familyStore.changeActiveNote(key, this.currentLitNote)
+
+    //let activeNotes = familyStore.allGenerations[splitKey[0]][splitKey[1]].activeNotes
+    this.activeNotes.forEach( (note, i)=>{
+      if(i == this.currentLitNote){
+        this.activeNotes[i].value = true
+      }else{
+        this.activeNotes[i].value = false
+      }
+    })
   }
 
   @action resetNoteTimer = (beatKey) => {

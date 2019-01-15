@@ -113,10 +113,7 @@ class BeatBlock extends Component {
       }
     }
 
-    console.log("block props" ,this.props)
-    if(!this.props.isCurrentBeat){
-      beat.activeNotes = new Array(16).fill(false)
-    }
+    const playing = this.props.isCurrentBeat && playingStore.beatPlayers[this.props.beat.key]
 
     return (
       <StyledBlock
@@ -143,7 +140,7 @@ class BeatBlock extends Component {
 
         <Player
           beat       = {this.props.beat}
-          playing    = {this.props.isCurrentBeat && playingStore.beatPlayers[this.props.beat.key]}
+          playing    = {playing}
           resolution = {this.props.beat.tracks[0].sequence.length}
           bars       = {1}
         />
