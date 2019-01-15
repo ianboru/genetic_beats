@@ -32,29 +32,18 @@ class Generation extends Component {
       return (
         <BeatBlock
           index         = {i}
-          beat          = {beat}
-          isCurrentBeat = {true}
           key           = {i}
+          beat          = {beat}
           beatKey       = {currentBeat.key}
-        >
-          <Player
-            beat       = {currentBeat}
-            playing    = {playingStore.beatPlayers[currentBeat.key]}
-            resolution = {currentBeatResolution}
-            bars       = {1}
-          />
-        </BeatBlock>
+          isCurrentBeat = {true}
+        />
       )
     })
 
-    // This variable is accessed inside of a callback so mobx
-    // can't see when it changes I guess.
-
     return (
-     
-        <div>
-          {beatBlocks}
-        </div>
+      <div>
+        {beatBlocks}
+      </div>
     )
   }
 }

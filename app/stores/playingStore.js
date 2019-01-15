@@ -16,7 +16,6 @@ class PlayingStore {
   //
   // STATE
   //
-  @observable playingCurrentBeat = false
   @observable playingArrangement = false
   @observable tempo              = 100
   @observable metronome          = false
@@ -108,7 +107,6 @@ class PlayingStore {
   @action togglePlayCurrentBeat = () => {
     this.spaceButtonTarget = "currentBeat"
     this.toggleBeatPlayer(familyStore.currentBeat.key)
-    //this.playingCurrentBeat = !this.playingCurrentBeat
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
     this.resetNoteTimer(familyStore.currentBeat.key)
