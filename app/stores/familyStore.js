@@ -149,7 +149,6 @@ class FamilyStore {
   }
   @action setScore = (score) => {
     this.currentBeat.score = score
-    this.currentLitNote = 0
     this.updateFamilyInStorage()
   }
   @action killSubsequentGenerations = () => {
@@ -249,13 +248,6 @@ class FamilyStore {
     }))
   }
 
-  @action inactivateNotes = (beatKey) => {
-    const splitKey = beatKey.split(".")
-    let activeNotes = this.allGenerations[splitKey[0]][splitKey[1]].activeNotes
-    activeNotes.forEach( (note, i)=>{
-      activeNotes[i].value = false
-    })
-  }
   @action addBeatToCurrentGen = (beat) => {
     const newBeatNum = this.currentGeneration.length
     const key = `${this.generation}.${newBeatNum}`
@@ -263,7 +255,6 @@ class FamilyStore {
 
     this.allGenerations[this.generation].push({
       ...deepClone(beat),
-      activeNotes: new Array(16).fill().map(() => { return { value: false } }),
       key: key,
       score: 0,
     })
@@ -316,7 +307,6 @@ class FamilyStore {
   }
   @action setScore = (score) => {
     this.currentBeat.score = score
-    playingStore.resetCurrentLitNote()
     this.updateFamilyInStorage()
   }
 }

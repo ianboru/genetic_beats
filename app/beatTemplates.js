@@ -2,7 +2,6 @@ export default [{
         key: "0.0",
         name: "Hip hop 1",
         score: 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         tracks: [{
                 trackType: "sampler",
                 sample: "samples/kick.wav",
@@ -30,7 +29,6 @@ export default [{
         key: "0.1",
         name: "Synth 1",
         score: 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         tracks: [{
                 trackType: "synth",
                 synthType: "square",
@@ -64,7 +62,6 @@ export default [{
     {
         "name": "Buzzanova",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "trackType": "sampler",
             "sample": "samples/hi_hat.wav",
@@ -85,7 +82,6 @@ export default [{
     {
         "name": "Blip Hop",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "trackType": "sampler",
             "sample": "samples/hi_hat.wav",
@@ -116,7 +112,6 @@ export default [{
     {
         "name": "Hard Boom Bap",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "trackType": "sampler",
             "sample": "samples/Kicks/Cymatics - Trap Kick 1 - C.wav",
@@ -141,7 +136,6 @@ export default [{
     {
         "name": "Ching Bap",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "trackType": "sampler",
             "sample": "samples/Percussion/Cymatics - Synth Perc 28.wav",
@@ -166,7 +160,6 @@ export default [{
     {
         "name": "Cowbellnova",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "trackType": "sampler",
             "sample": "samples/kick.wav",
@@ -191,7 +184,6 @@ export default [{
     {
         "name": "Minor Street",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "sample": "c2",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -218,7 +210,6 @@ export default [{
     {
         "name": "Minor Street 2",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "sample": "c2",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -258,7 +249,6 @@ export default [{
     {
         "name": "Beachin",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "sample": "c3",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -297,7 +287,6 @@ export default [{
     {
         "name": "Flute Skeleton",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "sample": "b3",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -324,7 +313,6 @@ export default [{
     {
         "name": "Flute Full",
         "score": 0,
-        activeNotes: new Array(16).fill().map(() => { return { value: false } }),
         "tracks": [{
             "sample": "b3",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

@@ -65,7 +65,6 @@ const mateGeneration = (generation) => {
 
 const matePair = (momBeat, dadBeat) => {
   let childBeat = {
-    activeNotes: new Array(16).fill().map(() => { return { value: false } }),
     tracks      : [],
     score       : 0,
     momKey      : momBeat.key,

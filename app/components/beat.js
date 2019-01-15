@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-import { toJS } from "mobx"
+import { reaction, toJS } from "mobx"
 
 import { MdAdd } from "react-icons/md"
 import Player from "./player"
@@ -19,6 +19,7 @@ import Track from "./track"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
+import BeatStore from "../stores/BeatStore"
 
 import { colors } from "../colors"
 
@@ -96,6 +97,23 @@ class Beat extends Component {
     mousedown : false,
     activeMuteAll : false,
     activeSoloAll : false,
+  }
+
+  constructor(props) {
+    super(props)
+    this.store = new BeatStore()
+  }
+
+  componentDidMount() {
+    this.playReaction = reaction(
+      () => playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key === this.props.beat.key,
+      (playing) =>  { this.store.resetNoteTimer(playing) }
+    )
+  }
+
+  componentWillUnmount() {
+    this.playReaction()
+    this.store.resetNoteTimer(false)
   }
 
   handleEdit = (track, note) => {
@@ -188,18 +206,20 @@ class Beat extends Component {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
-          key        = {`${this.props.beat.key}.${i}`}
-          trackNum   = {i}
-          track      = {track}
-          handleEdit = {this.handleEdit}
-          handleRemoveTrack = {this.props.handleRemoveTrack}
+          key                = {`${this.props.beat.key}.${i}`}
+          trackNum           = {i}
+          track              = {track}
+          handleEdit         = {this.handleEdit}
+          handleRemoveTrack  = {this.props.handleRemoveTrack}
           handleSampleChange = {this.handleSampleChange}
-          handleMuteTrack = {this.handleMuteTrack}
-          handleSoloTrack = {this.handleSoloTrack}
-          activeNotes = {this.props.beat.activeNotes}
+          handleMuteTrack    = {this.handleMuteTrack}
+          handleSoloTrack    = {this.handleSoloTrack}
+          activeNotes        = {this.store.activeNotes}
         />
       )
     })
+
+    const playing = playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key === this.props.beat.key
 
     return (
       <StyledBeat>
@@ -210,7 +230,7 @@ class Beat extends Component {
             ><MdAdd size={25} /></AddToArrangementButton> : null}
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key == this.props.beat.key}
+          playing    = {playing}
           resolution = {familyStore.currentBeatResolution}
         />
         <HeaderTableRow>

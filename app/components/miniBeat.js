@@ -1,8 +1,8 @@
 import React, { Component } from "react"
+import { action, computed, observable, toJS } from "mobx"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-import { toJS } from "mobx"
 
 import { MdAdd } from "react-icons/md"
 import Player from "./player"
@@ -19,6 +19,7 @@ import Track from "./track"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
+import BeatStore from "../stores/BeatStore"
 
 import { colors } from "../colors"
 
@@ -42,6 +43,21 @@ const TableRow = styled.div`
 
 @observer
 class MiniBeat extends Component {
+  constructor(props) {
+    super(props)
+    this.store = new BeatStore()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.playing !== prevProps.playing) {
+      this.store.resetNoteTimer(this.props.playing)
+    }
+  }
+
+  componentWillUnmount() {
+    this.store.resetNoteTimer(false)
+  }
+
   render() {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
@@ -50,7 +66,7 @@ class MiniBeat extends Component {
           trackNum    = {i}
           track       = {track}
           beatKey     = {this.props.beat.key}
-          activeNotes = {playingStore.activeNotes}
+          activeNotes = {this.store.activeNotes}
         />
       )
     })
@@ -58,6 +74,14 @@ class MiniBeat extends Component {
     return (
       <StyledBeat>
         {tracks}
+
+        <Player
+          beat           = {this.props.beat}
+          playing        = {this.props.playing}
+          resolution     = {this.props.beat.tracks[0].sequence.length}
+          bars           = {1}
+          resetNoteTimer = {this.store.resetNoteTimer}
+        />
       </StyledBeat>
     )
   }
@@ -117,7 +141,6 @@ const StyledNote = styled.div`
   height: 6px;
   width: 6px;
   margin: 0;
-  transition: 0.2s background-color;
   vertical-align: middle;
   font-size : 6px;
 `

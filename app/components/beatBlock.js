@@ -86,7 +86,6 @@ class BeatBlock extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
     playingStore.toggleBeatPlayer(beatKey)
-    familyStore.inactivateNotes(beatKey)
   }
 
   render() {
@@ -129,7 +128,8 @@ class BeatBlock extends Component {
         />
         <p>{this.props.beatKey}</p>
         <MiniBeat
-          beat={beat}
+          beat    = {beat}
+          playing = {playing}
         />
         <DeleteBlockButton onClick={(e) => {
           this.props.deleteBlock()
@@ -137,13 +137,6 @@ class BeatBlock extends Component {
         }}>
           &times;
         </DeleteBlockButton>
-
-        <Player
-          beat       = {this.props.beat}
-          playing    = {playing}
-          resolution = {this.props.beat.tracks[0].sequence.length}
-          bars       = {1}
-        />
       </StyledBlock>
     )
   }

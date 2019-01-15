@@ -25,7 +25,6 @@ const StyledNote = styled.div`
   margin: 0;
   font-size: 15px;
   width: 24px;
-  transition: 0.2s background-color;
   vertical-align: middle;
 
   -webkit-touch-callout: none; /* iOS Safari */

@@ -8,9 +8,13 @@ import {
   getNormalProbability,
   calculateSampleDifference ,
 } from "../utils"
+
 import familyStore from "./familyStore"
 import arrangementStore from "./arrangementStore"
+
+
 configure({ enforceActions: "always" })
+
 
 class PlayingStore {
   //
@@ -21,13 +25,8 @@ class PlayingStore {
   @observable metronome          = false
   @observable trackPreviewers    = {}
   @observable beatPlayers        = {}
-  @observable currentLitNote     = 0
-  @observable noteTimer
   @observable arrangementTimer
   @observable spaceButtonTarget = "currentBeat"
-
-  // Move activeNotes from beat into this store
-  @observable activeNotes = new Array(16).fill().map(() => { return { value: false } })
 
 
   //
@@ -53,7 +52,6 @@ class PlayingStore {
       }
     })
     this.beatPlayers[key] = !this.beatPlayers[key]
-    this.resetNoteTimer(key)
   }
 
   @action toggleTrackPreviewer = (index)=> {
@@ -62,38 +60,6 @@ class PlayingStore {
       setTimeout(()=>{
         this.toggleTrackPreviewer([index])
       }, 1000)
-    }
-  }
-
-  @action resetCurrentLitNote = () => {
-    this.currentLitNote =  0
-  }
-
-  @action incrementCurrentLitNote = (key) => {
-    const splitKey = key.split(".")
-    this.currentLitNote = (this.currentLitNote + 1)%familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
-
-    //let activeNotes = familyStore.allGenerations[splitKey[0]][splitKey[1]].activeNotes
-    this.activeNotes.forEach( (note, i)=>{
-      if(i == this.currentLitNote){
-        this.activeNotes[i].value = true
-      }else{
-        this.activeNotes[i].value = false
-      }
-    })
-  }
-
-  @action resetNoteTimer = (beatKey) => {
-    if(this.beatPlayers[beatKey]){
-      const millisecondsPerBeat = 1/(this.tempo/60/1000)
-      const millisecondsPerNote = millisecondsPerBeat * 4/ familyStore.currentBeat.tracks[0].sequence.length
-      clearInterval(this.noteTimer)
-      this.noteTimer = setInterval(()=>{
-        this.incrementCurrentLitNote(beatKey)
-      }, millisecondsPerNote)
-    }else{
-      clearInterval(this.noteTimer)
-      this.currentLitNote = 0
     }
   }
 
@@ -120,8 +86,8 @@ class PlayingStore {
     this.toggleBeatPlayer(familyStore.currentBeat.key)
     this.playingArrangement = false
     clearInterval(this.arrangementTimer)
-    this.resetNoteTimer(familyStore.currentBeat.key)
   }
+
   @action togglePlay = () => {
     if(this.spaceButtonTarget == "currentBeat"){
       this.togglePlayCurrentBeat()
@@ -134,36 +100,29 @@ class PlayingStore {
     this.spaceButtonTarget = "currentArrangement"
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
-    if(!this.playingArrangement){
+    if (!this.playingArrangement) {
       Object.keys(this.beatPlayers).forEach((currentKey)=>{
         this.beatPlayers[currentKey] = false
       })
     }
-    this.resetArrangementTimer()
+    //this.resetArrangementTimer()
   }
-
-
 
   @action setTempo = (tempo) => {
     this.tempo = tempo
-    this.resetNoteTimer(familyStore.currentBeat.key)
-    this.resetArrangementTimer()
+    //this.resetArrangementTimer()
   }
 
   @action toggleMetronome = () => {
     this.metronome = !this.metronome
   }
 
-
-
   @action nextBeat = () => {
     let wasPlaying = this.beatPlayers[familyStore.currentBeat.key]
     this.unmuteUnsoloAll()
     familyStore.incrementBeatNum("up")
-    this.currentLitNote = 0
-    if(wasPlaying){
+    if (wasPlaying) {
       this.toggleBeatPlayer(familyStore.currentBeat.key)
-      this.resetNoteTimer(familyStore.currentBeat.key)
     }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
@@ -174,10 +133,8 @@ class PlayingStore {
     let wasPlaying = this.beatPlayers[familyStore.currentBeat.key]
     this.unmuteUnsoloAll()
     familyStore.incrementBeatNum("down")
-    this.currentLitNote = 0
     if(wasPlaying){
       this.toggleBeatPlayer(familyStore.currentBeat.key)
-      this.resetNoteTimer(familyStore.currentBeat.key)
     }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
