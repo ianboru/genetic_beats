@@ -10,11 +10,12 @@ import { deepClone } from "../utils"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
+import playingStore from "../stores/playingStore"
 
 import Button from "./button"
 import Player from "./player"
 
-
+import BeatBlock from "./beatBlock"
 import {
   MdPlayArrow,
   MdStop,
@@ -56,6 +57,9 @@ class TemplateBeats extends Component {
     }
 
     const presetOptions = beatTemplates.map( (beat, i) => {
+      if(!playingStore.beatPlayers[beat.key]){
+        playingStore.addBeatPlayer[beat.key]
+      }
       const PlayStopButton = this.state.playingPresets[i] ? MdStop : MdPlayArrow
       return (
         <StyledPresetOption key={i}>
@@ -64,12 +68,11 @@ class TemplateBeats extends Component {
             onClick = {()=>{this.togglePlayPreset(i)}}
           />
 
-          <Player
-            beat       = {beat}
-            playing    = {this.state.playingPresets[i]}
-            resolution = {beat.tracks[0].sequence.length}
-            bars       = {1}
-          />
+          <BeatBlock
+            index     = {i}
+            key       = {i}
+            beat = {beat}
+          / >
 
           <Button
             large

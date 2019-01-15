@@ -71,7 +71,9 @@ const DeleteBlockButton = styled.div`
 @observer
 class BeatBlock extends Component {
   handleHover = ()=>{
-    familyStore.updateCurrentHighlightedParent(this.props.beatKey)
+    if(this.props.arrangementBlock){
+      familyStore.updateCurrentHighlightedParent(this.props.beat.key)
+    }
   }
 
   handleClickBeat = (beatKey) => {
@@ -81,7 +83,7 @@ class BeatBlock extends Component {
   }
 
   handleClickPlay = () => {
-    const beatKey = this.props.beatKey
+    const beatKey = this.props.beat.key
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
@@ -89,11 +91,11 @@ class BeatBlock extends Component {
   }
 
   render() {
-    const idData = this.props.beatKey.split(".")
-    const generation = parseInt(idData[0])
-    const beatNum = parseInt(idData[1])
-    const beat = deepClone(familyStore.allGenerations[generation][beatNum])
-    const PlayStopButton = playingStore.beatPlayers[this.props.beatKey] ? MdStop : MdPlayArrow
+    console.log("beat block " ,this.props.beat)
+    const beatKey = beatKey
+
+    const beat = deepClone(this.props.beat)
+    const PlayStopButton = playingStore.beatPlayers[beatKey] ? MdStop : MdPlayArrow
 
     let childHighlight = false
 
@@ -126,7 +128,7 @@ class BeatBlock extends Component {
           onClick = {this.handleClickPlay}
           style={{verticalAlign: "middle", "marginBottom" : "15px"}}
         />
-        <p>{this.props.beatKey}</p>
+        <p>{beatKey}</p>
         <MiniBeat
           beat    = {beat}
           playing = {playing}
