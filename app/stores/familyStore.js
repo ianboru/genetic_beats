@@ -56,35 +56,10 @@ class FamilyStore {
 
   @action updateCurrentHighlightedParent = (beatKey)=>{
     this.currentHighlightedParent = beatKey
-    console.log("highlighted " ,this.currentHighlightedParent)
-  }
-  @action toggleSelectPairMode = () => {
-    this.selectPairMode = !this.selectPairMode
-    this.selectedBeats = []
   }
 
   @action setGeneration = (generation) => {
     this.generation = generation
-  }
-
-  @action selectFamily = (familyName) => {
-    this.familyName = familyName
-    // SIDE EFFECT
-    const familyData = JSON.parse(localStorage.getItem(familyName))
-    this.allGenerations = familyData.family
-    this.arrangements = familyData.arrangements
-    this.currentArrangementIndex = 0
-    this.beatNum = 0
-    this.generation = 0
-
-    const familyNames = JSON.parse(localStorage.getItem("familyNames"))
-    this.familyNames = familyNames
-  }
-
-
-  @action clearSavedFamilies = (state) => {
-    // SIDE EFFECT
-    localStorage.clear()
   }
 
   @action updateFamilyInStorage = () => {
@@ -117,36 +92,6 @@ class FamilyStore {
   }
 
 
-  @action addTrackToCurrentBeat = (track) => {
-    if(this.numSolo > 0){
-      track.mute = true
-    }
-    this.currentBeat.tracks.forEach((track)=>{
-      playingStore.trackPreviewers[track.sample] = false
-    })
-    this.currentBeat.tracks.push(track)
-  }
-  @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
-    const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] = newNote
-    this.updateFamilyInStorage()
-  }
-
-  @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
-    // set new sample
-    this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
-    this.updateFamilyInStorage()
-  }
-
-  @action removeTrackFromBeat = (generation, beatNum, trackNum) => {
-    this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
-    this.updateFamilyInStorage()
-  }
-  @action setScore = (score) => {
-    this.currentBeat.score = score
-    this.updateFamilyInStorage()
-  }
-
   @action selectBeat = (generation, beatNum) => {
     const selectedKey = `${generation}.${beatNum}`
     this.generation = generation
@@ -161,20 +106,6 @@ class FamilyStore {
     }
   }
 
-  @action selectFamily = (familyName) => {
-    this.familyName = familyName
-    // SIDE EFFECT
-    const familyData = JSON.parse(localStorage.getItem(familyName))
-    this.allGenerations = familyData.family
-    this.arrangements = familyData.arrangements
-    this.currentArrangementIndex = 0
-    this.beatNum = 0
-    this.generation = 0
-
-    const familyNames = JSON.parse(localStorage.getItem("familyNames"))
-    this.familyNames = familyNames
-  }
-
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
     this.arrangements = [ [] ]
@@ -184,10 +115,6 @@ class FamilyStore {
   @action toggleSelectPairMode = () => {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
-  }
-
-  @action setGeneration = (generation) => {
-    this.generation = generation
   }
 
   @action selectFamily = (familyName) => {
@@ -275,6 +202,7 @@ class FamilyStore {
     this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
     this.updateFamilyInStorage()
   }
+
   @action setScore = (score) => {
     this.currentBeat.score = score
     this.updateFamilyInStorage()

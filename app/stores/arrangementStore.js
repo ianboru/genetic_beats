@@ -6,7 +6,7 @@ import playingStore from "./playingStore"
 
 import {
   getNormalProbability,
-  calculateSampleDifference ,
+  calculateSampleDifference,
 } from "../utils"
 
 
