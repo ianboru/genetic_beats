@@ -8,7 +8,7 @@ const BEAT_LENGTH = 16
 
 class BeatStore {
   // STATE
-  @observable activeNotes = new Array(16).fill().map(() => { return { value: false } })
+  @observable activeNotes = new Array(BEAT_LENGTH).fill().map(() => { return { value: false } })
   @observable litNote = 0
   @observable noteTimer
 

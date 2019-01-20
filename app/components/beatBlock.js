@@ -85,11 +85,8 @@ class BeatBlock extends Component {
 
 
   render() {
-    console.log("beat block " ,this.props.beat)
-    const beatKey = beatKey
-
     const beat = deepClone(this.props.beat)
-    const PlayStopButton = playingStore.beatPlayers[beatKey] ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.beatPlayers[beat.key] ? MdStop : MdPlayArrow
 
     let childHighlight = false
 
@@ -120,7 +117,7 @@ class BeatBlock extends Component {
           onClick = {this.props.handleClickPlay}
           style={{verticalAlign: "middle", "marginBottom" : "15px"}}
         />
-        <p>{beatKey}</p>
+        <p>{beat.key}</p>
         <MiniBeat
           beat    = {beat}
           playing = {this.props.playing}
