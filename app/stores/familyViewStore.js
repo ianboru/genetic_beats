@@ -19,10 +19,7 @@ class FamilyViewStore {
       if(key !== beatKey){
         this.playingBeats[key] = false
       }
-      console.log(key, this.playingBeats[key])
-
     })
-    console.log("toggled", beatKey, toJS(this.playingBeats))
   }
 }
 
