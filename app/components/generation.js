@@ -14,6 +14,8 @@ import { toJS } from "mobx"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
+import familyViewStore from "../stores/familyViewStore"
+
 import playingStore from "../stores/playingStore"
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
@@ -22,21 +24,27 @@ import { colors } from "../colors"
 
 @observer
 class Generation extends Component {
+  /*
+  Decide on local vs global instance. 
+  constructor(props){
+    super(props)
+    this.familyViewStore = new FamilyViewStore()
 
+  }*/
+  handleClickPlay = (beatKey) => {
+    
+    familyViewStore.togglePlayingBeat(beatKey)
+  }
   render() {
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
-      let splitKey = currentBeat.key.split(".")
-
-      const beat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
-
-      const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       return (
         <BeatBlock
           index         = {i}
           key           = {i}
-          beat          = {beat}
-          beatKey       = {currentBeat.key}
+          beat          = {currentBeat}
           isCurrentBeat = {true}
+          handleClickPlay = {()=>{this.handleClickPlay(currentBeat.key)}}
+          playing = {familyViewStore.playingBeats[currentBeat.key]}
         />
       )
     })

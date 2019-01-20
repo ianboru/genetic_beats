@@ -22,7 +22,6 @@ class TemplateBeatViewStore {
         this.playingBeats[index].value = false
       }
     })
-    console.log("toggled", beatIndex, toJS(this.playingBeats))
   }
 }
 

@@ -55,7 +55,6 @@ class TemplateBeats extends Component {
   }
 
   handleClickPlay = (i) => {
-    console.log("clicking play", i)
     this.templateStore.togglePlayingBeat(i)
   }
   render() {
@@ -64,9 +63,7 @@ class TemplateBeats extends Component {
     }
 
     const presetOptions = beatTemplates.map( (beat, i) => {
-      if(!playingStore.beatPlayers[beat.key]){
-        playingStore.addBeatPlayer[beat.key]
-      }
+
       return (
         <StyledPresetOption key={i}>
           <Button

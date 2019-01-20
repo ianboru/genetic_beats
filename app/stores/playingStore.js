@@ -33,7 +33,6 @@ class PlayingStore {
   // ACTIONS
   //
   @action addBeatPlayer = (key) =>{
-    console.log("adding beat " ,  key)
     let beatPlaying = false
     if(Object.keys(this.beatPlayers).length > 0){
       Object.keys(this.beatPlayers).forEach((currentKey)=>{
