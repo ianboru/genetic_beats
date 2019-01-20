@@ -45,16 +45,19 @@ class NewBeatManager extends Component {
     }
     return (
       <StyledNewBeatPanel>
+        <NewBeatHeader style={{fontSize : "25pt"}}>
+          Genetic Beats
+        </NewBeatHeader>
+        <NewBeatHeader style={{fontSize : "20pt"}}>
+          start your beat family 
+        </NewBeatHeader>
         <div>
-          <NewBeatHeader style={{fontSize : "25pt"}}>
-            Add a Beat
-          </NewBeatHeader>
           <Button
             large
             color={[colors.green.base, chroma("green").brighten(1.2)]}
             onClick={this.addEmptyBeat}
           >
-              New Empty Beat
+              Add Empty Beat
           </Button>
           &nbsp; or &nbsp;
           <Button
@@ -64,7 +67,7 @@ class NewBeatManager extends Component {
               this.setState({ redirectToTemplateBeats : true })
             }}
           >
-            Template Beat
+            Add Preset Beat
           </Button>
         </div>
       </StyledNewBeatPanel>
