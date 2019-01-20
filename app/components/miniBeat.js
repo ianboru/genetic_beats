@@ -45,17 +45,17 @@ const TableRow = styled.div`
 class MiniBeat extends Component {
   constructor(props) {
     super(props)
-    this.store = new BeatStore()
+    this.beatStore = new BeatStore()
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.playing !== prevProps.playing) {
-      this.store.resetNoteTimer(this.props.playing)
+      this.beatStore.resetNoteTimer(this.props.playing)
     }
   }
 
   componentWillUnmount() {
-    this.store.resetNoteTimer(false)
+    this.beatStore.resetNoteTimer(false)
   }
 
   render() {
@@ -66,7 +66,7 @@ class MiniBeat extends Component {
           trackNum    = {i}
           track       = {track}
           beatKey     = {this.props.beat.key}
-          activeNotes = {this.store.activeNotes}
+          activeNotes = {this.beatStore.activeNotes}
         />
       )
     })
@@ -80,7 +80,7 @@ class MiniBeat extends Component {
           playing        = {this.props.playing}
           resolution     = {this.props.beat.tracks[0].sequence.length}
           bars           = {1}
-          resetNoteTimer = {this.store.resetNoteTimer}
+          resetNoteTimer = {this.beatStore.resetNoteTimer}
         />
       </StyledBeat>
     )

@@ -24,10 +24,11 @@ import { colors } from "../colors"
 class Generation extends Component {
 
   render() {
-
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
       let splitKey = currentBeat.key.split(".")
+
       const beat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
+
       const currentBeatResolution = familyStore.allGenerations[splitKey[0]][splitKey[1]].tracks[0].sequence.length
       return (
         <BeatBlock

@@ -95,19 +95,14 @@ class FamilyStore {
       arrangements : this.arrangements,
     }))
   }
+
   @action addGeneration = (newGeneration) => {
     this.allGenerations.push(newGeneration)
     this.generation++
     this.beatNum = 0
-    playingStore.resetNoteTimer()
     this.updateFamilyInStorage()
   }
 
-  @action killSubsequentGenerations = () => {
-    this.allGenerations = this.allGenerations.slice(0, this.generation+1)
-    // #TODO MOVE TO ARRANGEMNTSOTRE this.arrangements = [ [] ]
-    //this.currentArrangementIndex = 0
-  }
   @action incrementBeatNum = (direction) => {
     const currentGeneration = this.allGenerations[this.generation]
     if(direction === "up"){
@@ -151,17 +146,11 @@ class FamilyStore {
     this.currentBeat.score = score
     this.updateFamilyInStorage()
   }
-  @action killSubsequentGenerations = () => {
-    this.allGenerations = this.allGenerations.slice(0, this.generation+1)
-    this.arrangements = [ [] ]
-    this.currentArrangementIndex = 0
-  }
 
   @action selectBeat = (generation, beatNum) => {
     const selectedKey = `${generation}.${beatNum}`
     this.generation = generation
     this.beatNum = beatNum
-    playingStore.resetNoteTimer()
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
@@ -170,15 +159,6 @@ class FamilyStore {
     } else {
       this.selectedBeats = [selectedKey]
     }
-  }
-
-  @action toggleSelectPairMode = () => {
-    this.selectPairMode = !this.selectPairMode
-    this.selectedBeats = []
-  }
-
-  @action setGeneration = (generation) => {
-    this.generation = generation
   }
 
   @action selectFamily = (familyName) => {
@@ -193,15 +173,6 @@ class FamilyStore {
 
     const familyNames = JSON.parse(localStorage.getItem("familyNames"))
     this.familyNames = familyNames
-  }
-
-
-  @action addGeneration = (newGeneration) => {
-    this.allGenerations.push(newGeneration)
-    this.generation++
-    this.beatNum = 0
-    playingStore.resetNoteTimer()
-    this.updateFamilyInStorage()
   }
 
   @action killSubsequentGenerations = () => {
