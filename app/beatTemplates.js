@@ -1,5 +1,5 @@
 export default [{
-        key: "template0",
+        key: "Hip hop 1",
         name: "Hip hop 1",
         score: 0,
         tracks: [{
@@ -26,7 +26,7 @@ export default [{
         ],
     },
     {
-        key: "template1",
+        key: "Synth 1",
         name: "Synth 1",
         score: 0,
         tracks: [{
@@ -77,7 +77,7 @@ export default [{
             "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
             "trackType": "sampler"
         }],
-        "key": "template2"
+        "key": "Buzzanova"
     },
     {
         "name": "Blip Hop",
@@ -107,7 +107,7 @@ export default [{
             "mute": false,
             "solo": false
         }],
-        "key": "template3"
+        "key": "Blip Hop"
     },
     {
         "name": "Hard Boom Bap",
@@ -131,7 +131,7 @@ export default [{
             "mute": false,
             "solo": false
         }],
-        "key": "template4"
+        "key": "Hard Boom Bap"
     },
     {
         "name": "Ching Bap",
@@ -155,7 +155,7 @@ export default [{
             "mute": false,
             "solo": false
         }],
-        "key": "template5"
+        "key": "Ching Bap"
     },
     {
         "name": "Cowbellnova",
@@ -179,7 +179,7 @@ export default [{
             "mute": false,
             "solo": false
         }],
-        "key": "template6"
+        "key": "Cowbellnova"
     },
     {
         "name": "Minor Street",
@@ -205,7 +205,7 @@ export default [{
             "trackType": "synth",
             "synthType": "sine"
         }],
-        "key": "template7"
+        "key": "Minor Street"
     },
     {
         "name": "Minor Street 2",
@@ -244,7 +244,7 @@ export default [{
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "sampler"
         }],
-        "key": "template8"
+        "key": "Minor Street 2"
     },
     {
         "name": "Beachin",
@@ -282,7 +282,7 @@ export default [{
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             "trackType": "sampler"
         }],
-        "key": "template9"
+        "key": "Beachin"
     },
     {
         "name": "Flute Skeleton",
@@ -308,7 +308,7 @@ export default [{
             "trackType": "synth",
             "synthType": "sine"
         }],
-        "key": "template10"
+        "key": "Flute Skeleton"
     },
     {
         "name": "Flute Full",
@@ -346,6 +346,6 @@ export default [{
             "sequence": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0],
             "trackType": "sampler"
         }],
-        "key": "template11"
+        "key": "Flute Full"
     }
 ]

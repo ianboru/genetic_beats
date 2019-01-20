@@ -17,10 +17,15 @@ class TemplateBeatViewStore {
   //
   @action togglePlayingBeat = (beatIndex) =>{
     this.playingBeats[beatIndex].value = !this.playingBeats[beatIndex].value
+    this.playingBeats.forEach((playing, index)=>{
+      if(playing.value && index !== beatIndex){
+        this.playingBeats[index].value = false
+      }
+    })
     console.log("toggled", beatIndex, toJS(this.playingBeats))
   }
 }
 
-const templateBeatViewStore = new TemplateBeatViewStore()
 
-export default templateBeatViewStore
+
+export default TemplateBeatViewStore

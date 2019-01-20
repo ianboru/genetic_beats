@@ -11,7 +11,7 @@ import { deepClone } from "../utils"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-import templateBeatViewStore from "../stores/templateBeatViewStore"
+import TemplateBeatViewStore from "../stores/templateBeatViewStore"
 
 import Button from "./button"
 import Player from "./player"
@@ -33,14 +33,16 @@ const StyledPresetOption = styled.div`
   border: 1px solid white;
 `
 
-
 @observer
 class TemplateBeats extends Component {
   state = {
     redirectToBeatTab  : false,
     playingPresets : beatTemplates.map(()=>{false}),
   }
-
+  constructor(props){
+    super(props)
+    this.templateStore = new TemplateBeatViewStore()
+  }
   togglePlayPreset = (beatIndex)=>{
     const playingPresets = this.state.playingPresets.map((preset,i) => {
       if (beatIndex == i) {
@@ -54,7 +56,7 @@ class TemplateBeats extends Component {
 
   handleClickPlay = (i) => {
     console.log("clicking play", i)
-    templateBeatViewStore.togglePlayingBeat(i)
+    this.templateStore.togglePlayingBeat(i)
   }
   render() {
     if (this.state.redirectToBeatTab) {
@@ -65,7 +67,6 @@ class TemplateBeats extends Component {
       if(!playingStore.beatPlayers[beat.key]){
         playingStore.addBeatPlayer[beat.key]
       }
-      const PlayStopButton = this.state.playingPresets[i] ? MdStop : MdPlayArrow
       return (
         <StyledPresetOption key={i}>
           <Button
@@ -76,8 +77,9 @@ class TemplateBeats extends Component {
               this.setState({ redirectToBeatTab: true })
             }}
           >
-            {beat.name}
+            Add
           </Button>
+          <br/>
           <BeatBlock
             index     = {i}
             key       = {i}
@@ -85,7 +87,7 @@ class TemplateBeats extends Component {
             handleClickPlay = {()=>{
               this.handleClickPlay(i)
             }}
-            playing = {templateBeatViewStore.playingBeats[i].value}
+            playing = {this.templateStore.playingBeats[i].value}
           / >
           
         </StyledPresetOption>

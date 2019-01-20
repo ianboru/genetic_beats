@@ -10,7 +10,6 @@ import {
   MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
-import templateBeatViewStore from "../stores/templateBeatViewStore"
 
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
@@ -86,7 +85,7 @@ class BeatBlock extends Component {
 
   render() {
     const beat = deepClone(this.props.beat)
-    const PlayStopButton = playingStore.beatPlayers[beat.key] ? MdStop : MdPlayArrow
+    const PlayStopButton = this.props.playing ? MdStop : MdPlayArrow
 
     let childHighlight = false
 
