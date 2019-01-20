@@ -11,6 +11,7 @@ import { deepClone } from "../utils"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
+import templateBeatViewStore from "../stores/templateBeatViewStore"
 
 import Button from "./button"
 import Player from "./player"
@@ -51,6 +52,10 @@ class TemplateBeats extends Component {
     this.setState({ playingPresets })
   }
 
+  handleClickPlay = (i) => {
+    console.log("clicking play", i)
+    templateBeatViewStore.togglePlayingBeat(i)
+  }
   render() {
     if (this.state.redirectToBeatTab) {
       return <Redirect to="/" />
@@ -63,17 +68,6 @@ class TemplateBeats extends Component {
       const PlayStopButton = this.state.playingPresets[i] ? MdStop : MdPlayArrow
       return (
         <StyledPresetOption key={i}>
-          <PlayStopButton
-            size    = {40}
-            onClick = {()=>{this.togglePlayPreset(i)}}
-          />
-
-          <BeatBlock
-            index     = {i}
-            key       = {i}
-            beat = {beat}
-          / >
-
           <Button
             large
             color={[colors.green.base, chroma("green").brighten(1.2)]}
@@ -84,6 +78,16 @@ class TemplateBeats extends Component {
           >
             {beat.name}
           </Button>
+          <BeatBlock
+            index     = {i}
+            key       = {i}
+            beat = {beat}
+            handleClickPlay = {()=>{
+              this.handleClickPlay(i)
+            }}
+            playing = {templateBeatViewStore.playingBeats[i].value}
+          / >
+          
         </StyledPresetOption>
       )
     })

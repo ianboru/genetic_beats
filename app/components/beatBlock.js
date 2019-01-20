@@ -10,6 +10,7 @@ import {
   MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
+import templateBeatViewStore from "../stores/templateBeatViewStore"
 
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
@@ -82,13 +83,6 @@ class BeatBlock extends Component {
     const beatNum = parseInt(idData[1])
   }
 
-  handleClickPlay = () => {
-    const beatKey = this.props.beat.key
-    const idData = beatKey.split(".")
-    const generation = parseInt(idData[0])
-    const beatNum = parseInt(idData[1])
-    playingStore.toggleBeatPlayer(beatKey)
-  }
 
   render() {
     console.log("beat block " ,this.props.beat)
@@ -114,8 +108,6 @@ class BeatBlock extends Component {
       }
     }
 
-    const playing = this.props.isCurrentBeat && playingStore.beatPlayers[this.props.beat.key]
-
     return (
       <StyledBlock
         highlight = {this.props.highlight}
@@ -125,13 +117,13 @@ class BeatBlock extends Component {
       >
         <PlayStopButton
           size    = {30}
-          onClick = {this.handleClickPlay}
+          onClick = {this.props.handleClickPlay}
           style={{verticalAlign: "middle", "marginBottom" : "15px"}}
         />
         <p>{beatKey}</p>
         <MiniBeat
           beat    = {beat}
-          playing = {playing}
+          playing = {this.props.playing}
         />
         <DeleteBlockButton onClick={(e) => {
           this.props.deleteBlock()
