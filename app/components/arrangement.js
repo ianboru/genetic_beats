@@ -10,7 +10,6 @@ import { toJS } from "mobx"
 import store from "../stores/store"
 import arrangementStore from '../stores/arrangementStore'
 import familyStore from "../stores/familyStore"
-import playingStore from "../stores/playingStore"
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
 

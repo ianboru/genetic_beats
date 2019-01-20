@@ -58,7 +58,6 @@ const HeaderTableRow = styled(TableRow)`
   }
 `
 
-
 const AddToArrangementButton = styled.button`
   position: absolute;
   background: ${colors.yellow.dark};
@@ -78,7 +77,6 @@ const AddToArrangementButton = styled.button`
     background: ${colors.yellow.darker};
   }
 `
-
 
 const Controls = styled.div`
   background: ${colors.gray.light};

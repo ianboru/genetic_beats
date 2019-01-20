@@ -11,20 +11,24 @@ import {
 
 
 class ArrangementStore {
-  @observable arrangements       = [ [] ]
-  @observable showCreateArrangement = false
-  @observable arrangementBeatToAdd = "0.0"
-  @observable currentSong
-  @observable currentArrangementIndex = 0
+  @observable arrangements            = [ [] ]
+  @observable showCreateArrangement   = false
+  @observable arrangementBeatToAdd    = "0.0"
   @observable arrangementBlockPlaying = []
-  @observable currentLitBeat     = 0
+  @observable currentArrangementIndex = 0
+  @observable currentLitBeat          = 0
+  @observable currentSong
+
 
   @computed get currentLitBeatKey() {
     return this.arrangements[this.currentArrangementIndex][this.currentLitBeat]
   }
+
   @computed get currentArrangement() {
     return this.arrangements[this.currentArrangementIndex]
   }
+
+
   @action toggleShowCreateArrangement = () => {
     this.showCreateArrangement = !this.showCreateArrangement
   }
@@ -36,15 +40,19 @@ class ArrangementStore {
       playingStore.togglePlayArrangement()
     }
   }
+
   @action selectArrangement = (index) => {
       this.currentArrangementIndex = index
   }
+
   @action setCurrentLitBeat = (beatNum) => {
     this.currentLitBeat = beatNum
   }
+
   @action incrementCurrentLitBeat = () => {
     this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
   }
+
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
     if(playingStore.playingArrangement){
       playingStore.togglePlayArrangement()
@@ -52,7 +60,8 @@ class ArrangementStore {
     const beatToMove = this.arrangements[this.currentArrangementIndex].splice(currentIndex, 1)
     this.arrangements[this.currentArrangementIndex].splice(destinationIndex, 0, beatToMove[0])
   }
- @action addBeatToArrangement = (beatKey) => {
+
+  @action addBeatToArrangement = (beatKey) => {
     this.arrangements[this.currentArrangementIndex].push(beatKey)
     familyStore.updateFamilyInStorage()
   }
@@ -67,13 +76,16 @@ class ArrangementStore {
     const repeatRateInteger = 40
     let repeatRate = repeatRateInteger/100
     let allScores = []
+
     familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
         allScores.push(beat.score)
       })
     })
+
     allScores = allScores.sort( (a, b) => (a - b) )
     let percentileIndex = Math.floor(allScores.length * controlStore.fitnessPercentile/100) - 1
+
     familyStore.allGenerations.forEach((generation)=>{
       generation.forEach((beat)=>{
         if(beat.score >= allScores[percentileIndex]){
@@ -90,6 +102,7 @@ class ArrangementStore {
         }
       })
     })
+
     if(playingStore.playingArrangement){
       playingStore.togglePlayArrangement()
     }
@@ -203,6 +216,7 @@ class ArrangementStore {
     this.setArrangementBeatToAdd(familyStore.currentBeat.key)
   }
 )*/
+
 const arrangementStore = new ArrangementStore()
 
 
