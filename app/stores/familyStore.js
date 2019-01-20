@@ -5,7 +5,7 @@ import {
 } from "../utils"
 import store from "./store"
 import playingStore from "./playingStore"
-import beatTemplates from "../beatTemplates"
+import starterBeats from "../starterBeats"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
