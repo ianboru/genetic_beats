@@ -75,7 +75,11 @@ class BeatBlock extends Component {
       familyStore.updateCurrentHighlightedParent(this.props.beat.key)
     }
   }
-
+  handleMouseLeave = ()=>{
+    if(this.props.familyBlock){
+      familyStore.updateCurrentHighlightedParent("")
+    }
+  }
   handleClickBeat = (beatKey) => {
     const idData = beatKey.split(".")
     const generation = parseInt(idData[0])
@@ -110,6 +114,8 @@ class BeatBlock extends Component {
         childHighlight = {childHighlight}
         parentHighlight = {parentHighlight}
         onMouseEnter   = {this.handleHover}
+        onMouseLeave   = {this.handleMouseLeave}
+
       >
         <PlayStopButton
           size    = {30}

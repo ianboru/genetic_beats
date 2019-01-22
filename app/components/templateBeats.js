@@ -85,6 +85,7 @@ class TemplateBeats extends Component {
               this.handleClickPlay(i)
             }}
             playing = {this.templateStore.playingBeats[i].value}
+            templateBlock = {true}
           / >
           
         </StyledPresetOption>

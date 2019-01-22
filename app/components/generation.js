@@ -45,6 +45,7 @@ class Generation extends Component {
           isCurrentBeat = {true}
           handleClickPlay = {()=>{this.handleClickPlay(currentBeat.key)}}
           playing = {familyViewStore.playingBeats[currentBeat.key]}
+          familyBlock = {true}
         />
       )
     })
