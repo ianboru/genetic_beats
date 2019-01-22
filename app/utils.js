@@ -4,14 +4,6 @@ const deepClone = (obj) => {
   return JSON.parse(JSON.stringify(obj))
 }
 
-const updateObjectInArray = (arr, index, update) => {
-  return [
-    ...arr.slice(0, index),
-    update,
-    ...arr.slice(index + 1),
-  ]
-}
-
 const getNormalProbability = (x, mean, sd) =>{
     const variance = Math.pow(sd,2)
     const pi = 3.1415926
@@ -22,8 +14,8 @@ const getNormalProbability = (x, mean, sd) =>{
     )
     return num/denom
 }
-const calculateSampleDifference = (beat1,beat2) => {
 
+const calculateSampleDifference = (beat1,beat2) => {
   const beat1Samples = beat1.tracks.map((track)=>{
     return track.sample
   })
@@ -43,6 +35,7 @@ const calculateSampleDifference = (beat1,beat2) => {
   })
   return numDifferent
 }
+
 const normalizeSubdivisions = (beat, newSubdivisions) => {
   // Deep clone beat object
   let newBeat = JSON.parse(JSON.stringify(toJS(beat)))
@@ -84,11 +77,9 @@ const getRandomIndices = (numIntegers, arrayLength) => {
   return randomIntegerArray
 }
 
-
 const getSubarray = (array, indexList) => {
   return indexList.map((i) => { return array[i] })
 }
-
 
 const findInJSON = (object, key1, value1, key2, value2 ) => {
   let result = {}
@@ -105,9 +96,6 @@ const findInJSON = (object, key1, value1, key2, value2 ) => {
     return null
   }
 }
-
-
-
 
 function generateFamilyName(){
   const words = [
