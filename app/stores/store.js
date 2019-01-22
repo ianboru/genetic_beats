@@ -16,7 +16,6 @@ class Store {
   //
   // STATE
   //
-
   @observable hoveredBeatKey     = ""
   @observable samples            = samples
   @observable synthGain          = {'sine' : .5,'square' : .5}
@@ -27,7 +26,6 @@ class Store {
   //
   // ACTIONS
   //
-
   @action setHoveredBeat = (beatKey) => {
     this.hoveredBeatKey = beatKey
   }
@@ -51,10 +49,6 @@ class Store {
 
   @action setSynthGain = (gain, synthType) => {
     this.synthGain[synthType] = gain
-  }
-
-  @action toggleShowCreateArrangement = () => {
-    this.showCreateArrangement = !this.showCreateArrangement
   }
 }
 

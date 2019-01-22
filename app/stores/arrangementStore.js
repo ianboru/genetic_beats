@@ -12,26 +12,16 @@ import {
 
 class ArrangementStore {
   @observable arrangements            = [ [] ]
-  @observable showCreateArrangement   = false
   @observable arrangementBeatToAdd    = "0.0"
   @observable arrangementBlockPlaying = []
   @observable currentArrangementIndex = 0
-  @observable currentLitBeat          = 0
   @observable currentSong
 
-
-  @computed get currentLitBeatKey() {
-    return this.arrangements[this.currentArrangementIndex][this.currentLitBeat]
-  }
 
   @computed get currentArrangement() {
     return this.arrangements[this.currentArrangementIndex]
   }
 
-
-  @action toggleShowCreateArrangement = () => {
-    this.showCreateArrangement = !this.showCreateArrangement
-  }
 
   @action addArrangement = () => {
     this.arrangements.push([])
@@ -43,14 +33,6 @@ class ArrangementStore {
 
   @action selectArrangement = (index) => {
       this.currentArrangementIndex = index
-  }
-
-  @action setCurrentLitBeat = (beatNum) => {
-    this.currentLitBeat = beatNum
-  }
-
-  @action incrementCurrentLitBeat = () => {
-    this.currentLitBeat  = (this.currentLitBeat + 1)%this.currentArrangement.length
   }
 
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {

@@ -5,11 +5,14 @@ import chroma from "chroma-js"
 
 import ArrangementControls from "./arrangementControls"
 import Button from "./button"
-import { toJS } from "mobx"
+import { reaction, toJS } from "mobx"
 
 import store from "../stores/store"
 import arrangementStore from '../stores/arrangementStore'
+import playingStore from '../stores/playingStore'
 import familyStore from "../stores/familyStore"
+import ArrangementViewStore from "../stores/ArrangementViewStore"
+
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
 
@@ -101,6 +104,34 @@ class Block extends Component {
 
 @observer
 class Arrangement extends Component {
+  constructor(props) {
+    super(props)
+
+    this.store = new ArrangementViewStore()
+  }
+
+  componentDidMount() {
+    if (playingStore.playingArrangement) {
+      this.store.resetBeatTimer(true)
+    }
+    this.arrangementReaction = reaction(() => {
+      return arrangementStore.currentArrangement.length
+    }, (arrangementLength) => this.store.setArrangementLength(arrangementLength))
+  }
+
+  componentDidUpdate() {
+    if (playingStore.playingArrangement && !this.store.beatTimer) {
+      this.store.resetBeatTimer(true)
+    } else if (!playingStore.playingArrangement && this.store.beatTimer) {
+      this.store.resetBeatTimer(false)
+    }
+  }
+
+  componentWillUnmount() {
+    this.arrangementReaction()
+    this.store.resetBeatTimer(false)
+  }
+
   deleteBlock = (index) => {
     arrangementStore.deleteBeatFromArrangement(index)
   }
@@ -121,12 +152,13 @@ class Arrangement extends Component {
     arrangementStore.setCurrentLitBeat(arrangementIndex)
   }
 
-
   render() {
+    playingStore.playingArrangement
+
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
       const currentBeat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
-      const highlight = (i === arrangementStore.currentLitBeat )
+      const highlight = (i === arrangementStore.currentLitBeat)
       return (
         <BeatBlock
           index     = {i}
@@ -136,6 +168,8 @@ class Arrangement extends Component {
           deleteBlock = {() => { this.deleteBlock(i) }}
           handleMoveBeat = {this.handleMoveBeat}
           isCurrentBeat = {highlight}
+          activeBeat = {this.store.activeBeat}
+          arrangementBlock = {true}
         />
       )
     })
@@ -155,6 +189,9 @@ class Arrangement extends Component {
     // This variable is accessed inside of a callback so mobx
     // can't see when it changes I guess.
     store.arrangementBeatToAdd
+
+    // TODO: Refactor arrangement component from arrangement page
+
 
     return (
       <DragDropContext
