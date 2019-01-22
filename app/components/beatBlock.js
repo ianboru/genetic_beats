@@ -71,7 +71,7 @@ const DeleteBlockButton = styled.div`
 @observer
 class BeatBlock extends Component {
   handleHover = ()=>{
-    if(this.props.arrangementBlock){
+    if(!this.props.arrangementBlock){
       familyStore.updateCurrentHighlightedParent(this.props.beat.key)
     }
   }
