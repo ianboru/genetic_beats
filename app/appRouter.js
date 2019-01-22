@@ -6,7 +6,7 @@ import {colors} from "./colors"
 
 import BeatDisplay from "./beatDisplay"
 import FamilyTreeDisplay from "./familyTreeDisplay"
-import messageStore from "./stores/messageStore"
+import MessageQueue from "./components/messageQueue"
 
 import Arrangement from "./components/arrangement"
 import FamilySelect from "./components/familySelect"
@@ -32,23 +32,15 @@ const TabButton = styled(NavLink)`
 const ActiveTabButtonStyles = {
   background: "#666",
 }
-const Message = styled.div`
-  background: white;
-`
 
 
 const AppRouter = () => {
-  const messageQueue = messageStore.messageQueue.map((message)=>{
-    console.log("message" ,message)
-    return(
-        <Message>{message}</Message>
-    )
-  })
+  
 
   return (
     <Router>
       <div>
-        {messageQueue}
+        <MessageQueue/>
         <FamilySelect />
         
         <nav>

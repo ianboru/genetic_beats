@@ -11,9 +11,9 @@ import { deepClone } from "../utils"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-import TemplateBeatViewStore from "../stores/templateBeatViewStore"
 import messageStore from "../stores/messageStore"
 
+import TemplateBeatViewStore from "../stores/templateBeatViewStore"
 import Button from "./button"
 import Player from "./player"
 
