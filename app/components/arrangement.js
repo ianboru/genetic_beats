@@ -136,7 +136,6 @@ class Arrangement extends Component {
           deleteBlock = {() => { this.deleteBlock(i) }}
           handleMoveBeat = {this.handleMoveBeat}
           isCurrentBeat = {highlight}
-          arrangementBlock = {true}
         />
       )
     })

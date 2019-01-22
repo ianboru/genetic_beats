@@ -71,7 +71,7 @@ const DeleteBlockButton = styled.div`
 @observer
 class BeatBlock extends Component {
   handleHover = ()=>{
-    if(!this.props.arrangementBlock){
+    if(this.props.familyBlock){
       familyStore.updateCurrentHighlightedParent(this.props.beat.key)
     }
   }
@@ -89,17 +89,17 @@ class BeatBlock extends Component {
 
     let childHighlight = false
 
-    if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent && !this.props.arrangmentBlock){
+    if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent && this.props.familyBlock){
       childHighlight = true
     }
 
     let parentHighlight = false
 
-    if(familyStore.currentHighlightedParent){
+    if(familyStore.currentHighlightedParent && this.props.familyBlock){
       const hightlightedIdData = familyStore.currentHighlightedParent.split(".")
       const highlightedBeat = familyStore.allGenerations[hightlightedIdData[0]][hightlightedIdData[1]]
 
-      if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey && !this.props.arrangementBlock){
+      if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey && this.props.familyBlock){
         parentHighlight = true
       }
     }
