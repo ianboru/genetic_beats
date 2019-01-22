@@ -50,7 +50,7 @@ class App extends Component {
     } else if (e.code == "ArrowRight") {
       playingStore.nextBeat()
     } else if (e.code == "ArrowLeft") {
-      store.prevBeat()
+      playingStore.prevBeat()
     }
   }
 

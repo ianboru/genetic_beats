@@ -137,6 +137,7 @@ class Arrangement extends Component {
           handleMoveBeat = {this.handleMoveBeat}
           isCurrentBeat = {highlight}
         />
+        
       )
     })
 

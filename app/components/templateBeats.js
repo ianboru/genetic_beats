@@ -12,6 +12,7 @@ import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 import TemplateBeatViewStore from "../stores/templateBeatViewStore"
+import messageStore from "../stores/messageStore"
 
 import Button from "./button"
 import Player from "./player"
@@ -53,7 +54,12 @@ class TemplateBeats extends Component {
     })
     this.setState({ playingPresets })
   }
-
+  addPresetBeat = (beat) => {
+    console.log("adding preset beat")
+    familyStore.addBeatToCurrentGen(beat)
+    messageStore.addMessageToQueue("beat added to family");
+    this.setState({ redirectToTemplateBeats : true })
+  }
   handleClickPlay = (i) => {
     this.templateStore.togglePlayingBeat(i)
   }
@@ -69,10 +75,7 @@ class TemplateBeats extends Component {
           <Button
             large
             color={[colors.green.base, chroma("green").brighten(1.2)]}
-            onClick={() => { 
-              familyStore.addBeatToCurrentGen(beat)
-              this.setState({ redirectToBeatTab: true })
-            }}
+            onClick={()=>{this.addPresetBeat(beat)}}
           >
             Add
           </Button>

@@ -6,6 +6,7 @@ import {colors} from "./colors"
 
 import BeatDisplay from "./beatDisplay"
 import FamilyTreeDisplay from "./familyTreeDisplay"
+import messageStore from "./stores/messageStore"
 
 import Arrangement from "./components/arrangement"
 import FamilySelect from "./components/familySelect"
@@ -31,41 +32,54 @@ const TabButton = styled(NavLink)`
 const ActiveTabButtonStyles = {
   background: "#666",
 }
+const Message = styled.div`
+  background: white;
+`
 
 
-const AppRouter = () => (
-  <Router>
-    <div>
-      <FamilySelect />
+const AppRouter = () => {
+  const messageQueue = messageStore.messageQueue.map((message)=>{
+    console.log("message" ,message)
+    return(
+        <Message>{message}</Message>
+    )
+  })
 
-      <nav>
-        <div>
-          <TabButton exact to="/" activeStyle={ActiveTabButtonStyles}>Beat</TabButton>
-          <TabButton to="/familytree/" activeStyle={ActiveTabButtonStyles}>Family Tree</TabButton>
-          <TabButton to="/templates/" activeStyle={ActiveTabButtonStyles}>Template Beats</TabButton>
-          <TabButton to="/arrangement/" activeStyle={ActiveTabButtonStyles}>Arrangement</TabButton>
-        </div>
-      </nav>
+  return (
+    <Router>
+      <div>
+        {messageQueue}
+        <FamilySelect />
+        
+        <nav>
+          <div>
+            <TabButton exact to="/" activeStyle={ActiveTabButtonStyles}>Beat</TabButton>
+            <TabButton to="/familytree/" activeStyle={ActiveTabButtonStyles}>Family Tree</TabButton>
+            <TabButton to="/templates/" activeStyle={ActiveTabButtonStyles}>Template Beats</TabButton>
+            <TabButton to="/arrangement/" activeStyle={ActiveTabButtonStyles}>Arrangement</TabButton>
+          </div>
+        </nav>
 
-      <Switch>
-        <Route exact path="/" component={BeatDisplay} />
-        <Route
-          path="/familytree/"
-          render={(props) => {
-            return (
-              <FamilyTreeDisplay
-                familyTreeHeight = {500}
-                familyTreeWidth  = {500}
-              />
-            )
-          }}
-        />
-        <Route path="/templates/" component={TemplateBeats} />
-        <Route path="/arrangement/" component={Arrangement} />
-      </Switch>
-    </div>
-  </Router>
-)
+        <Switch>
+          <Route exact path="/" component={BeatDisplay} />
+          <Route
+            path="/familytree/"
+            render={(props) => {
+              return (
+                <FamilyTreeDisplay
+                  familyTreeHeight = {500}
+                  familyTreeWidth  = {500}
+                />
+              )
+            }}
+          />
+          <Route path="/templates/" component={TemplateBeats} />
+          <Route path="/arrangement/" component={Arrangement} />
+        </Switch>
+      </div>
+    </Router>
+  )
+}
 
 
 export default AppRouter

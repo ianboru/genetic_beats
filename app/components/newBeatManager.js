@@ -9,6 +9,7 @@ import { colors } from "../colors"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
+import messageStore from "../stores/messageStore"
 
 import Button from "./button"
 import TemplateBeats from "./templateBeats"
