@@ -13,6 +13,8 @@ High value and/or easy:
     * Mention that beats are always editable
     * arrangement
 * design/add UI component for adding beats to arrangement
+* navigate to beat player on beatblock click
+* play arrangement from selected beat
 
 High value but hard:
 * Improve synth UI
@@ -28,6 +30,8 @@ medium/low value:
 * play a generation
 * Gain not saved with family info
     * Make gain independent between beats
+* exclude generation from arrangement
+
 * Ability to “favorite” or rename beats
 * Starting counting from 1 rather than 0 for generation/beatnum
 * Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
