@@ -114,7 +114,8 @@ class PlayingStore {
       this.trackPreviewers[track.sample] = false
     })
   }
-@action toggleMuteAll = (lastState) => {
+
+  @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     familyStore.currentBeat.tracks.forEach((track)=>{
       track.mute = newState
@@ -136,9 +137,9 @@ class PlayingStore {
       this.numSolo = 0
     }else{
       this.numSolo = familyStore.currentBeat.tracks.length
-
     }
   }
+
   @action muteUnsolod = () => {
     familyStore.currentBeat.tracks.forEach((track)=>{
       if(!track.solo){
@@ -146,17 +147,20 @@ class PlayingStore {
       }
     })
   }
+
   @action unmuteUnsoloAll = () => {
     familyStore.currentBeat.tracks.forEach((track)=>{
       track.mute = false
       track.solo = false
     })
   }
+
   @action handleMuteTrack = (track) => {
     if(this.numSolo == 0){
       track.mute = !track.mute
     }
   }
+
   @action handleSoloTrack = (track) => {
     track.solo = !track.solo
     if(track.solo){

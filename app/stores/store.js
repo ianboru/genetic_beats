@@ -1,8 +1,9 @@
-import { action, configure, computed, observable, reaction, toJS } from "mobx"
+import { action, configure, computed, observable, toJS } from "mobx"
 
 import samples from "../samples"
 
 import familyStore from "./familyStore"
+
 
 configure({ enforceActions: "always" })
 
@@ -12,7 +13,7 @@ class Store {
   // STATE
   //
   @observable samples             = samples
-  @observable synthGain           = {'sine' : .5,'square' : .5}
+  @observable synthGain           = {'sine' : 0.5,'square' : 0.5}
   @observable synthGainCorrection = {'sine' : 1, "square" : 2}
 
 

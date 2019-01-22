@@ -8,6 +8,7 @@ import {
 import { toJS } from "mobx"
 import controlStore from "./stores/controlStore"
 
+
 const getFitnessThreshold = (generation) => {
   let fitnessPercentile = controlStore.fitnessPercentile/100
   let allScores = generation.map((beat) => { return beat.score })
