@@ -21,11 +21,11 @@ class PlayingStore {
   // STATE
   //
   @observable playingArrangement = false
+  @observable beatPlayers        = {}
+
   @observable tempo              = 100
   @observable metronome          = false
   @observable trackPreviewers    = {}
-  @observable beatPlayers        = {}
-  @observable arrangementTimer
   @observable spaceButtonTarget = "currentBeat"
 
 
@@ -63,29 +63,10 @@ class PlayingStore {
     }
   }
 
-  @action resetArrangementTimer = () => {
-    if(this.playingArrangement){
-      const millisecondsPerBeat = 1/(this.tempo/60/1000)
-      clearInterval(this.arrangementTimer)
-      playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
-      this.arrangementTimer = setInterval(()=>{
-        let lastLitBeatKey = arrangementStore.currentLitBeatKey
-        arrangementStore.incrementCurrentLitBeat()
-        if(arrangementStore.currentLitBeatKey != lastLitBeatKey){
-          playingStore.toggleBeatPlayer(arrangementStore.currentLitBeatKey)
-        }
-      }, millisecondsPerBeat*4)
-    }else{
-      clearInterval(this.arrangementTimer)
-    }
-  }
-
-
   @action togglePlayCurrentBeat = () => {
     this.spaceButtonTarget = "currentBeat"
     this.toggleBeatPlayer(familyStore.currentBeat.key)
     this.playingArrangement = false
-    clearInterval(this.arrangementTimer)
   }
 
   @action togglePlay = () => {
@@ -100,17 +81,10 @@ class PlayingStore {
     this.spaceButtonTarget = "currentArrangement"
     this.playingArrangement = !this.playingArrangement
     clearInterval(this.noteTimer)
-    if (!this.playingArrangement) {
-      Object.keys(this.beatPlayers).forEach((currentKey)=>{
-        this.beatPlayers[currentKey] = false
-      })
-    }
-    //this.resetArrangementTimer()
   }
 
   @action setTempo = (tempo) => {
     this.tempo = tempo
-    //this.resetArrangementTimer()
   }
 
   @action toggleMetronome = () => {

@@ -70,8 +70,8 @@ const DeleteBlockButton = styled.div`
 
 @observer
 class BeatBlock extends Component {
-  handleHover = ()=>{
-    if(this.props.familyBlock){
+  handleHover = () => {
+    if (this.props.familyBlock) {
       familyStore.updateCurrentHighlightedParent(this.props.beat.key)
     }
   }
@@ -85,7 +85,6 @@ class BeatBlock extends Component {
     const generation = parseInt(idData[0])
     const beatNum = parseInt(idData[1])
   }
-
 
   render() {
     const beat = deepClone(this.props.beat)
@@ -108,6 +107,13 @@ class BeatBlock extends Component {
       }
     }
 
+    let playing
+    if (this.props.activeBeat && this.props.activeBeat[this.props.index]) {
+      playing = this.props.activeBeat[this.props.index].value
+    } else {
+      playing = this.props.playing
+    }
+
     return (
       <StyledBlock
         highlight = {this.props.highlight}
@@ -125,7 +131,7 @@ class BeatBlock extends Component {
         <p>{beat.key}</p>
         <MiniBeat
           beat    = {beat}
-          playing = {this.props.playing}
+          playing = {playing}
         />
         <DeleteBlockButton onClick={(e) => {
           this.props.deleteBlock()

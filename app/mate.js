@@ -1,5 +1,5 @@
 import {
-  mutateSequence,  
+  mutateSequence,
   mutateByAddTrack,
   mutateByKillTrack,
   mutateSamplersByMusicalEnhancement,
@@ -18,6 +18,7 @@ import store from "./stores/store"
 import controlStore from "./stores/controlStore"
 import familyStore from "./stores/familyStore"
 import playingStore from "./stores/playingStore"
+
 
 const mateMembers = (members)=> {
   let nextGeneration = []

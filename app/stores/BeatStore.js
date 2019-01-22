@@ -39,7 +39,9 @@ class BeatStore {
     if (playing) {
       const msPerBeat = 1 / (playingStore.tempo / 60 / 1000)
       const msPerNote = msPerBeat * 4 / BEAT_LENGTH
+
       this.noteTimer = setInterval(this.incrementLitNote, msPerNote)
+      this.activeNotes[0].value = true
     } else {
       this.resetLitNote()
     }
