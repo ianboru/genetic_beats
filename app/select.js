@@ -59,9 +59,10 @@ const rankSequenceFitness= (momSequence, momScore, dadSequence, dadScore) => {
     weakestSequence : weakestSequence,
   }
 }
+
+
 export {
   selectSurvivors,
   selectFitMembers,
   rankSequenceFitness
 }
-

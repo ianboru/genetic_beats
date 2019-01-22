@@ -13,22 +13,6 @@ import FamilyTree from "./components/familyTree"
 import Generation from "./components/generation"
 
 
-const BackgroundText = styled.div`
-  left: 10px;
-  right: 10px;
-  bottom: 40px;
-  position: absolute;
-`
-
-const BigText = styled.div`
-  display: ${props => props.inlineBlock ? "inline-block" : "block"};
-  color: #555;
-  font-family: "Hind Madurai";
-  font-size: 50px;
-  vertical-align: middle;
-  text-align: center;
-`
-
 const Footer = styled.div`
   background: ${colors.gray.darkest};
   position: absolute;
@@ -63,7 +47,7 @@ const PanelLabel = styled.div`
 @observer
 class FamilyTreeDisplay extends Component {
   handleMate = () => {
-    if(familyStore.currentGeneration.length == 1){
+    if (familyStore.currentGeneration.length == 1) {
       return
     }
     if (familyStore.generation < familyStore.allGenerations.length - 1 && !familyStore.selectPairMode) {
@@ -90,9 +74,9 @@ class FamilyTreeDisplay extends Component {
     }
 
     familyStore.addGeneration(nextGeneration)
-    if(familyStore.selectPairMode){familyStore.toggleSelectPairMode()}
+    if (familyStore.selectPairMode) { familyStore.toggleSelectPairMode() }
   }
-  
+
   render() {
     const allgenerations = familyStore.allGenerations.map( (generation, i) => {
       return (
@@ -128,12 +112,6 @@ class FamilyTreeDisplay extends Component {
             <MatingControls />
           </PanelLabel>
         </Header>
-
-        <BackgroundText>
-          <BigText>
-            Family Tree
-          </BigText>
-        </BackgroundText>
 
         {allgenerations}
       </div>

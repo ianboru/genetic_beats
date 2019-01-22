@@ -2,6 +2,8 @@ import store from "./stores/store"
 import controlStore from "./stores/controlStore"
 import { toJS } from "mobx"
 import { allNotesInRange } from "./utils"
+
+
 const mutateByKillTrack = (beat) => {
   let survivingTracks = []
   beat.tracks.forEach((track, i) => {
@@ -16,6 +18,7 @@ const mutateByKillTrack = (beat) => {
   beat.tracks = survivingTracks
   return beat
 }
+
 const mutateSamplersByMusicalEnhancement = (beat) => {
   let mutatedBeat = {}
   mutatedBeat.key = beat.key
@@ -69,6 +72,7 @@ const mutateSamplersByMusicalEnhancement = (beat) => {
   })
   return mutatedBeat
 }
+
 const mutateSynthsByMusicalEnhancement = (beat) => {
   const closeNoteProbability = 0
   let mutatedBeat = {}
@@ -198,6 +202,7 @@ const mutateBeat = (originalBeat) => {
 
   return newBeat
 }
+
 
 export {
   mutateSequence,  
