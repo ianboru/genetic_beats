@@ -71,7 +71,6 @@ class FamilyTree extends React.Component {
             name     : beat.key,
             score    : beat.score,
             size     : 1,
-            isHovered : store.hoveredBeatKey == beat.key ? 1 : 0,
           }})
         })
         ++genNum
@@ -107,7 +106,7 @@ class FamilyTree extends React.Component {
             'text-valign'      : 'center',
             'label'            : 'data(id)',
             'font-size'        : 40,
-            'opacity'          : 'mapData(isHovered, 0, 1, .70, 1)',
+            'opacity'          : '1',
           })
           .selector('edge')
           .css({
@@ -136,12 +135,10 @@ class FamilyTree extends React.Component {
         const idData = this.id().split(".")
         const generation = parseInt(idData[0])
         const beatNum = parseInt(idData[1])
-        store.setHoveredBeat(this.id())
-
       })
+
       this.cy.on('mouseout', 'node', function(evt) {
         document.getElementsByTagName('body')[0].style.cursor = 'default'
-        store.clearHoveredBeat()
       })
     }
 
@@ -152,7 +149,6 @@ class FamilyTree extends React.Component {
       familyStore.generation
       familyStore.beatNum
       familyStore.currentGeneration
-      store.hoveredBeatKey
 
       familyStore.allGenerations.forEach( (generation) => {
         generation.forEach( (beat) => { beat })
