@@ -23,15 +23,17 @@ import { deepClone } from "../utils"
 
 
 const StyledBlock = styled.div`
-
-  border: 1px solid ${colors.white};
-
+  border-radius: 3px;
+  box-shadow: 1px 1px 4px 0px black;
+  margin: 6px;
+  border: 1px solid #333;
   background-color: ${props =>
     props.childHighlight ?
     colors.yellow.dark : props.highlight ?
     colors.gray.light : props.parentHighlight ?
     colors.blue.lighter : "e9573f"
   };
+  background-color: #1d1f27;
   display: inline-block;
   height: 100%;
   width: 150px;

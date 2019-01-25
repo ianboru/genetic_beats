@@ -22,17 +22,25 @@ import { colors } from "../colors"
 
 
 
+const StyledGeneration = styled.div`
+  border: 1px solid #333;
+  border-width: 1px 0;
+  padding: 10px 20px;
+  background: ${colors.blue.lighter};
+`
+
+
+
 @observer
 class Generation extends Component {
   /*
-  Decide on local vs global instance. 
+  Decide on local vs global instance.
   constructor(props){
     super(props)
     this.familyViewStore = new FamilyViewStore()
 
   }*/
   handleClickPlay = (beatKey) => {
-    
     familyViewStore.togglePlayingBeat(beatKey)
   }
   render() {
@@ -51,9 +59,17 @@ class Generation extends Component {
     })
 
     return (
-      <div>
+      <StyledGeneration>
+        <h3
+          style={{
+            color  : "#333",
+            margin : "4px 8px",
+            fontSize: 30,
+          }}
+        >Generation  {this.props.index}</h3>
+
         {beatBlocks}
-      </div>
+      </StyledGeneration>
     )
   }
 }
