@@ -130,6 +130,14 @@ class BeatBlock extends Component {
           <MdOpenInNew />
         </OpenInNewWindow>
       </nav> : null
+
+    const deleteButton = this.props.arrangementBlock ? <DeleteBlockButton onClick={(e) => {
+          this.props.deleteBlock()
+          e.stopPropagation()
+        }}>
+          &times;
+        </DeleteBlockButton> : null
+
     return (
       <StyledBlock
         highlight = {this.props.highlight}
@@ -150,12 +158,7 @@ class BeatBlock extends Component {
           beat    = {beat}
           playing = {playing}
         />
-        <DeleteBlockButton onClick={(e) => {
-          this.props.deleteBlock()
-          e.stopPropagation()
-        }}>
-          &times;
-        </DeleteBlockButton>
+        {deleteButton}
       </StyledBlock>
     )
   }
