@@ -14,8 +14,6 @@ High value and/or easy:
         * arrangement
         * adjusting volume and other small/helpful behaviors
 
-
-    * navigate to beat player on beatblock click - 2 design - ian
     * List and set tooltips - 1 - john
         * Show mating controls help info as tool tips - 2 design - john
     * mutation controls on beat screen - 2 design - ian

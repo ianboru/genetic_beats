@@ -4,7 +4,7 @@ import { action, configure, computed, observable, reaction, toJS } from "mobx"
 configure({ enforceActions: "always" })
 
 class MessageStore {
-  //
+  //  
   // STATE
   //
 

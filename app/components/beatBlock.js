@@ -3,12 +3,14 @@ import { toJS } from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
+import { BrowserRouter as Router, Route, NavLink, Switch } from "react-router-dom"
 
 import {
   MdPlayArrow,
   MdSkipNext,
   MdSkipPrevious,
   MdStop,
+  MdOpenInNew
 } from "react-icons/md"
 
 import playingStore from "../stores/playingStore"
@@ -69,7 +71,10 @@ const DeleteBlockButton = styled.div`
     color: red;
   }
 `
-
+const OpenInNewWindow = styled(NavLink)`
+  font-size : 15pt;
+  margin-top : 5px;
+`
 @observer
 class BeatBlock extends Component {
   handleHover = () => {
@@ -90,6 +95,8 @@ class BeatBlock extends Component {
 
   render() {
     const beat = deepClone(this.props.beat)
+    const idData = beat.key.split(".")
+
     const PlayStopButton = this.props.playing ? MdStop : MdPlayArrow
 
     let childHighlight = false
@@ -116,6 +123,13 @@ class BeatBlock extends Component {
       playing = this.props.playing
     }
 
+    const openInNewWindow = !this.props.templateBlock ? <nav>
+        <OpenInNewWindow exact to="/" onClick={()=>{
+          familyStore.selectBeat(idData[0],idData[1]);
+        }}>
+          <MdOpenInNew />
+        </OpenInNewWindow>
+      </nav> : null
     return (
       <StyledBlock
         highlight = {this.props.highlight}
@@ -125,6 +139,7 @@ class BeatBlock extends Component {
         onMouseLeave   = {this.handleMouseLeave}
 
       >
+      {openInNewWindow}
         <PlayStopButton
           size    = {30}
           onClick = {this.props.handleClickPlay}
