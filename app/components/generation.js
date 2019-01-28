@@ -40,9 +40,11 @@ class Generation extends Component {
     this.familyViewStore = new FamilyViewStore()
 
   }*/
+
   handleClickPlay = (beatKey) => {
     familyViewStore.togglePlayingBeat(beatKey)
   }
+
   render() {
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
       return (
@@ -50,7 +52,6 @@ class Generation extends Component {
           index         = {i}
           key           = {i}
           beat          = {currentBeat}
-          isCurrentBeat = {true}
           handleClickPlay = {()=>{this.handleClickPlay(currentBeat.key)}}
           playing = {familyViewStore.playingBeats[currentBeat.key]}
           familyBlock = {true}

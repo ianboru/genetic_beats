@@ -13,9 +13,7 @@ import {
 class ArrangementStore {
   @observable arrangements            = [ [] ]
   @observable arrangementBeatToAdd    = "0.0"
-  @observable arrangementBlockPlaying = []
   @observable currentArrangementIndex = 0
-  @observable currentSong
 
 
   @computed get currentArrangement() {
@@ -184,9 +182,6 @@ class ArrangementStore {
     familyStore.updateFamilyInStorage()
   }
 
-  @action setCurrentSong = (song) => {
-    this.currentSong = song
-  }
   @action setArrangementBeatToAdd = (key) => {
     this.arrangementBeatToAdd = key
   }

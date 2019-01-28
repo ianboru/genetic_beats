@@ -64,7 +64,7 @@ class MatingControl extends Component {
     return (
       <StyledMatingControls left={this.props.left} right={this.props.right}>
         <MdSettings
-            style   = {{'marginLeft': '15px', 'verticalAlign' : 'middle'}}
+            style   = {{marginLeft: 15, verticalAlign : 'middle'}}
             active  = {this.state.show}
             onClick = {this.toggleShow}
           >
@@ -92,8 +92,7 @@ class MatingControl extends Component {
             max           = {100}
             title         = "The likelihood that a sample is added or removed during mutation or mating"
           />
-          <div hidden={this.props.view != "familyTree"}>
-
+          <div hidden={this.props.view !== "familyTree"}>
             <ControlsHeader>
               New Generation
             </ControlsHeader>
