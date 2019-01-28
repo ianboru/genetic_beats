@@ -52,6 +52,7 @@ const StyledTooltip = styled.div`
   box-shadow: 1px 1px 5px 0px #000;
   ${props => opposite[props.position]}: 100%;
   transition: visibility 0.2s linear, opacity 0.2s linear;
+  transition-delay: 0.1s;
   z-index: 100;
 
   ${props => adjacent[props.position]}: 50%;
@@ -88,6 +89,7 @@ const TooltipWrapper = styled.div`
   position: relative;
 
   &:hover ${StyledTooltip} {
+    transition-delay: 0.7s;
     visibility: visible;
     opacity: 0.9;
   }
