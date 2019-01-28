@@ -8,7 +8,9 @@ import ConfigControl from "./configControl"
 import controlStore from "../stores/controlStore"
 import store from "../stores/store"
 import { colors } from "../colors"
-
+import {
+ MdSettings
+} from "react-icons/md"
 
 const StyledMatingControls = styled.div`
   display: inline-block;
@@ -61,12 +63,13 @@ class MatingControl extends Component {
   render() {
     return (
       <StyledMatingControls left={this.props.left} right={this.props.right}>
-        <Button
+        <MdSettings
+            style   = {{'marginLeft': '15px', 'verticalAlign' : 'middle'}}
             active  = {this.state.show}
             onClick = {this.toggleShow}
           >
           Mating Controls
-        </Button>
+        </MdSettings>
 
         <StyledMatingControlPanel show={this.state.show}>
           <ControlsHeader topMargin={false}>
@@ -89,35 +92,36 @@ class MatingControl extends Component {
             max           = {100}
             title         = "The likelihood that a sample is added or removed during mutation or mating"
           />
+          <div hidden={this.props.view != "familyTree"}>
 
-          <ControlsHeader>
-            New Generation
-          </ControlsHeader>
-
-          <ConfigControl
-            name          = "Number of Children"
-            value         = {controlStore.numChildren}
-            changeHandler = {controlStore.setNumChildren}
-            min           = {1}
-            max           = {20}
-            title         = "The number of children produced by set of parents during mating"
-          />
-          <ConfigControl
-            name          = "Number of Survivors"
-            value         = {controlStore.numSurvivors}
-            changeHandler = {controlStore.setNumSurvivors}
-            min           = {1}
-            max           = {20}
-            title         = "The maximum number of children in a new generation"
-          />
-          <ConfigControl
-            name          = "Fitness Threshold"
-            value         = {controlStore.fitnessPercentile}
-            changeHandler = {controlStore.setFitnessPercentile}
-            min           = {0}
-            max           = {100}
-            title         = "The minimum level of fitness a parent must have to mate"
-          />
+            <ControlsHeader>
+              New Generation
+            </ControlsHeader>
+              <ConfigControl
+                name          = "Number of Children"
+                value         = {controlStore.numChildren}
+                changeHandler = {controlStore.setNumChildren}
+                min           = {1}
+                max           = {20}
+                title         = "The number of children produced by set of parents during mating"
+              />
+              <ConfigControl
+                name          = "Number of Survivors"
+                value         = {controlStore.numSurvivors}
+                changeHandler = {controlStore.setNumSurvivors}
+                min           = {1}
+                max           = {20}
+                title         = "The maximum number of children in a new generation"
+              />
+              <ConfigControl
+                name          = "Fitness Threshold"
+                value         = {controlStore.fitnessPercentile}
+                changeHandler = {controlStore.setFitnessPercentile}
+                min           = {0}
+                max           = {100}
+                title         = "The minimum level of fitness a parent must have to mate"
+              />
+          </div>
         </StyledMatingControlPanel>
       </StyledMatingControls>
     )

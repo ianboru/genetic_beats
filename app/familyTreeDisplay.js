@@ -108,7 +108,7 @@ class FamilyTreeDisplay extends Component {
               Select beats to mate
             </Button>
 
-            <MatingControls />
+            <MatingControls view="familyTree"/>
           </PanelLabel>
         </Header>
 

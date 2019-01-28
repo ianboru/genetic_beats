@@ -19,6 +19,7 @@ import Button from "./components/button"
 import NewBeatManager from "./components/newBeatManager"
 
 import Tooltip from "./components/tooltip"
+import MatingControls from "./components/matingControls"
 
 
 @observer
@@ -88,6 +89,8 @@ class BeatDisplay extends Component {
           >
             Clone This Beat
           </Button>
+          <MatingControls view="beatDisplay"/>
+
         </div>
 
         <div>
