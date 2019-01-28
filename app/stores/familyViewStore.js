@@ -7,16 +7,16 @@ class FamilyViewStore {
   // STATE
   //
 
-  
   @observable playingBeats = {}
 
   //
   // ACTIONS
   //
+
   @action togglePlayingBeat = (beatKey) =>{
     this.playingBeats[beatKey] = !this.playingBeats[beatKey]
     Object.keys(this.playingBeats).forEach((key)=>{
-      if(key !== beatKey){
+      if (key !== beatKey) {
         this.playingBeats[key] = false
       }
     })

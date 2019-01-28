@@ -145,7 +145,6 @@ class BeatBlock extends Component {
         parentHighlight = {parentHighlight}
         onMouseEnter   = {this.handleHover}
         onMouseLeave   = {this.handleMouseLeave}
-
       >
       {openInNewWindow}
         <PlayStopButton

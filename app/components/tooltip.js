@@ -37,13 +37,18 @@ const StyledTooltip = styled.div`
   // TODO: Needs to be applied to separate element so the whole tooltip isn't blurred
   //filter: blur(5px);
   font-size: 14px;
-  min-width: 150px;
+  min-width: ${props => props.minWidth ? props.minWidth : 100}px;
   padding: 6px;
   position: absolute;
   text-align: center;
   box-shadow: 1px 1px 5px 0px #000;
   ${props => opposite[props.position]}: 100%;
   transition: opacity 0.2s;
+  z-index: 100;
+
+  ${props => adjacent[props.position]}: 50%;
+  // TODO: Needs to be adapted for tooltips in left or right position
+  transform: translate(-50%, 0);
 
   &:after, &:before {
     ${props => props.position}: 100%;
@@ -77,7 +82,7 @@ const TooltipWrapper = styled.div`
 
   &:hover ${StyledTooltip} {
     //visibility: visible;
-    opacity: 0.8;
+    opacity: 0.9;
   }
 `
 

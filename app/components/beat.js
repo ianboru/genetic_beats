@@ -4,7 +4,6 @@ import styled from "styled-components"
 import chroma from "chroma-js"
 import { reaction, toJS } from "mobx"
 
-import { MdAdd } from "react-icons/md"
 import Player from "./player"
 
 import AddTrackButton from "./addTrackButton"
@@ -14,9 +13,9 @@ import Note from "./note"
 import PlayControls from "./playControls"
 import StarRating from "./starRating"
 import TempoControls from "./tempoControls"
+import Tooltip from "./tooltip"
 import Track from "./track"
 
-import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 import BeatStore from "../stores/BeatStore"
@@ -58,26 +57,6 @@ const HeaderTableRow = styled(TableRow)`
   }
 `
 
-const AddToArrangementButton = styled.button`
-  position: absolute;
-  background: ${colors.yellow.dark};
-  border: 2px solid white;
-  color: white;
-  bottom: -10px;
-  left: -10px;
-  font-size: 35px;
-  font-weight: bold;
-  border-radius: 100%;
-  vertical-align: middle;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.1s;
-
-  &:hover {
-    background: ${colors.yellow.darker};
-  }
-`
-
 const Controls = styled.div`
   background: ${colors.gray.light};
   display: inline-block;
@@ -102,10 +81,8 @@ class Beat extends Component {
   }
 
   componentDidMount() {
-    const isPlaying = () => (playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key === this.props.beat.key)
-
-    this.playReaction = reaction(isPlaying, (playing) => this.store.resetNoteTimer(playing))
-    if (isPlaying()) {
+    this.playReaction = reaction(() => this.store.playing, (playing) => this.store.resetNoteTimer(playing))
+    if (this.store.playing) {
       this.store.resetNoteTimer(true)
     }
   }
@@ -218,18 +195,11 @@ class Beat extends Component {
       )
     })
 
-    const playing = playingStore.beatPlayers[familyStore.currentBeat.key] && familyStore.currentBeat.key === this.props.beat.key
-
     return (
       <StyledBeat>
-        {store.showCreateArrangement ?
-            <AddToArrangementButton
-              title="Add to Arrangement"
-              onClick={() => store.addBeatToArrangement(this.props.beat.key)}
-            ><MdAdd size={25} /></AddToArrangementButton> : null}
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {playing}
+          playing    = {this.store.playing}
           resolution = {familyStore.currentBeatResolution}
         />
         <HeaderTableRow>
@@ -238,7 +208,10 @@ class Beat extends Component {
 
           <Column>
             <Controls>
-              <PlayControls />
+              <PlayControls
+                playing={this.store.playing}
+                handleTogglePlaying = {this.store.togglePlaying}
+              />
               <TempoControls />
             </Controls>
 
@@ -299,11 +272,15 @@ class Beat extends Component {
           <Column />
 
           <Column align="bottom">
-            <MuteTrackButton
-              active={this.state.activeMuteAll}
-              onClick={()=>{this.handleMuteAll()}}
-              title="Mute All"
-            >M</MuteTrackButton>
+            <Tooltip
+              position = "bottom"
+              text     = "Mute All"
+            >
+              <MuteTrackButton
+                active={this.state.activeMuteAll}
+                onClick={()=>{this.handleMuteAll()}}
+              >M</MuteTrackButton>
+            </Tooltip>
 
             <SoloTrackButton
               active={this.state.activeSoloAll}

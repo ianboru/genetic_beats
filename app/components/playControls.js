@@ -11,6 +11,8 @@ import {
 
 import {colors} from "../colors"
 
+import Tooltip from "./tooltip"
+
 import store from "../stores/store"
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
@@ -44,27 +46,36 @@ class PlayControls extends Component {
       size,
     } = this.props
 
-    const PlayStopButton = playingStore.beatPlayers[familyStore.currentBeat.key] ? MdStop : MdPlayArrow
+    const PlayStopButton = this.props.playing ? MdStop : MdPlayArrow
     return (
       <StyledPlayControls>
-        <span title="Previous Beat">
+        <Tooltip
+          position="bottom"
+          text="Previous Beat"
+        >
           <MdSkipPrevious
             size    = {size}
             onClick = {playingStore.prevBeat}
           />
-        </span>
-        <span title="Play / Stop">
+        </Tooltip>
+        <Tooltip
+          position="bottom"
+          text="Play / Stop"
+        >
           <PlayStopButton
             size    = {size}
-            onClick = {playingStore.togglePlayCurrentBeat}
+            onClick = {this.props.handleTogglePlaying}
           />
-        </span>
-        <span title="Next Beat">
+        </Tooltip>
+        <Tooltip
+          position="bottom"
+          text="Next Beat"
+        >
           <MdSkipNext
             size    = {size}
             onClick = {playingStore.nextBeat}
           />
-        </span>
+        </Tooltip>
       </StyledPlayControls>
     )
   }

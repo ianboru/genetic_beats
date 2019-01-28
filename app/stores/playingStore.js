@@ -21,7 +21,6 @@ class PlayingStore {
   // STATE
   //
   @observable playingArrangement = false
-  @observable beatPlayers        = {}
 
   @observable tempo              = 100
   @observable metronome          = false
@@ -32,28 +31,6 @@ class PlayingStore {
   //
   // ACTIONS
   //
-  @action addBeatPlayer = (key) =>{
-    let beatPlaying = false
-    if(Object.keys(this.beatPlayers).length > 0){
-      Object.keys(this.beatPlayers).forEach((currentKey)=>{
-        if(this.beatPlayers[currentKey]){
-          this.beatPlayers[currentKey] = false
-          beatPlaying = true
-        }
-      })
-    }
-    this.beatPlayers[key] = beatPlaying
-  }
-
-  @action toggleBeatPlayer = (key) =>{
-    Object.keys(this.beatPlayers).forEach((currentKey)=>{
-      if(currentKey !== key){
-        this.beatPlayers[currentKey] = false
-      }
-    })
-    this.beatPlayers[key] = !this.beatPlayers[key]
-  }
-
   @action toggleTrackPreviewer = (index)=> {
     this.trackPreviewers[index] = !this.trackPreviewers[index]
     if(this.trackPreviewers[index]){
@@ -63,15 +40,10 @@ class PlayingStore {
     }
   }
 
-  @action togglePlayCurrentBeat = () => {
-    this.spaceButtonTarget = "currentBeat"
-    this.toggleBeatPlayer(familyStore.currentBeat.key)
-    this.playingArrangement = false
-  }
-
   @action togglePlay = () => {
     if(this.spaceButtonTarget == "currentBeat"){
-      this.togglePlayCurrentBeat()
+      // TODO: Rewire BeatStore to do this
+      //this.togglePlayCurrentBeat()
     }else{
       this.togglePlayArrangement()
     }
@@ -92,24 +64,16 @@ class PlayingStore {
   }
 
   @action nextBeat = () => {
-    let wasPlaying = this.beatPlayers[familyStore.currentBeat.key]
     this.unmuteUnsoloAll()
     familyStore.incrementBeatNum("up")
-    if (wasPlaying) {
-      this.toggleBeatPlayer(familyStore.currentBeat.key)
-    }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
     })
   }
 
   @action prevBeat = () => {
-    let wasPlaying = this.beatPlayers[familyStore.currentBeat.key]
     this.unmuteUnsoloAll()
     familyStore.incrementBeatNum("down")
-    if(wasPlaying){
-      this.toggleBeatPlayer(familyStore.currentBeat.key)
-    }
     familyStore.currentBeat.tracks.forEach((track)=>{
       this.trackPreviewers[track.sample] = false
     })

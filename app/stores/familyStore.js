@@ -149,7 +149,6 @@ class FamilyStore {
   @action addBeatToCurrentGen = (beat) => {
     const newBeatNum = this.currentGeneration.length
     const key = `${this.generation}.${newBeatNum}`
-    playingStore.addBeatPlayer(key)
     this.allGenerations[this.generation].push({
       ...deepClone(beat),
       key: key,

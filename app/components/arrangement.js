@@ -171,7 +171,6 @@ class Arrangement extends Component {
           activeBeat = {this.store.activeBeat}
           arrangementBlock = {true}
         />
-        
       )
     })
 

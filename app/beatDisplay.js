@@ -63,8 +63,9 @@ class BeatDisplay extends Component {
       <div>
         <div>
           <Tooltip
-            position="bottom"
-            text="Add a new empty beat to the current generation">
+            position = "bottom"
+            text     = "Add a new empty beat to the current generation"
+          >
             <Button
               style={{marginRight: "15px"}}
               color={[colors.green.base]}
@@ -74,23 +75,30 @@ class BeatDisplay extends Component {
             </Button>
           </Tooltip>
 
-          <Button
-            color={[colors.green.base]}
-            onClick = {this.handleMutate}
-            title="Create a new mutated beat from the current beat"
+          <Tooltip
+            position = "bottom"
+            text     = "Create a new mutated beat from the current beat"
           >
-            Mutate This Beat
-          </Button>
+            <Button
+              color   = {[colors.green.base]}
+              onClick = {this.handleMutate}
+            >
+              Mutate This Beat
+            </Button>
+          </Tooltip>
 
-          <Button
-            color={[colors.green.base]}
-            onClick = {this.handleClone}
-            title="Create an exact copy of the current beat"
+          <Tooltip
+            position = "bottom"
+            text     = "Create an exact copy of the current beat"
           >
-            Clone This Beat
-          </Button>
-          <MatingControls view="beatDisplay"/>
-
+            <Button
+              color={[colors.green.base]}
+              onClick = {this.handleClone}
+            >
+              Clone This Beat
+            </Button>
+            <MatingControls view="beatDisplay"/>
+          </Tooltip>
         </div>
 
         <div>
