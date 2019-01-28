@@ -15,7 +15,7 @@ const SoloTrackButton = styled.span`
   vertical-align: middle;
 
   &:hover {
-    background-color: green;
+    background-color: ${props => props.active ? "green" : "lightgreen" };
   }
 `
 
