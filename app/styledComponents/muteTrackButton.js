@@ -9,8 +9,8 @@ const MuteTrackButton = styled.span`
   cursor: pointer;
   display: inline-block;
   font-size: 16px;
-  height: 24px;
   margin-left: 10px;
+  height: 24px;
   width: 24px;
   vertical-align: middle;
   

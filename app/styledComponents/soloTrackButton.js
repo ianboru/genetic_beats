@@ -9,6 +9,7 @@ const SoloTrackButton = styled.span`
   cursor: pointer;
   display: inline-block;
   font-size: 16px;
+  margin-right: 10px;
   height: 24px;
   width: 24px;
   vertical-align: middle;

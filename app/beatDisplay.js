@@ -97,8 +97,8 @@ class BeatDisplay extends Component {
             >
               Clone This Beat
             </Button>
-            <MatingControls view="beatDisplay"/>
           </Tooltip>
+          <MatingControls view="beatDisplay"/>
         </div>
 
         <div>

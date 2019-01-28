@@ -6,6 +6,7 @@ import { colors } from "../colors"
 import familyStore from "../stores/familyStore"
 
 import Button from "./button"
+import Tooltip from "./tooltip"
 
 //import DevTools from "mobx-react-devtools"
 
@@ -58,13 +59,31 @@ class FamilySelect extends Component {
           </select>
         </StyledFamilySelect>
 
-        <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Start new family" onClick={this.newFamilyTree}>
-          New Family
-        </Button>
+        <Tooltip
+          position = "bottom"
+          text     = "Start new family (current family will be accessible)"
+          minWidth = {170}
+        >
+          <Button
+            style   = {{background : colors.gray.darkest, marginLeft : "20px"}}
+            onClick = {this.newFamilyTree}
+          >
+            New Family
+          </Button>
+        </Tooltip>
 
-        <Button style={{background : colors.gray.darkest, marginLeft : "20px"}} title="Clear all saved families" onClick={this.clearSavedFamilies}>
-          Clear All
-        </Button>
+        <Tooltip 
+          position = "bottom"
+          text     = "Clear all family data"
+          minWidth = {150}
+        >
+          <Button 
+            style   = {{background : colors.gray.darkest, marginLeft : "20px"}}
+            onClick = {this.clearSavedFamilies}
+          >
+            Clear All
+          </Button>
+        </Tooltip>
 
         {typeof DevTools !== "undefined" ? <DevTools highlightTimeout={500000} /> : null}
       </div>
