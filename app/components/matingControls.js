@@ -2,15 +2,18 @@ import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import enhanceWithClickOutside from "react-click-outside"
-
-import Button from "./button"
-import ConfigControl from "./configControl"
-import controlStore from "../stores/controlStore"
-import store from "../stores/store"
-import { colors } from "../colors"
 import {
  MdSettings
 } from "react-icons/md"
+
+import Button from "./button"
+import Tooltip from "./tooltip"
+import ConfigControl from "./configControl"
+
+import { colors } from "../colors"
+import controlStore from "../stores/controlStore"
+import store from "../stores/store"
+
 
 const StyledMatingControls = styled.div`
   display: inline-block;
@@ -76,50 +79,77 @@ class MatingControl extends Component {
             Mutation
           </ControlsHeader>
 
-          <ConfigControl
-            name          = "Note Mutation Rate"
-            value         = {controlStore.noteMutationRate}
-            changeHandler = {controlStore.setNoteMutationRate}
-            min           = {0}
-            max           = {100}
-            title         = "The likelihood that a note changes during mutation or mating"
-          />
-          <ConfigControl
-            name          = "Sample Mutation Rate"
-            value         = {controlStore.sampleMutationRate}
-            changeHandler = {controlStore.setSampleMutationRate}
-            min           = {0}
-            max           = {100}
-            title         = "The likelihood that a sample is added or removed during mutation or mating"
-          />
+          <Tooltip
+            position = "right"
+            text     = "The likelihood that a note changes during mutation or mating"
+            minWidth = {200}
+          >
+            <ConfigControl
+              name          = "Note Mutation Rate"
+              value         = {controlStore.noteMutationRate}
+              changeHandler = {controlStore.setNoteMutationRate}
+              min           = {0}
+              max           = {100}
+            />
+          </Tooltip>
+          <Tooltip
+            position = "right"
+            text     = "The likelihood that a sample is added or removed during mutation or mating"
+            minWidth = {200}
+          >
+            <ConfigControl
+              name          = "Sample Mutation Rate"
+              value         = {controlStore.sampleMutationRate}
+              changeHandler = {controlStore.setSampleMutationRate}
+              min           = {0}
+              max           = {100}
+            />
+          </Tooltip>
+
           <div hidden={this.props.view !== "familyTree"}>
             <ControlsHeader>
               New Generation
             </ControlsHeader>
+
+            <Tooltip
+              position = "right"
+              text     = "The number of children produced by set of parents during mating"
+              minWidth = {200}
+            >
               <ConfigControl
                 name          = "Number of Children"
                 value         = {controlStore.numChildren}
                 changeHandler = {controlStore.setNumChildren}
                 min           = {1}
                 max           = {20}
-                title         = "The number of children produced by set of parents during mating"
               />
+            </Tooltip>
+            <Tooltip
+              position = "right"
+              text     = "The maximum number of children in a new generation"
+              minWidth = {200}
+            >
               <ConfigControl
                 name          = "Number of Survivors"
                 value         = {controlStore.numSurvivors}
                 changeHandler = {controlStore.setNumSurvivors}
                 min           = {1}
                 max           = {20}
-                title         = "The maximum number of children in a new generation"
               />
+            </Tooltip>
+            <Tooltip
+              position = "right"
+              text     = "The minimum level of fitness a parent must have to mate"
+              minWidth = {200}
+            >
               <ConfigControl
                 name          = "Fitness Threshold"
                 value         = {controlStore.fitnessPercentile}
                 changeHandler = {controlStore.setFitnessPercentile}
                 min           = {0}
                 max           = {100}
-                title         = "The minimum level of fitness a parent must have to mate"
               />
+            </Tooltip>
           </div>
         </StyledMatingControlPanel>
       </StyledMatingControls>

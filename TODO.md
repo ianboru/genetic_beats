@@ -13,7 +13,6 @@ High value and/or easy:
         * arrangement
         * adjusting volume and other small/helpful behaviors
 
-    * Show mating controls help info as tool tips - 2 design - john
     * mutation controls on beat screen - 2 design - ian
     * Select/generation logic & visuals - 3 design - john
     * Improve UX on add synth / instrument flow - 2 design - john
