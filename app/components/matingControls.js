@@ -65,7 +65,7 @@ class MatingControl extends Component {
       <StyledMatingControls left={this.props.left} right={this.props.right}>
         <MdSettings
             style   = {{'marginLeft': '15px', 'verticalAlign' : 'middle'}}
-            active  = {this.state.show}
+            active  = {this.state.show.toString()}
             onClick = {this.toggleShow}
           >
           Mating Controls

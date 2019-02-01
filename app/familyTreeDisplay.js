@@ -1,8 +1,10 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
-
+import toJS from "mobx"
 import familyStore from "./stores/familyStore"
+import familyViewStore from "./stores/familyViewStore"
+
 import { colors } from "./colors"
 import { mateGeneration, mateSelectedMembers} from "./mate"
 
@@ -50,7 +52,7 @@ class FamilyTreeDisplay extends Component {
     if (familyStore.currentGeneration.length == 1) {
       return
     }
-    if (familyStore.generation < familyStore.allGenerations.length - 1 && !familyStore.selectPairMode) {
+    if (familyStore.generation < familyStore.allGenerations.length - 1 && !familyViewStore.selectPairMode) {
       if (confirm(`Mating now will clear all generations after the currently selected one (${familyStore.generation}).`)) {
         familyStore.killSubsequentGenerations()
       } else {
@@ -61,8 +63,8 @@ class FamilyTreeDisplay extends Component {
     let options = {}
     let members = familyStore.currentGeneration
     let nextGeneration
-    if (familyStore.selectPairMode) {
-      members = familyStore.selectedBeats.map( (currentKey) => {
+    if (familyViewStore.selectPairMode) {
+      members = familyViewStore.selectedBeats.map( (currentKey) => {
         const currentKeyInfo = currentKey.split(".")
         const generation = currentKeyInfo[0]
         const beatNum = currentKeyInfo[1]
@@ -74,7 +76,7 @@ class FamilyTreeDisplay extends Component {
     }
 
     familyStore.addGeneration(nextGeneration)
-    if (familyStore.selectPairMode) { familyStore.toggleSelectPairMode() }
+    if (familyViewStore.selectPairMode) { familyViewStore.toggleSelectPairMode() }
   }
 
   render() {
@@ -98,12 +100,12 @@ class FamilyTreeDisplay extends Component {
               color   = {[colors.green.base]}
               onClick = {this.handleMate}
             >
-              Mate {familyStore.selectPairMode ? "Selected Beats" : "Generation"}
+              Mate {familyViewStore.selectPairMode ? "Selected Beats" : "Generation"}
             </Button>
 
             <Button
-              active  = {familyStore.selectPairMode}
-              onClick = {familyStore.toggleSelectPairMode}
+              active  = {familyViewStore.selectPairMode}
+              onClick = {familyViewStore.toggleSelectPairMode}
             >
               Select beats to mate
             </Button>

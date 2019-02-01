@@ -97,6 +97,8 @@ class TemplateBeats extends Component {
     return (
       <div style={{textAlign: "center"}}>
         <div>
+          <h3>Adding Preset to Generation {familyStore.generation}</h3>
+
           <BeatOptionHeader>Presets</BeatOptionHeader>
           {presetOptions}
         </div>

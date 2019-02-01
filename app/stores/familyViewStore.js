@@ -8,11 +8,23 @@ class FamilyViewStore {
   //
 
   @observable playingBeats = {}
+  @observable selectPairMode     = false
+  @observable selectedBeats      = []
 
   //
   // ACTIONS
   //
-
+  @action toggleSelect = (beatKey) => {
+    const selectedKey = beatKey
+    if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.push(selectedKey)
+    } else if (this.selectPairMode && this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.splice( this.selectedBeats.indexOf(selectedKey), 1 )
+    } else {
+      this.selectedBeats = [selectedKey]
+    }
+    console.log("selected ", toJS(this.selectedBeats))
+  }
   @action togglePlayingBeat = (beatKey) =>{
     this.playingBeats[beatKey] = !this.playingBeats[beatKey]
     Object.keys(this.playingBeats).forEach((key)=>{
@@ -20,6 +32,11 @@ class FamilyViewStore {
         this.playingBeats[key] = false
       }
     })
+  }
+  @action toggleSelectPairMode = () => {
+    console.log("select mode")
+    this.selectPairMode = !this.selectPairMode
+    this.selectedBeats = []
   }
 }
 

@@ -15,6 +15,8 @@ import {
 
 import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
+import familyViewStore from "../stores/familyViewStore"
+
 import arrangementStore from "../stores/arrangementStore"
 
 import MiniBeat from "./miniBeat"
@@ -29,13 +31,9 @@ const StyledBlock = styled.div`
   box-shadow: 1px 1px 4px 0px black;
   margin: 6px;
   border: 1px solid #333;
-  background-color: ${props =>
-    props.childHighlight ?
-    colors.yellow.dark : props.highlight ?
-    colors.gray.light : props.parentHighlight ?
-    colors.blue.lighter : "e9573f"
-  };
-  background-color: #1d1f27;
+  background-color: ${(props) => {
+    return props.selected ? colors.red.base : "#1d1f27" 
+  }};
   display: inline-block;
   height: 100%;
   width: 150px;
@@ -87,11 +85,6 @@ class BeatBlock extends Component {
       familyStore.updateCurrentHighlightedParent("")
     }
   }
-  handleClickBeat = (beatKey) => {
-    const idData = beatKey.split(".")
-    const generation = parseInt(idData[0])
-    const beatNum = parseInt(idData[1])
-  }
 
   render() {
     const beat = deepClone(this.props.beat)
@@ -137,7 +130,6 @@ class BeatBlock extends Component {
         }}>
           &times;
         </DeleteBlockButton> : null
-
     return (
       <StyledBlock
         highlight = {this.props.highlight}
@@ -145,6 +137,8 @@ class BeatBlock extends Component {
         parentHighlight = {parentHighlight}
         onMouseEnter   = {this.handleHover}
         onMouseLeave   = {this.handleMouseLeave}
+        selected = {this.props.selected}
+        onClick = {this.props.handleClickBeat}
       >
       {openInNewWindow}
         <PlayStopButton
