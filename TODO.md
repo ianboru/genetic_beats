@@ -3,7 +3,6 @@ High value and/or easy:
     Bugs:
         * Play from selected beat in arrangement - 2 - john
         * Get play buttons in arrangement to work (when clicked they stop arrangement) - 3 - john
-        * Restore select to mate functionality - 3 - ian
         * Note drag selection/deselection bug across tracks - john
         * Disable delete for family tree cards - ian
 
