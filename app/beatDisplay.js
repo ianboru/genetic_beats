@@ -7,6 +7,8 @@ import chroma from "chroma-js"
 import store from "./stores/store"
 import arrangementStore from "./stores/arrangementStore"
 import familyStore from "./stores/familyStore"
+import messageStore from "./stores/messageStore"
+
 import playingStore from "./stores/playingStore"
 
 import { colors } from "./colors"
@@ -26,11 +28,14 @@ import MatingControls from "./components/matingControls"
 class BeatDisplay extends Component {
   handleClone = () => {
     familyStore.addBeatToCurrentGen(familyStore.currentBeat)
+    messageStore.addMessageToQueue(`Clone of beat ${familyStore.currentBeat.key} created`);
+
   }
 
   handleMutate = () => {
     const newBeat = mutateBeat(familyStore.currentBeat)
     familyStore.addBeatToCurrentGen(newBeat)
+    messageStore.addMessageToQueue(`Mutant of beat ${familyStore.currentBeat.key} created`);
   }
 
   render() {

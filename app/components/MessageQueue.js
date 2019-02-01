@@ -10,17 +10,19 @@ import { colors } from "../colors"
 
 
 const Message = styled.div`
-  background: ${colors.blue.lighter};
+  background: ${colors.gray.darkest};
+  opacity : .98;
   position: fixed;
   top: ${props=>props.index * 40}px;
   right: 50px;
-  left: 15px;
+  left: 0px;
   border-radius : 5px;
-  font-size : 14pt;
+  font-size : 16pt;
   border : 2px solid black;
-  height : 30px;
+  height : 35px;
   vertical-align : middle;
   margin : 0 auto;
+  z-index : 10000;
 `
 
 @observer

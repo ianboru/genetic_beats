@@ -6,7 +6,6 @@ High value and/or easy:
         * Note drag selection/deselection bug across tracks - john
         * Disable delete for family tree cards - ian
 
-    * List and set notifications - 1 - ian
     * Prompt through the process (ie, prompt to mutate after first beat has some instruments or mate after a few beats have been created) - 4 design
         * Suggest mutate for when user is close to a good sound but can’t quite get it
         * Mention that beats are always editable

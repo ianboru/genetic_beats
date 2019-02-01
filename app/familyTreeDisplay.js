@@ -4,6 +4,7 @@ import styled from "styled-components"
 import toJS from "mobx"
 import familyStore from "./stores/familyStore"
 import familyViewStore from "./stores/familyViewStore"
+import messageStore from "./stores/messageStore"
 
 import { colors } from "./colors"
 import { mateGeneration, mateSelectedMembers} from "./mate"
@@ -72,11 +73,18 @@ class FamilyTreeDisplay extends Component {
       })
       nextGeneration = mateSelectedMembers(members)
     } else {
+      messageStore.addMessageToQueue(`Members of generation ${familyStore.generation} mate`);
       nextGeneration = mateGeneration(members)
+      messageStore.addMessageToQueue(`Generation ${familyStore.generation} created`);
+
     }
 
     familyStore.addGeneration(nextGeneration)
-    if (familyViewStore.selectPairMode) { familyViewStore.toggleSelectPairMode() }
+    if (familyViewStore.selectPairMode) { 
+      messageStore.addMessageToQueue(`Selected members mated`);
+      familyViewStore.toggleSelectPairMode() 
+      messageStore.addMessageToQueue(`Generation ${familyStore.generation} created`);
+    }
   }
 
   render() {

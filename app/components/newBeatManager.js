@@ -37,7 +37,7 @@ class NewBeatManager extends Component {
   }
 
   addEmptyBeat = () => {
-    familyStore.addEmptyBeatToCurrentGeneration()
+    familyStore.addEmptyBeatToCurrentGeneration() 
   }
 
   render() {

@@ -5,6 +5,8 @@ import {
 } from "../utils"
 import store from "./store"
 import playingStore from "./playingStore"
+import messageStore from "./messageStore"
+
 import starterBeats from "../starterBeats"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
@@ -152,6 +154,8 @@ class FamilyStore {
       ],
     }
     this.addBeatToCurrentGen(emptyBeat)
+    messageStore.addMessageToQueue(`empty beat added to generation ${this.generation}`);
+
   }
 
   @action addTrackToCurrentBeat = (track) => {

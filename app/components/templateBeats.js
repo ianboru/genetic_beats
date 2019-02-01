@@ -56,7 +56,7 @@ class TemplateBeats extends Component {
   }
   addPresetBeat = (beat) => {
     familyStore.addBeatToCurrentGen(beat)
-    messageStore.addMessageToQueue("beat added to family");
+    messageStore.addMessageToQueue(`template beat ${beat.key} added to generation ${familyStore.generation}`);
     this.setState({ redirectToTemplateBeats : true })
   }
   handleClickPlay = (i) => {

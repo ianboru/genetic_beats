@@ -10,7 +10,6 @@ class MessageStore {
 
   @observable messageQueue = []
 
-
   //
   // ACTIONS
   //
@@ -20,11 +19,10 @@ class MessageStore {
     this.messageQueue.push(message)
     setTimeout(()=>{
       this.popMessageFromQueue()
-    }, 2000)
+    }, 2500)
   }
   @action popMessageFromQueue(){
     this.messageQueue.pop()
-    console.log(this.messageQueue)
   }
 
 }
