@@ -13,14 +13,10 @@ import {
   MdOpenInNew
 } from "react-icons/md"
 
-import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
 import familyViewStore from "../stores/familyViewStore"
-
 import arrangementStore from "../stores/arrangementStore"
-
 import MiniBeat from "./miniBeat"
-import Player from "./player"
 
 import { colors } from "../colors"
 import { deepClone } from "../utils"
@@ -73,6 +69,7 @@ const OpenInNewWindow = styled(NavLink)`
   font-size : 15pt;
   margin-top : 5px;
 `
+
 @observer
 class BeatBlock extends Component {
   handleHover = () => {
@@ -80,6 +77,7 @@ class BeatBlock extends Component {
       familyStore.updateCurrentHighlightedParent(this.props.beat.key)
     }
   }
+
   handleMouseLeave = ()=>{
     if(this.props.familyBlock){
       familyStore.updateCurrentHighlightedParent("")
@@ -109,11 +107,10 @@ class BeatBlock extends Component {
       }
     }
 
-    let playing
+    let playing = this.props.playing
+
     if (this.props.activeBeat && this.props.activeBeat[this.props.index]) {
       playing = this.props.activeBeat[this.props.index].value
-    } else {
-      playing = this.props.playing
     }
 
     const openInNewWindow = !this.props.templateBlock ? <nav>
@@ -132,8 +129,8 @@ class BeatBlock extends Component {
         </DeleteBlockButton> : null
     return (
       <StyledBlock
-        highlight = {this.props.highlight}
-        childHighlight = {childHighlight}
+        highlight       = {this.props.highlight}
+        childHighlight  = {childHighlight}
         parentHighlight = {parentHighlight}
         onMouseEnter   = {this.handleHover}
         onMouseLeave   = {this.handleMouseLeave}

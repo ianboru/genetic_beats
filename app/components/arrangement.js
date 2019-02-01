@@ -144,12 +144,7 @@ class Arrangement extends Component {
     arrangementStore.setArrangementBeatToAdd(evt.target.value)
   }
 
-  handleClickBeat = (beatKey, arrangementIndex) => {
-    const idData = beatKey.split(".")
-    const generation = parseInt(idData[0])
-    const beatNum = parseInt(idData[1])
-    familyStore.selectBeat(generation,beatNum)
-    arrangementStore.setCurrentLitBeat(arrangementIndex)
+  handleClickBeat = (arrangementIndex) => {
   }
 
   render() {
@@ -158,17 +153,14 @@ class Arrangement extends Component {
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
       const currentBeat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
-      const highlight = (i === arrangementStore.currentLitBeat)
       return (
         <BeatBlock
-          index     = {i}
-          key       = {i}
-          beat       = {currentBeat}
-          beatKey   = {beatKey}
-          deleteBlock = {() => { this.deleteBlock(i) }}
-          handleMoveBeat = {this.handleMoveBeat}
-          isCurrentBeat = {highlight}
-          activeBeat = {this.store.activeBeat}
+          index            = {i}
+          key              = {i}
+          beat             = {currentBeat}
+          deleteBlock      = {() => { this.deleteBlock(i) }}
+          handleMoveBeat   = {this.handleMoveBeat}
+          activeBeat       = {this.store.activeBeat}
           arrangementBlock = {true}
         />
       )
@@ -191,7 +183,6 @@ class Arrangement extends Component {
     store.arrangementBeatToAdd
 
     // TODO: Refactor arrangement component from arrangement page
-
 
     return (
       <DragDropContext

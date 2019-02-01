@@ -14,7 +14,6 @@ class ArrangementViewStore {
   @observable litBeat = 0
   @observable beatTimer
 
-
   //
   // ACTIONS
   //

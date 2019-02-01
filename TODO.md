@@ -14,10 +14,8 @@ High value and/or easy:
         * arrangement
         * adjusting volume and other small/helpful behaviors
 
-    * List and set tooltips - 1 - john
-        * Show mating controls help info as tool tips - 2 design - john
+    * Show mating controls help info as tool tips - 2 design - john
     * mutation controls on beat screen - 2 design - ian
-    * mute solo highlight makes it seem like both can be on (needs duller hover-but-not-active state) - 1 - john
     * Select/generation logic & visuals - 3 design - john
     * Improve UX on add synth / instrument flow - 2 design - john
 

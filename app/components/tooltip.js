@@ -27,12 +27,20 @@ const adjacent = {
   right  : "bottom",
 }
 
+const translate = {
+  bottom : "translate(-50%, 0)",
+  top    : "translate(-50%, 0)",
+  left   : "translate(0, 50%)",
+  right  : "translate(0, 50%)",
+}
+
 
 const StyledTooltip = styled.div`
   background: ${color};
   border: 1px solid ${borderColor};
   border-radius: 5px;
   display: inline-block;
+  visibility: hidden;
   opacity: 0.01;
   // TODO: Needs to be applied to separate element so the whole tooltip isn't blurred
   //filter: blur(5px);
@@ -43,12 +51,12 @@ const StyledTooltip = styled.div`
   text-align: center;
   box-shadow: 1px 1px 5px 0px #000;
   ${props => opposite[props.position]}: 100%;
-  transition: opacity 0.2s;
+  transition: visibility 0.2s linear, opacity 0.2s linear;
+  transition-delay: 0.1s;
   z-index: 100;
 
   ${props => adjacent[props.position]}: 50%;
-  // TODO: Needs to be adapted for tooltips in left or right position
-  transform: translate(-50%, 0);
+  transform: ${props => translate[props.position]};
 
   &:after, &:before {
     ${props => props.position}: 100%;
@@ -81,7 +89,8 @@ const TooltipWrapper = styled.div`
   position: relative;
 
   &:hover ${StyledTooltip} {
-    //visibility: visible;
+    transition-delay: 0.7s;
+    visibility: visible;
     opacity: 0.9;
   }
 `
@@ -91,7 +100,7 @@ class Tooltip extends Component {
   render() {
     return (
       <TooltipWrapper>
-        <StyledTooltip position={this.props.position}>
+        <StyledTooltip position={this.props.position} minWidth={this.props.minWidth}>
           {this.props.text}
         </StyledTooltip>
 

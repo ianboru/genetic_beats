@@ -23,7 +23,6 @@ class FamilyViewStore {
     } else {
       this.selectedBeats = [selectedKey]
     }
-    console.log("selected ", toJS(this.selectedBeats))
   }
   @action togglePlayingBeat = (beatKey) =>{
     this.playingBeats[beatKey] = !this.playingBeats[beatKey]

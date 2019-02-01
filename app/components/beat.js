@@ -273,7 +273,7 @@ class Beat extends Component {
 
           <Column align="bottom">
             <Tooltip
-              position = "bottom"
+              position = "left"
               text     = "Mute All"
             >
               <MuteTrackButton
@@ -282,11 +282,15 @@ class Beat extends Component {
               >M</MuteTrackButton>
             </Tooltip>
 
-            <SoloTrackButton
-              active={this.state.activeSoloAll}
-              onClick={()=>{this.handleSoloAll()}}
-              title="Solo All"
-            >S</SoloTrackButton>
+            <Tooltip
+              position = "right"
+              text     = "Solo All"
+            >
+              <SoloTrackButton
+                active={this.state.activeSoloAll}
+                onClick={()=>{this.handleSoloAll()}}
+              >S</SoloTrackButton>
+            </Tooltip>
           </Column>
 
           <Column align="bottom">

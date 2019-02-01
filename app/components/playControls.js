@@ -19,7 +19,7 @@ import familyStore from "../stores/familyStore"
 
 
 const StyledPlayControls = styled.div`
-  margin: 8px 28px;
+  margin: 10px 28px;
   vertical-align: baseline;
 
   svg {
@@ -50,7 +50,7 @@ class PlayControls extends Component {
     return (
       <StyledPlayControls>
         <Tooltip
-          position="bottom"
+          position="top"
           text="Previous Beat"
         >
           <MdSkipPrevious
@@ -59,7 +59,7 @@ class PlayControls extends Component {
           />
         </Tooltip>
         <Tooltip
-          position="bottom"
+          position="top"
           text="Play / Stop"
         >
           <PlayStopButton
@@ -68,7 +68,7 @@ class PlayControls extends Component {
           />
         </Tooltip>
         <Tooltip
-          position="bottom"
+          position="top"
           text="Next Beat"
         >
           <MdSkipNext

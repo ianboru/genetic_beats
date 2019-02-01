@@ -14,6 +14,7 @@ import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 
 import Note from "./note"
+import Tooltip from "./tooltip"
 
 import { allNotesInRange } from "../utils"
 
@@ -207,17 +208,19 @@ class Track extends Component {
         </Column>
 
         <Column>
-          <MuteTrackButton
-            active={activeMute}
-            onClick={()=>{this.props.handleMuteTrack(track)}}
-            title="Mute"
-          >M</MuteTrackButton>
+          <Tooltip position="left" text="Mute">
+            <MuteTrackButton
+              active={activeMute}
+              onClick={()=>{this.props.handleMuteTrack(track)}}
+            >M</MuteTrackButton>
+          </Tooltip>
 
-          <SoloTrackButton
-            active={activeSolo}
-            onClick={()=>{this.props.handleSoloTrack(track)}}
-            title="Solo"
-          >S</SoloTrackButton>
+          <Tooltip position="right" text="Solo">
+            <SoloTrackButton
+              active={activeSolo}
+              onClick={()=>{this.props.handleSoloTrack(track)}}
+            >S</SoloTrackButton>
+          </Tooltip>
         </Column>
 
         <Column>

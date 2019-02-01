@@ -92,8 +92,7 @@ class MatingControl extends Component {
             max           = {100}
             title         = "The likelihood that a sample is added or removed during mutation or mating"
           />
-          <div hidden={this.props.view != "familyTree"}>
-
+          <div hidden={this.props.view !== "familyTree"}>
             <ControlsHeader>
               New Generation
             </ControlsHeader>
