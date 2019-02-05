@@ -17,6 +17,19 @@ class ArrangementViewStore {
   //
   // ACTIONS
   //
+  @action togglePlayingBeat = (activeBeatIndex) => {
+    if (playingStore.playingArrangement) {
+      playingStore.togglePlayArrangement()
+    }
+
+    if (this.activeBeat[activeBeatIndex].value) {
+      this.resetBeatTimer(false)
+    } else {
+      this.resetBeatTimer(false)
+      this.activeBeat[activeBeatIndex].value = true
+    }
+  }
+
   @action incrementLitBeat = () => {
     this.litBeat = (this.litBeat + 1) % arrangementStore.currentArrangement.length
 

@@ -144,7 +144,8 @@ class Arrangement extends Component {
     arrangementStore.setArrangementBeatToAdd(evt.target.value)
   }
 
-  handleClickBeat = (arrangementIndex) => {
+  handlePlayBeat = (arrangementIndex) => {
+    this.store.togglePlayingBeat(arrangementIndex)
   }
 
   render() {
@@ -162,6 +163,7 @@ class Arrangement extends Component {
           handleMoveBeat   = {this.handleMoveBeat}
           activeBeat       = {this.store.activeBeat}
           arrangementBlock = {true}
+          handleClickPlay  = {() => { this.handlePlayBeat(i) }}
         />
       )
     })

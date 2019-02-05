@@ -28,7 +28,7 @@ const StyledBlock = styled.div`
   margin: 6px;
   border: 1px solid #333;
   background-color: ${(props) => {
-    return props.selected ? colors.red.base : "#1d1f27" 
+    return props.selected ? colors.red.base : "#1d1f27"
   }};
   display: inline-block;
   height: 100%;
@@ -88,8 +88,6 @@ class BeatBlock extends Component {
     const beat = deepClone(this.props.beat)
     const idData = beat.key.split(".")
 
-    const PlayStopButton = this.props.playing ? MdStop : MdPlayArrow
-
     let childHighlight = false
 
     if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent && this.props.familyBlock){
@@ -107,11 +105,15 @@ class BeatBlock extends Component {
       }
     }
 
+    // `playing` is true under two conditions. the first is the "easy" way
+    // to get a beat to play (pass in playing={true} prop), the second
+    // is the more efficient way of playing, eg within an arrangement.
     let playing = this.props.playing
-
     if (this.props.activeBeat && this.props.activeBeat[this.props.index]) {
       playing = this.props.activeBeat[this.props.index].value
     }
+
+    const PlayStopButton = playing ? MdStop : MdPlayArrow
 
     const openInNewWindow = !this.props.templateBlock ? <nav>
         <OpenInNewWindow exact to="/" onClick={()=>{
@@ -127,6 +129,7 @@ class BeatBlock extends Component {
         }}>
           &times;
         </DeleteBlockButton> : null
+
     return (
       <StyledBlock
         highlight       = {this.props.highlight}

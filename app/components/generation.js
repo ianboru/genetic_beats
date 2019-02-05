@@ -44,15 +44,14 @@ class Generation extends Component {
   handleClickPlay = (beatKey) => {
     familyViewStore.togglePlayingBeat(beatKey)
   }
+
   handleClickBeat = (beatKey) => {
     if(familyViewStore.selectPairMode){
       familyViewStore.toggleSelect(beatKey)
     }
-    
   }
 
   render() {
-
     const beatBlocks = familyStore.allGenerations[this.props.index].map( (currentBeat, i) => {
       const selected = familyViewStore.selectedBeats.includes(currentBeat.key)
       return (
