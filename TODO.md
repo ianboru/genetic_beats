@@ -2,9 +2,7 @@ High value and/or easy:
 
     Bugs:
         * Play from selected beat in arrangement - 2 - john
-        * Get play buttons in arrangement to work (when clicked they stop arrangement) - 3 - john
         * Note drag selection/deselection bug across tracks - john
-        * Disable delete for family tree cards - ian
 
     * Prompt through the process (ie, prompt to mutate after first beat has some instruments or mate after a few beats have been created) - 4 design
         * Suggest mutate for when user is close to a good sound but can’t quite get it
@@ -12,7 +10,6 @@ High value and/or easy:
         * arrangement
         * adjusting volume and other small/helpful behaviors
 
-    * mutation controls on beat screen - 2 design - ian
     * Select/generation logic & visuals - 3 design - john
     * Improve UX on add synth / instrument flow - 2 design - john
 
@@ -20,7 +17,6 @@ High value and/or easy:
         * Categorize samples
     * Design tabs and colors - 1 - ian
         * Red, Blue, Other blue, Yellow, yellow (in that order)
-    * Say which generation a template beat is being added to - in future allow choosing generation - ian
 
 
 High value but hard:
