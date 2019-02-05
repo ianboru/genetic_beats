@@ -37,6 +37,19 @@ class FamilyViewStore {
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
   }
+  @action selectBeat = (generation, beatNum) => {
+    const selectedKey = `${generation}.${beatNum}`
+    this.generation = generation
+    this.beatNum = beatNum
+
+    if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.push(selectedKey)
+    } else if (this.selectPairMode && this.selectedBeats.includes(selectedKey)) {
+      this.selectedBeats.splice( this.selectedBeats.indexOf(selectedKey), 1 )
+    } else {
+      this.selectedBeats = [selectedKey]
+    }
+  }
 }
 
 const familyViewStore = new FamilyViewStore()

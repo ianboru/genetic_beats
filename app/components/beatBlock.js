@@ -115,7 +115,7 @@ class BeatBlock extends Component {
 
     const openInNewWindow = !this.props.templateBlock ? <nav>
         <OpenInNewWindow exact to="/" onClick={()=>{
-          familyStore.selectBeat(idData[0],idData[1]);
+          familyViewStore.selectBeat(idData[0],idData[1]);
         }}>
           <MdOpenInNew />
         </OpenInNewWindow>
