@@ -20,8 +20,8 @@ const BEAT_STEPS = 16
 class FamilyStore {
   @observable beatNum            = 0
   @observable generation         = 0
-  @observable allGenerations     = [[]]
-  //@observable allGenerations     = [beatTemplates]
+  //@observable allGenerations     = [[]]
+  @observable allGenerations     = [starterBeats]
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable currentHighlightedParent = ""
@@ -158,7 +158,26 @@ class FamilyStore {
 
   }
 
-  @action addTrackToCurrentBeat = (track) => {
+  @action addTrackToCurrentBeat = (beat, trackType) => {
+    const steps = beat.tracks[0].sequence.length
+    let sample
+
+    if (trackType === "sampler") {
+      const beatSamples = beat.tracks.map( (track) => { return track.sample } )
+      const unusedSamples = Object.keys(store.samples).filter( (key) => {
+        const sample = store.samples[key]
+        return !beatSamples.includes(sample.path)
+      })
+      sample = unusedSamples[0]
+    } else if (trackType === "synth") {
+      sample = allNotesInRange[0]
+    }
+    // TODO move to ui control
+    const synthType = "square"
+    const sequence = Array(steps).fill(0)
+
+    let track = {sample, sequence, trackType, synthType}
+
     if(this.numSolo > 0){
       track.mute = true
     }

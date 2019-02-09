@@ -106,13 +106,11 @@ class BeatDisplay extends Component {
           <MatingControls view="beatDisplay"/>
         </div>
 
-        <div>
-          <div style={{
-            overflow   : "auto",
-            background : colors.gray.darkest,
-          }}>
-            {beat}
-          </div>
+        <div style={{
+          overflow   : "visible",
+          background : colors.gray.darkest,
+        }}>
+          {beat}
         </div>
       </div>
     )

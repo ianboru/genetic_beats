@@ -8,7 +8,7 @@ import familyStore from "../stores/familyStore"
 import Button from "./button"
 import Tooltip from "./tooltip"
 
-//import DevTools from "mobx-react-devtools"
+import DevTools from "mobx-react-devtools"
 
 
 const StyledFamilySelect = styled.span`

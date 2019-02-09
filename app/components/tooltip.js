@@ -42,8 +42,8 @@ const StyledTooltip = styled.div`
   display: inline-block;
   visibility: hidden;
   opacity: 0.01;
-  // TODO: Needs to be applied to separate element so the whole tooltip isn't blurred
-  //filter: blur(5px);
+  // TODO: This isn't working for some reason
+  //backdrop-filter: blur(15px);
   font-size: 14px;
   min-width: ${props => props.minWidth ? props.minWidth : 100}px;
   padding: 6px;
@@ -91,7 +91,7 @@ const TooltipWrapper = styled.div`
   &:hover ${StyledTooltip} {
     transition-delay: 0.7s;
     visibility: visible;
-    opacity: 0.9;
+    opacity: 0.8;
   }
 `
 

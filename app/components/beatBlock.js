@@ -135,8 +135,8 @@ class BeatBlock extends Component {
         highlight       = {this.props.highlight}
         childHighlight  = {childHighlight}
         parentHighlight = {parentHighlight}
-        onMouseEnter   = {this.handleHover}
-        onMouseLeave   = {this.handleMouseLeave}
+        //onMouseEnter   = {this.handleHover}
+        //onMouseLeave   = {this.handleMouseLeave}
         selected = {this.props.selected}
         onClick = {this.props.handleClickBeat}
       >

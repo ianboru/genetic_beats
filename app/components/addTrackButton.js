@@ -1,14 +1,25 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import enhanceWithClickOutside from "react-click-outside"
+
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
+import {allNotesInRange} from "../utils"
 import { colors } from "../colors"
 
 import Button from "./button"
 
-import {allNotesInRange} from "../utils"
 
+const StyledAddTrackPopup = styled.div`
+  position: absolute;
+  border-radius: 4px;
+  left: 20px;
+  right: 20px;
+  top: 100%;
+  background: black;
+  border: 1px solid blue;
+`
 
 const StyledAddTrackButton = styled.div`
   background: ${colors.gray.darkest};
@@ -18,6 +29,7 @@ const StyledAddTrackButton = styled.div`
   font-size: 18px;
   margin-top: 6px;
   padding: 2px 0;
+  position: relative;
   text-align: center;
   transition: background-color 0.2s;
   width: 100%;
@@ -29,78 +41,75 @@ const StyledAddTrackButton = styled.div`
   &:active {
     background: #333;
   }
+
+  &:hover ${StyledAddTrackPopup} {
+    background: ${colors.gray.darkest};
+  }
 `
+
 
 
 @observer
 class AddTrackButton extends Component {
   state = {
-    showTrackTypes: false,
+    showAddTrack: false,
   }
 
-  handleAddTrack = (trackType) => {
-    const steps = this.props.beat.tracks[0].sequence.length
-    let sample
-
-    if (trackType === "sampler") {
-      const beatSamples = this.props.beat.tracks.map( (track) => { return track.sample } )
-      const unusedSamples = Object.keys(store.samples).filter( (key) => {
-        const sample = store.samples[key]
-        return !beatSamples.includes(sample.path)
-      })
-
-      sample = unusedSamples[0]
-    } else if (trackType === "synth") {
-      sample = allNotesInRange[0]
+  toggleShowAddTrack = (show) => {
+    if (show === true || show === false) {
+      this.setState({ showAddTrack: show})
+    } else {
+      this.setState({ showAddTrack: !this.state.showAddTrack})
     }
-    //TODO move to ui control
-    const synthType = "square"
-    const sequence = Array(steps).fill(0)
-    familyStore.addTrackToCurrentBeat({sample, sequence, trackType, synthType})
+  }
+
+  render() {
+    return (
+      <StyledAddTrackButton
+        onClick = {this.toggleShowAddTrack}
+        title   = "Add a new sampler or synth instrument track"
+      >
+        Add Instrument
+
+        <AddTrackPopup
+          handleCancel = {this.toggleShowAddTrack}
+          show         = {this.state.showAddTrack}
+        />
+      </StyledAddTrackButton>
+    )
+  }
+}
+
+
+@enhanceWithClickOutside
+@observer
+class AddTrackPopup extends Component {
+  handleClickOutside = () => {
+    this.props.handleCancel(true)
   }
 
   handleAddSamplerTrack = () => {
-    this.handleAddTrack("sampler")
-    this.toggleShowTrackTypes()
+    familyStore.addTrackToCurrentBeat(this.props.beat, "sampler")
+    this.props.handleCancel()
   }
 
   handleAddSynthTrack = () => {
-    this.handleAddTrack("synth")
-    this.toggleShowTrackTypes()
+    familyStore.addTrackToCurrentBeat(this.props.beat, "synth")
+    this.props.handleCancel()
   }
 
-  toggleShowTrackTypes = () => {
-    this.setState({ showTrackTypes: !this.state.showTrackTypes})
-  }
-
-  renderTrackTypes = () => {
+  render() {
     return (
-      <div>
+      <StyledAddTrackPopup>
         <Button small onClick={this.handleAddSamplerTrack}>Add Sampler Track</Button>
         <Button small onClick={this.handleAddSynthTrack}>Add Synth Track</Button>
         <Button
           small
           color   = {[colors.red.base]}
-          onClick = {this.toggleShowTrackTypes}
+          onClick = {this.props.handleCancel}
         >Cancel</Button>
-      </div>
+      </StyledAddTrackPopup>
     )
-  }
-
-  renderAddInstrument = () => {
-    return (
-      <StyledAddTrackButton onClick={this.toggleShowTrackTypes} title="Add a new sampler or synth instrument track">
-        Add Instrument
-      </StyledAddTrackButton>
-    )
-  }
-
-  render() {
-    if (this.state.showTrackTypes) {
-      return this.renderTrackTypes()
-    } else {
-      return this.renderAddInstrument()
-    }
   }
 }
 

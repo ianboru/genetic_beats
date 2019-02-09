@@ -31,6 +31,7 @@ const StyledBeat = styled.div`
   display: table;
   position: relative;
   margin: 0px auto 15px;
+  overflow: visible;
   padding: 10px;
 `
 
