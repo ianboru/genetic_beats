@@ -29,3 +29,9 @@ Run everything here *outside* of the vagrant box unless otherwise specified:
 
     # Separate terminal window
     npm start    # Run webpack
+
+
+Icon Set
+--------
+
+* https://react-icons.netlify.com/#/icons/md
