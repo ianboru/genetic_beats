@@ -22,5 +22,6 @@
 
 - include_tasks: nodejs.yml
 - include_tasks: letsencrypt.yml
+  when: vagrant is not defined or not vagrant
 - include_tasks: nginx.yml
 - include_tasks: site.yml

@@ -5,6 +5,7 @@
   gather_facts: no
   vars:
     env: development
+    vagrant: true
 
   pre_tasks:
     - name: "Install python2"
