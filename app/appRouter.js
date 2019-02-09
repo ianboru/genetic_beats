@@ -39,7 +39,7 @@ const AppRouter = () => {
 
   return (
     <Router>
-      <div>
+      <div style={{overflow:"visible"}}>
         <MessageQueue/>
         <FamilySelect />
         

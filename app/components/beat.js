@@ -31,6 +31,7 @@ const StyledBeat = styled.div`
   display: table;
   position: relative;
   margin: 0px auto 15px;
+  overflow: visible;
   padding: 10px;
 `
 
@@ -306,7 +307,7 @@ class Beat extends Component {
           <Column />
           <Column />
           <Column style={{textAlign: "center"}}>
-            <AddTrackButton beat={this.props.beat} />
+            <AddTrackButton />
           </Column>
         </div>
       </StyledBeat>

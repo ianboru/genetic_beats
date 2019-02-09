@@ -7,6 +7,7 @@ import store from "./store"
 import playingStore from "./playingStore"
 import messageStore from "./messageStore"
 
+import {allNotesInRange} from "../utils"
 import starterBeats from "../starterBeats"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
@@ -158,7 +159,26 @@ class FamilyStore {
 
   }
 
-  @action addTrackToCurrentBeat = (track) => {
+  @action addTrackToCurrentBeat = (trackType) => {
+    const steps = this.currentBeat.tracks[0].sequence.length
+    let sample
+
+    if (trackType === "sampler") {
+      const beatSamples = this.currentBeat.tracks.map( (track) => { return track.sample } )
+      const unusedSamples = Object.keys(store.samples).filter( (key) => {
+        const sample = store.samples[key]
+        return !beatSamples.includes(sample.path)
+      })
+      sample = unusedSamples[0]
+    } else if (trackType === "synth") {
+      sample = allNotesInRange[0]
+    }
+    // TODO move to ui control
+    const synthType = "square"
+    const sequence = Array(steps).fill(0)
+
+    let track = {sample, sequence, trackType, synthType}
+
     if(this.numSolo > 0){
       track.mute = true
     }
