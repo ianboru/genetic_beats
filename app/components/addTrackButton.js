@@ -7,19 +7,24 @@ import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import { colors } from "../colors"
 
+import DrumsetIcon from "../svg/drumset.svg"
+import SynthIcon from "../svg/synth.svg"
+
 import Button from "./button"
 
 
 const StyledAddTrackPopup = styled.div`
-  position: absolute;
-  padding: 2px;
-  border-radius: 4px;
-  left: 20px;
-  right: 20px;
-  top: 100%;
   background: ${colors.gray.darker};
-  border: 2px solid ${colors.gray.dark};
+  border-radius: 4px;
+  border: 2px solid ${colors.green.base};
+  box-shadow: 0px 0px 5px 3px rgba(255, 255, 255, 0.8);
+  left: 10px;
+  right: 10px;
   opacity: ${props => props.show ? 1 : 0};
+  padding: 2px;
+  position: absolute;
+  top: 100%;
+  margin-top: 10px;
   transition: opacity 0.2s;
 `
 
@@ -50,7 +55,7 @@ const StyledAddTrackButton = styled.div`
 @observer
 class AddTrackButton extends Component {
   state = {
-    showAddTrack: false,
+    showAddTrack: true,
   }
 
   handleClickOutside = () => {
@@ -58,7 +63,7 @@ class AddTrackButton extends Component {
   }
 
   toggleShowAddTrack = () => {
-    this.setState({ showAddTrack: !this.state.showAddTrack})
+    this.setState({ showAddTrack: !this.state.showAddTrack })
   }
 
   render() {
@@ -94,12 +99,39 @@ class AddTrackPopup extends Component {
   render() {
     return (
       <StyledAddTrackPopup show={this.props.show}>
-        <Button small onClick={this.handleAddSamplerTrack}>Add Sampler Track</Button>
-        <Button small onClick={this.handleAddSynthTrack}>Add Synth Track</Button>
+        <Button
+          large
+          onClick={this.handleAddSamplerTrack}
+          color={[colors.green.lightest]}
+          textColor = "black"
+        >
+          <br />
+          <DrumsetIcon
+            height={80}
+            width={100}
+          />
+          <br /><br />
+          Sampler
+        </Button>
+        <Button
+          large
+          onClick={this.handleAddSynthTrack}
+          color={[colors.green.lightest]}
+          textColor = "black"
+        >
+          <br />
+          <SynthIcon
+            height={80}
+            width={100}
+          />
+          <br /><br />
+          Synth
+        </Button>
+        <br />
         <Button
           small
-          color   = {[colors.red.base]}
           onClick = {this.props.handleCancel}
+          color   = {[colors.red.base]}
         >Cancel</Button>
       </StyledAddTrackPopup>
     )

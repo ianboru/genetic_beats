@@ -15,7 +15,7 @@ const Button = styled.button.attrs({
   background-color: ${props => props.color};
   border-radius: 3px;
   border: 3px solid ${props => props.color};
-  color: white;
+  color: ${props => props.textColor ? props.textColor : "white"};
   float: ${props => props.right ? "right" : props.left ? "left" : "none" };
   font-family: "Ubuntu";
   cursor: pointer;
@@ -27,7 +27,6 @@ const Button = styled.button.attrs({
 
   &:hover {
     background: ${props => props.altcolor};
-    color: white;
   }
 `
 

@@ -22,6 +22,8 @@ const colors = {
     darker  : "#A30700",
   },
   green: {
+    lightest : chroma("#32B209").brighten(),
+    light : chroma("#32B209").brighten(0.3),
     base : "#32B209",
   },
   yellow: {
