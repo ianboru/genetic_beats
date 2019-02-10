@@ -55,7 +55,7 @@ const StyledAddTrackButton = styled.div`
 @observer
 class AddTrackButton extends Component {
   state = {
-    showAddTrack: true,
+    showAddTrack: false,
   }
 
   handleClickOutside = () => {
