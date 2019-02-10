@@ -40,8 +40,8 @@ const StyledTooltip = styled.div`
   border: 1px solid ${borderColor};
   border-radius: 5px;
   display: inline-block;
-  visibility: hidden;
-  opacity: 0.01;
+  visibility: ${props=> props.show ? 'visible' : 'hidden'};
+  opacity: ${props=> props.show ? 1 : 0.0};
   // TODO: Needs to be applied to separate element so the whole tooltip isn't blurred
   //filter: blur(5px);
   font-size: 14px;
@@ -100,12 +100,11 @@ class Tooltip extends Component {
   render() {
     return (
       <TooltipWrapper>
-        <StyledTooltip position={this.props.position} minWidth={this.props.minWidth}>
+        <StyledTooltip show={this.props.displayCondition} position={this.props.position} minWidth={this.props.minWidth}>
           {this.props.text}
         </StyledTooltip>
-
         {this.props.children}
-      </TooltipWrapper>
+      </TooltipWrapper> 
     )
   }
 }

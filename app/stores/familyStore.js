@@ -26,6 +26,9 @@ class FamilyStore {
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable currentHighlightedParent = ""
+  @observable numMutations         = 0
+  @observable numEdits            = 0
+  @observable numClones           = 0
 
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
@@ -54,7 +57,12 @@ class FamilyStore {
     })
     return beatKeys
   }
-
+  @action incrementNumMutations(){
+    ++this.numMutations 
+  }
+  @action incrementNumClonings(){
+    ++this.numClones
+  }
   @action updateCurrentHighlightedParent = (beatKey)=>{
     this.currentHighlightedParent = beatKey
   }
@@ -189,6 +197,7 @@ class FamilyStore {
   }
 
   @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
+    ++this.numEdits
     const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
     this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] = newNote
     this.updateFamilyInStorage()

@@ -11,6 +11,8 @@ import MessageQueue from "./components/messageQueue"
 import Arrangement from "./components/arrangement"
 import FamilySelect from "./components/familySelect"
 import TemplateBeats from "./components/templateBeats"
+import Tooltip from "./components/tooltip"
+import familyStore from "./stores/familyStore"
 
 
 const TabButton = styled(NavLink)`
@@ -46,7 +48,13 @@ const AppRouter = () => {
         <nav>
           <div>
             <TabButton exact to="/" activeStyle={ActiveTabButtonStyles}>Beat</TabButton>
-            <TabButton to="/familytree/" activeStyle={ActiveTabButtonStyles}>Family Tree</TabButton>
+            <Tooltip
+              position = "bottom"
+              text     = "View family and mate beats"
+              displayCondition = {familyStore.allGenerations[0].length > 2}
+            >
+              <TabButton to="/familytree/" activeStyle={ActiveTabButtonStyles}>Family Tree</TabButton>
+            </Tooltip>
             <TabButton to="/templates/" activeStyle={ActiveTabButtonStyles}>Template Beats</TabButton>
             <TabButton to="/arrangement/" activeStyle={ActiveTabButtonStyles}>Arrangement</TabButton>
           </div>

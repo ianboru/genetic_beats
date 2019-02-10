@@ -24,17 +24,21 @@ import Tooltip from "./components/tooltip"
 import MatingControls from "./components/matingControls"
 
 
+
 @observer
 class BeatDisplay extends Component {
+
   handleClone = () => {
     familyStore.addBeatToCurrentGen(familyStore.currentBeat)
     messageStore.addMessageToQueue(`Clone of beat ${familyStore.currentBeat.key} created`);
+   familyStore.incrementNumClonings()
 
   }
 
   handleMutate = () => {
     const newBeat = mutateBeat(familyStore.currentBeat)
     familyStore.addBeatToCurrentGen(newBeat)
+    familyStore.incrementNumMutations()
     messageStore.addMessageToQueue(`Mutant of beat ${familyStore.currentBeat.key} created`);
   }
 
@@ -83,6 +87,8 @@ class BeatDisplay extends Component {
           <Tooltip
             position = "bottom"
             text     = "Create a new mutated beat from the current beat"
+            displayCondition = {familyStore.numEdits == 4 && familyStore.numMutations == 0}
+
           >
             <Button
               color   = {[colors.green.base]}
@@ -95,6 +101,8 @@ class BeatDisplay extends Component {
           <Tooltip
             position = "bottom"
             text     = "Create an exact copy of the current beat"
+            displayCondition = {familyStore.numEdits == 6 && familyStore.numClones == 0}
+
           >
             <Button
               color={[colors.green.base]}
