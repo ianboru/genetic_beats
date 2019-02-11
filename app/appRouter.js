@@ -17,24 +17,31 @@ import { observer } from "mobx-react"
 
 
 const TabButton = styled(NavLink)`
-  background: #888;
+  background: #444;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  color: white;
+  color: #ccc;
   cursor: pointer;
   display: inline-block;
-  margin: 1px;
-  padding: 5px 10px;
+  padding: 5px 20px;
+  min-width: 80px;
+  text-align: center;
   text-decoration: none;
 
   &:hover {
-    background: #999;
+    background: #888;
+    color: white;
   }
 `
 
 const ActiveTabButtonStyles = {
-  background: "#666",
+  color: "white",
+  background: "#888",
+  borderRight: "2px solid #333",
+  borderLeft: "2px solid #333",
 }
+
+const PROMPT_DURATION = 10000
 
 @observer
 class AppRouter extends React.Component {
@@ -43,41 +50,47 @@ class AppRouter extends React.Component {
     showedFamilyTooltip : false,
     arrangementTooltipTimer : null,
     showedArrangementTooltip : false,
-
   }
-  componentDidUpdate(){
-    if(familyStore.allGenerations[0].length == 2 && !this.state.showedFamilyTooltip && this.state.familyTooltipTimer == null){
+
+  componentDidUpdate() {
+    if (familyStore.allGenerations[0].length == 2 && !this.state.showedFamilyTooltip && !this.state.familyTooltipTimer) {
       this.setState({
         familyTooltipTimer : setTimeout(()=>{
           this.setState({
             showedFamilyTooltip : true
           })
-        },3000)
+        },PROMPT_DURATION)
       })
     }
-    if(familyStore.allGenerations.length == 2 && !this.state.showedArrangementTooltip && this.state.arrangementTooltipTimer == null){
+
+    if (familyStore.allGenerations.length == 2 && !this.state.showedArrangementTooltip && !this.state.arrangementTooltipTimer) {
       this.setState({
         arrangementTooltipTimer : setTimeout(()=>{
           this.setState({
             showedArrangementTooltip : true
           })
-        },3000)
+        }, PROMPT_DURATION)
       })
     }
   }
+
   componentWillUnmount(){
-      clearTimeout(this.state.familyTooltipTimer)
-      clearTimeout(this.state.arrangementTooltipTimer)
+    clearTimeout(this.state.familyTooltipTimer)
+    clearTimeout(this.state.arrangementTooltipTimer)
   }
+
   render(){
+    familyStore.allGenerations.length
+    familyStore.allGenerations[0].length
+
     return (
       <Router>
         <div style={{overflow:"visible"}}>
           <MessageQueue/>
           <FamilySelect />
-          
+
           <nav>
-            <div>
+            <div style={{borderBottom: "3px solid #888"}}>
               <TabButton exact to="/" activeStyle={ActiveTabButtonStyles}>Beat</TabButton>
               <Tooltip
                 position = "bottom"

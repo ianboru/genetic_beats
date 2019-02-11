@@ -10,13 +10,13 @@ import { colors } from "../colors"
 
 
 const Message = styled.div`
-  background: #b2bf2e;
+  background: ${chroma("#b2bf2e").brighten(1.4)};
   border: 2px solid black;
   border-radius: 5px;
   box-shadow: 0px 0px 3px 1px rgba(255, 255, 255, 0.8);
   color: #333;
+  display: inline-block;
   font-size: 14pt;
-  left: 10px;
   right: 10px;
   margin: 0;
   opacity: .98;
