@@ -1,22 +1,10 @@
 High value and/or easy:
 
-    Bugs:
-        * Play from selected beat in arrangement - 2 - john
-        * Note drag selection/deselection bug across tracks - john
-
-    * Prompt through the process (ie, prompt to mutate after first beat has some instruments or mate after a few beats have been created) - 4 design
-        * Suggest mutate for when user is close to a good sound but can’t quite get it
-        * Mention that beats are always editable
-        * arrangement
-        * adjusting volume and other small/helpful behaviors
-
-    * Select/generation logic & visuals - 3 design - john
-    * Improve UX on add synth / instrument flow - 2 design - john
-
-    * Redesign sample selection (to test sample without changing) - john
-        * Categorize samples
-    * Design tabs and colors - 1 - ian
-        * Red, Blue, Other blue, Yellow, yellow (in that order)
+* Play *from* selected beat in arrangement - 2 - ian
+* Select/generation logic & visuals - 3 design - john
+* Redesign sample selection (to test sample without changing) - john
+    * Categorize samples
+* Add synth/sampler icons next to each track - 1 -john
 
 
 High value but hard:
@@ -31,6 +19,7 @@ High value but hard:
     * Add multiple measures to beat and pagination when creating/play
 
 medium/low value:
+    * Note drag selection/deselection bug across tracks - john
     * TODO about refactoring actual arrangement to its own component
     * Simplify more around arrangement playback
     * play a generation
