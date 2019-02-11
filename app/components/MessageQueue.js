@@ -10,18 +10,20 @@ import { colors } from "../colors"
 
 
 const Message = styled.div`
-  background: ${colors.gray.darkest};
-  opacity : .98;
+  background: #b2bf2e;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px rgba(255, 255, 255, 0.8);
+  color: #333;
+  font-size: 14pt;
+  left: 10px;
+  right: 10px;
+  margin: 0;
+  opacity: .98;
+  padding: 4px 10px;
   position: fixed;
-  top: ${props=>props.index * 40}px;
-  right: 50px;
-  left: 0px;
-  border-radius : 5px;
-  font-size : 16pt;
-  border : 2px solid black;
-  height : 35px;
+  top: ${props=> props.index * 50 + 10}px;
   vertical-align : middle;
-  margin : 0 auto;
   z-index : 10000;
 `
 
@@ -30,10 +32,11 @@ class MessageQueue extends Component {
   render() {
     const messageQueue = messageStore.messageQueue.map((message, index)=>{
       return(
-          <Message index={index}>{message}</Message>
+        <Message 
+          index = {index}
+        >{message}</Message>
       )
     })
- 
 
     return (
       <div>
