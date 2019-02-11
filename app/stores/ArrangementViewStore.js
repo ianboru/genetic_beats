@@ -21,7 +21,6 @@ class ArrangementViewStore {
     if (playingStore.playingArrangement) {
       playingStore.togglePlayArrangement()
     }
-
     if (this.activeBeat[activeBeatIndex].value) {
       this.resetBeatTimer(false)
     } else {
@@ -29,10 +28,8 @@ class ArrangementViewStore {
       this.activeBeat[activeBeatIndex].value = true
     }
   }
-
   @action incrementLitBeat = () => {
     this.litBeat = (this.litBeat + 1) % arrangementStore.currentArrangement.length
-
     this.activeBeat.forEach( (beat, i) => {
       if (i === this.litBeat) {
         this.activeBeat[i].value = true
@@ -57,7 +54,6 @@ class ArrangementViewStore {
 
     if (playing) {
       const msPerQNote = 1 / (playingStore.tempo / 60 / 1000) * 4
-
       this.beatTimer = setInterval(this.incrementLitBeat, msPerQNote)
       this.activeBeat[0].value = true
     } else {

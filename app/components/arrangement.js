@@ -75,38 +75,9 @@ const DeleteBlockButton = styled.div`
 
 
 @observer
-class Block extends Component {
-  render() {
-    return (
-      <Draggable draggableId={`${this.props.beatKey}${this.props.index}`} index={this.props.index}>
-        {provided => (
-          <StyledBlock
-            innerRef  = {provided.innerRef}
-            highlight = {this.props.highlight}
-            onClick   = {this.props.handleClickBeat}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <p>{this.props.beatKey}</p>
-            <DeleteBlockButton onClick={(e) => {
-              this.props.deleteBlock()
-              e.stopPropagation()
-            }}>
-              &times;
-            </DeleteBlockButton>
-            {this.props.children}
-          </StyledBlock>
-        )}
-      </Draggable>
-    )
-  }
-}
-
-@observer
 class Arrangement extends Component {
   constructor(props) {
     super(props)
-
     this.store = new ArrangementViewStore()
   }
 
@@ -149,6 +120,7 @@ class Arrangement extends Component {
   }
 
   render() {
+    //Force rerender when playingArrangment changes
     playingStore.playingArrangement
 
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {

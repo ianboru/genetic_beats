@@ -21,7 +21,6 @@ class PlayingStore {
   // STATE
   //
   @observable playingArrangement = false
-
   @observable tempo              = 100
   @observable metronome          = false
   @observable trackPreviewers    = {}
