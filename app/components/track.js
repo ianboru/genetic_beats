@@ -18,6 +18,9 @@ import Tooltip from "./tooltip"
 
 import { allNotesInRange } from "../utils"
 
+import DrumsetIcon from "../svg/drumset.svg"
+import SynthIcon from "../svg/synth.svg"
+
 import Column from "../styledComponents/column"
 import GainSlider from "./gainSlider"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
@@ -26,8 +29,8 @@ import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 const trackNameStyles = {
   display       : "inline-block",
-  width         : 190,
-  textAlign     : "center",
+  width         : 220,
+  textAlign     : "left",
 }
 
 
@@ -197,6 +200,26 @@ class Track extends Component {
 
         <Column>
           <div style={trackNameStyles}>
+            {track.trackType === "sampler" ?
+              <DrumsetIcon
+                height={25}
+                width={35}
+                style={{
+                  verticalAlign: "middle",
+                  filter: "brightness(0) invert(1)",
+                  padding: "0 3px 0 7px",
+                }}
+              /> :
+              <SynthIcon
+                height={25}
+                width={35}
+                style={{
+                  verticalAlign: "middle",
+                  filter: "brightness(0) invert(1)",
+                  padding: "0 3px 0 7px",
+                }}
+              />
+            }
             <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={track.sample} onChange={this.handleSampleChange}>
               {sampleOptions}
             </select>
