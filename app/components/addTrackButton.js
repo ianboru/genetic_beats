@@ -25,7 +25,8 @@ const StyledAddTrackPopup = styled.div`
   position: absolute;
   top: 100%;
   margin-top: 10px;
-  transition: opacity 0.2s;
+  transition: visibility 0.2s linear, opacity 0.2s linear;
+  visibility: ${props=> props.show ? 'visible' : 'hidden'};
 `
 
 const StyledAddTrackButton = styled.div`

@@ -42,8 +42,6 @@ const StyledTooltip = styled.div`
   display: inline-block;
   visibility: ${props=> props.show ? 'visible' : 'hidden'};
   opacity: ${props=> props.show ? 1 : 0.0};
-  // TODO: Needs to be applied to separate element so the whole tooltip isn't blurred
-  //filter: blur(5px);
   font-size: 14px;
   min-width: ${props => props.minWidth ? props.minWidth : 100}px;
   padding: 6px;
