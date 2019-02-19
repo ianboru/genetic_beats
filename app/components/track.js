@@ -18,8 +18,6 @@ import Tooltip from "./tooltip"
 import GainSlider from "./gainSlider"
 import SamplePicker from "./samplePicker"
 
-import { allNotesInRange } from "../utils"
-
 import DrumsetIcon from "../svg/drumset.svg"
 import SynthIcon from "../svg/synth.svg"
 
@@ -83,32 +81,33 @@ class Track extends Component {
   }
 
   renderSamplePreviewer = () => {
-    if (this.props.track.trackType === "synth") {
-      const synthType = this.props.track.synthType ? this.props.track.synthType : "sine"
+    const { track } = this.props
+    if (track.trackType === "synth") {
+      const synthType = track.synthType ? track.synthType : "sine"
       return(
-          <span>
-            <button
-              style   = {{verticalAlign:"middle"}}
-              onClick = {() => {playingStore.toggleTrackPreviewer(this.props.track.sample) }}
-            >Play</button>
-            <Song
-              playing = {playingStore.trackPreviewers[this.props.track.sample]}
-              tempo   = {store.tempo}
-              ref     = {(c)=>{this.song=c}}
+        <span>
+          <button
+            style   = {{verticalAlign:"middle"}}
+            onClick = {() => {playingStore.toggleTrackPreviewer(track.sample) }}
+          >Play</button>
+          <Song
+            playing = {playingStore.trackPreviewers[track.sample]}
+            tempo   = {store.tempo}
+            ref     = {(c)=>{this.song=c}}
+          >
+            <Sequencer
+              bars       = {1}
+              resolution = {track.sequence.length}
             >
-              <Sequencer
-                bars       = {1}
-                resolution = {this.props.track.sequence.length}
-              >
-                <Synth
-                  key   = {this.props.track.key + this.props.synthType + "synth"}
-                  type  = {synthType }
-                  steps = {[[0, 2, this.props.track.sample]]}
-                  gain  = {store.synthGain[synthType]/store.synthGainCorrection[synthType]}
-                />
-              </Sequencer>
-            </Song>
-          </span>
+              <Synth
+                key   = {track.key + synthType + "synth"}
+                type  = {synthType}
+                steps = {[[0, 2, track.sample]]}
+                gain  = {store.synthGain[synthType]/store.synthGainCorrection[synthType]}
+              />
+            </Sequencer>
+          </Song>
+        </span>
       )
     } else {
       return (
@@ -117,8 +116,8 @@ class Track extends Component {
             style   = {{verticalAlign:"middle"}}
             onClick = {() => this.samplePreviewer.play()}
           >Play</button>
-          <audio key={this.props.track.sample} ref={ref => this.samplePreviewer = ref}>
-            <source src={store.samples[this.props.track.sample].path}/>
+          <audio key={track.sample} ref={ref => this.samplePreviewer = ref}>
+            <source src={store.samples[track.sample].path}/>
           </audio>
         </span>
       )
@@ -135,19 +134,19 @@ class Track extends Component {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <Note
-          key     = {`${i}.${note}`}
-          value   = {note}
+          key   = {`${i}.${note}`}
+          value = {note}
           activeNotes = {this.props.activeNotes}
           onClick = {(e) => {
-              this.setState({
-                lastEntered : i,
-                lastClickedNoteWasOn :  familyStore.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
-              })
-              this.handleNoteToggle(i,note,true)
+            this.setState({
+              lastEntered : i,
+              lastClickedNoteWasOn: familyStore.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
+            })
+            this.handleNoteToggle(i,note,true)
           }}
           onMouseOver = {(e) => {
             if (e.buttons == 1 && this.state.lastEntered != i) {
-              this.handleNoteToggle(i,this.state.lastClickedNoteWasOn,false)
+              this.handleNoteToggle(i, this.state.lastClickedNoteWasOn, false)
               this.setState({
                 lastEntered : i
               })
@@ -159,8 +158,6 @@ class Track extends Component {
     })
 
     const track = this.props.track
-    const trackNameParts = track.sample.split("/")
-    const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
 
     return (
       <StyledTrack>
@@ -205,7 +202,7 @@ class Track extends Component {
           <Tooltip position="left" text="Mute">
             <MuteTrackButton
               active={track.mute}
-              onClick={()=>{this.props.handleMuteTrack(track)}}
+              onClick={() => {this.props.handleMuteTrack(track)}}
             >M</MuteTrackButton>
           </Tooltip>
 
@@ -218,7 +215,11 @@ class Track extends Component {
         </Column>
 
         <Column>
-          <GainSlider sample={track.sample} trackType={track.trackType} synthType={track.synthType} />
+          <GainSlider
+            sample    = {track.sample}
+            synthType = {track.synthType}
+            trackType = {track.trackType}
+          />
         </Column>
 
         <Column>

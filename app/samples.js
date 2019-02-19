@@ -26,7 +26,6 @@ export default {
     mute: false,
     solo: false,
   },
-
   "samples/8580_P_T_078.wav": {
     name: "8580_P_T_078",
     path: staticFilePath + "samples/8580_P_T_078.wav",
@@ -35,7 +34,6 @@ export default {
     mute: false,
     solo: false,
   },
-
   "samples/clave.wav": {
     name: "clave",
     path: staticFilePath + "samples/clave.wav",
@@ -76,7 +74,6 @@ export default {
     mute: false,
     solo: false,
   },
-
   "samples/snare.wav": {
     name: "snare",
     path: staticFilePath + "samples/snare.wav",
@@ -141,5 +138,4 @@ export default {
     mute: false,
     solo: false,
   },
-
 }
