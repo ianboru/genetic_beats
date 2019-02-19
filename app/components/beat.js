@@ -93,16 +93,6 @@ class Beat extends Component {
     this.store.resetNoteTimer(false)
   }
 
-  handleEdit = (track, note) => {
-    let { beat } = this.props
-    this.props.handleToggleNote(track, note)
-  }
-
-  handleSampleChange = (track, sample) => {
-    let { beat } = this.props
-    this.props.handleSetSample(track, sample)
-  }
-
   handleMuteAll = () => {
     playingStore.toggleMuteAll(this.state.activeMuteAll)
     this.setState({
@@ -183,15 +173,12 @@ class Beat extends Component {
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
-          key                = {`${this.props.beat.key}.${i}`}
-          trackNum           = {i}
-          track              = {track}
-          handleEdit         = {this.handleEdit}
-          handleRemoveTrack  = {this.props.handleRemoveTrack}
-          handleSampleChange = {this.handleSampleChange}
-          handleMuteTrack    = {this.handleMuteTrack}
-          handleSoloTrack    = {this.handleSoloTrack}
-          activeNotes        = {this.store.activeNotes}
+          key             = {`${this.props.beat.key}.${i}`}
+          trackNum        = {i}
+          track           = {track}
+          handleMuteTrack = {this.handleMuteTrack}
+          handleSoloTrack = {this.handleSoloTrack}
+          activeNotes     = {this.store.activeNotes}
         />
       )
     })

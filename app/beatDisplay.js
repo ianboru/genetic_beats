@@ -1,28 +1,20 @@
 import React, { Component } from "react"
-import ReactFileReader from 'react-file-reader'
 import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
 import store from "./stores/store"
-import arrangementStore from "./stores/arrangementStore"
 import familyStore from "./stores/familyStore"
 import messageStore from "./stores/messageStore"
-
-import playingStore from "./stores/playingStore"
 
 import { colors } from "./colors"
 import { mutateBeat } from "./mutate"
 
-import Header from "./styledComponents/header"
-
 import Beat from "./components/beat"
 import Button from "./components/button"
-import NewBeatManager from "./components/newBeatManager"
-
-import Tooltip from "./components/tooltip"
 import MatingControls from "./components/matingControls"
-
+import NewBeatManager from "./components/newBeatManager"
+import Tooltip from "./components/tooltip"
 
 
 @observer
@@ -31,8 +23,7 @@ class BeatDisplay extends Component {
   handleClone = () => {
     familyStore.addBeatToCurrentGen(familyStore.currentBeat)
     messageStore.addMessageToQueue(`Clone of beat ${familyStore.currentBeat.key} created`);
-   familyStore.incrementNumClonings()
-
+    familyStore.incrementNumClonings()
   }
 
   handleMutate = () => {
@@ -53,12 +44,9 @@ class BeatDisplay extends Component {
 
         return (
           <Beat
-            key               = {beat.key}
-            ref               = {r => { this.beat = r }}
-            beat              = {beat}
-            handleRemoveTrack = {(trackNum) => familyStore.removeTrackFromBeat(generation, beatNum, trackNum) }
-            handleToggleNote  = {(trackNum, note) => familyStore.toggleNoteOnBeat(generation, beatNum, trackNum, note) }
-            handleSetSample   = {(trackNum, sample) => familyStore.setSampleOnBeat(generation, beatNum, trackNum, sample) }
+            key  = {beat.key}
+            ref  = {r => { this.beat = r }}
+            beat = {beat}
           />
         )
       }

@@ -15,6 +15,8 @@ import playingStore from "../stores/playingStore"
 
 import Note from "./note"
 import Tooltip from "./tooltip"
+import GainSlider from "./gainSlider"
+import SamplePicker from "./samplePicker"
 
 import { allNotesInRange } from "../utils"
 
@@ -22,7 +24,6 @@ import DrumsetIcon from "../svg/drumset.svg"
 import SynthIcon from "../svg/synth.svg"
 
 import Column from "../styledComponents/column"
-import GainSlider from "./gainSlider"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
 
@@ -65,28 +66,24 @@ class Track extends Component {
   }
 
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
-    const { handleEdit, trackNum } = this.props
+    const { trackNum } = this.props
 
-    if(wasClicked){
-      handleEdit(trackNum, noteNumber)
-    }else if(!wasClicked && wasOn && familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]){
-      handleEdit(trackNum, noteNumber)
+    if (wasClicked) {
+      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
+    } else if (!wasClicked && wasOn && familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]) {
+      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
+    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]) {
+      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
     }
-    else if(!wasClicked && !wasOn && !familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]){
-      handleEdit(trackNum, noteNumber)
-    }
-  }
-
-  handleRemoveTrack = () => {
-    this.props.handleRemoveTrack(this.props.trackNum)
   }
 
   handleSampleChange = (e) => {
-    this.props.handleSampleChange(this.props.trackNum, e.target.value)
+    const { trackNum } = this.props
+    familyStore.setSampleOnCurrentBeat(trackNum, e.target.value)
   }
 
   renderSamplePreviewer = () => {
-    if(this.props.track.trackType == "synth"){
+    if (this.props.track.trackType === "synth") {
       const synthType = this.props.track.synthType ? this.props.track.synthType : "sine"
       return(
           <span>
@@ -162,35 +159,8 @@ class Track extends Component {
     })
 
     const track = this.props.track
-
     const trackNameParts = track.sample.split("/")
     const trackName = trackNameParts[trackNameParts.length - 1].split(".")[0]
-    let activeSolo
-    let activeMute
-    activeMute = track.mute
-    activeSolo = track.solo
-    let sampleOptions = Object.keys(store.samples).map( (key) => {
-      const sample = store.samples[key]
-      return (
-        <option
-          key   = {sample.path}
-          value = {key}
-        >{sample.name}</option>
-      )
-    })
-
-    if (track.trackType === "synth") {
-      sampleOptions = allNotesInRange.map( (noteName) => {
-        const synthType = track.synthType ? track.synthType : "sine"
-        const noteString = noteName + "-" + synthType
-        return (
-          <option
-            key   = {noteName}
-            value = {noteName}
-          >{noteString}</option>
-        )
-      })
-    }
 
     return (
       <StyledTrack>
@@ -207,7 +177,7 @@ class Track extends Component {
                 style={{
                   verticalAlign: "middle",
                   filter: "brightness(0) invert(1)",
-                  padding: "0 3px 0 7px",
+                  padding: "0 5px 0 5px",
                 }}
               /> :
               <SynthIcon
@@ -216,13 +186,14 @@ class Track extends Component {
                 style={{
                   verticalAlign: "middle",
                   filter: "brightness(0) invert(1)",
-                  padding: "0 3px 0 7px",
+                  padding: "0 5px 0 5px",
                 }}
               />
             }
-            <select style={{fontSize:15, backgroundColor: 'lightgray'}} value={track.sample} onChange={this.handleSampleChange}>
-              {sampleOptions}
-            </select>
+            <SamplePicker
+              track = {track}
+              handleSampleChange = {this.handleSampleChange}
+            />
           </div>
         </Column>
 
@@ -233,28 +204,28 @@ class Track extends Component {
         <Column>
           <Tooltip position="left" text="Mute">
             <MuteTrackButton
-              active={activeMute}
+              active={track.mute}
               onClick={()=>{this.props.handleMuteTrack(track)}}
             >M</MuteTrackButton>
           </Tooltip>
 
           <Tooltip position="right" text="Solo">
             <SoloTrackButton
-              active={activeSolo}
+              active={track.solo}
               onClick={()=>{this.props.handleSoloTrack(track)}}
             >S</SoloTrackButton>
           </Tooltip>
         </Column>
 
         <Column>
-          <GainSlider sample={track.sample} trackType={track.trackType} synthType={track.synthType}/>
+          <GainSlider sample={track.sample} trackType={track.trackType} synthType={track.synthType} />
         </Column>
 
         <Column>
           <RemoveTrackButton
             className = "remove-track"
             title     = {"Delete track"}
-            onClick   = {this.handleRemoveTrack}
+            onClick   = {() => {familyStore.removeTrackFromCurrentBeat(this.props.trackNum)}}
           ><MdDeleteForever/></RemoveTrackButton>
         </Column>
       </StyledTrack>

@@ -30,6 +30,7 @@ class FamilyStore {
   @observable numEdits            = 0
   @observable numClones           = 0
 
+
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
@@ -57,12 +58,16 @@ class FamilyStore {
     })
     return beatKeys
   }
-  @action incrementNumMutations(){
-    ++this.numMutations 
+
+
+  @action incrementNumMutations() {
+    this.numMutations++
   }
-  @action incrementNumClonings(){
-    ++this.numClones
+
+  @action incrementNumClonings() {
+    this.numClones++
   }
+
   @action updateCurrentHighlightedParent = (beatKey)=>{
     this.currentHighlightedParent = beatKey
   }
@@ -100,7 +105,6 @@ class FamilyStore {
     }
   }
 
-
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
     this.arrangements = [ [] ]
@@ -120,7 +124,6 @@ class FamilyStore {
     const familyNames = JSON.parse(localStorage.getItem("familyNames"))
     this.familyNames = familyNames
   }
-
 
   @action clearSavedFamilies = (state) => {
     // SIDE EFFECT
@@ -187,30 +190,29 @@ class FamilyStore {
 
     let track = {sample, sequence, trackType, synthType}
 
-    if(this.numSolo > 0){
+    if (this.numSolo > 0) {
       track.mute = true
     }
-    this.currentBeat.tracks.forEach((track)=>{
+    this.currentBeat.tracks.forEach((track) => {
       playingStore.trackPreviewers[track.sample] = false
     })
     this.currentBeat.tracks.push(track)
   }
 
-  @action toggleNoteOnBeat = (generation, beatNum, trackNum, note) => {
-    ++this.numEdits
-    const newNote = this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    this.allGenerations[generation][beatNum].tracks[trackNum].sequence[note] = newNote
+  @action toggleNoteOnCurrentBeat = (trackNum, note) => {
+    const newNote = this.currentBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    this.currentBeat.tracks[trackNum].sequence[note] = newNote
+    this.updateFamilyInStorage()
+    this.numEdits++
+  }
+
+  @action setSampleOnCurrentBeat = (trackNum, sample) => {
+    this.currentBeat.tracks[trackNum].sample = sample
     this.updateFamilyInStorage()
   }
 
-  @action setSampleOnBeat = (generation, beatNum, trackNum, sample) => {
-    // set new sample
-    this.allGenerations[generation][beatNum].tracks[trackNum].sample = sample
-    this.updateFamilyInStorage()
-  }
-
-  @action removeTrackFromBeat = (generation, beatNum, trackNum) => {
-    this.allGenerations[this.generation][this.beatNum].tracks.splice(trackNum, 1)
+  @action removeTrackFromCurrentBeat = (trackNum) => {
+    this.currentBeat.tracks.splice(trackNum, 1)
     this.updateFamilyInStorage()
   }
 
