@@ -1,10 +1,9 @@
 High value and/or easy:
 
 * Play *from* selected beat in arrangement - 2 - ian
-* Select/generation logic & visuals - 3 design - john
 * Redesign sample selection (to test sample without changing) - john
     * Categorize samples
-* Add synth/sampler icons next to each track - 1 -john
+* Select/generation logic & visuals - 3 design - john
 
 
 High value but hard:
