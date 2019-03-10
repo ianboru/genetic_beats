@@ -8,7 +8,7 @@ Add beat:
 Randomize Song, Create Song, create new/switch arrangement:
 	stop arrangement
 	stop beat
-	set selected beat to 0  
+	set selected beat to 0
 
 Delete beat:
 	change active beat length
@@ -29,9 +29,9 @@ Play arrangement
 	set active beat[selected beat] to true
 	increment active beat
 	if last beat then restart
-	
+
 Stop arrangement
-	stop active beat 
+	stop active beat
 Play individual beat
 	stop arrangement
 Stop individual beat
@@ -56,3 +56,8 @@ TODOs
 * Drag and Drop on arrangements is broken
 * Handle arrangement when we call killSubsequentGenerations
 * Handle arrangement when we select new family
+* Selecting beats on Family Tree tab is broken
+* Add warning when playing but there are no notes to play
+* Main beat player can get *way* off
+* Fix link to beat detail from family tree beatblocks
+* Deleting beats while the arrangement is playing can break
