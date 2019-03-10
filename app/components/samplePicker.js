@@ -8,6 +8,11 @@ import familyStore from "../stores/familyStore"
 import { allNotesInRange } from "../utils"
 
 
+const StyledSelect = styled.div`
+  display: inline-block;
+`
+
+
 @observer
 class SamplePicker extends Component {
   render() {
@@ -35,16 +40,18 @@ class SamplePicker extends Component {
     }
 
     return (
-      <select
-        onChange = {this.props.handleSampleChange}
-        value    = {this.props.track.sample}
-        style    = {{
-          fontSize:15, 
-          backgroundColor: 'lightgray',
-        }} 
-      >
-        {sampleOptions}
-      </select>
+      <StyledSelect>
+        <select
+          onChange = {this.props.handleSampleChange}
+          value    = {this.props.track.sample}
+          style    = {{
+            fontSize: 15,
+            backgroundColor: "lightgray",
+          }}
+        >
+          {sampleOptions}
+        </select>
+      </StyledSelect>
     )
   }
 }
