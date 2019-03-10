@@ -10,7 +10,7 @@ import { reaction, toJS } from "mobx"
 import store from "../stores/store"
 import arrangementStore from '../stores/arrangementStore'
 import familyStore from "../stores/familyStore"
-import arrangementViewStore from "../stores/ArrangementGlobalViewStore"
+import arrangementViewStore from "../stores/arrangementGlobalViewStore"
 
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
@@ -78,18 +78,14 @@ const DeleteBlockButton = styled.div`
 @observer
 class ArrangementPanel extends Component {
   componentDidMount() {
-    if (arrangementViewStore.playingArrangement) {
-      arrangementViewStore.stopPlayingBeat()
-      arrangementViewStore.startPlayingBeat()
-    }
+    // TODO: Move this a reaction to store
     this.arrangementReaction = reaction(() => {
       return arrangementStore.currentArrangement.length
     }, (arrangementLength) => arrangementViewStore.setArrangementLength(arrangementLength))
   }
-
   componentDidUpdate() {
+    // TODO: Make this a reaction, move to store
     if (arrangementViewStore.playingArrangement && !arrangementViewStore.beatTimer) {
-      arrangementViewStore.stopPlayingBeat()
       arrangementViewStore.startPlayingBeat()
     } else if (!arrangementViewStore.playingArrangement && arrangementViewStore.beatTimer) {
       arrangementViewStore.stopPlayingBeat()
@@ -97,7 +93,9 @@ class ArrangementPanel extends Component {
   }
 
   componentWillUnmount() {
+    // TODO: Part of reaction above
     this.arrangementReaction()
+
     arrangementViewStore.reset()
   }
 
@@ -117,6 +115,10 @@ class ArrangementPanel extends Component {
     arrangementViewStore.togglePlayingBeat(arrangementIndex)
   }
 
+  handleClickBeat = (arrangementIndex) => {
+    arrangementViewStore.setSelectedBeat(arrangementIndex)
+  }
+
   render() {
     //Force rerender when playingArrangment changes
     arrangementViewStore.playingArrangement
@@ -132,8 +134,10 @@ class ArrangementPanel extends Component {
           deleteBlock      = {() => { this.deleteBlock(i) }}
           handleMoveBeat   = {this.handleMoveBeat}
           beatPlayingStates = {arrangementViewStore.beatPlayingStates}
+          selected         = {i === arrangementViewStore.selectedBeat}
           arrangementBlock = {true}
           handleClickPlay  = {() => { this.handlePlayBeat(i) }}
+          handleClickBeat  = {() => { this.handleClickBeat(i) }}
         />
       )
     })

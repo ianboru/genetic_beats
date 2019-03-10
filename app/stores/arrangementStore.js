@@ -2,7 +2,7 @@ import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import familyStore from "./familyStore"
 import store from "./store"
 import controlStore from "./controlStore"
-import arrangementViewStore from "../stores/ArrangementGlobalViewStore"
+import arrangementViewStore from "../stores/arrangementGlobalViewStore"
 
 import {
   getNormalProbability,

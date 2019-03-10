@@ -5,7 +5,7 @@ import styled from "styled-components"
 import Button from "./button"
 
 import arrangementStore from "../stores/arrangementStore"
-import arrangementViewStore from "../stores/ArrangementGlobalViewStore"
+import arrangementViewStore from "../stores/arrangementGlobalViewStore"
 
 import { colors } from "../colors"
 

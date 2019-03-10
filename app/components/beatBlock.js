@@ -22,14 +22,15 @@ import { colors } from "../colors"
 import { deepClone } from "../utils"
 
 
+
+const selectedColor = colors.red.base
+
 const StyledBlock = styled.div`
   border-radius: 3px;
   box-shadow: 1px 1px 4px 0px black;
   margin: 6px;
   border: 1px solid #333;
-  background-color: ${(props) => {
-    return props.selected ? colors.red.base : "#1d1f27"
-  }};
+  background-color: ${(props) => props.selected ? selectedColor : "#1d1f27"};
   display: inline-block;
   height: 100%;
   width: 150px;
@@ -39,7 +40,7 @@ const StyledBlock = styled.div`
   cursor: pointer;
   &:hover {
     color: black;
-    background-color: ${props => props.highlight ? chroma("#e9573f").brighten(0.5) : colors.red.lighter};
+    background-color: ${(props) => props.selected ? selectedColor : colors.red.lighter};
   }
 `
 
@@ -132,12 +133,11 @@ class BeatBlock extends Component {
 
     return (
       <StyledBlock
-        highlight       = {this.props.highlight}
+        selected        = {this.props.selected || playing}
         childHighlight  = {childHighlight}
         parentHighlight = {parentHighlight}
         onMouseEnter    = {this.handleHover}
         onMouseLeave    = {this.handleMouseLeave}
-        selected        = {this.props.selected || playing}
         onClick         = {this.props.handleClickBeat}
       >
         {openInNewWindow}
