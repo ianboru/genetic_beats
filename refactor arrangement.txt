@@ -47,3 +47,12 @@ Change or Create family:
 	Rewire in general
 
 	Reset arrangement component
+
+
+
+TODOs
+* Refactor updateFamilyInStorage to work with multiple stores
+    * Make sure to save arrangement data (no longer called with localStorage.setItem)
+* Drag and Drop on arrangements is broken
+* Handle arrangement when we call killSubsequentGenerations
+* Handle arrangement when we select new family

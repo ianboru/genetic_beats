@@ -81,7 +81,6 @@ class FamilyStore {
 
     localStorage.setItem(this.familyName, JSON.stringify({
       family :this.allGenerations,
-      arrangements : this.arrangements,
     }))
   }
 
@@ -107,8 +106,6 @@ class FamilyStore {
 
   @action killSubsequentGenerations = () => {
     this.allGenerations = this.allGenerations.slice(0, this.generation+1)
-    this.arrangements = [ [] ]
-    this.currentArrangementIndex = 0
   }
 
   @action selectFamily = (familyName) => {
@@ -116,8 +113,6 @@ class FamilyStore {
     // SIDE EFFECT
     const familyData = JSON.parse(localStorage.getItem(familyName))
     this.allGenerations = familyData.family
-    this.arrangements = familyData.arrangements
-    this.currentArrangementIndex = 0
     this.beatNum = 0
     this.generation = 0
 
@@ -135,7 +130,6 @@ class FamilyStore {
 
     localStorage.setItem(this.familyName, JSON.stringify({
       family :this.allGenerations,
-      arrangements : this.arrangements,
     }))
   }
 
