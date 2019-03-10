@@ -9,9 +9,8 @@ import { reaction, toJS } from "mobx"
 
 import store from "../stores/store"
 import arrangementStore from '../stores/arrangementStore'
-import playingStore from '../stores/playingStore'
 import familyStore from "../stores/familyStore"
-import ArrangementViewStore from "../stores/ArrangementViewStore"
+import arrangementViewStore from "../stores/ArrangementGlobalViewStore"
 
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
@@ -74,33 +73,32 @@ const DeleteBlockButton = styled.div`
 `
 
 
-@observer
-class Arrangement extends Component {
-  constructor(props) {
-    super(props)
-    this.store = new ArrangementViewStore()
-  }
+// TODO: More actual arrangement to its own component
 
+@observer
+class ArrangementPanel extends Component {
   componentDidMount() {
-    if (playingStore.playingArrangement) {
-      this.store.resetBeatTimer(true)
+    if (arrangementViewStore.playingArrangement) {
+      arrangementViewStore.stopPlayingBeat()
+      arrangementViewStore.startPlayingBeat()
     }
     this.arrangementReaction = reaction(() => {
       return arrangementStore.currentArrangement.length
-    }, (arrangementLength) => this.store.setArrangementLength(arrangementLength))
+    }, (arrangementLength) => arrangementViewStore.setArrangementLength(arrangementLength))
   }
 
   componentDidUpdate() {
-    if (playingStore.playingArrangement && !this.store.beatTimer) {
-      this.store.resetBeatTimer(true)
-    } else if (!playingStore.playingArrangement && this.store.beatTimer) {
-      this.store.resetBeatTimer(false)
+    if (arrangementViewStore.playingArrangement && !arrangementViewStore.beatTimer) {
+      arrangementViewStore.stopPlayingBeat()
+      arrangementViewStore.startPlayingBeat()
+    } else if (!arrangementViewStore.playingArrangement && arrangementViewStore.beatTimer) {
+      arrangementViewStore.stopPlayingBeat()
     }
   }
 
   componentWillUnmount() {
     this.arrangementReaction()
-    this.store.resetBeatTimer(false)
+    arrangementViewStore.reset()
   }
 
   deleteBlock = (index) => {
@@ -116,24 +114,24 @@ class Arrangement extends Component {
   }
 
   handlePlayBeat = (arrangementIndex) => {
-    this.store.togglePlayingBeat(arrangementIndex)
+    arrangementViewStore.togglePlayingBeat(arrangementIndex)
   }
 
   render() {
     //Force rerender when playingArrangment changes
-    playingStore.playingArrangement
+    arrangementViewStore.playingArrangement
 
     const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
       let splitKey = beatKey.split(".")
-      const currentBeat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
+      const beat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
       return (
         <BeatBlock
           index            = {i}
           key              = {i}
-          beat             = {currentBeat}
+          beat             = {beat}
           deleteBlock      = {() => { this.deleteBlock(i) }}
           handleMoveBeat   = {this.handleMoveBeat}
-          activeBeat       = {this.store.activeBeat}
+          activeBeat       = {arrangementViewStore.activeBeat}
           arrangementBlock = {true}
           handleClickPlay  = {() => { this.handlePlayBeat(i) }}
         />
@@ -163,7 +161,9 @@ class Arrangement extends Component {
         onDragEnd = {onDragEnd}
       >
         <div>
-          <ArrangementControls />
+          <ArrangementControls
+            playing = {arrangementViewStore.playingArrangement}
+          />
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
             {provided => (
@@ -195,4 +195,4 @@ class Arrangement extends Component {
 }
 
 
-export default Arrangement
+export default ArrangementPanel

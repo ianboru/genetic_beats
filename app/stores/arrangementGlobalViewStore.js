@@ -6,7 +6,7 @@ import playingStore from "./playingStore"
 import beatTemplates from "../beatTemplates"
 
 
-class ArrangementViewStore {
+class ArrangementGlobalViewStore {
   //
   // STATE
   //
@@ -14,20 +14,42 @@ class ArrangementViewStore {
   @observable litBeat = 0
   @observable beatTimer
 
+  @observable playingArrangement = false
+
   //
   // ACTIONS
   //
+  //
+
+  @action reset = () => {
+    clearInterval(this.beatTimer)
+
+    this.activeBeat = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
+    this.litBeat = 0
+    this.beatTimer = null
+    this.playingArrangement = false
+  }
+
+  @action togglePlayArrangement = () => {
+    this.playingArrangement = !this.playingArrangement
+  }
+
+  @action stopPlayArrangement = () => {
+    this.playingArrangement = false
+  }
+
   @action togglePlayingBeat = (activeBeatIndex) => {
-    if (playingStore.playingArrangement) {
-      playingStore.togglePlayArrangement()
+    if (this.playingArrangement) {
+      this.togglePlayArrangement()
     }
     if (this.activeBeat[activeBeatIndex].value) {
-      this.resetBeatTimer(false)
+      this.stopPlayingBeat()
     } else {
-      this.resetBeatTimer(false)
+      this.stopPlayingBeat()
       this.activeBeat[activeBeatIndex].value = true
     }
   }
+
   @action incrementLitBeat = () => {
     this.litBeat = (this.litBeat + 1) % arrangementStore.currentArrangement.length
     this.activeBeat.forEach( (beat, i) => {
@@ -47,18 +69,17 @@ class ArrangementViewStore {
     })
   }
 
-  @action resetBeatTimer = (playing) => {
+  // Left off here, this is really resetArrangement
+  @action stopPlayingBeat = () => {
     this.activeBeat = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
-
     clearInterval(this.beatTimer)
+    this.resetLitBeat()
+  }
 
-    if (playing) {
-      const msPerQNote = 1 / (playingStore.tempo / 60 / 1000) * 4
-      this.beatTimer = setInterval(this.incrementLitBeat, msPerQNote)
-      this.activeBeat[0].value = true
-    } else {
-      this.resetLitBeat()
-    }
+  @action startPlayingBeat = () => {
+    const msPerQNote = 1 / (playingStore.tempo / 60 / 1000) * 4
+    this.beatTimer = setInterval(this.incrementLitBeat, msPerQNote)
+    this.activeBeat[0].value = true
   }
 
   @action setArrangementLength = (arrangementLength) => {
@@ -70,4 +91,6 @@ class ArrangementViewStore {
 }
 
 
-export default ArrangementViewStore
+const arrangementGlobalViewStore = new ArrangementGlobalViewStore()
+
+export default arrangementGlobalViewStore

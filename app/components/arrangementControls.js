@@ -5,7 +5,7 @@ import styled from "styled-components"
 import Button from "./button"
 
 import arrangementStore from "../stores/arrangementStore"
-import playingStore from "../stores/playingStore"
+import arrangementViewStore from "../stores/ArrangementGlobalViewStore"
 
 import { colors } from "../colors"
 
@@ -29,6 +29,7 @@ class ArrangementControls extends Component {
   handleSelectArrangement = (evt) => {
     arrangementStore.selectArrangement(parseInt(evt.target.value))
   }
+
   randomizeBestBeats = () => {
     const confirmMessage = "Randomizing beats now will clear your existing arrangement.\nAre you sure you want to do that?"
     if (arrangementStore.currentArrangement.length > 0) {
@@ -52,7 +53,7 @@ class ArrangementControls extends Component {
   }
 
   render() {
-    const PlayStopButton = playingStore.playingArrangement ? MdStop : MdPlayArrow
+    const PlayStopButton = arrangementViewStore.playingArrangement ? MdStop : MdPlayArrow
 
     let arrangementOptions = []
     arrangementStore.arrangements.forEach((arrangement,index) => {
@@ -95,7 +96,7 @@ class ArrangementControls extends Component {
           {arrangementStore.currentArrangement.length > 0 ?
           <PlayStopButton
             size    = {80}
-            onClick = {playingStore.togglePlayArrangement}
+            onClick = {arrangementViewStore.togglePlayArrangement}
             style={{verticalAlign: "middle", "marginBottom" : "15px"}}
           /> : null}
         </div>

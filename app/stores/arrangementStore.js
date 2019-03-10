@@ -2,7 +2,7 @@ import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import familyStore from "./familyStore"
 import store from "./store"
 import controlStore from "./controlStore"
-import playingStore from "./playingStore"
+import arrangementViewStore from "../stores/ArrangementGlobalViewStore"
 
 import {
   getNormalProbability,
@@ -24,8 +24,8 @@ class ArrangementStore {
   @action addArrangement = () => {
     this.arrangements.push([])
     this.currentArrangementIndex = this.arrangements.length-1
-    if(playingStore.playingArrangement){
-      playingStore.togglePlayArrangement()
+    if(arrangementViewStore.playingArrangement) {
+      arrangementViewStore.togglePlayArrangement()
     }
   }
 
@@ -34,20 +34,20 @@ class ArrangementStore {
   }
 
   @action moveBeatInArrangement = (currentIndex, destinationIndex) => {
-    if(playingStore.playingArrangement){
-      playingStore.togglePlayArrangement()
+    if(arrangementViewStore.playingArrangement){
+      arrangementViewStore.togglePlayArrangement()
     }
-    const beatToMove = this.arrangements[this.currentArrangementIndex].splice(currentIndex, 1)
-    this.arrangements[this.currentArrangementIndex].splice(destinationIndex, 0, beatToMove[0])
+    const beatToMove = this.currentArrangement.splice(currentIndex, 1)
+    this.currentArrangement.splice(destinationIndex, 0, beatToMove[0])
   }
 
   @action addBeatToArrangement = (beatKey) => {
-    this.arrangements[this.currentArrangementIndex].push(beatKey)
+    this.currentArrangement.push(beatKey)
     familyStore.updateFamilyInStorage()
   }
 
   @action deleteBeatFromArrangement = (index) => {
-    this.arrangements[this.currentArrangementIndex].splice(index,1)
+    this.currentArrangement.splice(index,1)
     familyStore.updateFamilyInStorage()
   }
 
@@ -77,14 +77,14 @@ class ArrangementStore {
             numRepeats = Math.floor(Math.random() * 3) + 1
           }
           for (let i=0; i < numRepeats; i++) {
-            this.arrangements[this.currentArrangementIndex].push(beat.key)
+            this.currentArrangement.push(beat.key)
           }
         }
       })
     })
 
-    if(playingStore.playingArrangement){
-      playingStore.togglePlayArrangement()
+    if(arrangementViewStore.playingArrangement){
+      arrangementViewStore.togglePlayArrangement()
     }
   }
 
@@ -166,7 +166,7 @@ class ArrangementStore {
               scoreComparitor > Math.random()) ||
               (!acceptedBeat && numTries > 50)
             ) {
-            this.arrangements[this.currentArrangementIndex].push(randomBeat.key)
+            this.currentArrangement.push(randomBeat.key)
             acceptedBeat = true
             lastBeat = randomBeat
             numTries = 0
@@ -176,8 +176,8 @@ class ArrangementStore {
       }
     })
 
-    if(playingStore.playingArrangement){
-      playingStore.togglePlayArrangement()
+    if(arrangementViewStore.playingArrangement){
+      arrangementViewStore.togglePlayArrangement()
     }
     familyStore.updateFamilyInStorage()
   }

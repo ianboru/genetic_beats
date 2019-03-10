@@ -46,7 +46,7 @@ class App extends Component {
   handleKeyPress = (e) => {
     if (e.code == "Space") {
       e.preventDefault()
-      playingStore.togglePlay()
+      // TODO: Handle this on each tab
     } else if (e.code == "ArrowRight") {
       playingStore.nextBeat()
     } else if (e.code == "ArrowLeft") {

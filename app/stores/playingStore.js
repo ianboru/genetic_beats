@@ -10,7 +10,6 @@ import {
 } from "../utils"
 
 import familyStore from "./familyStore"
-import arrangementStore from "./arrangementStore"
 
 
 configure({ enforceActions: "always" })
@@ -20,7 +19,6 @@ class PlayingStore {
   //
   // STATE
   //
-  @observable playingArrangement = false
   @observable tempo              = 100
   @observable metronome          = false
   @observable trackPreviewers    = {}
@@ -37,21 +35,6 @@ class PlayingStore {
         this.toggleTrackPreviewer([index])
       }, 1000)
     }
-  }
-
-  @action togglePlay = () => {
-    if(this.spaceButtonTarget == "currentBeat"){
-      // TODO: Rewire BeatStore to do this
-      //this.togglePlayCurrentBeat()
-    }else{
-      this.togglePlayArrangement()
-    }
-  }
-
-  @action togglePlayArrangement = () => {
-    this.spaceButtonTarget = "currentArrangement"
-    this.playingArrangement = !this.playingArrangement
-    clearInterval(this.noteTimer)
   }
 
   @action setTempo = (tempo) => {

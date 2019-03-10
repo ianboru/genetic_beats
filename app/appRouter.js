@@ -8,7 +8,7 @@ import BeatDisplay from "./beatDisplay"
 import FamilyTreeDisplay from "./familyTreeDisplay"
 import MessageQueue from "./components/messageQueue"
 
-import Arrangement from "./components/arrangement"
+import ArrangementPanel from "./components/arrangementPanel"
 import FamilySelect from "./components/familySelect"
 import TemplateBeats from "./components/templateBeats"
 import Tooltip from "./components/tooltip"
@@ -124,7 +124,7 @@ class AppRouter extends React.Component {
               }}
             />
             <Route path="/templates/" component={TemplateBeats} />
-            <Route path="/arrangement/" component={Arrangement} />
+            <Route path="/arrangement/" component={ArrangementPanel} />
           </Switch>
         </div>
       </Router>
