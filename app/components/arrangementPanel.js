@@ -131,7 +131,7 @@ class ArrangementPanel extends Component {
           beat             = {beat}
           deleteBlock      = {() => { this.deleteBlock(i) }}
           handleMoveBeat   = {this.handleMoveBeat}
-          activeBeat       = {arrangementViewStore.activeBeat}
+          beatPlayingStates = {arrangementViewStore.beatPlayingStates}
           arrangementBlock = {true}
           handleClickPlay  = {() => { this.handlePlayBeat(i) }}
         />

@@ -109,8 +109,8 @@ class BeatBlock extends Component {
     // to get a beat to play (pass in playing={true} prop), the second
     // is the more efficient way of playing, eg within an arrangement.
     let playing = this.props.playing
-    if (this.props.activeBeat && this.props.activeBeat[this.props.index]) {
-      playing = this.props.activeBeat[this.props.index].value
+    if (this.props.beatPlayingStates && this.props.beatPlayingStates[this.props.index]) {
+      playing = this.props.beatPlayingStates[this.props.index].value
     }
 
     const PlayStopButton = playing ? MdStop : MdPlayArrow
@@ -135,12 +135,12 @@ class BeatBlock extends Component {
         highlight       = {this.props.highlight}
         childHighlight  = {childHighlight}
         parentHighlight = {parentHighlight}
-        onMouseEnter   = {this.handleHover}
-        onMouseLeave   = {this.handleMouseLeave}
-        selected = {this.props.selected}
-        onClick = {this.props.handleClickBeat}
+        onMouseEnter    = {this.handleHover}
+        onMouseLeave    = {this.handleMouseLeave}
+        selected        = {this.props.selected || playing}
+        onClick         = {this.props.handleClickBeat}
       >
-      {openInNewWindow}
+        {openInNewWindow}
         <PlayStopButton
           size    = {30}
           onClick = {this.props.handleClickPlay}
