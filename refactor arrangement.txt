@@ -1,0 +1,49 @@
+(refactor lit to selected)
+
+Arrangement initialization:
+
+Add beat:
+	change active beat length
+
+Randomize Song, Create Song, create new/switch arrangement:
+	stop arrangement
+	stop beat
+	set selected beat to 0  
+
+Delete beat:
+	change active beat length
+	if(deleted beat is before active):
+		splice out deleted beat from active beats
+		decrement select beat by one
+
+	else if (deleted beat is active:
+		delete one active beat off the end
+		if deleted beat is last:
+			set selected beat to 0
+	else
+		delete off the end
+
+
+
+Play arrangement
+	set active beat[selected beat] to true
+	increment active beat
+	if last beat then restart
+	
+Stop arrangement
+	stop active beat 
+Play individual beat
+	stop arrangement
+Stop individual beat
+	stop arrangement
+Leave arrangement
+	stop arrangement
+	stop beat
+
+Drag and drop
+
+Change or Create family:
+	Set arrangements to family's arrangement
+	Rewire in general
+
+	Reset arrangement component
