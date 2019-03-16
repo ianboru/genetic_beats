@@ -1,19 +1,18 @@
 import React from "react"
 import { BrowserRouter as Router, Route, NavLink, Switch } from "react-router-dom"
 import styled from "styled-components"
+import { observer } from "mobx-react"
 
-import {colors} from "./colors"
+import familyStore from "./stores/familyStore"
 
 import BeatDisplay from "./beatDisplay"
 import FamilyTreeDisplay from "./familyTreeDisplay"
-import MessageQueue from "./components/messageQueue"
 
+import MessageQueue     from "./components/messageQueue"
 import ArrangementPanel from "./components/arrangementPanel"
-import FamilySelect from "./components/familySelect"
-import TemplateBeats from "./components/templateBeats"
-import Tooltip from "./components/tooltip"
-import familyStore from "./stores/familyStore"
-import { observer } from "mobx-react"
+import FamilySelect     from "./components/familySelect"
+import TemplateBeats    from "./components/templateBeats"
+import Tooltip          from "./components/tooltip"
 
 
 const TabButton = styled(NavLink)`
@@ -100,13 +99,18 @@ class AppRouter extends React.Component {
                 <TabButton to="/familytree/" activeStyle={ActiveTabButtonStyles}>Family Tree</TabButton>
               </Tooltip>
               <TabButton to="/templates/" activeStyle={ActiveTabButtonStyles}>Template Beats</TabButton>
-              <Tooltip
-                position = "bottom"
-                text     = "Make song from beats"
-                displayCondition = {this.state.arrangementTooltipTimer && !this.state.showedArrangementTooltip}
-              >
-                <TabButton to="/arrangement/" activeStyle={ActiveTabButtonStyles}>Arrangement</TabButton>
-              </Tooltip>
+              {
+                familyStore.allGenerations[0].length > 0 ? <Tooltip
+                    position = "bottom"
+                    text     = "Make song from beats"
+                    displayCondition = {this.state.arrangementTooltipTimer && !this.state.showedArrangementTooltip}
+                  >
+                    <TabButton
+                      to="/arrangement/"
+                      activeStyle={ActiveTabButtonStyles}
+                    >Arrangement</TabButton>
+                  </Tooltip> : null
+              }
             </div>
           </nav>
 
