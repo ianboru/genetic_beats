@@ -133,12 +133,15 @@ class BeatBlock extends Component {
 
     return (
       <StyledBlock
+        innerRef        = {this.props.innerRef}
         selected        = {this.props.selected || playing}
         childHighlight  = {childHighlight}
         parentHighlight = {parentHighlight}
         onMouseEnter    = {this.handleHover}
         onMouseLeave    = {this.handleMouseLeave}
         onClick         = {this.props.handleClickBeat}
+        {...this.props.draggableProps}
+        {...this.props.dragHandleProps}
       >
         {openInNewWindow}
         <PlayStopButton

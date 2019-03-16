@@ -7,7 +7,6 @@ Bugs:
     * restart beat with new beat (genetics, next) - ian
     * There is silence/chopiness after each beat when playing in arrangement - ian
     * add beat to arrangement when no beats breaks (disable arrangement)
-    * Drag and Drop on arrangements is broken - john
     * Add warning when playing but there are no notes to play - john 
     * Fix link to beat detail from family tree beatblocks - ian
     * tooltip blocks arrangemenet controls - john
