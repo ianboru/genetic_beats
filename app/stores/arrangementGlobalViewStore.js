@@ -34,10 +34,6 @@ class ArrangementGlobalViewStore {
     this.playingArrangement = !this.playingArrangement
   }
 
-  @action stopPlayArrangement = () => {
-    this.playingArrangement = false
-  }
-
   @action togglePlayingBeat = (activeBeatIndex) => {
     if (this.playingArrangement) {
       this.togglePlayArrangement()

@@ -5,6 +5,7 @@ Bugs:
     * Main beat player can get *way* off - ian
         * metronome off from beat 
     * restart beat with new beat (genetics, next) - ian
+    * switching beat quickly breaks beat 
     * There is silence/chopiness after each beat when playing in arrangement - ian
     * add beat to arrangement when no beats breaks (disable arrangement)
     * Drag and Drop on arrangements is broken - john

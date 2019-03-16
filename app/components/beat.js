@@ -18,6 +18,7 @@ import Track from "./track"
 
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
+import beatViewStore from "../stores/beatViewStore"
 import BeatStore from "../stores/BeatStore"
 
 import { colors } from "../colors"
@@ -82,14 +83,17 @@ class Beat extends Component {
   }
 
   componentDidMount() {
-    this.playReaction = reaction(() => this.store.playing, (playing) => this.store.resetNoteTimer(playing))
-    if (this.store.playing) {
+    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => this.store.resetNoteTimer(playing))
+    console.log(beatViewStore.playing)
+    if (beatViewStore.playing) {
+      console.log("baet mount")
       this.store.resetNoteTimer(true)
     }
   }
 
   componentWillUnmount() {
-    this.playReaction()
+    console.log("beat unounnt")
+    this.disablePlayReaction()
     this.store.resetNoteTimer(false)
   }
 
@@ -187,7 +191,7 @@ class Beat extends Component {
       <StyledBeat>
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {this.store.playing}
+          playing    = {beatViewStore.playing}
           resolution = {familyStore.currentBeatResolution}
         />
         <HeaderTableRow>
@@ -196,10 +200,7 @@ class Beat extends Component {
 
           <Column>
             <Controls>
-              <PlayControls
-                playing={this.store.playing}
-                handleTogglePlaying = {this.store.togglePlaying}
-              />
+              <PlayControls/>
               <TempoControls />
             </Controls>
 

@@ -12,8 +12,6 @@ class BeatStore {
   @observable litNote = 0
   @observable noteTimer
 
-  @observable playing = false
-
 
   // ACTIONS
   @action incrementLitNote = () => {
@@ -49,9 +47,7 @@ class BeatStore {
     }
   }
 
-  @action togglePlaying = (playing) => {
-    this.playing = !this.playing
-  }
+
 }
 
 
