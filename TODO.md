@@ -1,6 +1,28 @@
+Bugs: 
+    * research leaving react music for web audio - john
+        * Deleting beats while the arrangement is playing can break 
+
+    * Main beat player can get *way* off - ian
+        * metronome off from beat 
+    * restart beat with new beat (genetics, next) - ian
+    * There is silence/chopiness after each beat when playing in arrangement - ian
+    * add beat to arrangement when no beats breaks (disable arrangement)
+    * Drag and Drop on arrangements is broken - john
+    * Add warning when playing but there are no notes to play - john 
+    * Fix link to beat detail from family tree beatblocks - ian
+    * tooltip blocks arrangemenet controls - john
+
+
+    * Switch family while playing arrangement breaks
+    * Switch family should go to family tree
+    * Don't save families with no beats
+    * Refactor updateFamilyInStorage to work with multiple stores
+        * Make sure to save arrangement data (no longer called with localStorage.setItem)
+    * Handle arrangement when we call killSubsequentGenerations
+    * Selecting beats on Family Tree tab is broken? Leave off until connected to functionality?
+    * save arrangmenet family
 High value and/or easy:
 
-* Play *from* selected beat in arrangement - 2 - ian
 * Redesign sample selection (to test sample without changing) - john
     * Categorize samples
 * Select/generation logic & visuals - 3 design - john
