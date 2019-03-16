@@ -73,6 +73,25 @@ const DeleteBlockButton = styled.div`
 `
 
 
+@observer
+class Block extends Component {
+  render() {
+    return (
+      <Draggable draggableId={`${this.props.beatKey}${this.props.index}`} index={this.props.index}>
+        {provided => (
+          <BeatBlock
+            innerRef        = {provided.innerRef}
+            draggableProps  = {provided.draggableProps}
+            dragHandleProps = {provided.dragHandleProps}
+            {...this.props}
+          />
+        )}
+      </Draggable>
+    )
+  }
+}
+
+
 // TODO: More actual arrangement to its own component
 
 @observer
@@ -127,7 +146,7 @@ class ArrangementPanel extends Component {
       let splitKey = beatKey.split(".")
       const beat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
       return (
-        <BeatBlock
+        <Block
           index            = {i}
           key              = {i}
           beat             = {beat}
@@ -151,7 +170,9 @@ class ArrangementPanel extends Component {
     })
 
     const onDragEnd = (result) => {
-      store.moveBeatInArrangement(result.source.index, result.destination.index)
+      if (result.destination) {
+        arrangementStore.moveBeatInArrangement(result.source.index, result.destination.index)
+      }
     }
 
     // This variable is accessed inside of a callback so mobx
