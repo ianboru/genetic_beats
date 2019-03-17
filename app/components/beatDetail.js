@@ -71,7 +71,7 @@ const Controls = styled.div`
 
 
 @observer
-class Beat extends Component {
+class BeatDetail extends Component {
   state = {
     activeMuteAll : false,
     activeSoloAll : false,
@@ -304,4 +304,4 @@ class Beat extends Component {
 }
 
 
-export default Beat
+export default BeatDetail
