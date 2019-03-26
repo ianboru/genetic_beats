@@ -5,7 +5,7 @@ import styled from "styled-components"
 import chroma from "chroma-js"
 
 import { MdAdd } from "react-icons/md"
-import Player from "./player"
+import Player from "./newPlayer"
 
 import AddTrackButton from "./addTrackButton"
 import Button from "./button"

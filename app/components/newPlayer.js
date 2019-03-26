@@ -18,9 +18,12 @@ const velocities = [
 function loopProcessor(tracks, beatNotifier) {
   // XXX this may be now totally unnecessary as we can infer the sample url
   // directly from the name
-  const urls = tracks.reduce((acc, {sample}) => {
+  const urls = tracks.reduce((acc, {sample, trackType}) => {
     console.log("|SAMP:LE", sample)
-    return {...acc, [sample]: store.samples[sample].path}
+    if (trackType === "sampler") {
+      return {...acc, [sample]: store.samples[sample].path}
+    }
+    return acc
   }, {})
 
   console.log("URL:S", urls)
@@ -67,7 +70,26 @@ class Player extends Component {
     Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
 
-    this.loop.start(0)
+    //this.loop.start(0)
+  }
+
+  componentDidMount() {
+    if (this.props.playing) {
+      this.loop.start()
+    }
+  }
+
+  componentWillUnmount() {
+      this.loop.stop()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.playing && !prevProps.playing) {
+      this.loop.start()
+    } else if (!this.props.playing && prevProps.playing) {
+      console.log("STOP")
+      this.loop.stop()
+    }
   }
 
   beatNotifier = (index) => {

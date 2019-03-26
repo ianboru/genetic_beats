@@ -9,7 +9,7 @@ import styled from "styled-components"
 import chroma from "chroma-js"
 
 import Button from "./button"
-import Player from "./player"
+import Player from "./newPlayer"
 import { toJS } from "mobx"
 
 import store from "../stores/store"

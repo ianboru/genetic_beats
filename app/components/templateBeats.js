@@ -15,7 +15,7 @@ import messageStore from "../stores/messageStore"
 
 import TemplateBeatViewStore from "../stores/templateBeatViewStore"
 import Button from "./button"
-import Player from "./player"
+import Player from "./newPlayer"
 
 import BeatBlock from "./beatBlock"
 import {
@@ -89,7 +89,7 @@ class TemplateBeats extends Component {
             playing = {this.templateStore.playingBeats[i].value}
             templateBlock = {true}
           / >
-          
+
         </StyledPresetOption>
       )
     })

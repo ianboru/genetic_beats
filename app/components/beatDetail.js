@@ -4,8 +4,7 @@ import styled from "styled-components"
 import chroma from "chroma-js"
 import { reaction, toJS } from "mobx"
 
-import Player from "./player"
-import NewPlayer from "./newPlayer"
+import Player from "./newPlayer"
 
 import AddTrackButton from "./addTrackButton"
 import Button from "./button"
@@ -191,11 +190,6 @@ class BeatDetail extends Component {
     return (
       <StyledBeat>
         <Player
-          beat       = {familyStore.currentBeat}
-          playing    = {beatViewStore.playing}
-          resolution = {familyStore.currentBeatResolution}
-        />
-        <NewPlayer
           beat       = {familyStore.currentBeat}
           playing    = {beatViewStore.playing}
           resolution = {familyStore.currentBeatResolution}
