@@ -99,7 +99,7 @@ class Player extends Component {
   }
 
   beatNotifier = (index) => {
-    console.log("BEAT FIRED", index)
+    //console.log("BEAT FIRED", index)
   }
 
   render() {
