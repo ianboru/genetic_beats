@@ -1,9 +1,4 @@
 import React, { Component } from "react"
-import {
-  Song,
-  Sequencer,
-  Sampler,
-} from "../react-music"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
