@@ -1,6 +1,5 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
-import beatTemplates from "../beatTemplates"
 import samples from "../samples"
 import {
   deepClone,

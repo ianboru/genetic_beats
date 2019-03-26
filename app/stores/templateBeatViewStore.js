@@ -1,6 +1,6 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
-import beatTemplates from "../beatTemplates"
+import templateBeats from "../templateBeats"
 
 configure({ enforceActions: "always" })
 
@@ -10,7 +10,7 @@ class TemplateBeatViewStore {
   //
 
   
-  @observable playingBeats = new Array(beatTemplates.length).fill().map(() => { return { value: false } })
+  @observable playingBeats = new Array(templateBeats.length).fill().map(() => { return { value: false } })
 
   //
   // ACTIONS

@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import beatTemplates from "../beatTemplates"
+import templateBeats from "../templateBeats"
 import { colors } from "../colors"
 import { deepClone } from "../utils"
 
@@ -35,10 +35,10 @@ const StyledPresetOption = styled.div`
 `
 
 @observer
-class TemplateBeats extends Component {
+class TemplateBeatsPanel extends Component {
   state = {
     redirectToBeatTab  : false,
-    playingPresets : beatTemplates.map(()=>{false}),
+    playingPresets : templateBeats.map(()=>{false}),
   }
   constructor(props){
     super(props)
@@ -67,7 +67,7 @@ class TemplateBeats extends Component {
       return <Redirect to="/" />
     }
 
-    const presetOptions = beatTemplates.map( (beat, i) => {
+    const presetOptions = templateBeats.map( (beat, i) => {
 
       return (
         <StyledPresetOption key={i}>
@@ -119,4 +119,4 @@ class TemplateBeats extends Component {
 }
 
 
-export default TemplateBeats
+export default TemplateBeatsPanel

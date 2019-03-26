@@ -158,7 +158,7 @@ export default [{
         "key": "Ching Bap"
     },
     {
-        "name": "Cowbellnova",
+        "name": "Bellanova",
         "score": 0,
         "tracks": [{
             "trackType": "sampler",

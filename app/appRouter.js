@@ -8,11 +8,11 @@ import familyStore from "./stores/familyStore"
 import BeatDisplay from "./beatDisplay"
 import FamilyTreeDisplay from "./familyTreeDisplay"
 
-import MessageQueue     from "./components/messageQueue"
-import ArrangementPanel from "./components/arrangementPanel"
-import FamilySelect     from "./components/familySelect"
-import TemplateBeats    from "./components/templateBeats"
-import Tooltip          from "./components/tooltip"
+import MessageQueue       from "./components/messageQueue"
+import ArrangementPanel   from "./components/arrangementPanel"
+import FamilySelect       from "./components/familySelect"
+import TemplateBeatsPanel from "./components/templateBeatsPanel"
+import Tooltip            from "./components/tooltip"
 
 
 const TabButton = styled(NavLink)`
@@ -127,7 +127,7 @@ class AppRouter extends React.Component {
                 )
               }}
             />
-            <Route path="/templates/" component={TemplateBeats} />
+            <Route path="/templates/" component={TemplateBeatsPanel} />
             <Route path="/arrangement/" component={ArrangementPanel} />
           </Switch>
         </div>

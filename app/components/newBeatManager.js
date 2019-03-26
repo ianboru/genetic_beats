@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import beatTemplates from "../beatTemplates"
+import templateBeats from "../templateBeats"
 import { colors } from "../colors"
 
 import store from "../stores/store"
@@ -12,7 +12,6 @@ import familyStore from "../stores/familyStore"
 import messageStore from "../stores/messageStore"
 
 import Button from "./button"
-import TemplateBeats from "./templateBeats"
 
 
 

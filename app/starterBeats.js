@@ -158,7 +158,7 @@ export default [{
         "key": "0.5"
     },
     {
-        "name": "Cowbellnova",
+        "name": "Bellanova",
         "score": 0,
         "tracks": [{
             "trackType": "sampler",

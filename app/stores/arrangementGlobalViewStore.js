@@ -3,8 +3,6 @@ import { action, computed, reaction, observable, toJS } from "mobx"
 import arrangementStore from "./arrangementStore"
 import playingStore from "./playingStore"
 
-import beatTemplates from "../beatTemplates"
-
 
 class ArrangementGlobalViewStore {
   //
