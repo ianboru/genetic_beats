@@ -19,22 +19,17 @@ function loopProcessor(tracks, beatNotifier) {
   // XXX this may be now totally unnecessary as we can infer the sample url
   // directly from the name
   const urls = tracks.reduce((acc, {sample, trackType}) => {
-    console.log("|SAMP:LE", sample)
     if (trackType === "sampler") {
       return {...acc, [sample]: store.samples[sample].path}
     }
     return acc
   }, {})
 
-  console.log("URL:S", urls)
   const keys = new Tone.Players(urls).toMaster()
 
   return (time, index) => {
     beatNotifier(index)
     tracks.forEach(({sample, mute, sequence}) => {
-      //console.log("SAMPLE", sample, toJS(store.samples[sample].path))
-      //console.log("TIME", time)
-      //console.log("SWQ", sequence[index])
       if (sequence[index]) {
         try {
           // XXX "1n" should be set via some "resolution" track prop
@@ -49,15 +44,11 @@ function loopProcessor(tracks, beatNotifier) {
   }
 }
 
-console.log("NEWPLAYER")
 
 @observer
 class Player extends Component {
   constructor(props) {
     super(props)
-    //this.state = {
-      //beat = this.props.beat
-    //}
 
     const tracks = this.props.beat.tracks
 
@@ -69,25 +60,24 @@ class Player extends Component {
 
     Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
-
-    //this.loop.start(0)
   }
 
   componentDidMount() {
+    this.disableTempoRx = reaction(() => playingStore.tempo, (tempo) => Tone.Transport.bpm.value = playingStore.tempo)
     if (this.props.playing) {
       this.loop.start()
     }
   }
 
   componentWillUnmount() {
-      this.loop.stop()
+    this.disableTempoRx()
+    this.loop.stop()
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.playing && !prevProps.playing) {
       this.loop.start()
     } else if (!this.props.playing && prevProps.playing) {
-      console.log("STOP")
       this.loop.stop()
     }
   }
@@ -97,7 +87,6 @@ class Player extends Component {
   }
 
   render() {
-    console.log("YO")
     return (
       <div>
       </div>

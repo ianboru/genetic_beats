@@ -84,15 +84,12 @@ class BeatDetail extends Component {
 
   componentDidMount() {
     this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => this.store.resetNoteTimer(playing))
-    console.log(beatViewStore.playing)
     if (beatViewStore.playing) {
-      console.log("baet mount")
       this.store.resetNoteTimer(true)
     }
   }
 
   componentWillUnmount() {
-    console.log("beat unounnt")
     this.disablePlayReaction()
     this.store.resetNoteTimer(false)
   }
