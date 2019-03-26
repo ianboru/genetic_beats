@@ -1,4 +1,10 @@
 Bugs: 
+    Player refactor bugs:
+        * Mating breaks with buzznova, ching bap, and cowbellanova in a generation
+        * Some weirdness during arrangement playback
+        * Track "play" buttons don't work with new player or Tonejs
+        * Make sure playing "animations" aren't using old timing mechanism still
+
     * research leaving react music for web audio - john
         * Deleting beats while the arrangement is playing can break 
 
