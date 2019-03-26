@@ -16,30 +16,46 @@ const velocities = [
 ]
 
 function loopProcessor(tracks, beatNotifier) {
-  // XXX this may be now totally unnecessary as we can infer the sample url
-  // directly from the name
-  const urls = tracks.reduce((acc, {sample, trackType}) => {
+  let synths = {}
+  const urls = tracks.reduce((acc, {sample, synthType, trackType}) => {
     if (trackType === "sampler") {
       return {...acc, [sample]: store.samples[sample].path}
+    } else if (trackType === "synth") {
+      if (!synths[synthType]) {
+        synths[synthType] = new Tone.PolySynth(6, Tone.Synth).toMaster()
+        synths[synthType].set({ oscillator: { type: synthType } })
+      }
     }
     return acc
   }, {})
 
-  const keys = new Tone.Players(urls).toMaster()
+  const samplePlayers = new Tone.Players(urls).toMaster()
 
   return (time, index) => {
+    let notes = {}
+
     beatNotifier(index)
-    tracks.forEach(({sample, mute, sequence}) => {
+    tracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
       if (sequence[index]) {
         try {
-          // XXX "1n" should be set via some "resolution" track prop
-          keys.get(sample).start(time, 0, "1n", 0, 1)
+          if (trackType === "sampler") {
+            samplePlayers.get(sample).start(time, 0, "1n", 0, 1)
+          } else if (trackType === "synth") {
+            if (!notes[synthType]) {
+              notes[synthType] = []
+            }
+            notes[synthType].push(sample)
+          }
         } catch(e) {
-          console.error("ERROR", e)
           // We're most likely in a race condition where the new sample hasn't been loaded
           // just yet; silently ignore, it will resiliently catch up later.
+          console.error("ERROR", e)
         }
       }
+    })
+
+    Object.keys(synths).forEach( (synthType) => {
+      synths[synthType].triggerAttackRelease(notes[synthType], "16n")
     })
   }
 }
