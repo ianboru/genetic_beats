@@ -3,6 +3,7 @@ import { observer } from "mobx-react"
 import { reaction, toJS } from "mobx"
 
 import store from "../stores/store"
+import playingStore from "../stores/playingStore"
 
 import Tone from "tone"
 
@@ -18,21 +19,25 @@ function loopProcessor(tracks, beatNotifier) {
   // XXX this may be now totally unnecessary as we can infer the sample url
   // directly from the name
   const urls = tracks.reduce((acc, {sample}) => {
-    return {...acc, [sample]: store.samples[sample]}
+    console.log("|SAMP:LE", sample)
+    return {...acc, [sample]: store.samples[sample].path}
   }, {})
 
-  const keys = new Tone.Players({urls}).toMaster()
+  console.log("URL:S", urls)
+  const keys = new Tone.Players(urls).toMaster()
 
   return (time, index) => {
     beatNotifier(index)
     tracks.forEach(({sample, mute, sequence}) => {
-      console.log("SAMPLE", sample, toJS(store.samples[sample]))
-      console.log("TIME", time)
+      //console.log("SAMPLE", sample, toJS(store.samples[sample].path))
+      //console.log("TIME", time)
+      //console.log("SWQ", sequence[index])
       if (sequence[index]) {
         try {
           // XXX "1n" should be set via some "resolution" track prop
-          keys.start(sample, time, 0, "1n", 0, mute ? 0 : velocities[index] * store.samples[sample].gain)
+          keys.get(sample).start(time, 0, "1n", 0, 1)
         } catch(e) {
+          console.error("ERROR", e)
           // We're most likely in a race condition where the new sample hasn't been loaded
           // just yet; silently ignore, it will resiliently catch up later.
         }
@@ -59,7 +64,7 @@ class Player extends Component {
       `${this.props.resolution}n`
     )
 
-    //Tone.Transport.bpm.value = 120
+    Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
 
     this.loop.start(0)
