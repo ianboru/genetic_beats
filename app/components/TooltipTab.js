@@ -25,7 +25,6 @@ const ActiveTabButtonStyles = {
 @observer
 class TooltipTab extends Component{
   render(){
-    console.log("rendering tab", this.props.displayCondition)
     return (
       <Tooltip
               position = "bottom"
