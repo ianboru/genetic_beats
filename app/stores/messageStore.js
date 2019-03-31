@@ -7,7 +7,7 @@ configure({ enforceActions: "always" })
 const MESSAGE_DURATION = 4000
 
 class MessageStore {
-  //  
+  //
   // STATE
   //
 

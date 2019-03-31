@@ -25,9 +25,9 @@ import {
 const StyledArrangement = styled.div`
   background: ${colors.gray.darkest};
   border-top: 1px solid ${colors.gray.light};
-  height: 200px;
+  min-height: 200px;
   overflow-x: auto;
-  overflow-y: none;
+  overflow-y: visible;
   position: relative;
   white-space: nowrap;
   width: 100%;
@@ -37,7 +37,8 @@ const StyledBlock = styled.div`
   border-right: 1px solid ${colors.gray.light};
   background-color: ${props => props.highlight ? "#e9573f" : colors.yellow.dark};
   display: inline-block;
-  height: 100%;
+  height: 190px;
+  margin-top: 5px;
   width: 60px;
   position: relative;
   vertical-align: top;
