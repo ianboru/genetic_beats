@@ -6,9 +6,7 @@ Bugs:
     * Metronome not working after tone.js refactor
 
     Low
-    * Mating breaks with buzznova, ching bap, and cowbellanova in a generation - low
-    * template beats rerender slow - low
-    * tooltip blocks arrangemenet controls - john - low
+    * tooltip blocks arrangement controls - john - low
 
     Real Low
     * Switch family while playing arrangement breaks
@@ -18,11 +16,9 @@ Bugs:
         * Make sure to save arrangement data (no longer called with localStorage.setItem)
     * Handle arrangement when we call killSubsequentGenerations
     * Selecting beats on Family Tree tab is broken? Leave off until connected to functionality?
-    * save arrangmenet family
+    * save arrangment family
     * arrangement only hidden when disabled (0 beats) but still accessible - john
-    * Track "play" buttons don't work with new player or Tonejs
     * Add warning when playing but there are no notes to play - john
-    * Stars -> gray/transparent to blue instead of white to blue
 
 High value and/or easy:
 
