@@ -231,7 +231,6 @@ class BeatDetail extends Component {
               score = {familyStore.currentBeat.score}
               handleSetScore = { (score) => {
                 familyStore.setScore(score)
-                playingStore.nextBeat()
               }}
             />
             <div style={{marginTop: -14, marginBottom: 10}}>

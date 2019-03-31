@@ -11,6 +11,19 @@ import {
 
 const starSize = 40
 const NUM_STARS = 10
+
+const transparencyGradient = [
+  0.55,
+  0.6,
+  0.65,
+  0.7,
+  0.75,
+  0.8,
+  0.85,
+  0.9,
+  0.95,
+  1.0,
+]
 const redGreenGradient = [
   "#FF0000",
   "#FF3400",
@@ -90,12 +103,13 @@ class StarRating extends Component {
     const stars = Array(NUM_STARS).fill(0).map( (temp, i) => {
       const hover = this.state.hover || 0
       const score = this.props.score || this.state.tentative || 0
-      const dimmedColor = `rgba(${chroma(colors[i]).alpha(0.5).rgba()})`
+      const dimmedColor = `rgba(${chroma(colors[i]).alpha(transparencyGradient[i] - 0.5).rgba()})`
+      const color       = `rgba(${chroma(colors[i]).alpha(transparencyGradient[i]).rgba()})`
 
       let props = {
         key          : i,
         size         : starSize,
-        color        : (i < hover || hover === 0) ? colors[i] : dimmedColor,
+        color        : (i < hover || hover === 0) ? color : dimmedColor,
         onMouseEnter : (e) => this.handleMouseEnter(e, i),
         onMouseDown  : (e) => this.handleTentativeClick(e, i),
         onMouseUp    : this.handleMouseUp,
