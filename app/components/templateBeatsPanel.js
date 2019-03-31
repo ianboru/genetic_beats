@@ -15,7 +15,7 @@ import messageStore from "../stores/messageStore"
 
 import TemplateBeatViewStore from "../stores/templateBeatViewStore"
 import Button from "./button"
-import Player from "./newPlayer"
+import Player from "./player"
 
 import BeatBlock from "./beatBlock"
 import {
