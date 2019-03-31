@@ -64,7 +64,6 @@ medium/low value:
 
 low value:
     * Improve console error messages
-    * Highlight notes in intermediate color until they're gonna play
     * Move some stuff into "screens" folder, distinguished from "components"
     * GainSlider NaN issue on mutate action
     * Record progression of a beat being made, adding/removing beats & tracks, etc
