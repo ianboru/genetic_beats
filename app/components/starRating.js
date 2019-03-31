@@ -9,7 +9,7 @@ import {
 } from "react-icons/md"
 
 
-const starSize = 40
+const starSize = 28
 const NUM_STARS = 10
 
 const transparencyGradient = [
@@ -54,8 +54,8 @@ const colors = whiteBlueGradient
 const StyledStarRating = styled.span`
   display: inline-block;
   margin: 0;
-  margin-top: 10px;
   font-size: 10px;
+  vertical-align: middle;
 
   svg:hover {
     cursor: pointer;

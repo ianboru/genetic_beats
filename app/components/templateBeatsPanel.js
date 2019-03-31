@@ -40,10 +40,12 @@ class TemplateBeatsPanel extends Component {
     redirectToBeatTab  : false,
     playingPresets : templateBeats.map(()=>{false}),
   }
+
   constructor(props){
     super(props)
     this.templateStore = new TemplateBeatViewStore()
   }
+
   togglePlayPreset = (beatIndex)=>{
     const playingPresets = this.state.playingPresets.map((preset,i) => {
       if (beatIndex == i) {
@@ -54,14 +56,17 @@ class TemplateBeatsPanel extends Component {
     })
     this.setState({ playingPresets })
   }
+
   addPresetBeat = (beat) => {
     familyStore.addBeatToCurrentGen(beat)
     messageStore.addMessageToQueue(`template beat ${beat.key} added to generation ${familyStore.generation}`);
     this.setState({ redirectToTemplateBeats : true })
   }
+
   handleClickPlay = (i) => {
     this.templateStore.togglePlayingBeat(i)
   }
+
   render() {
     if (this.state.redirectToBeatTab) {
       return <Redirect to="/" />

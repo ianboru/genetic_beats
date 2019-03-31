@@ -46,6 +46,7 @@ const BIData = styled.span`
   font-size: ${props => props.size ? props.size : 20}px;
   color: white;
   margin: 0 4px;
+  vertical-align: middle;
 `
 
 const TableRow = styled.div`
@@ -68,6 +69,39 @@ const Controls = styled.div`
   box-shadow: 0px 0px 3px 1px #111;
   vertical-align: middle;
 `
+
+const StyledDot = styled.span`
+  background: ${props => props.active ? (props.activeColor || "lightgreen") : "gray"};
+  border-radius: 8px;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  margin: 0 2px;
+  vertical-align: 4px;
+`
+
+@observer
+class DotRow extends Component {
+  render() {
+    const { activeNum } = this.props
+    const activeColor = this.props.rowType === "generation" ? "orange" : "lightgreen"
+    let dots = new Array(this.props.count).fill(0).map((_, i) => {
+      return (
+        <StyledDot
+          key         = {i}
+          active      = {activeNum === i}
+          activecolor = {activeColor}
+        />
+      )
+    })
+
+    return (
+      <span>
+        {dots}
+      </span>
+    )
+  }
+}
 
 
 @observer
@@ -167,6 +201,7 @@ class BeatDetail extends Component {
   }
 
   render() {
+    //console.log(familyStore.currentGeneration, familyStore.currentGeneration.length)
     const tracks = this.props.beat.tracks.map( (track, i) => {
       return (
         <Track
@@ -206,12 +241,56 @@ class BeatDetail extends Component {
           <Column />
 
           <Column align="middle">
-            <BILabel size={30}>Beat</BILabel>
-            <BIData size={30}>{familyStore.beatNum}</BIData>
-            &nbsp;
-            &nbsp;
-            <BILabel size={30}>Generation</BILabel>
-            <BIData size={30}>{familyStore.generation}</BIData>
+            <div style={{display: "table"}}>
+              <TableRow>
+                <Column textRight={true}>
+                  <BILabel size={16}>Generation</BILabel>
+                  <BIData size={30}>{familyStore.generation}</BIData>
+                </Column>
+                <Column textLeft={true}>
+                  <BIData size={30}>
+                    <DotRow
+                      count={familyStore.allGenerations.length}
+                      rowType="generation"
+                      activeNum={familyStore.generation}
+                    />
+                  </BIData>
+                </Column>
+              </TableRow>
+
+              <TableRow>
+                <Column textRight={true}>
+                  <BILabel size={16}>Beat</BILabel>
+                  <BIData size={30}>{familyStore.beatNum}</BIData>
+                </Column>
+                <Column textLeft={true}>
+                  <BIData size={30}>
+                    <DotRow
+                      count={familyStore.currentGeneration.length}
+                      rowType="beat"
+                      activeNum={familyStore.beatNum}
+                    />
+                  </BIData>
+                </Column>
+              </TableRow>
+
+              <TableRow>
+                <Column textRight={true}>
+                  <div style={{display: "inline-block"}}>
+                    <BILabel size={16}>Score</BILabel>
+                    <BIData size={30}>{this.props.beat.score}</BIData>
+                  </div>
+                </Column>
+                <Column textLeft={true}>
+                  <StarRating
+                    score = {familyStore.currentBeat.score}
+                    handleSetScore = { (score) => {
+                      familyStore.setScore(score)
+                    }}
+                  />
+                </Column>
+              </TableRow>
+            </div>
           </Column>
 
           <Column>
@@ -226,17 +305,7 @@ class BeatDetail extends Component {
           <Column>
           </Column>
 
-          <Column align="bottom">
-            <StarRating
-              score = {familyStore.currentBeat.score}
-              handleSetScore = { (score) => {
-                familyStore.setScore(score)
-              }}
-            />
-            <div style={{marginTop: -14, marginBottom: 10}}>
-              <BILabel>Score</BILabel>
-              <BIData>{this.props.beat.score}</BIData>
-            </div>
+          <Column>
           </Column>
 
           <Column>
