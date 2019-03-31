@@ -15,23 +15,21 @@ const velocities = [
   1, .5, .75, .5,
 ]
 
+// Set up sampler players
+const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
+  return { ...acc, [k]: store.samples[k].path }
+})
+const samplePlayers = new Tone.Players(urls).toMaster()
+
+// Set up synth players
+const synths = [{}, "sine", "square"].reduce( (acc, synthType) => {
+  const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
+  synth.set({ oscillator: { type: synthType } })
+  return { ...acc, [synthType]: synth }
+})
+
+
 function loopProcessor(tracks, beatNotifier) {
-  // Change to sample player generation and synth generation for all samples/synths, move out of this function
-  let synths = {}
-  const urls = tracks.reduce((acc, {sample, synthType, trackType}) => {
-    if (trackType === "sampler") {
-      return {...acc, [sample]: store.samples[sample].path}
-    } else if (trackType === "synth") {
-      if (!synths[synthType]) {
-        synths[synthType] = new Tone.PolySynth(6, Tone.Synth).toMaster()
-        synths[synthType].set({ oscillator: { type: synthType } })
-      }
-    }
-    return acc
-  }, {})
-
-  const samplePlayers = new Tone.Players(urls).toMaster()
-
   return (time, index) => {
     let notes = {}
 

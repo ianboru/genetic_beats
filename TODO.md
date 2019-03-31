@@ -1,12 +1,7 @@
 Bugs:
-
-    // Change to sample player generation and synth generation for all samples/synths, move out of this function
-
     Medium:
     * Deleting beats while the arrangement is playing can break
     * First beat plays twice in arrangement
-    * "Buffer is either not set or not loaded" - when playing & switch to a beat with samplers on beat detail
-    * Error when playing track that was added after the beat detail was rendered
     * Mutating enough times breaks the whole app - maybe empty track?
 
     Low
