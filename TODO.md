@@ -1,17 +1,16 @@
-Bugs: 
+Bugs:
 
     Medium:
 
-    * Make sure playing "animations" aren't using old timing mechanism still
-    * Deleting beats while the arrangement is playing can break 
-    * First beat plays twice in arrangement 
+    * Deleting beats while the arrangement is playing can break
+    * First beat plays twice in arrangement
 
     Low
 
     * Mating breaks with buzznova, ching bap, and cowbellanova in a generation - low
-    * template beats rerender slow - low 
+    * template beats rerender slow - low
     * tooltip blocks arrangemenet controls - john - low
-  
+
 
     Real Low
     * Switch family while playing arrangement breaks
@@ -23,9 +22,9 @@ Bugs:
     * Selecting beats on Family Tree tab is broken? Leave off until connected to functionality?
     * save arrangmenet family
     * arrangement only hidden when disabled (0 beats) but still accessible - john
-    * Track "play" buttons don't work with new player or Tonejs 
+    * Track "play" buttons don't work with new player or Tonejs
     * Add warning when playing but there are no notes to play - john
-    
+
 High value and/or easy:
 
 * Redesign sample selection (to test sample without changing) - john
@@ -56,7 +55,6 @@ medium/low value:
     * Ability to “favorite” or rename beats
     * Starting counting from 1 rather than 0 for generation/beatnum
     * ?test? Doesn't always save arrangements (made new arrangement, added some beats, switched to different family, switched back, second arrangement was gone)
-    * Safari breaks on this.context right now. React version? in react-music scheduler.js
     * Easily play a beat and all of its descendants / mutations / related beats
     * You've reached the max number of instruments
 

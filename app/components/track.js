@@ -1,11 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
-import {
-  Sequencer,
-  Song,
-  Synth,
-} from "../react-music"
+import Tone from "tone"
 
 import { MdDeleteForever } from "react-icons/md"
 
@@ -88,25 +84,21 @@ class Track extends Component {
         <span>
           <button
             style   = {{verticalAlign:"middle"}}
-            onClick = {() => {playingStore.toggleTrackPreviewer(track.sample) }}
+            onClick = {() => {
+              if (track.trackType === "synth") {
+                let synth = new Tone.Synth({
+                  oscillator: { type: track.synthType },
+                }).toMaster()
+                synth.triggerAttackRelease(track.sample, "16n")
+              } else if (track.trackType === "sampler") {
+                var sampler = new Tone.Sampler({
+                  [track.sample]: store.samples[track.sample],
+                }, () => {
+                  sampler.triggerAttack(track.sample)
+                })
+              }
+            }}
           >Play</button>
-          <Song
-            playing = {playingStore.trackPreviewers[track.sample]}
-            tempo   = {store.tempo}
-            ref     = {(c)=>{this.song=c}}
-          >
-            <Sequencer
-              bars       = {1}
-              resolution = {track.sequence.length}
-            >
-              <Synth
-                key   = {track.key + synthType + "synth"}
-                type  = {synthType}
-                steps = {[[0, 2, track.sample]]}
-                gain  = {store.synthGain[synthType]/store.synthGainCorrection[synthType]}
-              />
-            </Sequencer>
-          </Song>
         </span>
       )
     } else {
