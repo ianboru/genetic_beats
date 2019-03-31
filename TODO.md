@@ -1,16 +1,18 @@
 Bugs:
 
-    Medium:
+    // Change to sample player generation and synth generation for all samples/synths, move out of this function
 
+    Medium:
     * Deleting beats while the arrangement is playing can break
     * First beat plays twice in arrangement
+    * "Buffer is either not set or not loaded" - when playing & switch to a beat with samplers on beat detail
+    * Error when playing track that was added after the beat detail was rendered
+    * Mutating enough times breaks the whole app - maybe empty track?
 
     Low
-
     * Mating breaks with buzznova, ching bap, and cowbellanova in a generation - low
     * template beats rerender slow - low
     * tooltip blocks arrangemenet controls - john - low
-
 
     Real Low
     * Switch family while playing arrangement breaks
@@ -24,6 +26,7 @@ Bugs:
     * arrangement only hidden when disabled (0 beats) but still accessible - john
     * Track "play" buttons don't work with new player or Tonejs
     * Add warning when playing but there are no notes to play - john
+    * Stars -> gray/transparent to blue instead of white to blue
 
 High value and/or easy:
 
