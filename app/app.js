@@ -1,6 +1,6 @@
-import Raven from 'raven-js'
+import Raven from "raven-js"
 import React, { Component } from "react"
-import ReactFileReader from 'react-file-reader'
+import ReactFileReader from "react-file-reader"
 import { observer } from "mobx-react"
 
 import store from "./stores/store"
@@ -18,12 +18,6 @@ if (process.env.SENTRY_PUBLIC_DSN) {
 
 @observer
 class App extends Component {
-  constructor(props) {
-    super(props)
-
-    //store.fetchAllSamples()
-  }
-
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyPress, false);
   }
@@ -33,7 +27,7 @@ class App extends Component {
   }
 
   handleUploadSample = (files) => {
-    var file    = document.querySelector('input[type=file]').files[0]
+    var file    = document.querySelector("input[type=file]").files[0]
     var reader  = new FileReader()
 
     reader.addEventListener("load", function () { }, false)

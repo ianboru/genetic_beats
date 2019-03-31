@@ -1,6 +1,5 @@
 /app/**
 /dist/**
-/interfaces/**
 /lib/**
 /node_modules/**
 /public/**

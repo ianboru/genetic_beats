@@ -13,7 +13,6 @@ class BeatViewStore {
   // ACTIONS
   //
   @action togglePlaying = () => {
-    console.log("toggled")
     this.playing = !this.playing
   }
 }
