@@ -2,7 +2,8 @@ Bugs:
     Medium:
     * Deleting beats while the arrangement is playing can break
     * First beat plays twice in arrangement
-    * Mutating enough times breaks the whole app - maybe empty track?
+    * Mute/solo not working after tone.js refactor
+    * Metronome not working after tone.js refactor
 
     Low
     * Mating breaks with buzznova, ching bap, and cowbellanova in a generation - low

@@ -24,7 +24,7 @@ import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 const trackNameStyles = {
   display       : "inline-block",
-  width         : 220,
+  width         : 225,
   textAlign     : "left",
 }
 

@@ -102,6 +102,7 @@ class ArrangementPanel extends Component {
       return arrangementStore.currentArrangement.length
     }, (arrangementLength) => arrangementViewStore.setArrangementLength(arrangementLength))
   }
+
   componentDidUpdate() {
     // TODO: Make this a reaction, move to store
     if (arrangementViewStore.playingArrangement && !arrangementViewStore.beatTimer) {

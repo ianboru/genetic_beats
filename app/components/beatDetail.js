@@ -85,6 +85,7 @@ const StyledDot = styled.span`
   vertical-align: 4px;
   transition: 0.2s background;
   &:hover {
+    background: ${props => props.active ? (props.activeColor || hoverGreen) : "gray"};
     background: rgba(${hoverGreen});
   }
 `

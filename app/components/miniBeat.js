@@ -49,7 +49,7 @@ class MiniBeat extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.playing !== prevProps.playing) {
+    if (!this.props.playing) {
       this.beatStore.clearLitNote()
     }
   }
@@ -74,18 +74,12 @@ class MiniBeat extends Component {
         <Player
           beat       = {this.props.beat}
           playing    = {this.props.playing}
-          setLitNote = {this.beatStore.setLitNote}
           resolution = {this.props.beat.tracks[0].sequence.length}
+          setLitNote = {this.beatStore.setLitNote}
         />
       </StyledBeat>
     )
   }
-}
-
-const trackNameStyles = {
-  display       : "inline-block",
-  width         : 190,
-  textAlign     : "center",
 }
 
 const StyledTrack = styled.div`
@@ -99,9 +93,6 @@ class MiniTrack extends Component {
   state = {
     lastClickedNoteWasOn : null,
     lastEntered          : -1,
-  }
-
-  componentDidMount() {
   }
 
   render() {
@@ -146,11 +137,11 @@ class MiniNote extends Component {
   render() {
     const separator = this.props.index % 4 === 3
     return (
-        <StyledNote
-          active      = {this.props.activeNotes[this.props.index].value}
-          on          = {this.props.value === 1}
-          className   = "note"
-        >&nbsp;</StyledNote>
+      <StyledNote
+        active      = {this.props.activeNotes[this.props.index].value}
+        on          = {this.props.value === 1}
+        className   = "note"
+      >&nbsp;</StyledNote>
     )
   }
 }
