@@ -1,23 +1,19 @@
 Bugs: 
-    Player refactor bugs:
-        * Mating breaks with buzznova, ching bap, and cowbellanova in a generation
-        * Some weirdness during arrangement playback
-        * Track "play" buttons don't work with new player or Tonejs
-        * Make sure playing "animations" aren't using old timing mechanism still
 
-    * research leaving react music for web audio - john
-        * Deleting beats while the arrangement is playing can break 
+    Medium:
 
-    * Main beat player can get *way* off - ian
-        * metronome off from beat 
-    * switching beat quickly breaks beat 
-    * There is silence/chopiness after each beat when playing in arrangement - ian
-    * arrangement only hidden when disabled (0 beats) but still accessible - john
-    * Add warning when playing but there are no notes to play - john 
-    * Fix link to beat detail from family tree beatblocks - ian
-    * tooltip blocks arrangemenet controls - john
+    * Make sure playing "animations" aren't using old timing mechanism still
+    * Deleting beats while the arrangement is playing can break 
+    * First beat plays twice in arrangement 
 
+    Low
 
+    * Mating breaks with buzznova, ching bap, and cowbellanova in a generation - low
+    * template beats rerender slow - low 
+    * tooltip blocks arrangemenet controls - john - low
+  
+
+    Real Low
     * Switch family while playing arrangement breaks
     * Switch family should go to family tree
     * Don't save families with no beats
@@ -26,6 +22,10 @@ Bugs:
     * Handle arrangement when we call killSubsequentGenerations
     * Selecting beats on Family Tree tab is broken? Leave off until connected to functionality?
     * save arrangmenet family
+    * arrangement only hidden when disabled (0 beats) but still accessible - john
+    * Track "play" buttons don't work with new player or Tonejs 
+    * Add warning when playing but there are no notes to play - john
+    
 High value and/or easy:
 
 * Redesign sample selection (to test sample without changing) - john
