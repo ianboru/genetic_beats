@@ -1,7 +1,7 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
 configure({ enforceActions: "always" })
-
+import familyStore from "./familyStore"
 class FamilyViewStore {
   //
   // STATE
@@ -38,9 +38,10 @@ class FamilyViewStore {
     this.selectedBeats = []
   }
   @action selectBeat = (generation, beatNum) => {
+    console.log("select ",generation, beatNum)
     const selectedKey = `${generation}.${beatNum}`
-    this.generation = generation
-    this.beatNum = beatNum
+    familyStore.generation = generation
+    familyStore.beatNum = beatNum
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)
