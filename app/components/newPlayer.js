@@ -16,6 +16,7 @@ const velocities = [
 ]
 
 function loopProcessor(tracks, beatNotifier) {
+  // Change to sample player generation and synth generation for all samples/synths, move out of this function
   let synths = {}
   const urls = tracks.reduce((acc, {sample, synthType, trackType}) => {
     if (trackType === "sampler") {
@@ -99,7 +100,7 @@ class Player extends Component {
   }
 
   beatNotifier = (index) => {
-    //console.log("BEAT FIRED", index)
+    this.props.setLitNote(index)
   }
 
   render() {

@@ -50,12 +50,8 @@ class MiniBeat extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.playing !== prevProps.playing) {
-      this.beatStore.resetNoteTimer(this.props.playing)
+      this.beatStore.clearLitNote()
     }
-  }
-
-  componentWillUnmount() {
-    this.beatStore.resetNoteTimer(false)
   }
 
   render() {
@@ -76,11 +72,10 @@ class MiniBeat extends Component {
         {tracks}
 
         <Player
-          beat           = {this.props.beat}
-          playing        = {this.props.playing}
-          resolution     = {this.props.beat.tracks[0].sequence.length}
-          bars           = {1}
-          resetNoteTimer = {this.beatStore.resetNoteTimer}
+          beat       = {this.props.beat}
+          playing    = {this.props.playing}
+          setLitNote = {this.beatStore.setLitNote}
+          resolution = {this.props.beat.tracks[0].sequence.length}
         />
       </StyledBeat>
     )

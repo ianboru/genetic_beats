@@ -83,15 +83,11 @@ class BeatDetail extends Component {
   }
 
   componentDidMount() {
-    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => this.store.resetNoteTimer(playing))
-    if (beatViewStore.playing) {
-      this.store.resetNoteTimer(true)
-    }
+    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }} )
   }
 
   componentWillUnmount() {
     this.disablePlayReaction()
-    this.store.resetNoteTimer(false)
   }
 
   handleMuteAll = () => {
@@ -190,6 +186,7 @@ class BeatDetail extends Component {
           beat       = {familyStore.currentBeat}
           playing    = {beatViewStore.playing}
           resolution = {familyStore.currentBeatResolution}
+          setLitNote = {this.store.setLitNote}
         />
         <HeaderTableRow>
           <Column />
