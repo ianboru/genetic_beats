@@ -72,8 +72,12 @@ class FamilyStore {
     this.currentHighlightedParent = beatKey
   }
 
+  @action setBeatNum = (beatNum) => {
+    this.beatNum = parseInt(beatNum)
+  }
+
   @action setGeneration = (generation) => {
-    this.generation = generation
+    this.generation = parseInt(generation)
   }
 
   @action updateFamilyInStorage = () => {

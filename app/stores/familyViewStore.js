@@ -38,10 +38,9 @@ class FamilyViewStore {
     this.selectedBeats = []
   }
   @action selectBeat = (generation, beatNum) => {
-    console.log("select ",generation, beatNum)
     const selectedKey = `${generation}.${beatNum}`
-    familyStore.generation = generation
-    familyStore.beatNum = beatNum
+    familyStore.setGeneration(generation)
+    familyStore.setBeatNum(beatNum)
 
     if (this.selectPairMode && !this.selectedBeats.includes(selectedKey)) {
       this.selectedBeats.push(selectedKey)

@@ -18,7 +18,6 @@ class MessageStore {
   //
 
   @action addMessageToQueue(message){
-    console.log("adding message",message)
     this.messageQueue.push(message)
     setTimeout(()=>{
       this.popMessageFromQueue()
