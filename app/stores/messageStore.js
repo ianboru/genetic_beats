@@ -20,11 +20,12 @@ class MessageStore {
   @action addMessageToQueue(message){
     this.messageQueue.push(message)
     setTimeout(()=>{
-      this.popMessageFromQueue()
+      this.shiftMessageFromQueue()
     }, MESSAGE_DURATION)
   }
-  @action popMessageFromQueue(){
-    this.messageQueue.pop()
+
+  @action shiftMessageFromQueue(){
+    this.messageQueue.shift()
   }
 
 }
