@@ -33,7 +33,6 @@ class FamilyViewStore {
     })
   }
   @action toggleSelectPairMode = () => {
-    console.log("select mode")
     this.selectPairMode = !this.selectPairMode
     this.selectedBeats = []
   }
