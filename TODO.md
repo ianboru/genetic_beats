@@ -3,6 +3,8 @@ Bugs:
     * First beat plays twice in arrangement
     * Mute/solo not working after tone.js refactor
     * Metronome not working after tone.js refactor
+    * Gain not working after tone.js refactor
+    * Arrangement doesn't work with too many beats
 
     Low
     * tooltip blocks arrangement controls - john - low
