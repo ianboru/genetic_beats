@@ -22,10 +22,10 @@ class ArrangementGlobalViewStore {
   @action reset = () => {
     this.beatPlayingStates = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
     this.selectedBeat = 0
-    if(this.beatTimer){
+    if (this.beatTimer) {
       this.beatTimer.cancel()
+      this.beatTimer = null
     }
-    this.beatTimer = null
     this.playingArrangement = false
   }
 
@@ -45,7 +45,7 @@ class ArrangementGlobalViewStore {
   }
 
   @action incrementSelectedBeat = () => {
-    this.selectedBeat = (this.selectedBeat + 1) % arrangementStore.currentArrangement.length 
+    this.selectedBeat = (this.selectedBeat + 1) % arrangementStore.currentArrangement.length
     this.beatPlayingStates.forEach( (beat, i) => {
       if (i === this.selectedBeat) {
         this.beatPlayingStates[i].value = true
@@ -62,22 +62,23 @@ class ArrangementGlobalViewStore {
   // Left off here, this is really resetArrangement
   @action stopPlayingBeat = () => {
     this.beatPlayingStates = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
-    this.beatTimer.cancel()
-    this.beatTimer = null
+    if (this.beatTimer) {
+      this.beatTimer.cancel()
+      this.beatTimer = null
+    }
     this.beatPlayingStates.forEach( (beat, i) => {
       this.beatPlayingStates[i].value = false
     })
   }
 
   @action startPlayingBeat = () => {
-    const sPerQNote = 1 / (playingStore.tempo / 60 )/4
-    this.beatTimer = new Tone.Event((time)=>{
+    this.beatTimer = new Tone.Event((time) => {
       this.incrementSelectedBeat()
     })
-    this.beatTimer.loop = true;
+    this.beatTimer.loop = true
     this.beatTimer.start()
     this.beatPlayingStates[this.selectedBeat].value = true
-    this.selectedBeat -= 1 
+    this.selectedBeat -= 1
   }
 
   @action setArrangementLength = (arrangementLength) => {
