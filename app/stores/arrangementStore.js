@@ -15,7 +15,6 @@ class ArrangementStore {
   @observable arrangementBeatToAdd    = "0.0"
   @observable currentArrangementIndex = 0
 
-
   @computed get currentArrangement() {
     return this.arrangements[this.currentArrangementIndex]
   }
