@@ -72,7 +72,7 @@ class Player extends Component {
       new Array(this.props.resolution).fill(0).map((_, i) => i),
       `${this.props.resolution}n`
     )
-
+    console.log("loop end", this.loop.loopEnd)
     Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
   }
