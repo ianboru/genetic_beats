@@ -1,6 +1,5 @@
 Bugs:
     Medium:
-    * Deleting beats while the arrangement is playing can break
     * First beat plays twice in arrangement
     * Mute/solo not working after tone.js refactor
     * Metronome not working after tone.js refactor

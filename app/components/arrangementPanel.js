@@ -150,7 +150,7 @@ class ArrangementPanel extends Component {
       return (
         <Block
           index            = {i}
-          key              = {i}
+          key              = {`${beatKey}-${i}`}
           beat             = {beat}
           deleteBlock      = {() => { this.deleteBlock(i) }}
           handleMoveBeat   = {this.handleMoveBeat}
