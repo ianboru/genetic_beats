@@ -23,7 +23,7 @@ import { deepClone } from "../utils"
 
 
 
-const selectedColor = colors.red.base
+const selectedColor = colors.gray.dark
 
 const StyledBlock = styled.div`
   border-radius: 3px;
@@ -33,14 +33,13 @@ const StyledBlock = styled.div`
   background-color: ${(props) => props.selected ? selectedColor : "#1d1f27"};
   display: inline-block;
   height: 100%;
-  width: 150px;
   position: relative;
   vertical-align: top;
   text-align: center;
   cursor: pointer;
   &:hover {
-    color: black;
-    background-color: ${(props) => props.selected ? selectedColor : colors.red.lighter};
+    color: #ccc;
+    background-color: ${(props) => props.selected ? selectedColor : colors.gray.light};
   }
 `
 
@@ -144,12 +143,17 @@ class BeatBlock extends Component {
         {...this.props.dragHandleProps}
       >
         {openInNewWindow}
-        <PlayStopButton
-          size    = {30}
-          onClick = {this.props.handleClickPlay}
-          style={{verticalAlign: "middle", "marginBottom" : "15px"}}
-        />
-        <p>{beat.key}</p>
+        <div style={{textAlign: "left"}}>
+          <PlayStopButton
+            size    = {30}
+            onClick = {this.props.handleClickPlay}
+            style={{verticalAlign: "middle"}}
+          />
+          <span style={{verticalAlign: "middle", marginLeft: 5}}>{beat.key}</span>
+          <span style={{float: "right"}}>
+            {this.props.children}
+          </span>
+        </div>
         <MiniBeat
           beat    = {beat}
           playing = {playing}

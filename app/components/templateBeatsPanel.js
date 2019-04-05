@@ -31,7 +31,22 @@ const BeatOptionHeader = styled.div`
 
 const StyledPresetOption = styled.div`
   display: inline-block;
-  border: 1px solid white;
+`
+
+const AddButton = styled.div`
+  background: ${colors.green.base};
+  height: 20px;
+  width: 25px;
+  margin: 6px 6px 0 0;
+  border-radius: 5px;
+  line-height: 110%;
+  font-size: 20px;
+  text-align: center;
+  text-shadow: 1px 1px 1px #444;
+  border: 1px solid ${chroma(colors.green.base).darken(2.0)};
+  &:hover {
+    color: white;
+  }
 `
 
 @observer
@@ -73,16 +88,8 @@ class TemplateBeatsPanel extends Component {
     }
 
     const presetOptions = templateBeats.map( (beat, i) => {
-
       return (
         <StyledPresetOption key={i}>
-          <Button
-            large
-            color={[colors.green.base, chroma("green").brighten(1.2)]}
-            onClick={()=>{this.addPresetBeat(beat)}}
-          >
-            Add
-          </Button>
           <br/>
           <BeatBlock
             index     = {i}
@@ -93,8 +100,11 @@ class TemplateBeatsPanel extends Component {
             }}
             playing = {this.templateStore.playingBeats[i].value}
             templateBlock = {true}
-          / >
-
+          >
+              <AddButton
+                onClick={()=>{this.addPresetBeat(beat)}}
+              >+</AddButton>
+          </BeatBlock>
         </StyledPresetOption>
       )
     })

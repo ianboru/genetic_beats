@@ -1,4 +1,5 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
+import shortid from "shortid"
 import familyStore from "./familyStore"
 import store from "./store"
 import controlStore from "./controlStore"
@@ -41,7 +42,7 @@ class ArrangementStore {
   }
 
   @action addBeatToArrangement = (beatKey) => {
-    this.currentArrangement.push(beatKey)
+    this.currentArrangement.push([beatKey, shortid.generate()])
     familyStore.updateFamilyInStorage()
   }
 
@@ -76,7 +77,7 @@ class ArrangementStore {
             numRepeats = Math.floor(Math.random() * 3) + 1
           }
           for (let i=0; i < numRepeats; i++) {
-            this.currentArrangement.push(beat.key)
+            this.currentArrangement.push([beat.key, shortid.generate()])
           }
         }
       })
@@ -165,7 +166,7 @@ class ArrangementStore {
               scoreComparitor > Math.random()) ||
               (!acceptedBeat && numTries > 50)
             ) {
-            this.currentArrangement.push(randomBeat.key)
+            this.currentArrangement.push([randomBeat.key, shortid.generate()])
             acceptedBeat = true
             lastBeat = randomBeat
             numTries = 0

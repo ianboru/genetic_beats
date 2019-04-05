@@ -31,8 +31,9 @@ import SoloTrackButton from "../styledComponents/soloTrackButton"
 const StyledBeat = styled.div`
   display: table;
   position: relative;
-  margin: 0px auto 7px;
-  padding: 5px;
+  margin: 0px auto;
+  padding: 0 5px 6px;
+  width: 210px;
 `
 
 const TableRow = styled.div`
@@ -84,17 +85,11 @@ class MiniBeat extends Component {
 
 const StyledTrack = styled.div`
   margin : 0 auto;
-  font-size : 8px;
-
+  font-size : 0px;
 `
 
 @observer
 class MiniTrack extends Component {
-  state = {
-    lastClickedNoteWasOn : null,
-    lastEntered          : -1,
-  }
-
   render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
@@ -108,8 +103,6 @@ class MiniTrack extends Component {
       )
     })
 
-    const track = this.props.track
-
     return (
       <StyledTrack>
         {notes}
@@ -120,15 +113,18 @@ class MiniTrack extends Component {
 
 const StyledNote = styled.div`
   background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
-  border-radius: 2px;
+  border-radius: 0px;
   border: 1px solid black;
   cursor: pointer;
+  position: relative;
   display: inline-block;
-  height: 6px;
-  width: 6px;
+  font-size : 0px;
+  height: 12px;
+  width: 12px;
   margin: 0;
+  margin-right: -1px;
+  margin-bottom: -1px;
   vertical-align: middle;
-  font-size : 6px;
 `
 
 
