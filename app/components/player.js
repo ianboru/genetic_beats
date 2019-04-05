@@ -4,15 +4,14 @@ import { reaction, toJS } from "mobx"
 
 import store from "../stores/store"
 import playingStore from "../stores/playingStore"
-
 import Tone from "tone"
 
 
 const velocities = [
-  1, .5, .75, .5,
-  1, .5, .75, .5,
-  1, .5, .75, .5,
-  1, .5, .75, .5,
+  1, .1, .75, .1,
+  1, .1, .75, .1,
+  1, .1, .75, .1,
+  1, .1, .75, .1,
 ]
 
 // Set up sampler players
@@ -32,13 +31,18 @@ const synths = [{}, "sine", "square"].reduce( (acc, synthType) => {
 function loopProcessor(tracks, beatNotifier) {
   return (time, index) => {
     let notes = {}
-
+    const gainRange = 50
+    const offSet = 30
     beatNotifier(index)
     tracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
       if (sequence[index] && !mute) {
         try {
           if (trackType === "sampler") {
-            samplePlayers.get(sample).start(time, 0, "1n", 0, 1)
+            const player = samplePlayers.get(sample)
+            const dB = store.samples[sample].gain*gainRange - offSet
+            player.volume.value = dB
+            player.start(time, 0, "1n", 0)            
+
           } else if (trackType === "synth") {
             if (!notes[synthType]) {
               notes[synthType] = []
