@@ -31,18 +31,16 @@ const synths = [{}, "sine", "square"].reduce( (acc, synthType) => {
 function loopProcessor(tracks, beatNotifier) {
   return (time, index) => {
     let notes = {}
-    const gainRange = 50
-    const offSet = 30
+    const gainRange = 55
+    const offSet = 35
     beatNotifier(index)
     tracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
       if (sequence[index] && !mute) {
         try {
           if (trackType === "sampler") {
             const player = samplePlayers.get(sample)
-            const dB = store.samples[sample].gain*gainRange - offSet
-            player.volume.value = dB
+            player.volume.value = store.samples[sample].gain*gainRange - offSet
             player.start(time, 0, "1n", 0)            
-
           } else if (trackType === "synth") {
             if (!notes[synthType]) {
               notes[synthType] = []
@@ -56,9 +54,12 @@ function loopProcessor(tracks, beatNotifier) {
         }
       }
     })
-
+    console.log(synths)
     Object.keys(synths).forEach( (synthType) => {
       synths[synthType].triggerAttackRelease(notes[synthType], "16n")
+      //TODO fixing gain
+      //console.log("synth gain", store.synthGain, synthType)
+      //synths[synthType].volume.value = store.synthGain*gainRange - offSet
     })
   }
 }
