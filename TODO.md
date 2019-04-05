@@ -1,4 +1,14 @@
 Bugs:
+    * Display rating on minibeat
+    * Make minibeats more compact
+    * In arrangement:
+        * Switch ID on existing beat
+        * Insert beat anywhere
+        * Preview beats while adding
+        * See family tree structure while adding
+    * Drag to change tempo
+    * Clicking beat should take you to it from family tree tab (same for arrangement view?)
+
     Medium:
     * First beat plays twice in arrangement
     * Mute/solo not working after tone.js refactor
@@ -29,6 +39,7 @@ High value and/or easy:
 
 
 High value but hard:
+    * Give beats names instead of IDs
     * Design/add UI component for adding beats to arrangement from arrangement tab - 6 design
     * Improve synth UI
     * Delete beat - kinda a weird feature and not super urgent so putting this off
