@@ -35,7 +35,7 @@ function loopProcessor(tracks, beatNotifier) {
 
     beatNotifier(index)
     tracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
-      if (sequence[index]) {
+      if (sequence[index] && !mute) {
         try {
           if (trackType === "sampler") {
             samplePlayers.get(sample).start(time, 0, "1n", 0, 1)
@@ -72,7 +72,6 @@ class Player extends Component {
       new Array(this.props.resolution).fill(0).map((_, i) => i),
       `${this.props.resolution}n`
     )
-    console.log("loop end", this.loop.loopEnd)
     Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
   }

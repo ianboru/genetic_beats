@@ -76,9 +76,8 @@ class ArrangementGlobalViewStore {
       this.incrementSelectedBeat()
     })
     this.beatTimer.loop = true
-    this.beatTimer.start()
+    this.beatTimer.start("+1m")
     this.beatPlayingStates[this.selectedBeat].value = true
-    this.selectedBeat -= 1
   }
 
   @action setArrangementLength = (arrangementLength) => {
