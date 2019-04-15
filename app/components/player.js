@@ -42,15 +42,14 @@ function loopProcessor(tracks, beatNotifier) {
     let finalTracks = tracks
     if(playingStore.metronome){
       finalTracks = [...tracks, metronomeTrack]
-    }  
+    }
     finalTracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
       if (sequence[index] && !mute) {
         try {
           if (trackType === "sampler") {
             const player = samplePlayers.get(sample)
             player.volume.value = store.samples[sample].gain*gainRange - offSet
-            player.start(time, 0, "1n", 0)    
-            console.log("sample trigger")        
+            player.start(time, 0, "1n", 0)
           } else if (trackType === "synth") {
             if (!notes[synthType]) {
               notes[synthType] = []
@@ -65,7 +64,6 @@ function loopProcessor(tracks, beatNotifier) {
       }
     })
     Object.keys(synths).forEach( (synthType) => {
-      console.log("synth trigger", notes[synthType])
       if(notes[synthType]){
         synths[synthType].triggerAttackRelease(notes[synthType], "16n")
       }

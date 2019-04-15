@@ -26,6 +26,19 @@ const StyledArrangementControls = styled.div`
 
 @observer
 class ArrangementControls extends Component {
+  componentDidUpdate() {
+    // TODO: Make this a reaction, move to store
+    if (arrangementViewStore.playingArrangement && !arrangementViewStore.incrementBeatTimer) {
+      arrangementViewStore.startPlayingBeat()
+    } else if (!arrangementViewStore.playingArrangement && arrangementViewStore.incrementBeatTimer) {
+      arrangementViewStore.stopPlayingBeat()
+    }
+  }
+
+  componentWillUnmount() {
+    arrangementViewStore.reset()
+  }
+
   handleSelectArrangement = (evt) => {
     arrangementStore.selectArrangement(parseInt(evt.target.value))
   }

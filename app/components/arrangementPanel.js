@@ -97,19 +97,6 @@ class Block extends Component {
 
 @observer
 class ArrangementPanel extends Component {
-  componentDidUpdate() {
-    // TODO: Make this a reaction, move to store
-    if (arrangementViewStore.playingArrangement && !arrangementViewStore.incrementBeatTimer) {
-      arrangementViewStore.startPlayingBeat()
-    } else if (!arrangementViewStore.playingArrangement && arrangementViewStore.incrementBeatTimer) {
-      arrangementViewStore.stopPlayingBeat()
-    }
-  }
-
-  componentWillUnmount() {
-    arrangementViewStore.reset()
-  }
-
   deleteBlock = (index) => {
     arrangementStore.deleteBeatFromArrangement(index)
   }
@@ -131,8 +118,9 @@ class ArrangementPanel extends Component {
   }
 
   render() {
-    //Force rerender when playingArrangment changes
-    arrangementViewStore.playingArrangement
+    // This variable is accessed inside of a callback so mobx
+    // can't see when it changes.
+    store.arrangementBeatToAdd
 
     const beatBlocks = arrangementStore.currentArrangement.map( (beatTuple, i) => {
       const beatKey = beatTuple[0]
@@ -169,21 +157,13 @@ class ArrangementPanel extends Component {
       }
     }
 
-    // This variable is accessed inside of a callback so mobx
-    // can't see when it changes I guess.
-    store.arrangementBeatToAdd
-
     // TODO: Refactor arrangement component from arrangement page
-
-    console.log("RENDER ARRANGEMENT")
     return (
       <DragDropContext
         onDragEnd = {onDragEnd}
       >
         <div>
-          <ArrangementControls
-            playing = {arrangementViewStore.playingArrangement}
-          />
+          <ArrangementControls />
 
           <Droppable droppableId={"arrangement-dropdown"} direction="horizontal">
             {provided => (
