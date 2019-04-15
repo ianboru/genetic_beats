@@ -1,5 +1,3 @@
-(refactor lit to selected)
-
 Arrangement initialization:
 
 Add beat:
@@ -47,17 +45,3 @@ Change or Create family:
 	Rewire in general
 
 	Reset arrangement component
-
-
-
-TODOs
-* Refactor updateFamilyInStorage to work with multiple stores
-    * Make sure to save arrangement data (no longer called with localStorage.setItem)
-* Drag and Drop on arrangements is broken
-* Handle arrangement when we call killSubsequentGenerations
-* Handle arrangement when we select new family
-* Selecting beats on Family Tree tab is broken
-* Add warning when playing but there are no notes to play
-* Main beat player can get *way* off
-* Fix link to beat detail from family tree beatblocks
-* Deleting beats while the arrangement is playing can break
