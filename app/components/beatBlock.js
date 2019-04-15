@@ -72,45 +72,17 @@ const OpenInNewWindow = styled(NavLink)`
 
 @observer
 class BeatBlock extends Component {
-  handleHover = () => {
-    if (this.props.familyBlock) {
-      familyStore.updateCurrentHighlightedParent(this.props.beat.key)
-    }
-  }
-
-  handleMouseLeave = ()=>{
-    if(this.props.familyBlock){
-      familyStore.updateCurrentHighlightedParent("")
-    }
-  }
-
   render() {
     const beat = deepClone(this.props.beat)
     const idData = beat.key.split(".")
-
-    let childHighlight = false
-
-    if(beat.momKey == familyStore.currentHighlightedParent || beat.dadKey == familyStore.currentHighlightedParent && this.props.familyBlock){
-      childHighlight = true
-    }
-
-    let parentHighlight = false
-
-    if(familyStore.currentHighlightedParent && this.props.familyBlock){
-      const hightlightedIdData = familyStore.currentHighlightedParent.split(".")
-      const highlightedBeat = familyStore.allGenerations[hightlightedIdData[0]][hightlightedIdData[1]]
-
-      if(beat.key == highlightedBeat.momKey|| beat.key == highlightedBeat.dadKey && this.props.familyBlock){
-        parentHighlight = true
-      }
-    }
+    console.log("render", beat.key)
 
     // `playing` is true under two conditions. the first is the "easy" way
     // to get a beat to play (pass in playing={true} prop), the second
     // is the more efficient way of playing, eg within an arrangement.
     let playing = this.props.playing
-    if (this.props.beatPlayingStates && this.props.beatPlayingStates[this.props.index]) {
-      playing = this.props.beatPlayingStates[this.props.index].value
+    if (this.props.beatPlayingStates && this.props.beatPlayingStates[this.props.arrangementKey]) {
+      playing = this.props.beatPlayingStates[this.props.arrangementKey]
     }
 
     const PlayStopButton = playing ? MdStop : MdPlayArrow
@@ -134,10 +106,6 @@ class BeatBlock extends Component {
       <StyledBlock
         innerRef        = {this.props.innerRef}
         selected        = {this.props.selected || playing}
-        childHighlight  = {childHighlight}
-        parentHighlight = {parentHighlight}
-        onMouseEnter    = {this.handleHover}
-        onMouseLeave    = {this.handleMouseLeave}
         onClick         = {this.props.handleClickBeat}
         {...this.props.draggableProps}
         {...this.props.dragHandleProps}

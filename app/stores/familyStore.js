@@ -25,7 +25,6 @@ class FamilyStore {
   //@observable allGenerations     = [starterBeats]
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
-  @observable currentHighlightedParent = ""
   @observable numMutations         = 0
   @observable numEdits            = 0
   @observable numClones           = 0
@@ -66,10 +65,6 @@ class FamilyStore {
 
   @action incrementNumClonings() {
     this.numClones++
-  }
-
-  @action updateCurrentHighlightedParent = (beatKey)=>{
-    this.currentHighlightedParent = beatKey
   }
 
   @action setBeatNum = (beatNum) => {

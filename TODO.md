@@ -1,20 +1,16 @@
 Bugs:
     * Display rating on minibeat
-    * Make minibeats more compact
     * In arrangement:
         * Switch ID on existing beat
         * Insert beat anywhere
         * Preview beats while adding
         * See family tree structure while adding
     * Drag to change tempo
-    * Clicking beat should take you to it from family tree tab (same for arrangement view?)
 
     Medium:
     * First beat plays twice in arrangement
-    * Mute/solo not working after tone.js refactor
     * Metronome not working after tone.js refactor
     * Gain not working after tone.js refactor
-    * Arrangement doesn't work with too many beats
 
     Low
     * tooltip blocks arrangement controls - john - low

@@ -54,7 +54,6 @@ function loopProcessor(tracks, beatNotifier) {
         }
       }
     })
-    console.log(synths)
     Object.keys(synths).forEach( (synthType) => {
       synths[synthType].triggerAttackRelease(notes[synthType], "16n")
       //TODO fixing gain

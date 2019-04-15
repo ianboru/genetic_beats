@@ -33,7 +33,7 @@ const StyledBeat = styled.div`
   position: relative;
   margin: 0px auto;
   padding: 0 5px 6px;
-  width: 210px;
+  width: 220px;
 `
 
 const TableRow = styled.div`

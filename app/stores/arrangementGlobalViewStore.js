@@ -9,10 +9,24 @@ class ArrangementGlobalViewStore {
   //
   // STATE
   //
-  @observable beatPlayingStates = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
+  @observable beatPlayingStates = {}
   @observable selectedBeat = 0
   @observable beatTimer
   @observable playingArrangement = false
+
+  //
+  // COMPUTED
+  //
+
+  @computed get selectedBeatKey() {
+    const beatData = arrangementStore.currentArrangement[this.selectedBeat]
+    return beatData && beatData[0]
+  }
+
+  @computed get selectedBeatId() {
+    const beatData = arrangementStore.currentArrangement[this.selectedBeat]
+    return beatData && beatData[1]
+  }
 
   //
   // ACTIONS
@@ -20,7 +34,7 @@ class ArrangementGlobalViewStore {
   //
 
   @action reset = () => {
-    this.beatPlayingStates = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
+    this.beatPlayingStates = {}
     this.selectedBeat = 0
     if (this.beatTimer) {
       this.beatTimer.cancel()
@@ -32,27 +46,29 @@ class ArrangementGlobalViewStore {
   @action togglePlayArrangement = () => {
     this.playingArrangement = !this.playingArrangement
   }
-  @action togglePlayingBeat = (activeBeatIndex) => {
+
+  @action togglePlayingBeat = (activeBeatId) => {
     if (this.playingArrangement) {
       this.togglePlayArrangement()
     }
-    if (this.beatPlayingStates[activeBeatIndex].value) {
+    if (this.beatPlayingStates[activeBeatId]) {
       this.stopPlayingBeat()
     } else {
       this.stopPlayingBeat()
-      this.beatPlayingStates[activeBeatIndex].value = true
+      this.beatPlayingStates[activeBeatId] = true
     }
   }
 
   @action incrementSelectedBeat = () => {
+    const prevBeatData = arrangementStore.currentArrangement[this.selectedBeat]
     this.selectedBeat = (this.selectedBeat + 1) % arrangementStore.currentArrangement.length
-    this.beatPlayingStates.forEach( (beat, i) => {
-      if (i === this.selectedBeat) {
-        this.beatPlayingStates[i].value = true
-      } else {
-        this.beatPlayingStates[i].value = false
-      }
-    })
+
+    if (prevBeatData) {
+      this.beatPlayingStates[prevBeatData[1]] = false
+    }
+    if (this.selectedBeatId) {
+      this.beatPlayingStates[this.selectedBeatId] = true
+    }
   }
 
   @action setSelectedBeat = (arrangementIndex) => {
@@ -61,14 +77,13 @@ class ArrangementGlobalViewStore {
 
   // Left off here, this is really resetArrangement
   @action stopPlayingBeat = () => {
-    this.beatPlayingStates = new Array(arrangementStore.currentArrangement.length).fill().map(() => { return { value: false } })
+    if (this.selectedBeatId) {
+      this.beatPlayingStates[this.selectedBeatId] = false
+    }
     if (this.beatTimer) {
       this.beatTimer.cancel()
       this.beatTimer = null
     }
-    this.beatPlayingStates.forEach( (beat, i) => {
-      this.beatPlayingStates[i].value = false
-    })
   }
 
   @action startPlayingBeat = () => {
@@ -77,14 +92,8 @@ class ArrangementGlobalViewStore {
     })
     this.beatTimer.loop = true
     this.beatTimer.start("+1m")
-    this.beatPlayingStates[this.selectedBeat].value = true
-  }
 
-  @action setArrangementLength = (arrangementLength) => {
-    while (arrangementLength > this.beatPlayingStates.length) {
-      this.beatPlayingStates.push({value: false})
-    }
-    this.beatPlayingStates.length = arrangementLength
+    this.beatPlayingStates[this.selectedBeatId] = true
   }
 }
 

@@ -97,13 +97,6 @@ class Block extends Component {
 
 @observer
 class ArrangementPanel extends Component {
-  componentDidMount() {
-    // TODO: Move this a reaction to store
-    this.arrangementReaction = reaction(() => {
-      return arrangementStore.currentArrangement.length
-    }, (arrangementLength) => arrangementViewStore.setArrangementLength(arrangementLength))
-  }
-
   componentDidUpdate() {
     // TODO: Make this a reaction, move to store
     if (arrangementViewStore.playingArrangement && !arrangementViewStore.beatTimer) {
@@ -114,9 +107,6 @@ class ArrangementPanel extends Component {
   }
 
   componentWillUnmount() {
-    // TODO: Part of reaction above
-    this.arrangementReaction()
-
     arrangementViewStore.reset()
   }
 
@@ -144,18 +134,20 @@ class ArrangementPanel extends Component {
     //Force rerender when playingArrangment changes
     arrangementViewStore.playingArrangement
 
-    const beatBlocks = arrangementStore.currentArrangement.map( (beatKey, i) => {
-      let splitKey = beatKey.split(".")
+    const beatBlocks = arrangementStore.currentArrangement.map( (beatTuple, i) => {
+      const beatKey = beatTuple[0]
+      const arrangementKey = beatTuple[1]
+      const splitKey = beatKey.split(".")
       const beat = familyStore.allGenerations[splitKey[0]][splitKey[1]]
       return (
         <Block
           index            = {i}
-          key              = {`${beatKey}-${i}`}
+          key              = {arrangementKey}
           beat             = {beat}
+          arrangementKey   = {arrangementKey}
           deleteBlock      = {() => { this.deleteBlock(i) }}
           handleMoveBeat   = {this.handleMoveBeat}
           beatPlayingStates = {arrangementViewStore.beatPlayingStates}
-          selected         = {i === arrangementViewStore.selectedBeat}
           arrangementBlock = {true}
           handleClickPlay  = {() => { this.handlePlayBeat(i) }}
           handleClickBeat  = {() => { this.handleClickBeat(i) }}
@@ -183,6 +175,7 @@ class ArrangementPanel extends Component {
 
     // TODO: Refactor arrangement component from arrangement page
 
+    console.log("RENDER ARRANGEMENT")
     return (
       <DragDropContext
         onDragEnd = {onDragEnd}

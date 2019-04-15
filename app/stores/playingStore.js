@@ -104,7 +104,6 @@ class PlayingStore {
     if(this.numSolo == 0){
       track.mute = !track.mute
     }
-    console.log(track, track.mute, this.numSolo)
   }
 
   @action handleSoloTrack = (track) => {

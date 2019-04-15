@@ -185,7 +185,6 @@ class BeatDetail extends Component {
         activeMuteAll : true
       })
     }
-    console.log(track.mute)
   }
 
   handleSoloTrack = (track) => {
