@@ -15,26 +15,19 @@ import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
 
 
+const bgColor = chroma(colors.green.lightest).alpha(1).rgba()
 
 const StyledGeneration = styled.div`
-  border: 1px solid #333;
-  border-width: 1px 0;
+  border: 2px solid rgba(${bgColor.join(",")});
+  border-radius: 3px;
   padding: 10px 20px;
-  background: ${colors.blue.lighter};
+  margin-bottom: 5px;
 `
 
 
 
 @observer
 class Generation extends Component {
-  /*
-  Decide on local vs global instance.
-  constructor(props){
-    super(props)
-    this.familyViewStore = new FamilyViewStore()
-
-  }*/
-
   handleClickPlay = (beatKey) => {
     familyViewStore.togglePlayingBeat(beatKey)
   }
@@ -66,7 +59,6 @@ class Generation extends Component {
       <StyledGeneration>
         <h3
           style={{
-            color  : "#333",
             margin : "4px 8px",
             fontSize: 30,
           }}
