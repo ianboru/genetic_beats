@@ -49,7 +49,8 @@ function loopProcessor(tracks, beatNotifier) {
           if (trackType === "sampler") {
             const player = samplePlayers.get(sample)
             player.volume.value = store.samples[sample].gain*gainRange - offSet
-            player.start(time, 0, "1n", 0)            
+            player.start(time, 0, "1n", 0)    
+            console.log("sample trigger")        
           } else if (trackType === "synth") {
             if (!notes[synthType]) {
               notes[synthType] = []
@@ -64,7 +65,10 @@ function loopProcessor(tracks, beatNotifier) {
       }
     })
     Object.keys(synths).forEach( (synthType) => {
-      synths[synthType].triggerAttackRelease(notes[synthType], "16n")
+      console.log("synth trigger", notes[synthType])
+      if(notes[synthType]){
+        synths[synthType].triggerAttackRelease(notes[synthType], "16n")
+      }
       //TODO fixing gain
       //console.log("synth gain", store.synthGain, synthType)
       //synths[synthType].volume.value = store.synthGain*gainRange - offSet
