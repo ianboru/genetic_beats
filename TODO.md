@@ -6,12 +6,13 @@ Bugs:
         * Preview beats while adding
         * See family tree structure while adding
     * Drag to change tempo
+    * Synth Gain not working
+    * Deleting in arrangement while playing
+    * Changing tempo messes up arrangement playback 
+    
+    High : 
 
-    Medium:
-    * First beat plays twice in arrangement
-    * Metronome not working after tone.js refactor
-    * Gain not working after tone.js refactor
-
+        * Select Generation for Mating
     Low
     * tooltip blocks arrangement controls - john - low
 
