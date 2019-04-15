@@ -99,9 +99,9 @@ class Block extends Component {
 class ArrangementPanel extends Component {
   componentDidUpdate() {
     // TODO: Make this a reaction, move to store
-    if (arrangementViewStore.playingArrangement && !arrangementViewStore.beatTimer) {
+    if (arrangementViewStore.playingArrangement && !arrangementViewStore.incrementBeatTimer) {
       arrangementViewStore.startPlayingBeat()
-    } else if (!arrangementViewStore.playingArrangement && arrangementViewStore.beatTimer) {
+    } else if (!arrangementViewStore.playingArrangement && arrangementViewStore.incrementBeatTimer) {
       arrangementViewStore.stopPlayingBeat()
     }
   }

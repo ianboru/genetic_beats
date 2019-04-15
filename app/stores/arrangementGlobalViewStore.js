@@ -11,7 +11,7 @@ class ArrangementGlobalViewStore {
   //
   @observable beatPlayingStates = {}
   @observable selectedBeat = 0
-  @observable beatTimer
+  @observable incrementBeatTimer
   @observable playingArrangement = false
 
   //
@@ -36,9 +36,9 @@ class ArrangementGlobalViewStore {
   @action reset = () => {
     this.beatPlayingStates = {}
     this.selectedBeat = 0
-    if (this.beatTimer) {
-      this.beatTimer.cancel()
-      this.beatTimer = null
+    if (this.incrementBeatTimer) {
+      this.incrementBeatTimer.cancel()
+      this.incrementBeatTimer = null
     }
     this.playingArrangement = false
   }
@@ -80,18 +80,18 @@ class ArrangementGlobalViewStore {
     if (this.selectedBeatId) {
       this.beatPlayingStates[this.selectedBeatId] = false
     }
-    if (this.beatTimer) {
-      this.beatTimer.cancel()
-      this.beatTimer = null
+    if (this.incrementBeatTimer) {
+      this.incrementBeatTimer.cancel()
+      this.incrementBeatTimer = null
     }
   }
 
   @action startPlayingBeat = () => {
-    this.beatTimer = new Tone.Event((time) => {
+    this.incrementBeatTimer = new Tone.Event((time) => {
       this.incrementSelectedBeat()
     })
-    this.beatTimer.loop = true
-    this.beatTimer.start("+1m")
+    this.incrementBeatTimer.loop = true
+    this.incrementBeatTimer.start("+1m")
 
     this.beatPlayingStates[this.selectedBeatId] = true
   }
