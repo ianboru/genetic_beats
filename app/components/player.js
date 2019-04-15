@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import { reaction, toJS } from "mobx"
-
 import store from "../stores/store"
 import playingStore from "../stores/playingStore"
 import Tone from "tone"
@@ -13,7 +12,13 @@ const velocities = [
   1, .1, .75, .1,
   1, .1, .75, .1,
 ]
-
+const metronomeTrack ={
+    trackType: "sampler",
+    sample: "samples/clave.wav",
+    sequence: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+    mute: false,
+    solo: false,
+}
 // Set up sampler players
 const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
   return { ...acc, [k]: store.samples[k].path }
@@ -34,7 +39,11 @@ function loopProcessor(tracks, beatNotifier) {
     const gainRange = 55
     const offSet = 35
     beatNotifier(index)
-    tracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
+    let finalTracks = tracks
+    if(playingStore.metronome){
+      finalTracks = [...tracks, metronomeTrack]
+    }  
+    finalTracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
       if (sequence[index] && !mute) {
         try {
           if (trackType === "sampler") {
@@ -101,7 +110,9 @@ class Player extends Component {
   }
 
   beatNotifier = (index) => {
-    this.props.setLitNote(index)
+    if(this.props.setLitNote){
+      this.props.setLitNote(index)
+    }
   }
 
   render() {

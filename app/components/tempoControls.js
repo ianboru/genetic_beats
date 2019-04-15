@@ -1,10 +1,8 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
-
 import Metronome from "../svg/metronome.svg"
 import MetronomeActive from "../svg/metronome-active.svg"
-
 import playingStore from "../stores/playingStore"
 
 
@@ -36,7 +34,7 @@ const StyledTempoControls = styled.div`
 class TempoControls extends Component {
   render() {
     const MetronomeIcon = playingStore.metronome ? MetronomeActive : Metronome
-
+    
     return (
       <StyledTempoControls>
         <span style={{fontSize: 15}}>Tempo</span>
