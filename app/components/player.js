@@ -26,7 +26,7 @@ const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
 const samplePlayers = new Tone.Players(urls).toMaster()
 
 // Set up synth players
-const synths = [{}, "sine", "square"].reduce( (acc, synthType) => {
+const synths = [{}, "sine", "square", "triangle"].reduce( (acc, synthType) => {
   const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
   synth.set({ oscillator: { type: synthType } })
   return { ...acc, [synthType]: synth }

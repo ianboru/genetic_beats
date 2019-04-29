@@ -18,6 +18,22 @@ newFamilyNames.push(newFamilyName)
 
 const BEAT_STEPS = 16
 
+
+
+const SCALES = {
+  cmaj : [
+    "c3",
+    "d3",
+    "e3",
+    "f3",
+    "g3",
+    "a3",
+    "b3",
+    "c4",
+  ]
+}
+
+
 class FamilyStore {
   @observable beatNum            = 0
   @observable generation         = 0
@@ -130,6 +146,33 @@ class FamilyStore {
     localStorage.setItem(this.familyName, JSON.stringify({
       family :this.allGenerations,
     }))
+  }
+
+  // TODO: This doesn't need to be in a store
+  @action newRandomMelody = (scale = "cmaj") => {
+    const scaleNotes = SCALES[scale]
+
+    let melodyTracks = scaleNotes.map( (note) => {
+      return {
+        trackType : "synth",
+        synthType : "triangle",
+        sample    : note,
+        sequence  : new Array(BEAT_STEPS).fill(0),
+        duration: [0, 0, 0, 2, 0, 4, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0],
+      }
+    })
+
+    melodyTracks[0].sequence.forEach( (_, i) => {
+      if (Math.random() > 0.25) {
+        const noteIndex = Math.floor(Math.random() * scaleNotes.length)
+        melodyTracks[noteIndex].sequence[i] = 1
+      }
+    })
+
+    return {
+      name: "melody1",
+      tracks: melodyTracks,
+    }
   }
 
   @action addBeatToCurrentGen = (beat) => {

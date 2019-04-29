@@ -10,7 +10,7 @@ import messageStore from "./stores/messageStore"
 import { colors } from "./colors"
 import { mutateBeat } from "./mutate"
 
-import BeatDetail from "./components/beatDetail"
+import SynthDetail from "./components/synthDetail"
 import Button from "./components/button"
 import MatingControls from "./components/matingControls"
 import NewBeatManager from "./components/newBeatManager"
@@ -43,9 +43,8 @@ class BeatDisplay extends Component {
         const beatNum = keyInfo[1]
 
         return (
-          <BeatDetail
+          <SynthDetail
             key  = {beat.key}
-            ref  = {r => { this.beat = r }}
             beat = {beat}
           />
         )
