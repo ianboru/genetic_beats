@@ -37,8 +37,8 @@ const SCALES = {
 class FamilyStore {
   @observable beatNum            = 0
   @observable generation         = 0
-  @observable allGenerations     = [[]]
-  //@observable allGenerations     = [starterBeats]
+  //@observable allGenerations     = [[]]
+  @observable allGenerations     = [starterBeats]
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable numMutations         = 0

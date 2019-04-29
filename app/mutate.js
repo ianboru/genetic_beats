@@ -178,7 +178,45 @@ const mutateByAddTrack = (beat) => {
   }
   return beat
 }
+const SCALES = {
+  cmaj : [
+    "c3",
+    "d3",
+    "e3",
+    "f3",
+    "g3",
+    "a3",
+    "b3",
+    "c4",
+  ]
+}
 
+const mutateMelody = (originalBeat)=>{
+  let newBeat = JSON.parse(JSON.stringify(toJS(originalBeat)))
+  let mutatedTracks = []
+  newBeat.tracks[0].sequence.forEach((note, i)=>{
+    let playedTrackIndex = null
+    newBeat.tracks.forEach((track,j)=>{
+      if(!playedTrackIndex && track.sequence[i]){
+        playedTrackIndex = j
+      }
+    })
+   //flip off to on
+    const flipNote = Math.random()*10 > originalBeat.score ? true : false
+    const switchNote = Math.random()*10 > Math.min(originalBeat.score,9.0)
+    const randomNoteIndex = Math.floor(Math.random()*SCALES["cmaj"].length)
+    if(flipNote && playedTrackIndex){
+      newBeat.tracks[playedTrackIndex].sequence[i] = 0
+    }else if(flipNote && playedTrackIndex == null){
+      newBeat.tracks[randomNoteIndex].sequence[i] = 1 
+    }else if(!flipNote && switchNote && playedTrackIndex  ){
+      newBeat.tracks[playedTrackIndex].sequence[i] = 0
+      newBeat.tracks[randomNoteIndex].sequence[i] = 1 
+    }
+  })
+
+  return newBeat
+}
 const mutateBeat = (originalBeat) => {
   let newBeat = JSON.parse(JSON.stringify(toJS(originalBeat)))
   let mutatedTracks = []
@@ -210,5 +248,6 @@ export {
   mutateByKillTrack,
   mutateSamplersByMusicalEnhancement,
   mutateSynthsByMusicalEnhancement,
-  mutateBeat
+  mutateBeat,
+  mutateMelody
 } 

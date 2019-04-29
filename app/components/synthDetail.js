@@ -27,6 +27,7 @@ import { colors } from "../colors"
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
+import { mutateMelody } from "../mutate"
 
 
 const StyledBeat = styled.div`
@@ -192,29 +193,10 @@ class BeatDetail extends Component {
     const melody = familyStore.newRandomMelody()
     familyStore.addBeatToCurrentGen(melody)
   }
-
-  handleSoloTrack = (track) => {
-    playingStore.handleSoloTrack(track)
-    if(!track.solo){
-      this.setState({
-        activeSoloAll : false
-      })
-    }
-    let numSoloSamples = 0
-    let numSamples = 0
-    let numSynth = 0
-    this.props.beat.tracks.forEach((track)=>{
-      if(track.solo){
-        ++numSoloSamples
-      }
-      ++numSamples
-    })
-
-    if(numSoloSamples == numSamples){
-      this.setState({
-        activeSoloAll : true
-      })
-    }
+  handleMutate = () => {
+    const newBeat = mutateMelody(familyStore.currentBeat)
+    familyStore.addBeatToCurrentGen(newBeat)
+    familyStore.incrementNumMutations()
   }
 
   render() {
@@ -344,6 +326,8 @@ class BeatDetail extends Component {
 
           <Column>
             <Button onClick={this.handleRandomMelody}>New Random Melody</Button>
+            <Button onClick={this.handleMutate}>Mutate Melody</Button>
+
           </Column>
 
           <Column />
