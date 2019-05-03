@@ -188,7 +188,37 @@ const SCALES = {
     "a3",
     "b3",
     "c4",
-  ]
+  ],
+  cmin : [
+    "c3",
+    "d3",
+    "d#3",
+    "f3",
+    "g3",
+    "a3",
+    "a#3",
+    "c4",
+  ],
+  cmel : [
+    "c3",
+    "d3",
+    "d#3",
+    "f3",
+    "g3",
+    "a3",
+    "b",
+    "c4",
+  ],
+  cphryg : [
+    "c3",
+    "d3",
+    "e",
+    "f#3",
+    "g3",
+    "a3",
+    "b",
+    "c4",
+  ],
 }
 
 const mutateMelody = (originalBeat)=>{
@@ -219,10 +249,21 @@ const mutateMelody = (originalBeat)=>{
       newBeat.tracks[randomNoteIndex].sequence[i] = 1
     }
   })
-
+  const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
+  if(switchScale){
+    mutateScale(newBeat)
+  }
   return newBeat
 }
-
+const mutateScale = (newBeat)=>{
+  const scaleTypes = Object.keys(SCALES)
+  const randomScaleIndex = Math.floor(Math.random()*scaleTypes.length)
+  newBeat.tracks.forEach((track,j)=>{
+    if (track.trackType === "synth") {
+      track.sample = SCALES[scaleTypes[randomScaleIndex]][j]
+    }
+  })
+}
 const mutateSampler = (originalBeat)=>{
   let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
@@ -239,7 +280,7 @@ const mutateSampler = (originalBeat)=>{
 
       const randomNote = Math.random() * 10 > 5 ? 1 : 0
 
-      track.sequence[i] = (Math.random()*70-60) > originalBeat.score ? 1-track.sequence[i] : track.sequence[i]
+      track.sequence[i] = (Math.random()*70-60) > Math.min(originalBeat.score,9.0) ? 1-track.sequence[i] : track.sequence[i]
     })
   })
 
