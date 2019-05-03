@@ -27,7 +27,7 @@ import { colors } from "../colors"
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
-import { mutateMelody } from "../mutate"
+import { mutateMelody, mutateSampler } from "../mutate"
 
 
 const StyledBeat = styled.div`
@@ -122,6 +122,7 @@ class BeatDetail extends Component {
   state = {
     activeMuteAll : false,
     activeSoloAll : false,
+    scale : [ "c3", "d3", "e3", "f3", "g3", "a3", "b3", "c4" ],
   }
 
   constructor(props) {
@@ -193,47 +194,27 @@ class BeatDetail extends Component {
     const melody = familyStore.newRandomMelody()
     familyStore.addBeatToCurrentGen(melody)
   }
-  handleMutate = () => {
+
+  handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
     familyStore.addBeatToCurrentGen(newBeat)
     familyStore.incrementNumMutations()
   }
 
-  render() {
-    // TODO: Only loop once to create samplerTracks/synthTracks
-    const samplerTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "sampler") )
-      .map( (track, i) => {
-        return (
-          <Track
-            key             = {`${this.props.beat.key}.${i}`}
-            trackNum        = {i}
-            track           = {track}
-            handleMuteTrack = {this.handleMuteTrack}
-            handleSoloTrack = {this.handleSoloTrack}
-            activeNotes     = {this.store.activeNotes}
-          />
-        )
-      })
+  handleMutateSampler = () => {
+    const newBeat = mutateSampler(familyStore.currentBeat)
+    familyStore.addBeatToCurrentGen(newBeat)
+    familyStore.incrementNumMutations()
+  }
 
-    const scale = [
-      "c3",
-      "d3",
-      "e3",
-      "f3",
-      "g3",
-      "a3",
-      "b3",
-      "c4",
-    ]
-
+  renderSynthTracks = () => {
     let synthTracksMap = {}
-
     const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
     synthTracks.forEach( (track) => {
       synthTracksMap[track.sample] = track
     })
 
-    const synth = scale.map( (note, i) => {
+    return this.state.scale.map( (note, i) => {
       let track = synthTracksMap[note]
 
       if (!track) {
@@ -256,6 +237,25 @@ class BeatDetail extends Component {
         />
       )
     })
+  }
+
+  render() {
+    const samplerTracks = this.props.beat.tracks.reduce( (filtered, track, i) => {
+      if (track.trackType === "sampler") {
+        return [
+            ...filtered,
+            <Track
+              key             = {`${this.props.beat.key}.${i}`}
+              trackNum        = {i}
+              track           = {track}
+              handleMuteTrack = {this.handleMuteTrack}
+              handleSoloTrack = {this.handleSoloTrack}
+              activeNotes     = {this.store.activeNotes}
+            />
+        ]
+      }
+      return filtered
+    }, [])
 
     return (
       <StyledBeat>
@@ -326,7 +326,8 @@ class BeatDetail extends Component {
 
           <Column>
             <Button onClick={this.handleRandomMelody}>New Random Melody</Button>
-            <Button onClick={this.handleMutate}>Mutate Melody</Button>
+            <Button onClick={this.handleMutateMelody}>Mutate Melody</Button>
+            <Button onClick={this.handleMutateSampler}>Mutate Sampler</Button>
 
           </Column>
 
@@ -339,7 +340,8 @@ class BeatDetail extends Component {
           </Column>
         </TableRow>
 
-        {synth}
+        {this.renderSynthTracks()}
+        {samplerTracks}
 
         <div style={{display:"table-row"}}>
           <Column />

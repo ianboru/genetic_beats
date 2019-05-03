@@ -59,6 +59,19 @@ export default [
                 sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
                 duration: [0, 0, 0, 2, 0, 4, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, ],
             },
+            {
+              "trackType": "sampler",
+              "sample": "samples/hi_hat.wav",
+              "sequence": [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+            }, {
+              "trackType": "sampler",
+              "sample": "samples/snare.wav",
+              "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+            }, {
+              "trackType": "sampler",
+              "sample": "samples/kick.wav",
+              "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+            },
         ],
     },
     {

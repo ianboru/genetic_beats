@@ -1,7 +1,7 @@
 import store from "./stores/store"
 import controlStore from "./stores/controlStore"
 import { toJS } from "mobx"
-import { allNotesInRange } from "./utils"
+import { allNotesInRange, deepClone } from "./utils"
 
 
 const mutateByKillTrack = (beat) => {
@@ -130,7 +130,7 @@ const mutateSequence = (sequence) => {
   const randomIndex = Math.floor(Math.random() * sequence.length)
   if(!mutatedSequence.includes(1)){
     mutatedSequence[randomIndex] = 1
-  } 
+  }
   return mutatedSequence
 }
 
@@ -192,15 +192,20 @@ const SCALES = {
 }
 
 const mutateMelody = (originalBeat)=>{
-  let newBeat = JSON.parse(JSON.stringify(toJS(originalBeat)))
+  let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
   newBeat.tracks[0].sequence.forEach((note, i)=>{
     let playedTrackIndex = null
+
     newBeat.tracks.forEach((track,j)=>{
-      if(!playedTrackIndex && track.sequence[i]){
+      if (track.trackType === "sampler") {
+        return
+      }
+      if (!playedTrackIndex && track.sequence[i]){
         playedTrackIndex = j
       }
     })
+
    //flip off to on
     const flipNote = Math.random()*10 > originalBeat.score ? true : false
     const switchNote = Math.random()*10 > Math.min(originalBeat.score,9.0)
@@ -208,17 +213,41 @@ const mutateMelody = (originalBeat)=>{
     if(flipNote && playedTrackIndex){
       newBeat.tracks[playedTrackIndex].sequence[i] = 0
     }else if(flipNote && playedTrackIndex == null){
-      newBeat.tracks[randomNoteIndex].sequence[i] = 1 
+      newBeat.tracks[randomNoteIndex].sequence[i] = 1
     }else if(!flipNote && switchNote && playedTrackIndex  ){
       newBeat.tracks[playedTrackIndex].sequence[i] = 0
-      newBeat.tracks[randomNoteIndex].sequence[i] = 1 
+      newBeat.tracks[randomNoteIndex].sequence[i] = 1
     }
   })
 
   return newBeat
 }
+
+const mutateSampler = (originalBeat)=>{
+  let newBeat = deepClone(toJS(originalBeat))
+  let mutatedTracks = []
+  newBeat.tracks[0].sequence.forEach((note, i)=>{
+    let playedTrackIndex = null
+
+    newBeat.tracks.forEach((track,j)=>{
+      if (track.trackType === "synth") {
+        return
+      }
+      if (!playedTrackIndex && track.sequence[i]){
+        playedTrackIndex = j
+      }
+
+      const randomNote = Math.random() * 10 > 5 ? 1 : 0
+
+      track.sequence[i] = (Math.random()*70-60) > originalBeat.score ? 1-track.sequence[i] : track.sequence[i]
+    })
+  })
+
+  return newBeat
+}
+
 const mutateBeat = (originalBeat) => {
-  let newBeat = JSON.parse(JSON.stringify(toJS(originalBeat)))
+  let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
   newBeat.tracks.forEach((track)=>{
     track.sequence = mutateSequence(track.sequence)
@@ -243,11 +272,12 @@ const mutateBeat = (originalBeat) => {
 
 
 export {
-  mutateSequence,  
+  mutateSequence,
   mutateByAddTrack,
   mutateByKillTrack,
   mutateSamplersByMusicalEnhancement,
   mutateSynthsByMusicalEnhancement,
   mutateBeat,
-  mutateMelody
-} 
+  mutateMelody,
+  mutateSampler,
+}
