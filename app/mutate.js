@@ -250,8 +250,12 @@ const mutateMelody = (originalBeat)=>{
     }
   })
   const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
-  if(switchScale){
+  if(false){
     mutateScale(newBeat)
+  }
+  const switchSynthType = (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
+  if(switchSynthType){
+    mutateSynthType(newBeat)
   }
   return newBeat
 }
@@ -261,6 +265,17 @@ const mutateScale = (newBeat)=>{
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {
       track.sample = SCALES[scaleTypes[randomScaleIndex]][j]
+    }
+  })
+}
+const mutateSynthType = (newBeat)=>{
+
+  const synthTypes = ["triangle","sine","square"]
+  const randomSynth = synthTypes[Math.floor(Math.random()*synthTypes.length)]
+  console.log(randomSynth)
+  newBeat.tracks.forEach((track,j)=>{
+    if (track.trackType === "synth") {
+      track.synthType = synthTypes[randomSynth]
     }
   })
 }
