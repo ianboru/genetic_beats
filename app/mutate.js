@@ -206,17 +206,17 @@ const SCALES = {
     "f3",
     "g3",
     "a3",
-    "b",
+    "b3",
     "c4",
   ],
   cphryg : [
     "c3",
     "d3",
-    "e",
+    "e3",
     "f#3",
     "g3",
     "a3",
-    "b",
+    "b3",
     "c4",
   ],
 }
@@ -275,7 +275,7 @@ const mutateSynthType = (newBeat)=>{
   console.log(randomSynth)
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {
-      track.synthType = synthTypes[randomSynth]
+      track.synthType = randomSynth
     }
   })
 }
