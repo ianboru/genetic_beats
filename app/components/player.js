@@ -26,9 +26,14 @@ const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
 const samplePlayers = new Tone.Players(urls).toMaster()
 
 // Set up synth players
-const synths = [{}, "sine", "square", "triangle"].reduce( (acc, synthType) => {
+const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 5]].reduce( (acc, synthData) => {
+  const synthType = synthData[0]
+  const gain = synthData[1]
+
+
   const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
-  synth.set({ oscillator: { type: synthType } })
+  synth.set({ oscillator: { type: synthType }, })
+  synth.volume.value += gain
   return { ...acc, [synthType]: synth }
 })
 
@@ -37,7 +42,7 @@ function loopProcessor(tracks, beatNotifier) {
   return (time, index) => {
     let notes = {}
     const gainRange = 55
-    const offSet = 35
+    const offSet = 37
     beatNotifier(index)
     let finalTracks = tracks
     if(playingStore.metronome){

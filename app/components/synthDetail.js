@@ -122,7 +122,6 @@ class BeatDetail extends Component {
   state = {
     activeMuteAll : false,
     activeSoloAll : false,
-    scale : [ "c3", "d3", "e3", "f3", "g3", "a3", "b3", "c4" ],
   }
 
   constructor(props) {
@@ -208,14 +207,10 @@ class BeatDetail extends Component {
   }
 
   renderSynthTracks = () => {
-    let synthTracksMap = {}
     const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
-    synthTracks.forEach( (track) => {
-      synthTracksMap[track.sample] = track
-    })
 
-    return this.state.scale.map( (note, i) => {
-      let track = synthTracksMap[note]
+    return synthTracks.map( (track, i) => {
+      const note = track.sample
 
       if (!track) {
         track = {

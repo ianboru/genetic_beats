@@ -250,7 +250,7 @@ const mutateMelody = (originalBeat)=>{
     }
   })
   const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
-  if(false){
+  if(switchScale){
     mutateScale(newBeat)
   }
   const switchSynthType = (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
@@ -293,9 +293,9 @@ const mutateSampler = (originalBeat)=>{
         playedTrackIndex = j
       }
 
-      const randomNote = Math.random() * 10 > 5 ? 1 : 0
+      const randomNote = Math.random() * 10 > 7.5 ? 1 : 0
 
-      track.sequence[i] = (Math.random()*70-60) > Math.min(originalBeat.score,9.0) ? 1-track.sequence[i] : track.sequence[i]
+      track.sequence[i] = (Math.random()*20-10) > Math.min(originalBeat.score,9.0) ? randomNote : track.sequence[i]
     })
   })
 
