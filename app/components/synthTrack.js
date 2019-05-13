@@ -73,10 +73,6 @@ const RemoveTrackButton = styled.span`
 
 const StyledTrack = styled.div`
   display: table-row;
-
-  &:hover {
-    background: lightblue;
-  }
 `
 
 

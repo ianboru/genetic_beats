@@ -233,7 +233,15 @@ class FamilyStore {
     }
     this.addBeatToCurrentGen(emptyBeat)
     messageStore.addMessageToQueue(`empty beat added to generation ${this.generation}`);
+  }
 
+  @action removeLastBeatFromCurrentGen = () => {
+    const lastBeatIndex = this.currentGeneration.length - 1
+
+    if (this.beatNum === lastBeatIndex) {
+      this.beatNum = this.beatNum - 1
+    }
+    this.allGenerations[this.generation].splice(lastBeatIndex)
   }
 
   @action addTrackToCurrentBeat = (trackType) => {

@@ -189,11 +189,6 @@ class BeatDetail extends Component {
     }
   }
 
-  handleRandomMelody = () => {
-    const melody = familyStore.newRandomMelody()
-    familyStore.addBeatToCurrentGen(melody)
-  }
-
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
     familyStore.addBeatToCurrentGen(newBeat)
@@ -204,6 +199,10 @@ class BeatDetail extends Component {
     const newBeat = mutateSampler(familyStore.currentBeat)
     familyStore.addBeatToCurrentGen(newBeat)
     familyStore.incrementNumMutations()
+  }
+
+  handleKillLastBeat = () => {
+    familyStore.removeLastBeatFromCurrentGen()
   }
 
   renderSynthTracks = () => {
@@ -320,13 +319,13 @@ class BeatDetail extends Component {
           <Column />
 
           <Column>
-            <Button onClick={this.handleRandomMelody}>New Random Melody</Button>
-            <Button onClick={this.handleMutateMelody}>Mutate Melody</Button>
-            <Button onClick={this.handleMutateSampler}>Mutate Sampler</Button>
-
           </Column>
 
-          <Column />
+          <Column>
+            <Button onClick={this.handleMutateMelody}>Mutate Melody</Button>
+            <Button onClick={this.handleMutateSampler}>Mutate Sampler</Button>
+            <Button color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button>
+          </Column>
 
           <Column align="bottom">
           </Column>
