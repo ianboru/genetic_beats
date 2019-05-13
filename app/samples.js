@@ -88,7 +88,7 @@ export default {
     category: "Snare",
     path: staticFilePath + "samples/snare.wav",
     gain: 0.8,
-    gainCorrection: 1.0,
+    gainCorrection: 0.7,
     mute: false,
     solo: false,
   },

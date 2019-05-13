@@ -1,3 +1,30 @@
+* Full piano UI
+* Throw away beats rated 5 or less
+* Play evolution of a beat (up to a 10 rating)
+
+* "Snapshots" of beats - when user rates 10?
+* Simplify rating - 5 stars?
+* Visually separate musical sections, and give them different colors
+* Add back arrangement - as existing UI, or new single-view UI
+* Utility - beat diff metric 
+    * longer lines between beats in a lineage depending on how much change
+    * Things that are too similar won't mate potentially
+    * Learn what manual changes a user makes to improve their beats (or what changes they rate highly)
+* Sample mutation
+* Lock synth / samples
+* Checkbox to mutate various things - synth type, scale, percussion kit, etc.
+* Pull presets into workflow, or create new presets
+* Monophonic vs polyphonic synth
+* Enforce monophone in UX
+
+
+* Do new synth UI
+* Create intro graphic
+* A/B test rating thing
+
+* Hook up Google Analytics
+* Changing tempo breaks arrangement playback timing
+
 Bugs:
     * Display rating on minibeat
     * In arrangement:
@@ -8,10 +35,9 @@ Bugs:
     * Drag to change tempo
     * Synth Gain not working
     * Deleting in arrangement while playing
-    * Changing tempo messes up arrangement playback 
-    
-    High : 
+    * Changing tempo messes up arrangement playback
 
+    High :
         * Select Generation for Mating
     Low
     * tooltip blocks arrangement controls - john - low

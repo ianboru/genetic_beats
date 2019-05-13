@@ -22,11 +22,35 @@ import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 
-const trackNameStyles = {
-  display       : "inline-block",
-  width         : 225,
-  textAlign     : "left",
-}
+const KeyboardBody = styled.div`
+  background: black;
+  padding-left: 40px;
+  display: inline-block;
+  text-align: right;
+`
+
+const SynthTrackName = styled.div`
+  border-radius: 0 3px 3px 0;
+
+  background: white;
+  padding: 0 6px;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  color: black;
+  display: inline-block;
+  text-align: left;
+  width: 160px;
+  cursor: pointer;
+
+  &:hover {
+    background: #bbb;
+  }
+
+  &:active {
+    background: #ddd;
+  }
+`
 
 
 const RemoveTrackButton = styled.span`
@@ -49,6 +73,10 @@ const RemoveTrackButton = styled.span`
 
 const StyledTrack = styled.div`
   display: table-row;
+
+  &:hover {
+    background: lightblue;
+  }
 `
 
 
@@ -158,9 +186,26 @@ class Track extends Component {
         </Column>
 
         <Column>
-          <div style={trackNameStyles}>
-            {track.sample}
-          </div>
+          <KeyboardBody>
+            <SynthTrackName
+              onClick={ () => {
+                if (track.trackType === "synth") {
+                  let synth = new Tone.Synth({
+                    oscillator: { type: track.synthType },
+                  }).toMaster()
+                  synth.triggerAttackRelease(track.sample, "16n")
+                } else if (track.trackType === "sampler") {
+                  var sampler = new Tone.Sampler({
+                    [track.sample]: store.samples[track.sample],
+                  }, () => {
+                    sampler.triggerAttack(track.sample)
+                  })
+                }
+              }}
+            >
+              {track.sample}
+            </SynthTrackName>
+          </KeyboardBody>
         </Column>
 
         <Column>

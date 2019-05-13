@@ -221,6 +221,10 @@ const SCALES = {
   ],
 }
 
+const randomBit = (probOn) => {
+  return Math.random() < probOn ? 1 : 0
+}
+
 const mutateMelody = (originalBeat)=>{
   let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
@@ -240,14 +244,17 @@ const mutateMelody = (originalBeat)=>{
     const flipNote = Math.random()*10 > originalBeat.score ? true : false
     const switchNote = Math.random()*10 > Math.min(originalBeat.score,9.0)
     const randomNoteIndex = Math.floor(Math.random()*SCALES["cmaj"].length)
-    if(flipNote && playedTrackIndex){
+
+    if(flipNote && playedTrackIndex != null){
       newBeat.tracks[playedTrackIndex].sequence[i] = 0
     }else if(flipNote && playedTrackIndex == null){
-      newBeat.tracks[randomNoteIndex].sequence[i] = 1
-    }else if(!flipNote && switchNote && playedTrackIndex  ){
+      newBeat.tracks[randomNoteIndex].sequence[i] = randomBit(0.5)
+    }
+    if(switchNote && playedTrackIndex != null ){
       newBeat.tracks[playedTrackIndex].sequence[i] = 0
       newBeat.tracks[randomNoteIndex].sequence[i] = 1
     }
+
   })
   const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
   if(switchScale){
@@ -269,10 +276,8 @@ const mutateScale = (newBeat)=>{
   })
 }
 const mutateSynthType = (newBeat)=>{
-
   const synthTypes = ["triangle","sine","square"]
   const randomSynth = synthTypes[Math.floor(Math.random()*synthTypes.length)]
-  console.log(randomSynth)
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {
       track.synthType = randomSynth
