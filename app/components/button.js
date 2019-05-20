@@ -23,7 +23,7 @@ const Button = styled.button.attrs({
   margin: 6px 3px;
   padding: ${props => props.large ? "4px 30px" : props.small ? "2px 4px" : "4px 8px"};
   transition: all 0.2s;
-  min-width: 100px;
+  min-width: ${props => props.width || 100}px;
 
   &:hover {
     background: ${props => props.altcolor};

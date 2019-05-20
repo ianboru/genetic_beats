@@ -1,8 +1,21 @@
-* Full piano UI
-* Throw away beats rated 5 or less
-* Play evolution of a beat (up to a 10 rating)
+* Refactor beat data structure so that it's an array of sections rather than an array of tracks
+    * each section is an array of tracks
+    * get its own rating, mute/solo, delete, mutate buttons
 
-* "Snapshots" of beats - when user rates 10?
+* UI for sections:
+    * rating per section (instead of for a whole beat)
+    * mutate button per section (instead of for whole beat)
+    * also Mutate Rated Sections button
+    * Mute/Solo/Gain for each section (remove mute/solo/gain per synth track)
+
+* Full piano UI
+* Potentially:
+  * show tooltip on Kill Last Beat to encourage using it when user rates a beat 5 or less
+  * or only show the Kill Last Beat button when they rate the current beat 5 or less
+* Lineages:
+    * Play evolution of a beat (up to a 10 rating)
+    * "Snapshots" of beats - when user rates 10?
+
 * Simplify rating - 5 stars?
 * Visually separate musical sections, and give them different colors
 * Add back arrangement - as existing UI, or new single-view UI

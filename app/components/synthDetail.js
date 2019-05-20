@@ -322,9 +322,9 @@ class BeatDetail extends Component {
           </Column>
 
           <Column>
-            <Button onClick={this.handleMutateMelody}>Mutate Melody</Button>
-            <Button onClick={this.handleMutateSampler}>Mutate Sampler</Button>
-            <Button color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button>
+            <Button width={150} onClick={this.handleMutateMelody}>Mutate Keyboard</Button>
+            <Button width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
+            <Button width={150} color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button>
           </Column>
 
           <Column align="bottom">

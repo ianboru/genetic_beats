@@ -24,7 +24,7 @@ import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 const KeyboardBody = styled.div`
   background: black;
-  padding-left: 40px;
+  padding-left: 100px;
   display: inline-block;
   text-align: right;
 `
@@ -40,7 +40,7 @@ const SynthTrackName = styled.div`
   color: black;
   display: inline-block;
   text-align: left;
-  width: 160px;
+  width: 100px;
   cursor: pointer;
 
   &:hover {
@@ -100,46 +100,6 @@ class Track extends Component {
     familyStore.setSampleOnCurrentBeat(trackNum, e.target.value)
   }
 
-  renderSamplePreviewer = () => {
-    const { track } = this.props
-    if (track.trackType === "synth") {
-      const synthType = track.synthType ? track.synthType : "sine"
-      return(
-        <span>
-          <button
-            style   = {{verticalAlign:"middle"}}
-            onClick = {() => {
-              if (track.trackType === "synth") {
-                let synth = new Tone.Synth({
-                  oscillator: { type: track.synthType },
-                }).toMaster()
-                synth.triggerAttackRelease(track.sample, "16n")
-              } else if (track.trackType === "sampler") {
-                var sampler = new Tone.Sampler({
-                  [track.sample]: store.samples[track.sample],
-                }, () => {
-                  sampler.triggerAttack(track.sample)
-                })
-              }
-            }}
-          >Play</button>
-        </span>
-      )
-    } else {
-      return (
-        <span>
-          <button
-            style   = {{verticalAlign:"middle"}}
-            onClick = {() => this.samplePreviewer.play()}
-          >Play</button>
-          <audio key={track.sample} ref={ref => this.samplePreviewer = ref}>
-            <source src={store.samples[track.sample].path}/>
-          </audio>
-        </span>
-      )
-    }
-  }
-
   componentDidMount() {
     if (this.props.track.trackType === "sampler") {
       this.samplePreviewer.volume = store.samples[this.props.track.sample].gain
@@ -178,7 +138,6 @@ class Track extends Component {
     return (
       <StyledTrack>
         <Column>
-          {this.renderSamplePreviewer()}
         </Column>
 
         <Column>
