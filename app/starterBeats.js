@@ -3,6 +3,8 @@ export default [
         key: "0.1",
         name: "Synth 1",
         score: 0,
+        synthScore : 0,
+        samplerScore: 0,
         tracks: [{
                 trackType: "synth",
                 synthType: "square",

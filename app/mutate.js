@@ -241,8 +241,8 @@ const mutateMelody = (originalBeat)=>{
     })
 
    //flip off to on
-    const flipNote = Math.random()*10 > originalBeat.score ? true : false
-    const switchNote = Math.random()*10 > Math.min(originalBeat.score,9.0)
+    const flipNote = Math.random()*10 > originalBeat.synthScore ? true : false
+    const switchNote = Math.random()*10 > Math.min(originalBeat.synthScore,9.0)
     const randomNoteIndex = Math.floor(Math.random()*SCALES["cmaj"].length)
 
     if(flipNote && playedTrackIndex != null){
@@ -256,11 +256,11 @@ const mutateMelody = (originalBeat)=>{
     }
 
   })
-  const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
+  const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.synthScore,9.0)
   if(switchScale){
     mutateScale(newBeat)
   }
-  const switchSynthType = (Math.random()*30-20) > Math.min(originalBeat.score,9.0)
+  const switchSynthType = (Math.random()*30-20) > Math.min(originalBeat.synthScore,9.0)
   if(switchSynthType){
     mutateSynthType(newBeat)
   }

@@ -297,9 +297,15 @@ class BeatDetail extends Component {
                 </Column>
                 <Column textLeft={true}>
                   <StarRating
-                    score = {familyStore.currentBeat.score}
+                    score = {familyStore.currentBeat.samplerScore}
                     handleSetScore = { (score) => {
-                      familyStore.setScore(score)
+                      familyStore.setSamplerScore(score)
+                    }}
+                  />
+                  <StarRating
+                    score = {familyStore.currentBeat.synthScore}
+                    handleSetScore = { (score) => {
+                      familyStore.setSynthScore(score)
                     }}
                   />
                 </Column>
