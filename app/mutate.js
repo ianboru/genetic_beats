@@ -226,6 +226,7 @@ const randomBit = (probOn) => {
 }
 
 const mutateMelody = (originalBeat)=>{
+  console.log("mutatemelody")
   let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
   newBeat.tracks[0].sequence.forEach((note, i)=>{
@@ -300,7 +301,7 @@ const mutateSampler = (originalBeat)=>{
 
       const randomNote = Math.random() * 10 > 7.5 ? 1 : 0
 
-      track.sequence[i] = (Math.random()*20-10) > Math.min(originalBeat.score,9.0) ? randomNote : track.sequence[i]
+      track.sequence[i] = (Math.random()*20-10) > Math.min(originalBeat.samplerScore,9.0) ? randomNote : track.sequence[i]
     })
   })
 

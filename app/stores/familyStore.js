@@ -290,7 +290,7 @@ class FamilyStore {
     this.updateFamilyInStorage()
   }
 
-  @action setSampleScore = (score) => {
+  @action setSamplerScore = (score) => {
     this.currentBeat.samplerScore = score
     this.updateFamilyInStorage()
   }

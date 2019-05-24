@@ -270,87 +270,45 @@ class BeatDetail extends Component {
           resolution = {familyStore.currentBeatResolution}
           setLitNote = {this.store.setLitNote}
         />
-        <HeaderTableRow>
-          <Column />
-          <Column />
 
-          <Column>
-            <Controls>
-              <PlayControls/>
-              <TempoControls />
-            </Controls>
-          </Column>
-        </HeaderTableRow>
+        <div style={{textAlign: "center"}}>
+          <Controls>
+            <PlayControls/>
+            <TempoControls />
+          </Controls>
+        </div>
+        <div style={{textAlign: "center"}}>
+          <Button width={150} color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button>
+        </div>
 
-        <TableRow>
-          <Column />
-          <Column />
-
-          <Column align="middle">
-            <div style={{display: "table"}}>
-              <TableRow>
-                <Column textRight={true}>
-                  <BILabel size={16}>score</BILabel>
-                  <BIData size={30}>{this.props.beat.score}</BIData>
-                </Column>
-                <Column textLeft={true}>
-                  <StarRating
-                    score = {familyStore.currentBeat.score}
-                    handleSetScore = { (score) => {
-                      familyStore.setScore(score)
-                    }}
-                  />
-                </Column>
-              </TableRow>
-            </div>
-          </Column>
-
-          <Column>
-          </Column>
-          <Column>
-          </Column>
-        </TableRow>
-
-        <TableRow>
-          <Column />
-
-          <Column>
-          </Column>
-
-          <Column>
-          </Column>
-
-          <Column>
-          </Column>
-          <Column>
-          </Column>
-        </TableRow>
-
-        <TableRow>
-          <Column />
-
-          <Column>
-          </Column>
-
-          <Column>
-            <Button width={150} onClick={this.handleMutateMelody}>Mutate Keyboard</Button>
-            <Button width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
-            <Button width={150} color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button>
-          </Column>
-
-          <Column align="bottom">
-          </Column>
-
-          <Column align="bottom">
-          </Column>
-        </TableRow>
         <StyledSectionWrapper>
           <StyledSection>
+            <div style={{ marginBottom: 20, marginTop: 10 }}>
+              <StarRating
+                score = {familyStore.currentBeat.synthScore}
+                handleSetScore = { (score) => {
+                  familyStore.setSynthScore(score)
+                }}
+              />
+              <Button width={150} onClick={this.handleMutateMelody}>Mutate Keyboard</Button>
+            </div>
+
             {this.renderSynthTracks()}
           </StyledSection>
         </StyledSectionWrapper>
+
         <StyledSectionWrapper>
           <StyledSection>
+            <div style={{ marginBottom: 20, marginTop: 10 }}>
+              <StarRating
+                score = {familyStore.currentBeat.samplerScore}
+                handleSetScore = { (score) => {
+                  familyStore.setSamplerScore(score)
+                }}
+              />
+              <Button width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
+            </div>
+
             {samplerTracks}
           </StyledSection>
         </StyledSectionWrapper>
