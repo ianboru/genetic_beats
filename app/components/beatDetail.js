@@ -52,8 +52,8 @@ const BIData = styled.span`
 `
 
 const TableRow = styled.div`
-  display: table-row;
-  width: 100%;
+  display: inline-block;
+  //width: 100%;
 `
 
 const HeaderTableRow = styled(TableRow)`
@@ -370,7 +370,7 @@ class BeatDetail extends Component {
             </span>
           </Column>
         </TableRow>
-
+        
         {tracks}
 
         <div style={{display:"table-row"}}>
