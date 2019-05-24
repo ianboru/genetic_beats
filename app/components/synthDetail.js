@@ -54,8 +54,8 @@ const BIData = styled.span`
 `
 
 const TableRow = styled.div`
-  display: table-row;
-  width: 100%;
+  display: inline-block;
+  //width: 100%;
 `
 
 const HeaderTableRow = styled(TableRow)`
@@ -90,6 +90,17 @@ const StyledDot = styled.span`
     background: ${props => props.active ? (props.activeColor || hoverGreen) : "gray"};
     background: rgba(${hoverGreen});
   }
+`
+
+const StyledSectionWrapper = styled.div`
+  text-align: center;
+`
+
+const StyledSection = styled.div`
+  display: inline-block;
+  padding: 15px;
+  border: 1px solid white;
+  border-radius: 4px;
 `
 
 @observer
@@ -333,9 +344,16 @@ class BeatDetail extends Component {
           <Column align="bottom">
           </Column>
         </TableRow>
-
-        {this.renderSynthTracks()}
-        {samplerTracks}
+        <StyledSectionWrapper>
+          <StyledSection>
+            {this.renderSynthTracks()}
+          </StyledSection>
+        </StyledSectionWrapper>
+        <StyledSectionWrapper>
+          <StyledSection>
+            {samplerTracks}
+          </StyledSection>
+        </StyledSectionWrapper>
 
         <div style={{display:"table-row"}}>
           <Column />

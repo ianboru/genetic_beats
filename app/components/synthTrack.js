@@ -24,14 +24,13 @@ import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 const KeyboardBody = styled.div`
   background: black;
-  padding-left: 100px;
   display: inline-block;
   text-align: right;
+  width : 300px;
 `
 
 const SynthTrackName = styled.div`
   border-radius: 0 3px 3px 0;
-
   background: white;
   padding: 0 6px;
   border-right: 1px solid black;
@@ -40,7 +39,7 @@ const SynthTrackName = styled.div`
   color: black;
   display: inline-block;
   text-align: left;
-  width: 100px;
+  width: 90px;
   cursor: pointer;
 
   &:hover {
@@ -72,7 +71,8 @@ const RemoveTrackButton = styled.span`
 `
 
 const StyledTrack = styled.div`
-  display: table-row;
+  //width : 1000px; 
+  margin : 0 auto;
 `
 
 
@@ -136,45 +136,33 @@ class Track extends Component {
     const track = this.props.track
 
     return (
-      <StyledTrack>
-        <Column>
-        </Column>
+    <StyledTrack>
+      <Column>
+        <KeyboardBody>
+          <SynthTrackName
+            onClick={ () => {
+              if (track.trackType === "synth") {
+                let synth = new Tone.Synth({
+                  oscillator: { type: track.synthType },
+                }).toMaster()
+                synth.triggerAttackRelease(track.sample, "16n")
+              } else if (track.trackType === "sampler") {
+                var sampler = new Tone.Sampler({
+                  [track.sample]: store.samples[track.sample],
+                }, () => {
+                  sampler.triggerAttack(track.sample)
+                })
+              }
+            }}
+          >
+            {track.sample}
+          </SynthTrackName>
+        </KeyboardBody>    
+      </Column>
 
-        <Column>
-          <KeyboardBody>
-            <SynthTrackName
-              onClick={ () => {
-                if (track.trackType === "synth") {
-                  let synth = new Tone.Synth({
-                    oscillator: { type: track.synthType },
-                  }).toMaster()
-                  synth.triggerAttackRelease(track.sample, "16n")
-                } else if (track.trackType === "sampler") {
-                  var sampler = new Tone.Sampler({
-                    [track.sample]: store.samples[track.sample],
-                  }, () => {
-                    sampler.triggerAttack(track.sample)
-                  })
-                }
-              }}
-            >
-              {track.sample}
-            </SynthTrackName>
-          </KeyboardBody>
-        </Column>
+      {notes}
 
-        <Column>
-          {notes}
-        </Column>
-
-        <Column>
-        </Column>
-
-        <Column>
-        </Column>
-
-        <Column>
-        </Column>
+      <Column textLeft />
       </StyledTrack>
     )
   }

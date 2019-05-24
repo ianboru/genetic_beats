@@ -3,9 +3,10 @@ import styled from "styled-components"
 
 const Column = styled.div`
   vertical-align: ${props => props.align ? props.align : "initial" };
-  display: table-cell;
+  display: inline-block;
   text-align: ${props => props.textLeft ? "left" : props.textRight ? "right" : "center"};
-  width: ${props => props.width ? props.width + "px" : "auto" };
+  width: 300px;
+  margin-right: 10px;
 `
 
 

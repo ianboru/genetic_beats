@@ -47,8 +47,16 @@ const RemoveTrackButton = styled.span`
   }
 `
 
+const StyledLeftButtons = styled.div`
+  width : 300px;
+ display : inline-block;
+ text-align : right;
+
+`
+
 const StyledTrack = styled.div`
-  display: table-row;
+  margin : 0 auto;
+  //width: 1000px;
 `
 
 
@@ -154,11 +162,9 @@ class Track extends Component {
     return (
       <StyledTrack>
         <Column>
-          {this.renderSamplePreviewer()}
-        </Column>
-
-        <Column>
-          <div style={trackNameStyles}>
+          <StyledLeftButtons>
+            {this.renderSamplePreviewer()}
+                <div style={trackNameStyles}>
             {track.trackType === "sampler" ?
               <DrumsetIcon
                 height={25}
@@ -184,13 +190,12 @@ class Track extends Component {
               handleSampleChange = {this.handleSampleChange}
             />
           </div>
+          </StyledLeftButtons>
         </Column>
 
-        <Column>
-          {notes}
-        </Column>
+        {notes}
 
-        <Column>
+        <Column textLeft>
           <Tooltip position="left" text="Mute">
             <MuteTrackButton
               active={track.mute}
@@ -204,17 +209,11 @@ class Track extends Component {
               onClick={()=>{this.props.handleSoloTrack(track)}}
             >S</SoloTrackButton>
           </Tooltip>
-        </Column>
-
-        <Column>
           <GainSlider
             sample    = {track.sample}
             synthType = {track.synthType}
             trackType = {track.trackType}
           />
-        </Column>
-
-        <Column>
           <RemoveTrackButton
             className = "remove-track"
             title     = {"Delete track"}
