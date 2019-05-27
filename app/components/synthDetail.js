@@ -99,8 +99,11 @@ const StyledSectionWrapper = styled.div`
 const StyledSection = styled.div`
   display: inline-block;
   padding: 15px;
-  border: 1px solid white;
+  background-color: ${chroma("rgb(41, 43, 48)").darken(0.5)};
+  border: 2px solid rgb(41, 43, 48);
   border-radius: 4px;
+  box-shadow: 0 0 4px 1px black;
+  margin-top: 30px;
 `
 
 @observer

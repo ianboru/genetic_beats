@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
+import chroma from "chroma-js"
 
 import store from "../stores/store"
 import playingStore from "../stores/playingStore"
@@ -15,17 +16,25 @@ const NoteWrapper = styled.div`
   }
 `
 
+const lightGreen = chroma("lightgreen").darken(0.4)
+const lighterGreen = chroma("lightgreen").brighten(0.4)
+const lightestGreen = chroma("lightgreen").brighten(1.2)
+
 const StyledNote = styled.div`
-  background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
-  border-radius: 2px;
+  background-color: ${props => props.active ? props.on ? lightestGreen : "darkgray" : props.on ? lightGreen : "gray" };
+  box-shadow: ${props => props.on ? `0 0 3px 1px ${lightGreen}` : "none"};
+  border-radius: 3px;
   border: 1px solid black;
   cursor: pointer;
   display: inline-block;
+  position: relative;
+  z-index: 1;
   height: 24px;
   margin: 0;
   font-size: 15px;
   width: 24px;
   vertical-align: middle;
+  transition: background-color 0.05s;
 
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -36,7 +45,7 @@ const StyledNote = styled.div`
                                   supported by Chrome and Opera */
 
   &:hover {
-    background-color: ${props => props.active ? "lightpink" : props.on ? "#FF6666" : "darkgray" };
+    background-color: ${props => props.active ? lightestGreen : props.on ? lighterGreen : "darkgray" };
   }
 `
 
