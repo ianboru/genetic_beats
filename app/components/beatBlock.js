@@ -75,7 +75,6 @@ class BeatBlock extends Component {
   render() {
     const beat = deepClone(this.props.beat)
     const idData = beat.key.split(".")
-    console.log("render", beat.key)
 
     // `playing` is true under two conditions. the first is the "easy" way
     // to get a beat to play (pass in playing={true} prop), the second

@@ -1,3 +1,11 @@
+* Add ability to stop lineage playing
+* Fix perf rendering issue on lineage
+* Fix tempo bug (when it's not 100)
+* Style play button/play controls for lineage
+* Allow random cycling through template beats for starting beat
+    * Encourage user to modify beats (esp starting beat)
+
+
 * Refactor beat data structure so that it's an array of sections rather than an array of tracks
     * each section is an array of tracks
     * get its own rating, mute/solo, delete, mutate buttons

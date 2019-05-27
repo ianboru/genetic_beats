@@ -61,47 +61,7 @@ class BeatDisplay extends Component {
     return (
       <div>
         <div>
-          <Tooltip
-            position = "bottom"
-            text     = "Add a new empty beat to the current generation"
-          >
-            <Button
-              style={{marginRight: "15px"}}
-              color={[colors.green.base]}
-              onClick={() => { familyStore.addEmptyBeatToCurrentGeneration () }}
-            >
-              + New Empty Beat
-            </Button>
-          </Tooltip>
-
-          <Tooltip
-            position = "bottom"
-            text     = "Create a new mutated beat from the current beat"
-            displayCondition = {familyStore.numEdits == 4 && familyStore.numMutations == 0}
-
-          >
-            <Button
-              color   = {[colors.green.base]}
-              onClick = {this.handleMutate}
-            >
-              Mutate This Beat
-            </Button>
-          </Tooltip>
-
-          <Tooltip
-            position = "bottom"
-            text     = "Create an exact copy of the current beat"
-            displayCondition = {familyStore.numEdits == 6 && familyStore.numClones == 0}
-
-          >
-            <Button
-              color={[colors.green.base]}
-              onClick = {this.handleClone}
-            >
-              Clone This Beat
-            </Button>
-          </Tooltip>
-          <MatingControls view="beatDisplay"/>
+          <MatingControls right view="beatDisplay"/>
         </div>
 
         <div style={{

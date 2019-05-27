@@ -1,11 +1,17 @@
 import React, { Component } from "react"
-import {observer} from "mobx-react"
+  import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
 import { toJS } from "mobx"
 
+import {
+  MdPlayArrow,
+  MdStop,
+} from "react-icons/md"
+
 import familyViewStore from "../stores/familyViewStore"
+import lineageViewStore from "../stores/lineageGlobalViewStore"
 
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
@@ -24,6 +30,10 @@ const StyledLineage = styled.div`
 
 @observer
 class Lineage extends Component {
+  handleClickPlayLineage = () => {
+    lineageViewStore.startPlayingBeat()
+  }
+
   handleClickPlay = (beatKey) => {
     familyViewStore.togglePlayingBeat(beatKey)
   }
@@ -42,13 +52,15 @@ class Lineage extends Component {
           key           = {i}
           beat          = {beat}
           handleClickPlay = {()=>{this.handleClickPlay(beat.key)}}
-          playing = {familyViewStore.playingBeats[beat.key]}
+          playing = {lineageViewStore.beatPlayingStates[beat.key]}
           familyBlock = {true}
           handleClickBeat = {()=>{this.handleClickBeat(beat.key)}}
           templateBlock = {true}
         />
       )
     })
+
+    const PlayStopButton = lineageViewStore.playing ? MdStop : MdPlayArrow
 
     return (
       <StyledLineage>
@@ -58,6 +70,10 @@ class Lineage extends Component {
             fontSize: 30,
           }}
         >Lineage</h3>
+        <PlayStopButton
+          size    = {50}
+          onClick = {this.handleClickPlayLineage}
+        />
 
         {beatBlocks}
       </StyledLineage>
