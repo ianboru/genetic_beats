@@ -22,13 +22,13 @@ const lightestGreen = chroma("lightgreen").brighten(1.2)
 
 const StyledNote = styled.div`
   background-color: ${props => props.active ? props.on ? lightestGreen : "darkgray" : props.on ? lightGreen : "gray" };
-  box-shadow: ${props => props.on ? `0 0 3px 1px ${lightGreen}` : "none"};
+  box-shadow: ${props => props.on ? `0 0 2px 1px ${lightGreen}` : "none"};
   border-radius: 3px;
   border: 1px solid black;
   cursor: pointer;
   display: inline-block;
   position: relative;
-  z-index: 1;
+  z-index: ${props => props.on ? 1 : 0 };
   height: 24px;
   margin: 0;
   font-size: 15px;

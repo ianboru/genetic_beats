@@ -1,6 +1,6 @@
 export default [
     {
-        key: "0.1",
+        key: "0.0",
         name: "Synth 1",
         score: 0,
         synthScore : 0,

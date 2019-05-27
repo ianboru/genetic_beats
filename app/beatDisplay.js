@@ -11,10 +11,13 @@ import { colors } from "./colors"
 import { mutateBeat } from "./mutate"
 
 import SynthDetail from "./components/synthDetail"
+import Lineage from "./components/lineage"
 import Button from "./components/button"
 import MatingControls from "./components/matingControls"
 import NewBeatManager from "./components/newBeatManager"
 import Tooltip from "./components/tooltip"
+
+
 
 
 @observer
@@ -107,6 +110,7 @@ class BeatDisplay extends Component {
         }}>
           {beat}
         </div>
+        <Lineage beats={familyStore.currentGeneration} />
       </div>
     )
   }

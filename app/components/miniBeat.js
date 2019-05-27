@@ -28,6 +28,11 @@ import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 
+const lightGreen = chroma("lightgreen").darken(0.4)
+const lighterGreen = chroma("lightgreen").brighten(0.4)
+const lightestGreen = chroma("lightgreen").brighten(1.2)
+
+
 const StyledBeat = styled.div`
   display: table;
   position: relative;
@@ -56,7 +61,23 @@ class MiniBeat extends Component {
   }
 
   render() {
-    const tracks = this.props.beat.tracks.map( (track, i) => {
+    const synthTracks = this.props.beat.tracks.filter(
+      (track) => track.trackType === "synth"
+    ).map( (track, i) => {
+      return (
+        <MiniTrack
+          key         = {`${this.props.beat.key}.${i}`}
+          trackNum    = {i}
+          track       = {track}
+          beatKey     = {this.props.beat.key}
+          activeNotes = {this.beatStore.activeNotes}
+        />
+      )
+    })
+
+    const samplerTracks = this.props.beat.tracks.filter(
+      (track) => track.trackType === "sampler"
+    ).map( (track, i) => {
       return (
         <MiniTrack
           key         = {`${this.props.beat.key}.${i}`}
@@ -70,7 +91,9 @@ class MiniBeat extends Component {
 
     return (
       <StyledBeat>
-        {tracks}
+        {synthTracks}
+        <div style={{ display: "block", padding: 4 }} />
+        {samplerTracks}
 
         <Player
           beat       = {this.props.beat}
@@ -112,11 +135,13 @@ class MiniTrack extends Component {
 }
 
 const StyledNote = styled.div`
-  background-color: ${props => props.active ? "pink" : props.on ? "red" : "gray" };
+  background-color: ${props => props.active ? props.on ? lightestGreen : "darkgray" : props.on ? lightGreen : "gray" };
+  box-shadow: ${props => props.on ? `0 0 2px 0px ${lightGreen}` : "none"};
   border-radius: 0px;
   border: 1px solid black;
   cursor: pointer;
   position: relative;
+  z-index: ${props => props.on ? 1 : 0 };
   display: inline-block;
   font-size : 0px;
   height: 12px;

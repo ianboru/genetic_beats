@@ -3,8 +3,6 @@
     * get its own rating, mute/solo, delete, mutate buttons
 
 * UI for sections:
-    * rating per section (instead of for a whole beat)
-    * mutate button per section (instead of for whole beat)
     * also Mutate Rated Sections button
     * Mute/Solo/Gain for each section (remove mute/solo/gain per synth track)
 
