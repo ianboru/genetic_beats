@@ -31,16 +31,16 @@ const StyledLineage = styled.div`
 @observer
 class Lineage extends Component {
   handleClickPlayLineage = () => {
-    lineageViewStore.startPlayingBeat()
+    lineageViewStore.togglePlaying()
   }
 
   handleClickPlay = (beatKey) => {
-    familyViewStore.togglePlayingBeat(beatKey)
+    lineageViewStore.togglePlayingBeat(beatKey)
   }
 
   handleClickBeat = (beatKey) => {
-    if(familyViewStore.selectPairMode){
-      familyViewStore.toggleSelect(beatKey)
+    if(lineageViewStore.selectPairMode){
+      lineageViewStore.toggleSelect(beatKey)
     }
   }
 

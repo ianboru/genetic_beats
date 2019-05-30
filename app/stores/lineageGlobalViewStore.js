@@ -36,6 +36,11 @@ class LineageGlobalViewStore {
 
   @action togglePlaying = () => {
     this.playing = !this.playing
+    if(!this.playing){
+      this.stopPlayingBeat()
+    }else{
+      this.startPlayingBeat()
+    }
   }
 
   @action reset = () => {
@@ -50,18 +55,19 @@ class LineageGlobalViewStore {
 
   @action togglePlayLineage = () => {
     this.playingLineage = !this.playingLineage
+
   }
 
   @action togglePlayingBeat = (activeBeatId) => {
-    if (this.playingLineage) {
-      this.togglePlayLineage()
-    }
     if (this.beatPlayingStates[activeBeatId]) {
-      this.stopPlayingBeat()
+      this.togglePlaying()
     } else {
       this.stopPlayingBeat()
       this.beatPlayingStates[activeBeatId] = true
     }
+    if (this.playing) {
+      this.togglePlaying()
+    }    
   }
 
   @action incrementSelectedBeat = () => {
