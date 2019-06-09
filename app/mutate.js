@@ -255,8 +255,8 @@ const mutateMelody = (originalBeat)=>{
       newBeat.tracks[playedTrackIndex].sequence[i] = 0
       newBeat.tracks[randomNoteIndex].sequence[i] = 1
     }
-
   })
+
   const switchScale =  (Math.random()*30-20) > Math.min(originalBeat.synthScore,9.0)
   if(switchScale){
     mutateScale(newBeat)
@@ -267,7 +267,8 @@ const mutateMelody = (originalBeat)=>{
   }
   return newBeat
 }
-const mutateScale = (newBeat)=>{
+
+const mutateScale = (newBeat) => {
   const scaleTypes = Object.keys(SCALES)
   const randomScaleIndex = Math.floor(Math.random()*scaleTypes.length)
   newBeat.tracks.forEach((track,j)=>{
@@ -276,8 +277,9 @@ const mutateScale = (newBeat)=>{
     }
   })
 }
-const mutateSynthType = (newBeat)=>{
-  const synthTypes = ["triangle","sine","square"]
+
+const mutateSynthType = (newBeat) => {
+  const synthTypes = ["triangle","square"]
   const randomSynth = synthTypes[Math.floor(Math.random()*synthTypes.length)]
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {

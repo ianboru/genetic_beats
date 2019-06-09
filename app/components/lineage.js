@@ -51,8 +51,8 @@ class Lineage extends Component {
           index         = {i}
           key           = {i}
           beat          = {beat}
-          handleClickPlay = {()=>{this.handleClickPlay(beat.key)}}
-          playing = {lineageViewStore.beatPlayingStates[beat.key]}
+          handleClickPlay = {() => {this.handleClickPlay(beat.key)}}
+          playing = {() => lineageViewStore.beatPlayingStates[beat.key]}
           familyBlock = {true}
           handleClickBeat = {()=>{this.handleClickBeat(beat.key)}}
           templateBlock = {true}

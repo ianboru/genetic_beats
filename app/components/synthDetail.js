@@ -22,6 +22,7 @@ import playingStore from "../stores/playingStore"
 import beatViewStore from "../stores/beatViewStore"
 import BeatStore from "../stores/BeatStore"
 
+import templateBeats from "../templateBeats"
 import { colors } from "../colors"
 
 import Column from "../styledComponents/column"
@@ -219,6 +220,11 @@ class BeatDetail extends Component {
     familyStore.removeLastBeatFromCurrentGen()
   }
 
+  handleNewRandomBeat = () => {
+    const chosenBeat = Math.floor(Math.random() * templateBeats.length)
+    familyStore.replaceFirstBeat(templateBeats[chosenBeat])
+  }
+
   renderSynthTracks = () => {
     const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
 
@@ -281,7 +287,11 @@ class BeatDetail extends Component {
           </Controls>
         </div>
         <div style={{textAlign: "center"}}>
-          <Button width={150} color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button>
+          {
+            familyStore.currentGeneration.length > 1 ?
+            <Button width={150} color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button> :
+            <Button width={150} color={["green"]} onClick={this.handleNewRandomBeat}>New Random Beat</Button>
+          }
         </div>
 
         <StyledSectionWrapper>

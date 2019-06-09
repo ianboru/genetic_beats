@@ -12,7 +12,6 @@ import playingStore from "../stores/playingStore"
 import Note from "./note"
 import Tooltip from "./tooltip"
 import GainSlider from "./gainSlider"
-import SamplePicker from "./samplePicker"
 
 import DrumsetIcon from "../svg/drumset.svg"
 import SynthIcon from "../svg/synth.svg"

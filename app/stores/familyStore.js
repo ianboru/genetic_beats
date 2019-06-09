@@ -235,6 +235,13 @@ class FamilyStore {
     messageStore.addMessageToQueue(`empty beat added to generation ${this.generation}`);
   }
 
+  @action replaceFirstBeat = (newBeat) => {
+    this.allGenerations[0][0] = {
+      ...newBeat,
+      tracks: [...newBeat.tracks],
+    }
+  }
+
   @action removeLastBeatFromCurrentGen = () => {
     const lastBeatIndex = this.currentGeneration.length - 1
 

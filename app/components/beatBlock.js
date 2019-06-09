@@ -79,7 +79,7 @@ class BeatBlock extends Component {
     // `playing` is true under two conditions. the first is the "easy" way
     // to get a beat to play (pass in playing={true} prop), the second
     // is the more efficient way of playing, eg within an arrangement.
-    let playing = this.props.playing
+    let playing = this.props.playing()
     if (this.props.beatPlayingStates && this.props.beatPlayingStates[this.props.arrangementKey]) {
       playing = this.props.beatPlayingStates[this.props.arrangementKey]
     }

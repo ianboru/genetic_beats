@@ -26,19 +26,6 @@ class SamplePicker extends Component {
       )
     })
 
-    if (this.props.track.trackType === "synth") {
-      sampleOptions = allNotesInRange.map( (noteName) => {
-        const synthType = this.props.track.synthType ? this.props.track.synthType : "sine"
-        const noteString = noteName + "-" + synthType
-        return (
-          <option
-            key   = {noteName}
-            value = {noteName}
-          >{noteString}</option>
-        )
-      })
-    }
-
     return (
       <StyledSelect>
         <select

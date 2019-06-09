@@ -26,7 +26,7 @@ const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
 const samplePlayers = new Tone.Players(urls).toMaster()
 
 // Set up synth players
-const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 5]].reduce( (acc, synthData) => {
+const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, synthData) => {
   const synthType = synthData[0]
   const gain = synthData[1]
 
@@ -85,15 +85,21 @@ class Player extends Component {
   constructor(props) {
     super(props)
 
+    this.loop = this.createLoop()
+  }
+
+  createLoop = () => {
     const tracks = this.props.beat.tracks
 
-    this.loop = new Tone.Sequence(
+    const loop = new Tone.Sequence(
       loopProcessor(tracks, this.beatNotifier),
       new Array(this.props.resolution).fill(0).map((_, i) => i),
       `${this.props.resolution}n`
     )
     Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
+
+    return loop
   }
 
   componentDidMount() {
@@ -114,6 +120,9 @@ class Player extends Component {
     } else if (!this.props.playing && prevProps.playing) {
       this.loop.stop()
     }
+
+    const tracks = this.props.beat.tracks
+    this.loop.callback = loopProcessor(tracks, this.beatNotifier)
   }
 
   beatNotifier = (index) => {

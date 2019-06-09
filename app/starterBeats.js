@@ -74,6 +74,14 @@ export default [
               "sample": "samples/kick.wav",
               "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
             },
+
+            {
+
+              "trackType": "sampler",
+              "sample": "samples/clave.wav",
+              "sequence": [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+            },
+            
         ],
     },
     //{
