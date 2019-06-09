@@ -49,6 +49,10 @@ function loopProcessor(tracks, beatNotifier) {
       finalTracks = [...tracks, metronomeTrack]
     }
     finalTracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
+      if(
+        (trackType === "sampler" && playingStore.muteSampler) ||
+        (trackType === "synth" && playingStore.muteSynth)
+      ){ return }
       if (sequence[index] && !mute) {
         try {
           if (trackType === "sampler") {

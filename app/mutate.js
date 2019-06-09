@@ -271,9 +271,11 @@ const mutateMelody = (originalBeat)=>{
 const mutateScale = (newBeat) => {
   const scaleTypes = Object.keys(SCALES)
   const randomScaleIndex = Math.floor(Math.random()*scaleTypes.length)
+  const scaleName = scaleTypes[randomScaleIndex]
+  newBeat.scale = scaleName
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {
-      track.sample = SCALES[scaleTypes[randomScaleIndex]][j]
+      track.sample = SCALES[scaleName][j]
     }
   })
 }

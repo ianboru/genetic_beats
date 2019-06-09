@@ -1,3 +1,16 @@
+//Mute/volume for each section
+//Purpose of section is to enable display and manipulation of properties like scale, 
+//and kit potentially for multiple synths or drumsets? name
+
+//Add sections to each beat
+
+//any time we reference beat.tracks we would need to reference section
+//Currently mutate is the only action that involves sections, and it just uses a flag on the track
+
+
+//Avoid making beats more complicated and refactoring everything
+//that uses beats
+// Currently beat is already 5 levels deep (beat.tracks[i].sequence)
 export default [
     {
         key: "0.0",
@@ -5,6 +18,7 @@ export default [
         score: 0,
         synthScore : 0,
         samplerScore: 0,
+        scale : "cmaj",
         tracks: [{
                 trackType: "synth",
                 synthType: "square",

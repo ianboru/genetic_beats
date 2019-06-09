@@ -23,6 +23,8 @@ class PlayingStore {
   @observable trackPreviewers    = {}
   @observable spaceButtonTarget = "currentBeat"
   @observable numSolo           = 0
+  @observable muteSampler     = false
+  @observable muteSynth         = false
 
   //
   // ACTIONS
@@ -59,7 +61,12 @@ class PlayingStore {
       this.trackPreviewers[track.sample] = false
     })
   }
-
+  @action toggleMuteSynth = ()=>{
+    this.muteSynth = !this.muteSynth 
+  }
+  @action toggleMuteSampler = ()=>{
+    this.muteSampler = !this.muteSampler 
+  }
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     familyStore.currentBeat.tracks.forEach((track)=>{

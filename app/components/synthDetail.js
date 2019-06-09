@@ -296,6 +296,11 @@ class BeatDetail extends Component {
 
         <StyledSectionWrapper>
           <StyledSection>
+            <div>Scale : {familyStore.currentBeat.scale}</div> 
+            <MuteTrackButton 
+              onClick={playingStore.toggleMuteSynth}
+              active={playingStore.muteSynth}
+            >M</MuteTrackButton>
             <div style={{ marginBottom: 20, marginTop: 10 }}>
               <StarRating
                 score = {familyStore.currentBeat.synthScore}
@@ -307,11 +312,15 @@ class BeatDetail extends Component {
             </div>
 
             {this.renderSynthTracks()}
+            
           </StyledSection>
         </StyledSectionWrapper>
-
         <StyledSectionWrapper>
           <StyledSection>
+            <MuteTrackButton 
+              onClick={playingStore.toggleMuteSampler}
+              active={playingStore.muteSampler}
+            >M</MuteTrackButton>
             <div style={{ marginBottom: 20, marginTop: 10 }}>
               <StarRating
                 score = {familyStore.currentBeat.samplerScore}
@@ -321,7 +330,7 @@ class BeatDetail extends Component {
               />
               <Button width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
             </div>
-
+            
             {samplerTracks}
           </StyledSection>
         </StyledSectionWrapper>
