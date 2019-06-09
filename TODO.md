@@ -1,10 +1,29 @@
-* Add ability to stop lineage playing
-* Fix perf rendering issue on lineage
+* Set labels for sections - John
+* Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
+* Actions at the bottom (rate, mutate), play at the bottom? - John
+* Solo section / volume section - Ian
+* Switch to shortIDs for beats - John
+    * Delete from lineage - John
+* Select from lineage onclick - John
+* Fix play individual beat bug - Ian
+* Fix solo tracks - Ian
+* Option to enforce monosynth - Ian
+* Duplicate beat in lineage? - John
+* Fill out template beat scales to be complete scales - Ian
+    * Once that's done^, start on a random beat - Ian
+* Add beat property which is a scale name/key (refers to scale in master list of scales) - John
+* Display scale name/key in UI and allow user to change it - John
+* Show synth type, allow them to be changed - Ian
+
+Design Needed:
+* Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)
+
+Potentially really hard:
+* Lineage playback seems to skip / stutter between beats sometimes
+
+
 * Fix tempo bug (when it's not 100)
 * Style play button/play controls for lineage
-* Allow random cycling through template beats for starting beat
-    * Encourage user to modify beats (esp starting beat)
-
 
 * Refactor beat data structure so that it's an array of sections rather than an array of tracks
     * each section is an array of tracks
