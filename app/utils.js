@@ -189,6 +189,9 @@ const SCALES = {
     "c4",
   ],
 }
+
+const synthTypes = ["triangle","square"]
+
 export {
   deepClone,
   getRandomIndices,
@@ -199,5 +202,6 @@ export {
   allNotesInRange,
   getNormalProbability,
   calculateSampleDifference,
-  SCALES
+  SCALES,
+  synthTypes
 }

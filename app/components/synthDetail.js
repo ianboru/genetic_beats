@@ -29,7 +29,7 @@ import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
 import { mutateMelody, mutateSampler } from "../mutate"
-import {SCALES } from "../utils"
+import {SCALES, synthTypes } from "../utils"
 
 const StyledBeat = styled.div`
   display: table;
@@ -254,6 +254,9 @@ class BeatDetail extends Component {
   handleSelectScale = (evt) => {
     familyStore.setScale(evt.target.value)
   }
+  handleSelectSynthType= (evt) => {
+    familyStore.setSynthType(evt.target.value)
+  }
   render() {
   const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
     const samplerTracks = this.props.beat.tracks.reduce( (filtered, track, i) => {
@@ -272,9 +275,8 @@ class BeatDetail extends Component {
       }
       return filtered
     }, [])
-    let scaleOptions = []
-    
 
+    let scaleOptions = []
     Object.keys(SCALES).forEach((scale,index) => {
       scaleOptions.push(
         <option key={index} value={scale}>
@@ -282,6 +284,7 @@ class BeatDetail extends Component {
         </option>
       )
     })
+
     const scaleSelect = 
       <select
           style={{fontSize : "20px"}}
@@ -290,6 +293,25 @@ class BeatDetail extends Component {
         >
           {scaleOptions}
       </select>
+
+    let synthTypeOptions = []
+    synthTypes.forEach((type,index) => {
+      synthTypeOptions.push(
+        <option key={index} value={type}>
+          {type}
+        </option>
+      )
+    })
+
+    const synthTypeSelect = 
+      <select
+          style={{fontSize : "20px"}}
+          onChange={this.handleSelectSynthType}
+          value={synthTracks[0].synthType}
+        >
+          {synthTypeOptions}
+      </select>
+
     return (
       <StyledBeat>
         <Player
@@ -315,12 +337,18 @@ class BeatDetail extends Component {
 
         <StyledSectionWrapper>
           <StyledSection>
-            <div>Waveform : {synthTracks[0].synthType}</div> 
-            {scaleSelect}
-            <MuteTrackButton 
+           <MuteTrackButton 
               onClick={playingStore.toggleMuteSynth}
               active={playingStore.muteSynth}
             >M</MuteTrackButton>
+            <div>
+              <span style={{ display: "inline-block",width: "150px"}}>Waveform :</span>{synthTypeSelect}
+            </div> 
+            <div>
+              <span style={{ display: "inline-block",width: "150px"}}>Scale :</span>{scaleSelect}
+            </div> 
+
+           
             <div style={{ marginBottom: 20, marginTop: 10 }}>
               <StarRating
                 score = {familyStore.currentBeat.synthScore}
@@ -333,6 +361,7 @@ class BeatDetail extends Component {
             {this.renderSynthTracks(synthTracks)}
           </StyledSection>
         </StyledSectionWrapper>
+
         <StyledSectionWrapper>
           <StyledSection>
             <MuteTrackButton 

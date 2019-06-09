@@ -259,11 +259,17 @@ class FamilyStore {
     this.updateFamilyInStorage()
   }
   @action setScale = (scaleName) => {
-    console.log("scale " ,scaleName)
     this.currentBeat.scale = scaleName
     this.currentBeat.tracks.forEach((track,j)=>{
       if (track.trackType === "synth") {
         track.sample = SCALES[scaleName][j]
+      }
+    })
+  }
+  @action setSynthType = (type) => {
+    this.currentBeat.tracks.forEach((track,j)=>{
+      if (track.trackType === "synth") {
+        track.synthType = type
       }
     })
   }

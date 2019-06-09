@@ -1,7 +1,7 @@
 import store from "./stores/store"
 import controlStore from "./stores/controlStore"
 import { toJS } from "mobx"
-import { allNotesInRange, deepClone, SCALES } from "./utils"
+import { allNotesInRange, deepClone, SCALES, synthTypes } from "./utils"
 
 const mutateByKillTrack = (beat) => {
   let survivingTracks = []
@@ -238,7 +238,6 @@ const mutateScale = (newBeat) => {
 }
 
 const mutateSynthType = (newBeat) => {
-  const synthTypes = ["triangle","square"]
   const randomSynth = synthTypes[Math.floor(Math.random()*synthTypes.length)]
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {
