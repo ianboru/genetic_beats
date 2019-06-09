@@ -2,12 +2,12 @@ import { action, configure, computed, observable, reaction, toJS } from "mobx"
 import {
   deepClone,
   generateFamilyName,
+  allNotesInRange, 
+  SCALES
 } from "../utils"
 import store from "./store"
 import playingStore from "./playingStore"
 import messageStore from "./messageStore"
-
-import {allNotesInRange, SCALES} from "../utils"
 import starterBeats from "../starterBeats"
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
@@ -257,6 +257,15 @@ class FamilyStore {
   @action setSynthScore = (score) => {
     this.currentBeat.synthScore = score
     this.updateFamilyInStorage()
+  }
+  @action setScale = (scaleName) => {
+    console.log("scale " ,scaleName)
+    this.currentBeat.scale = scaleName
+    this.currentBeat.tracks.forEach((track,j)=>{
+      if (track.trackType === "synth") {
+        track.sample = SCALES[scaleName][j]
+      }
+    })
   }
 }
 const familyStore = new FamilyStore()
