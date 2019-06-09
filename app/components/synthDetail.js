@@ -225,8 +225,7 @@ class BeatDetail extends Component {
     familyStore.replaceFirstBeat(templateBeats[chosenBeat])
   }
 
-  renderSynthTracks = () => {
-    const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
+  renderSynthTracks = (synthTracks) => {
 
     return synthTracks.map( (track, i) => {
       const note = track.sample
@@ -254,6 +253,7 @@ class BeatDetail extends Component {
   }
 
   render() {
+  const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
     const samplerTracks = this.props.beat.tracks.reduce( (filtered, track, i) => {
       if (track.trackType === "sampler") {
         return [
@@ -296,6 +296,7 @@ class BeatDetail extends Component {
 
         <StyledSectionWrapper>
           <StyledSection>
+            <div>Waveform : {synthTracks[0].synthType}</div> 
             <div>Scale : {familyStore.currentBeat.scale}</div> 
             <MuteTrackButton 
               onClick={playingStore.toggleMuteSynth}
@@ -310,9 +311,7 @@ class BeatDetail extends Component {
               />
               <Button width={150} onClick={this.handleMutateMelody}>Mutate Keyboard</Button>
             </div>
-
-            {this.renderSynthTracks()}
-            
+            {this.renderSynthTracks(synthTracks)}
           </StyledSection>
         </StyledSectionWrapper>
         <StyledSectionWrapper>

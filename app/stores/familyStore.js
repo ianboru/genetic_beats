@@ -7,61 +7,14 @@ import store from "./store"
 import playingStore from "./playingStore"
 import messageStore from "./messageStore"
 
-import {allNotesInRange} from "../utils"
+import {allNotesInRange, SCALES} from "../utils"
 import starterBeats from "../starterBeats"
-
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
 newFamilyNames.push(newFamilyName)
 
-
 const BEAT_STEPS = 16
-
-
-
-const SCALES = {
-  cmaj : [
-    "c3",
-    "d3",
-    "e3",
-    "f3",
-    "g3",
-    "a3",
-    "b3",
-    "c4",
-  ],
-  cmin : [
-    "c3",
-    "d3",
-    "d#3",
-    "f3",
-    "g3",
-    "a3",
-    "a#3",
-    "c4",
-  ],
-  cmel : [
-    "c3",
-    "d3",
-    "d#3",
-    "f3",
-    "g3",
-    "a3",
-    "b",
-    "c4",
-  ],
-  cphryg : [
-    "c3",
-    "d3",
-    "e",
-    "f#3",
-    "g3",
-    "a3",
-    "b",
-    "c4",
-  ],
-}
 
 
 class FamilyStore {

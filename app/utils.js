@@ -147,6 +147,48 @@ octaves.forEach((octave)=>{
   })
 }) 
 
+const SCALES = {
+  cmaj : [
+    "c3",
+    "d3",
+    "e3",
+    "f3",
+    "g3",
+    "a3",
+    "b3",
+    "c4",
+  ],
+  cmin : [
+    "c3",
+    "d3",
+    "d#3",
+    "f3",
+    "g3",
+    "a3",
+    "a#3",
+    "c4",
+  ],
+  cmel : [
+    "c3",
+    "d3",
+    "d#3",
+    "f3",
+    "g3",
+    "a3",
+    "b3",
+    "c4",
+  ],
+  cphryg : [
+    "c3",
+    "d3",
+    "e3",
+    "f#3",
+    "g3",
+    "a3",
+    "b3",
+    "c4",
+  ],
+}
 export {
   deepClone,
   getRandomIndices,
@@ -157,4 +199,5 @@ export {
   allNotesInRange,
   getNormalProbability,
   calculateSampleDifference,
+  SCALES
 }

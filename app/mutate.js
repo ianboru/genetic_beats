@@ -1,8 +1,7 @@
 import store from "./stores/store"
 import controlStore from "./stores/controlStore"
 import { toJS } from "mobx"
-import { allNotesInRange, deepClone } from "./utils"
-
+import { allNotesInRange, deepClone, SCALES } from "./utils"
 
 const mutateByKillTrack = (beat) => {
   let survivingTracks = []
@@ -177,48 +176,6 @@ const mutateByAddTrack = (beat) => {
     })
   }
   return beat
-}
-const SCALES = {
-  cmaj : [
-    "c3",
-    "d3",
-    "e3",
-    "f3",
-    "g3",
-    "a3",
-    "b3",
-    "c4",
-  ],
-  cmin : [
-    "c3",
-    "d3",
-    "d#3",
-    "f3",
-    "g3",
-    "a3",
-    "a#3",
-    "c4",
-  ],
-  cmel : [
-    "c3",
-    "d3",
-    "d#3",
-    "f3",
-    "g3",
-    "a3",
-    "b3",
-    "c4",
-  ],
-  cphryg : [
-    "c3",
-    "d3",
-    "e3",
-    "f#3",
-    "g3",
-    "a3",
-    "b3",
-    "c4",
-  ],
 }
 
 const randomBit = (probOn) => {
