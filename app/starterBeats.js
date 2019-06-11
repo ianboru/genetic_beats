@@ -224,7 +224,7 @@ export default [
         //"name": "Minor Street",
         //"score": 0,
         //"tracks": [{
-            //"sample": "c2",
+            //"sample": "c3",
             //"sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             //"trackType": "synth",
             //"synthType": "square"
@@ -250,7 +250,7 @@ export default [
         //"name": "Minor Street 2",
         //"score": 0,
         //"tracks": [{
-            //"sample": "c2",
+            //"sample": "c3",
             //"sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             //"trackType": "synth",
             //"synthType": "square"

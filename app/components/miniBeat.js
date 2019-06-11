@@ -66,10 +66,9 @@ class MiniBeat extends Component {
     ).map( (track, i) => {
       return (
         <MiniTrack
-          key         = {`${this.props.beat.key}.${i}`}
+          key         = {`${this.props.beat.id}.${i}`}
           trackNum    = {i}
           track       = {track}
-          beatKey     = {this.props.beat.key}
           activeNotes = {this.beatStore.activeNotes}
         />
       )
@@ -80,10 +79,9 @@ class MiniBeat extends Component {
     ).map( (track, i) => {
       return (
         <MiniTrack
-          key         = {`${this.props.beat.key}.${i}`}
+          key         = {`${this.props.beat.id}.${i}`}
           trackNum    = {i}
           track       = {track}
-          beatKey     = {this.props.beat.key}
           activeNotes = {this.beatStore.activeNotes}
         />
       )
@@ -117,10 +115,9 @@ class MiniTrack extends Component {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
         <MiniNote
-          key     = {`${i}.${note}`}
-          value   = {note}
-          index   = {i}
-          beatKey = {this.props.beatKey}
+          key         = {`${i}.${note}`}
+          value       = {note}
+          index       = {i}
           activeNotes = {this.props.activeNotes}
         />
       )

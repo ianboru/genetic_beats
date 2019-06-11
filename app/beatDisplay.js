@@ -61,7 +61,7 @@ class BeatDisplay extends Component {
     return (
       <div>
         <div>
-          <MatingControls right view="beatDisplay"/>
+          <MatingControls right view="beatDisplay" />
         </div>
 
         <div style={{
@@ -70,7 +70,7 @@ class BeatDisplay extends Component {
         }}>
           {beat}
         </div>
-        <Lineage beats={familyStore.currentGeneration} />
+        <Lineage beats={familyStore.lineageBeats} />
       </div>
     )
   }

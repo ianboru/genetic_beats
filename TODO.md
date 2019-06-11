@@ -1,8 +1,9 @@
+* Switch to shortIDs for beats - John
+    * Delete from lineage - John
+
 * Set labels for sections - John
 * Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
 * Actions at the bottom (rate, mutate), play at the bottom? - John
-* Switch to shortIDs for beats - John
-    * Delete from lineage - John
 * Select from lineage onclick - John
 * Fix play individual beat bug - Ian
 * Fix solo tracks - Ian
@@ -13,12 +14,17 @@
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
 * volume section - Ian
 
+Other:
+* Move play states onto beat? Questionable.
+
 Design Needed:
 * Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)
 
 Potentially really hard:
 * Lineage playback seems to skip / stutter between beats sometimes
 
+
+* Live performance mode
 
 * Fix tempo bug (when it's not 100)
 * Style play button/play controls for lineage

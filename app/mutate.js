@@ -245,6 +245,7 @@ const mutateSynthType = (newBeat) => {
     }
   })
 }
+
 const mutateSampler = (originalBeat)=>{
   let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
@@ -259,7 +260,7 @@ const mutateSampler = (originalBeat)=>{
         playedTrackIndex = j
       }
 
-      const randomNote = Math.random() * 10 > 7.5 ? 1 : 0
+      const randomNote = Math.random() * 10 > 6.5 ? 1 : 0
 
       track.sequence[i] = (Math.random()*20-10) > Math.min(originalBeat.samplerScore,9.0) ? randomNote : track.sequence[i]
     })
