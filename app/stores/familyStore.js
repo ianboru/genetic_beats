@@ -5,7 +5,7 @@ import {
   generateFamilyName,
   allNotesInRange, 
   SCALES,
-  starterSamples
+  starterSamples,
 } from "../utils"
 import store from "./store"
 import playingStore from "./playingStore"
@@ -174,7 +174,6 @@ class FamilyStore {
     }
   }
 
-
   @action newBeat = (beat) => {
     const id = shortid.generate()
     this.beats[id] = {
@@ -300,6 +299,16 @@ class FamilyStore {
     })
     return beat
   }
+
+  @action removeLastBeatFromLineage = () => {
+    const lastBeatIndex = this.lineage.length - 1
+
+    if (this.currentBeatId === this.lineage[lastBeatIndex] && lastBeatIndex > this.lineage.length) {
+      this.currentBeatId = this.lineage[lastBeatIndex-1]
+    }
+    this.lineage.splice(lastBeatIndex)
+  }
+
   @action removeLastBeatFromCurrentGen = () => {
     const lastBeatIndex = this.currentGeneration.length - 1
 

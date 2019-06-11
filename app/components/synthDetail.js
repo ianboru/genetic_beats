@@ -225,6 +225,7 @@ class BeatDetail extends Component {
       })
     }
   }
+
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
     const newBeatId = familyStore.newBeat(newBeat)
@@ -238,14 +239,12 @@ class BeatDetail extends Component {
   }
 
   handleKillLastBeat = () => {
-    familyStore.removeLastBeatFromCurrentGen()
+    familyStore.removeLastBeatFromLineage()
   }
 
   handleNewRandomBeat = () => {
     const chosenBeat = Math.floor(Math.random() * templateBeats.length)
-
     familyStore.replaceFirstBeat(templateBeats[chosenBeat])
-    console.log("replace" , toJS(familyStore.currentBeat))
   }
 
   renderSynthTracks = (synthTracks) => {
@@ -351,7 +350,7 @@ class BeatDetail extends Component {
         </div>
         <div style={{textAlign: "center"}}>
           {
-            familyStore.currentGeneration.length > 1 ?
+            familyStore.lineage.length > 1 ?
             <Button width={150} color={["red"]} onClick={this.handleKillLastBeat}>Kill Last Beat</Button> :
             <Button width={150} color={["green"]} onClick={this.handleNewRandomBeat}>New Random Beat</Button>
           }
