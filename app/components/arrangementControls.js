@@ -64,7 +64,7 @@ class ArrangementControls extends Component {
       arrangementStore.createSong()
     }
   }
-
+  
   render() {
     const PlayStopButton = arrangementViewStore.playingArrangement ? MdStop : MdPlayArrow
 

@@ -189,12 +189,42 @@ class FamilyStore {
   }
 
   @action replaceFirstBeat = (newBeat) => {
+    this.completeScale(newBeat)
     this.allGenerations[0][0] = {
       ...newBeat,
       tracks: [...newBeat.tracks],
     }
-  }
 
+  }
+  @action completeScale = (beat) =>{
+    const beatNotes = []
+    let synthType = ""
+    console.log(beat)
+    beat.tracks.forEach((track)=>{
+      if(track.trackType == "synth"){
+        beatNotes.push(track.sample)
+        synthType = track.synthType
+      }
+    })
+    let scale
+    if(beat.scale){
+      scale = SCALES[beat.scale]
+    }else{
+      scale = SCALES["cmaj"]
+    }
+    const difference = [...scale].filter(note => !beatNotes.includes(note))
+    difference.forEach((note)=>{
+      beat.tracks.push(
+        {
+          trackType: "synth",
+          synthType: synthType,
+          sample: note,
+          sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+          duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
+        }
+      )
+    })
+  }
   @action removeLastBeatFromCurrentGen = () => {
     const lastBeatIndex = this.currentGeneration.length - 1
 
