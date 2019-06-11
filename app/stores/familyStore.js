@@ -4,7 +4,8 @@ import {
   deepClone,
   generateFamilyName,
   allNotesInRange, 
-  SCALES
+  SCALES,
+  starterSamples
 } from "../utils"
 import store from "./store"
 import playingStore from "./playingStore"
@@ -241,6 +242,7 @@ class FamilyStore {
 
   @action replaceFirstBeat = (newBeat) => {
     newBeat = this.completeScale(newBeat)
+    newBeat = this.completeSamples(newBeat)
     this.deleteBeatFromLineage(0)
     this.newBeat(newBeat)
   }
@@ -276,7 +278,28 @@ class FamilyStore {
     })
     return beat
   }
+  @action completeSamples = (beat) => {
+    beat = deepClone(beat)
+    const beatSamples = []
+    beat.tracks.forEach((track)=>{
+      if(track.trackType == "sampler"){
+        beatSamples.push(track.sample)
+      }
+    })
 
+    const difference = [...starterSamples].filter(sample => !beatSamples.includes(sample))
+    difference.forEach((sample)=>{
+      beat.tracks.push(
+        {
+          trackType: "sampler",
+          sample: sample,
+          sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+          duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
+        }
+      )
+    })
+    return beat
+  }
   @action removeLastBeatFromCurrentGen = () => {
     const lastBeatIndex = this.currentGeneration.length - 1
 

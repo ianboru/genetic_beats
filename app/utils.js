@@ -191,7 +191,7 @@ const SCALES = {
 }
 
 const synthTypes = ["triangle","square"]
-
+const starterSamples = ["samples/hi_hat.wav","samples/kick.wav","samples/snare.wav","samples/clave.wav"]
 export {
   deepClone,
   getRandomIndices,
@@ -203,5 +203,6 @@ export {
   getNormalProbability,
   calculateSampleDifference,
   SCALES,
-  synthTypes
+  synthTypes,
+  starterSamples
 }
