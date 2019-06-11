@@ -2,7 +2,8 @@
 export default [{
         key: "Hip hop 1",
         name: "Hip hop 1",
-        score: 0,
+        synthScore: 0,
+        samplerScore: 0,
         scale : "cmaj",
         tracks: [{
                 trackType: "sampler",
@@ -30,7 +31,8 @@ export default [{
     {
         key: "Synth 1",
         name: "Synth 1",
-        score: 0,
+        synthScore: 0,
+        samplerScore: 0,
         scale : "cmaj",
         tracks: [{
                 trackType: "synth",
@@ -64,7 +66,8 @@ export default [{
     },
     {
         "name": "Buzzanova",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         "scale" : "cmaj",
         "tracks": [{
             "trackType": "sampler",
@@ -85,7 +88,8 @@ export default [{
     },
     {
         "name": "Blip Hop",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         scale : "cmaj",
         "tracks": [{
             "trackType": "sampler",
@@ -116,7 +120,8 @@ export default [{
     },
     {
         "name": "Hard Boom Bap",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         scale : "cmaj",
         "tracks": [{
             "trackType": "sampler",
@@ -141,7 +146,8 @@ export default [{
     },
     {
         "name": "Ching Bap",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         scale : "cmaj",
         "tracks": [{
             "trackType": "sampler",
@@ -166,7 +172,8 @@ export default [{
     },
     {
         "name": "Bellanova",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         scale : "cmaj",
         "tracks": [{
             "trackType": "sampler",
@@ -191,7 +198,8 @@ export default [{
     },
     {
         "name": "Minor Street",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         scale : "cmaj",
         "tracks": [{
             "sample": "c4",
@@ -218,7 +226,8 @@ export default [{
     },
     {
         "name": "Minor Street 4",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         "scale" : "cmaj",
         "tracks": [{
             "sample": "c4",
@@ -258,7 +267,8 @@ export default [{
     },
     {
         "name": "Beachin",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         "scale" : "cmaj",
         "tracks": [{
             "sample": "c4",
@@ -297,7 +307,8 @@ export default [{
     },
     {
         "name": "Flute Skeleton",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         "scale" : "cmaj",
         "tracks": [{
             "sample": "b4",
@@ -325,7 +336,8 @@ export default [{
     {
         "name": "Flute Full",
         "scale" : "cmaj",
-        "score": 0,
+        "synthScore": 0,
+        "samplerScore": 0,
         "tracks": [{
             "sample": "b4",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

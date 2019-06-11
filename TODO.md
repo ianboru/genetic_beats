@@ -6,11 +6,9 @@
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 * Select from lineage onclick - John
 * Fix play individual beat bug - Ian
-* Fix solo tracks - Ian
 * Option to enforce monosynth - Ian
 * Duplicate beat in lineage? - John
-* Fill out template beat scales to be complete scales - Ian
-    * Once that's done^, start on a random beat - Ian
+* Start on a random beat - Ian
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
 * volume section - Ian
 

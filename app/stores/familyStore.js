@@ -3,7 +3,7 @@ import shortid from "shortid"
 import {
   deepClone,
   generateFamilyName,
-  allNotesInRange, 
+  allNotesInRange,
   SCALES,
   starterSamples,
 } from "../utils"
@@ -179,7 +179,8 @@ class FamilyStore {
     this.beats[id] = {
       ...deepClone(beat),
       id: id,
-      score: 0,
+      synthScore: 0,
+      samplerScore: 0,
     }
     this.currentBeatId = id
     this.addBeatToLineage(id)
@@ -265,15 +266,13 @@ class FamilyStore {
     }
     const difference = [...scale].filter(note => !beatNotes.includes(note))
     difference.forEach((note)=>{
-      beat.tracks.push(
-        {
-          trackType: "synth",
-          synthType: synthType,
-          sample: note,
-          sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-          duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
-        }
-      )
+      beat.tracks.unshift({
+        trackType: "synth",
+        synthType: synthType,
+        sample: note,
+        sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+        duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
+      })
     })
     return beat
   }

@@ -19,14 +19,8 @@ class LineageGlobalViewStore {
   // COMPUTED
   //
 
-  @computed get selectedBeatKey() {
-    const beatData = familyStore.currentGeneration[this.selectedBeat]
-    return beatData && beatData[0]
-  }
-
   @computed get selectedBeatId() {
-    const beatData = familyStore.currentGeneration[this.selectedBeat]
-    return beatData.key //&& beatData[1]
+    return familyStore.lineage[this.selectedBeat]
   }
 
   //
@@ -36,9 +30,9 @@ class LineageGlobalViewStore {
 
   @action togglePlaying = () => {
     this.playing = !this.playing
-    if(!this.playing){
+    if (!this.playing){
       this.stopPlayingBeat()
-    }else{
+    } else {
       this.startPlayingBeat()
     }
   }
@@ -71,11 +65,11 @@ class LineageGlobalViewStore {
   }
 
   @action incrementSelectedBeat = () => {
-    const prevBeatData = familyStore.currentGeneration[this.selectedBeat]
-    this.selectedBeat = (this.selectedBeat + 1) % familyStore.currentGeneration.length
+    const prevBeatId = familyStore.lineage[this.selectedBeat]
+    this.selectedBeat = (this.selectedBeat + 1) % familyStore.lineage.length
 
-    if (prevBeatData) {
-      this.beatPlayingStates[prevBeatData.key] = false
+    if (prevBeatId) {
+      this.beatPlayingStates[prevBeatId] = false
     }
     if (this.selectedBeatId) {
       this.beatPlayingStates[this.selectedBeatId] = true

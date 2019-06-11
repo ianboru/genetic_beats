@@ -34,13 +34,13 @@ class Lineage extends Component {
     lineageViewStore.togglePlaying()
   }
 
-  handleClickPlay = (beatKey) => {
-    lineageViewStore.togglePlayingBeat(beatKey)
+  handleClickPlay = (beatId) => {
+    lineageViewStore.togglePlayingBeat(beatId)
   }
 
-  handleClickBeat = (beatKey) => {
+  handleClickBeat = (beatId) => {
     if(lineageViewStore.selectPairMode){
-      lineageViewStore.toggleSelect(beatKey)
+      lineageViewStore.toggleSelect(beatId)
     }
   }
 
@@ -51,10 +51,10 @@ class Lineage extends Component {
           index         = {i}
           key           = {i}
           beat          = {beat}
-          handleClickPlay = {() => {this.handleClickPlay(beat.key)}}
-          playing = {() => lineageViewStore.beatPlayingStates[beat.key]}
+          handleClickPlay = {() => {this.handleClickPlay(beat.id)}}
+          playing = {() => lineageViewStore.beatPlayingStates[beat.id]}
           familyBlock = {true}
-          handleClickBeat = {()=>{this.handleClickBeat(beat.key)}}
+          handleClickBeat = {()=>{this.handleClickBeat(beat.id)}}
           templateBlock = {true}
         />
       )
