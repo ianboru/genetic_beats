@@ -7,7 +7,6 @@ import chroma from "chroma-js"
 import { MdAdd } from "react-icons/md"
 import Player from "./player"
 
-import AddTrackButton from "./addTrackButton"
 import Button from "./button"
 import ConfigControl from "./configControl"
 import Note from "./note"

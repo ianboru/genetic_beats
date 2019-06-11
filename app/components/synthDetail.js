@@ -6,7 +6,6 @@ import { reaction, toJS } from "mobx"
 
 import Player from "./player"
 
-import AddTrackButton from "./addTrackButton"
 import Button from "./button"
 import ConfigControl from "./configControl"
 import Note from "./note"
@@ -244,6 +243,7 @@ class BeatDetail extends Component {
 
   handleNewRandomBeat = () => {
     const chosenBeat = Math.floor(Math.random() * templateBeats.length)
+
     familyStore.replaceFirstBeat(templateBeats[chosenBeat])
     console.log("replace" , toJS(familyStore.currentBeat))
   }

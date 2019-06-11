@@ -205,6 +205,10 @@ class FamilyStore {
     this.lineage.push(beatId)
   }
 
+  @action deleteBeatFromLineage = (index) => {
+    this.lineage.splice(index, 1)
+  }
+
   @action addBeatToCurrentGen = (beat) => {
     const newBeatNum = this.currentGeneration.length
     const key = `${this.generation}.${newBeatNum}`
@@ -236,17 +240,16 @@ class FamilyStore {
   }
 
   @action replaceFirstBeat = (newBeat) => {
-    this.completeScale(newBeat)
-    this.allGenerations[0][0] = {
-      ...newBeat,
-      tracks: [...newBeat.tracks],
-    }
-
+    newBeat = this.completeScale(newBeat)
+    this.deleteBeatFromLineage(0)
+    this.newBeat(newBeat)
   }
-  @action completeScale = (beat) =>{
+
+  // TODO: This can move out of the store
+  @action completeScale = (beat) => {
+    beat = deepClone(beat)
     const beatNotes = []
     let synthType = ""
-    console.log(beat)
     beat.tracks.forEach((track)=>{
       if(track.trackType == "synth"){
         beatNotes.push(track.sample)
@@ -271,7 +274,9 @@ class FamilyStore {
         }
       )
     })
+    return beat
   }
+
   @action removeLastBeatFromCurrentGen = () => {
     const lastBeatIndex = this.currentGeneration.length - 1
 
