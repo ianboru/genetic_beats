@@ -1,7 +1,6 @@
 * Set labels for sections - John
 * Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
 * Actions at the bottom (rate, mutate), play at the bottom? - John
-* Solo section / volume section - Ian
 * Switch to shortIDs for beats - John
     * Delete from lineage - John
 * Select from lineage onclick - John
@@ -12,8 +11,7 @@
 * Fill out template beat scales to be complete scales - Ian
     * Once that's done^, start on a random beat - Ian
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
-* Display scale name/key in UI and allow user to change it - John
-* Show synth type, allow them to be changed - Ian
+* volume section - Ian
 
 Design Needed:
 * Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)
