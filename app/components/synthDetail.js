@@ -203,7 +203,29 @@ class BeatDetail extends Component {
       })
     }
   }
+  handleSoloTrack = (track) => {
+    playingStore.handleSoloTrack(track)
+    if(!track.solo){
+      this.setState({
+        activeSoloAll : false
+      })
+    }
+    let numSoloSamples = 0
+    let numSamples = 0
+    let numSynth = 0
+    this.props.beat.tracks.forEach((track)=>{
+      if(track.solo){
+        ++numSoloSamples
+      }
+      ++numSamples
+    })
 
+    if(numSoloSamples == numSamples){
+      this.setState({
+        activeSoloAll : true
+      })
+    }
+  }
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
     const newBeatId = familyStore.newBeat(newBeat)
@@ -223,6 +245,7 @@ class BeatDetail extends Component {
   handleNewRandomBeat = () => {
     const chosenBeat = Math.floor(Math.random() * templateBeats.length)
     familyStore.replaceFirstBeat(templateBeats[chosenBeat])
+    console.log("replace" , toJS(familyStore.currentBeat))
   }
 
   renderSynthTracks = (synthTracks) => {

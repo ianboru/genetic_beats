@@ -35,28 +35,28 @@ export default [{
         tracks: [{
                 trackType: "synth",
                 synthType: "square",
-                sample: "c3",
+                sample: "c4",
                 sequence: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
                 duration: [0, 2, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
             },
             {
                 trackType: "synth",
                 synthType: "square",
-                sample: "d3",
+                sample: "d4",
                 sequence: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, ],
                 duration: [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, ],
             },
             {
                 trackType: "synth",
                 synthType: "square",
-                sample: "e3",
+                sample: "e4",
                 sequence: [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
                 duration: [0, 2, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
             },
             {
                 trackType: "synth",
                 synthType: "square",
-                sample: "f3",
+                sample: "f4",
                 sequence: [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, ],
                 duration: [0, 0, 0, 2, 0, 4, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, ],
             },
@@ -194,22 +194,22 @@ export default [{
         "score": 0,
         scale : "cmaj",
         "tracks": [{
-            "sample": "c2",
+            "sample": "c4",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "c3",
+            "sample": "c4",
             "sequence": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "g2",
+            "sample": "g4",
             "sequence": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "d#3",
+            "sample": "d#4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
@@ -217,26 +217,26 @@ export default [{
         "key": "Minor Street"
     },
     {
-        "name": "Minor Street 2",
+        "name": "Minor Street 4",
         "score": 0,
         "scale" : "cmaj",
         "tracks": [{
-            "sample": "c2",
+            "sample": "c4",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "c3",
+            "sample": "c4",
             "sequence": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "g2",
+            "sample": "g4",
             "sequence": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "d#3",
+            "sample": "d#4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
@@ -254,29 +254,29 @@ export default [{
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "sampler"
         }],
-        "key": "Minor Street 2"
+        "key": "Minor Street 4"
     },
     {
         "name": "Beachin",
         "score": 0,
         "scale" : "cmaj",
         "tracks": [{
-            "sample": "c3",
+            "sample": "c4",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
         }, {
-            "sample": "b2",
+            "sample": "b4",
             "sequence": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "g2",
+            "sample": "g4",
             "sequence": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "d3",
+            "sample": "d4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
@@ -300,22 +300,22 @@ export default [{
         "score": 0,
         "scale" : "cmaj",
         "tracks": [{
-            "sample": "b3",
+            "sample": "b4",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
         }, {
-            "sample": "a3",
+            "sample": "a4",
             "sequence": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
         }, {
-            "sample": "e3",
+            "sample": "e4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "square"
         }, {
-            "sample": "d3",
+            "sample": "d4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
@@ -327,22 +327,22 @@ export default [{
         "scale" : "cmaj",
         "score": 0,
         "tracks": [{
-            "sample": "b3",
+            "sample": "b4",
             "sequence": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
         }, {
-            "sample": "a3",
+            "sample": "a4",
             "sequence": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
         }, {
-            "sample": "e3",
+            "sample": "e4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
         }, {
-            "sample": "c3",
+            "sample": "c4",
             "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
             "trackType": "synth",
             "synthType": "sine"
