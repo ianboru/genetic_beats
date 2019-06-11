@@ -1,4 +1,5 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
+import shortid from "shortid"
 import {
   deepClone,
   generateFamilyName,
@@ -17,28 +18,42 @@ newFamilyNames.push(newFamilyName)
 const BEAT_STEPS = 16
 
 
+let starterBeatsMap = {}
+let firstBeatId = null
+
+starterBeats.map( (beat) => {
+  beat.id = shortid.generate()
+  firstBeatId = beat.id
+  starterBeatsMap[beat.id] = beat
+})
+
+
 class FamilyStore {
   @observable beatNum            = 0
   @observable generation         = 0
+  @observable lineage            = [firstBeatId]
+  @observable currentBeatId      = firstBeatId
+  //@observable beats              = {}
+  @observable beats              = starterBeatsMap
   //@observable allGenerations     = [[]]
   @observable allGenerations     = [starterBeats]
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
-  @observable numMutations         = 0
-  @observable numEdits            = 0
-  @observable numClones           = 0
+  @observable numMutations       = 0
+  @observable numEdits           = 0
+  @observable numClones          = 0
 
+  @computed get lineageBeats() {
+    const thing = this.lineage.map( (beatId) => this.beats[beatId] )
+    return thing
+  }
 
   @computed get currentGeneration() {
     return this.allGenerations[this.generation]
   }
 
   @computed get currentBeat() {
-    if (this.currentGeneration.length > 0) {
-      return this.currentGeneration[this.beatNum]
-    } else {
-      return false
-    }
+    return this.beats[this.currentBeatId]
   }
 
   @computed get currentBeatResolution() {
@@ -158,6 +173,38 @@ class FamilyStore {
     }
   }
 
+
+  @action newBeat = (beat) => {
+    const id = shortid.generate()
+    this.beats[id] = {
+      ...deepClone(beat),
+      id: id,
+      score: 0,
+    }
+    this.currentBeatId = id
+    this.addBeatToLineage(id)
+  }
+
+  @action newEmptyBeat = () => {
+    this.newBeat({
+      name   : "",
+      score  : 0,
+      tracks : [
+        {
+          trackType : "sampler",
+          sample    : "samples/kick.wav",
+          sequence  : (new Array(BEAT_STEPS).fill(0)),
+          mute      : false,
+          solo      : false,
+        },
+      ],
+    })
+  }
+
+  @action addBeatToLineage = (beatId) => {
+    this.lineage.push(beatId)
+  }
+
   @action addBeatToCurrentGen = (beat) => {
     const newBeatNum = this.currentGeneration.length
     const key = `${this.generation}.${newBeatNum}`
@@ -274,6 +321,7 @@ class FamilyStore {
     })
   }
 }
+
 const familyStore = new FamilyStore()
 
 

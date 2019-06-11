@@ -67,7 +67,7 @@ class LineageGlobalViewStore {
     }
     if (this.playing) {
       this.togglePlaying()
-    }    
+    }
   }
 
   @action incrementSelectedBeat = () => {
@@ -81,7 +81,7 @@ class LineageGlobalViewStore {
       this.beatPlayingStates[this.selectedBeatId] = true
     }
   }
-    
+
   @action setSelectedBeat = (lineageIndex) => {
     this.selectedBeat = lineageIndex
   }
