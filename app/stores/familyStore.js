@@ -212,6 +212,16 @@ class FamilyStore {
   }
 
   @action deleteBeatFromLineage = (index) => {
+    if (this.currentBeatId === this.lineage[index]) {
+      if (this.lineage.length === 1) {
+        // TODO: Do something about this besides ignore user
+        return
+      } else if (index === this.lineage.length-1) {
+        this.currentBeatId = this.lineage[index-1]
+      } else {
+        this.currentBeatId = this.lineage[index+1]
+      }
+    }
     this.lineage.splice(index, 1)
   }
 
@@ -259,11 +269,7 @@ class FamilyStore {
 
   @action removeLastBeatFromLineage = () => {
     const lastBeatIndex = this.lineage.length - 1
-
-    if (this.currentBeatId === this.lineage[lastBeatIndex] && lastBeatIndex > this.lineage.length) {
-      this.currentBeatId = this.lineage[lastBeatIndex-1]
-    }
-    this.lineage.splice(lastBeatIndex)
+    this.deleteBeatFromLineage(lastBeatIndex)
   }
 
   @action removeLastBeatFromCurrentGen = () => {

@@ -94,7 +94,7 @@ class BeatBlock extends Component {
         </OpenInNewWindow>
       </nav> : null
 
-    const deleteButton = this.props.arrangementBlock ? <DeleteBlockButton onClick={(e) => {
+    const deleteButton = this.props.deleteBlock ? <DeleteBlockButton onClick={(e) => {
           this.props.deleteBlock()
           e.stopPropagation()
         }}>

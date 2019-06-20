@@ -1,5 +1,3 @@
-* Switch to shortIDs for beats - John
-    * Delete from lineage - John
 * Set labels for sections - John
 * Fix tempo bug (when it's not 100) - investigate/bisect
 * Select from lineage onclick - John

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-  import {observer} from "mobx-react"
+import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
@@ -10,7 +10,7 @@ import {
   MdStop,
 } from "react-icons/md"
 
-import familyViewStore from "../stores/familyViewStore"
+import familyStore from "../stores/familyStore"
 import lineageViewStore from "../stores/lineageGlobalViewStore"
 
 import BeatBlock from "./beatBlock"
@@ -39,7 +39,7 @@ class Lineage extends Component {
   }
 
   handleClickBeat = (beatId) => {
-    if(lineageViewStore.selectPairMode){
+    if (lineageViewStore.selectPairMode) {
       lineageViewStore.toggleSelect(beatId)
     }
   }
@@ -53,9 +53,10 @@ class Lineage extends Component {
           beat          = {beat}
           handleClickPlay = {() => {this.handleClickPlay(beat.id)}}
           playing = {() => lineageViewStore.beatPlayingStates[beat.id]}
-          familyBlock = {true}
-          handleClickBeat = {()=>{this.handleClickBeat(beat.id)}}
+          familyBlock   = {true}
+          handleClickBeat = {() => {this.handleClickBeat(beat.id)}}
           templateBlock = {true}
+          deleteBlock   = {() => familyStore.deleteBeatFromLineage(i)}
         />
       )
     })
@@ -74,7 +75,6 @@ class Lineage extends Component {
           size    = {50}
           onClick = {this.handleClickPlayLineage}
         />
-
         {beatBlocks}
       </StyledLineage>
     )
