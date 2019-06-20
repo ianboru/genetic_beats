@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "chroma-js": "1.3.7",
-    "cytoscape": "3.2.20",
     "error-overlay-webpack-plugin": "0.1.5",
     "mobx": "5.9.4",
     "mobx-react": "5.4.3",

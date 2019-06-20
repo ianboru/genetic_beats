@@ -285,12 +285,15 @@ class BeatDetail extends Component {
       )
     })
   }
+
   handleSelectScale = (evt) => {
     familyStore.setScale(evt.target.value)
   }
+
   handleSelectSynthType= (evt) => {
     familyStore.setSynthType(evt.target.value)
   }
+
   render() {
     const synthTracks = this.props.beat.tracks.filter( (track) => (track.trackType === "synth") )
     const samplerTracks = this.props.beat.tracks.reduce( (filtered, track, i) => {

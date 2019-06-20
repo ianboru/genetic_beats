@@ -14,7 +14,6 @@ import {colors} from "../colors"
 import Tooltip from "./tooltip"
 
 import store from "../stores/store"
-import playingStore from "../stores/playingStore"
 import familyStore from "../stores/familyStore"
 import beatViewStore from "../stores/beatViewStore"
 
@@ -56,7 +55,7 @@ class PlayControls extends Component {
         >
           <MdSkipPrevious
             size    = {size}
-            onClick = {playingStore.prevBeat}
+            onClick = {familyStore.prevBeatInLineage}
           />
         </Tooltip>
         <Tooltip
@@ -74,7 +73,7 @@ class PlayControls extends Component {
         >
           <MdSkipNext
             size    = {size}
-            onClick = {playingStore.nextBeat}
+            onClick = {familyStore.nextBeatInLineage}
           />
         </Tooltip>
       </StyledPlayControls>

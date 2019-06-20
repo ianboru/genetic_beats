@@ -8,11 +8,9 @@ import {
   calculateSampleDifference ,
 } from "../utils"
 import familyStore from "./familyStore"
-import arrangementStore from "./arrangementStore"
 configure({ enforceActions: "always" })
 
 class ControlStore {
-
   @observable sampleMutationRate = 15
   @observable noteMutationRate   = 8
   @observable numSurvivors       = 6
@@ -20,12 +18,9 @@ class ControlStore {
   @observable fitnessPercentile  = 65
 
 
-
   //
   // ACTIONS
   //
-
-
 
   @action setNoteMutationRate = (rate) => {
     this.noteMutationRate = rate

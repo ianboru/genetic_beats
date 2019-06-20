@@ -1,10 +1,10 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
-import NewSynthApp from "./newsynthapp"
+import App from "./app"
 
 
 ReactDOM.render(
-  <NewSynthApp />,
+  <App />,
   document.getElementById("root")
 )

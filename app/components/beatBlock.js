@@ -10,12 +10,9 @@ import {
   MdSkipNext,
   MdSkipPrevious,
   MdStop,
-  MdOpenInNew
 } from "react-icons/md"
 
 import familyStore from "../stores/familyStore"
-import familyViewStore from "../stores/familyViewStore"
-import arrangementStore from "../stores/arrangementStore"
 import MiniBeat from "./miniBeat"
 
 import { colors } from "../colors"
@@ -65,16 +62,12 @@ const DeleteBlockButton = styled.div`
     color: red;
   }
 `
-const OpenInNewWindow = styled(NavLink)`
-  font-size : 15pt;
-  margin-top : 5px;
-`
+
 
 @observer
 class BeatBlock extends Component {
   render() {
     const beat = deepClone(this.props.beat)
-    const idData = beat.key.split(".")
 
     // `playing` is true under two conditions. the first is the "easy" way
     // to get a beat to play (pass in playing={true} prop), the second
@@ -85,14 +78,6 @@ class BeatBlock extends Component {
     }
 
     const PlayStopButton = playing ? MdStop : MdPlayArrow
-
-    const openInNewWindow = !this.props.templateBlock ? <nav>
-        <OpenInNewWindow exact to="/" onClick={()=>{
-          familyViewStore.selectBeat(idData[0],idData[1]);
-        }}>
-          <MdOpenInNew />
-        </OpenInNewWindow>
-      </nav> : null
 
     const deleteButton = this.props.deleteBlock ? <DeleteBlockButton onClick={(e) => {
           this.props.deleteBlock()
@@ -109,7 +94,6 @@ class BeatBlock extends Component {
         {...this.props.draggableProps}
         {...this.props.dragHandleProps}
       >
-        {openInNewWindow}
         <div style={{textAlign: "left"}}>
           <PlayStopButton
             size    = {30}

@@ -14,7 +14,6 @@ import playingStore from "./playingStore"
 import messageStore from "./messageStore"
 import templateBeats from "../templateBeats"
 
-import starterBeats from "../starterBeats"
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
 let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
@@ -23,39 +22,39 @@ newFamilyNames.push(newFamilyName)
 const BEAT_STEPS = 16
 
 
-let starterBeatsMap = {}
+let templateBeatsMap = {}
 templateBeats.map( (beat,i) => {
   beat = completeScale(beat)
   beat = completeSamples(beat)
-  templateBeats[i] = beat
   beat.id = shortid.generate()
-  starterBeatsMap[beat.id] = beat
+  templateBeats[i] = beat
+  templateBeatsMap[beat.id] = beat
 })
 const randomBeatIndex = Math.floor(Math.random()*templateBeats.length)
 const firstBeatId = templateBeats[randomBeatIndex].id
 
 
 class FamilyStore {
-  @observable beatNum            = 0
-  @observable generation         = 0
+  //
+  // OBSERVABLE
+  //
+
   @observable lineage            = [firstBeatId]
   @observable currentBeatId      = firstBeatId
-  //@observable beats              = {}
-  @observable beats              = starterBeatsMap
-  //@observable allGenerations     = [[]]
+  @observable beats              = { ...templateBeatsMap }
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable numMutations       = 0
   @observable numEdits           = 0
-  @observable numClones          = 0
+
+
+  //
+  // COMPUTED
+  //
 
   @computed get lineageBeats() {
     const thing = this.lineage.map( (beatId) => this.beats[beatId] )
     return thing
-  }
-
-  @computed get currentGeneration() {
-    return this.allGenerations[this.generation]
   }
 
   @computed get currentBeat() {
@@ -68,72 +67,43 @@ class FamilyStore {
     }
   }
 
-  @computed get allBeatKeys() {
-    let beatKeys = []
-    this.allGenerations.forEach((generation) => {
-      generation.forEach((beat) => {
-        beatKeys.push(beat.key)
-      })
-    })
-    return beatKeys
-  }
 
+  //
+  // ACTIONS
+  //
 
   @action incrementNumMutations() {
     this.numMutations++
-  }
-
-  @action incrementNumClonings() {
-    this.numClones++
-  }
-
-  @action setBeatNum = (beatNum) => {
-    this.beatNum = parseInt(beatNum)
-  }
-
-  @action setGeneration = (generation) => {
-    this.generation = parseInt(generation)
   }
 
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
 
     localStorage.setItem(this.familyName, JSON.stringify({
-      family :this.allGenerations,
+      lineage : this.lineage,
+      beats   : this.beats,
     }))
   }
 
-  @action addGeneration = (newGeneration) => {
-    this.allGenerations.push(newGeneration)
-    this.generation++
-    this.beatNum = 0
-    this.updateFamilyInStorage()
+  @action nextBeatInLineage = () => {
+    const currentBeatIndex = this.lineage.indexOf(this.currentBeatId)
+    const newCurrentBeatIndex = currentBeatIndex+1 % this.lineage.length
+    this.currentBeatId = this.lineage[newCurrentBeatIndex]
   }
 
-  @action incrementBeatNum = (direction) => {
-    const currentGeneration = this.allGenerations[this.generation]
-    if(direction === "up"){
-      this.beatNum = (this.beatNum + 1) % this.currentGeneration.length
-    }else{
-      if (this.beatNum == 0) {
-        this.beatNum = currentGeneration.length - 1
-      } else {
-        this.beatNum = (this.beatNum - 1) % currentGeneration.length
-      }
-    }
-  }
-
-  @action killSubsequentGenerations = () => {
-    this.allGenerations = this.allGenerations.slice(0, this.generation+1)
+  @action prevBeatInLineage = () => {
+    const currentBeatIndex = this.lineage.indexOf(this.currentBeatId)
+    const newCurrentBeatIndex = currentBeatIndex-1 % this.lineage.length
+    this.currentBeatId = this.lineage[newCurrentBeatIndex]
   }
 
   @action selectFamily = (familyName) => {
     this.familyName = familyName
     // SIDE EFFECT
     const familyData = JSON.parse(localStorage.getItem(familyName))
-    this.allGenerations = familyData.family
-    this.beatNum = 0
-    this.generation = 0
+    this.lineage = familyData.lineage
+    this.beats = familyData.beats
+    this.currentBeatId = lineage[0]
 
     const familyNames = JSON.parse(localStorage.getItem("familyNames"))
     this.familyNames = familyNames
@@ -146,9 +116,9 @@ class FamilyStore {
 
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
-
     localStorage.setItem(this.familyName, JSON.stringify({
-      family :this.allGenerations,
+      lineage : this.lineage,
+      beats   : this.beats,
     }))
   }
 
@@ -228,39 +198,6 @@ class FamilyStore {
     this.lineage.splice(index, 1)
   }
 
-  @action addBeatToCurrentGen = (beat) => {
-    const newBeatNum = this.currentGeneration.length
-    const key = `${this.generation}.${newBeatNum}`
-    this.allGenerations[this.generation].push({
-      ...deepClone(beat),
-      key: key,
-      score: 0,
-    })
-
-    this.beatNum = newBeatNum
-  }
-
-  @action addEmptyBeatToCurrentGeneration = () => {
-    let emptyBeat = {
-      name   : "",
-      score  : 0,
-      tracks : [
-        {
-          trackType : "sampler",
-          sample   : "samples/kick.wav",
-          sequence : (new Array(BEAT_STEPS).fill(0)),
-          mute     : false,
-          solo     : false,
-        },
-      ],
-    }
-    this.addBeatToCurrentGen(emptyBeat)
-    messageStore.addMessageToQueue(`empty beat added to generation ${this.generation}`);
-  }
-  @action setRandomBeat = () => {
-    const chosenBeat = Math.floor(Math.random() * templateBeats.length)
-    familyStore.replaceFirstBeat(templateBeats[chosenBeat])
-  }
   @action replaceFirstBeat = (newBeat) => {
     newBeat = completeScale(newBeat)
     newBeat = completeSamples(newBeat)
@@ -271,15 +208,6 @@ class FamilyStore {
   @action removeLastBeatFromLineage = () => {
     const lastBeatIndex = this.lineage.length - 1
     this.deleteBeatFromLineage(lastBeatIndex)
-  }
-
-  @action removeLastBeatFromCurrentGen = () => {
-    const lastBeatIndex = this.currentGeneration.length - 1
-
-    if (this.beatNum === lastBeatIndex) {
-      this.beatNum = this.beatNum - 1
-    }
-    this.allGenerations[this.generation].splice(lastBeatIndex)
   }
 
   @action addTrackToCurrentBeat = (trackType) => {
@@ -332,10 +260,12 @@ class FamilyStore {
     this.currentBeat.samplerScore = score
     this.updateFamilyInStorage()
   }
+
   @action setSynthScore = (score) => {
     this.currentBeat.synthScore = score
     this.updateFamilyInStorage()
   }
+
   @action setScale = (scaleName) => {
     this.currentBeat.scale = scaleName
     let numSynthTracks = 0
@@ -346,6 +276,7 @@ class FamilyStore {
       }
     })
   }
+
   @action setSynthType = (type) => {
     this.currentBeat.tracks.forEach((track,j)=>{
       if (track.trackType === "synth") {
