@@ -1,14 +1,19 @@
 * Switch to shortIDs for beats - John
     * Delete from lineage - John
-
 * Set labels for sections - John
-* Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
-* Actions at the bottom (rate, mutate), play at the bottom? - John
+* Fix tempo bug (when it's not 100) - investigate/bisect
 * Select from lineage onclick - John
+
+* Start on a random beat - Ian
 * Fix play individual beat bug - Ian
 * Option to enforce monosynth - Ian
+* Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
+
+* Didn't carry ratings forward
+
+* Set labels for sections - John
+* Actions at the bottom (rate, mutate), play at the bottom? - John
 * Duplicate beat in lineage? - John
-* Start on a random beat - Ian
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
 * volume section - Ian
 
@@ -24,7 +29,6 @@ Potentially really hard:
 
 * Live performance mode
 
-* Fix tempo bug (when it's not 100)
 * Style play button/play controls for lineage
 
 * Refactor beat data structure so that it's an array of sections rather than an array of tracks
