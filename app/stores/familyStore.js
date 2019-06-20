@@ -87,14 +87,17 @@ class FamilyStore {
 
   @action nextBeatInLineage = () => {
     const currentBeatIndex = this.lineage.indexOf(this.currentBeatId)
-    const newCurrentBeatIndex = currentBeatIndex+1 % this.lineage.length
+    const newCurrentBeatIndex = (currentBeatIndex+1) % this.lineage.length
     this.currentBeatId = this.lineage[newCurrentBeatIndex]
   }
 
   @action prevBeatInLineage = () => {
     const currentBeatIndex = this.lineage.indexOf(this.currentBeatId)
-    const newCurrentBeatIndex = currentBeatIndex-1 % this.lineage.length
-    this.currentBeatId = this.lineage[newCurrentBeatIndex]
+    let newIndex = currentBeatIndex-1
+    if (newIndex < 0) {
+      newIndex = this.lineage.length - 1
+    }
+    this.currentBeatId = this.lineage[newIndex]
   }
 
   @action selectFamily = (familyName) => {

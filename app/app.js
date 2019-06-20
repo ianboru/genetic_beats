@@ -31,8 +31,10 @@ class App extends Component {
       e.preventDefault()
     } else if (e.code == "ArrowRight") {
       familyStore.nextBeatInLineage()
+      e.preventDefault()
     } else if (e.code == "ArrowLeft") {
       familyStore.prevBeatInLineage()
+      e.preventDefault()
     }
   }
 
