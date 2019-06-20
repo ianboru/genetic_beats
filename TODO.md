@@ -1,19 +1,17 @@
-* Next/prev beat should use same mechanism to switch beat as selecting beat in lineage (to avoid restarting during playback) - John
-* Fix tempo bug (when it's not 100) - investigate/bisect
 * Changing synth notes modifies keyboard (including during keyboard mutation)
+* Mutating doesn't carry ratings forward
 
-* Start on a random beat - Ian
+* Fix tempo bug (when it's not 100) - investigate/bisect - John
+* Actions at the bottom (rate, mutate), play at the bottom? - John
+
 * Fix play individual beat bug - Ian
 * Option to enforce monosynth - Ian
 * Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
 
-* Didn't carry ratings forward
-
-* Set labels for sections - John
-* Actions at the bottom (rate, mutate), play at the bottom? - John
 * Duplicate beat in lineage? - John
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
 * volume section - Ian
+
 
 Other:
 * Move play states onto beat? Questionable.
