@@ -30,7 +30,6 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, 
   const synthType = synthData[0]
   const gain = synthData[1]
 
-
   const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
   synth.set({ oscillator: { type: synthType }, })
   synth.volume.value += gain
