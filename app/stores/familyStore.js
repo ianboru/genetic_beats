@@ -218,8 +218,7 @@ class FamilyStore {
   @action deleteBeatFromLineage = (index) => {
     if (this.currentBeatId === this.lineage[index]) {
       if (this.lineage.length === 1) {
-        // TODO: Do something about this besides ignore user
-        return
+        // noop
       } else if (index === this.lineage.length-1) {
         this.currentBeatId = this.lineage[index-1]
       } else {
