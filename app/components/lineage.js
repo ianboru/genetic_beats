@@ -39,9 +39,7 @@ class Lineage extends Component {
   }
 
   handleClickBeat = (beatId) => {
-    if (lineageViewStore.selectPairMode) {
-      lineageViewStore.toggleSelect(beatId)
-    }
+    familyStore.setCurrentBeat(beatId)
   }
 
   render() {

@@ -211,6 +211,10 @@ class FamilyStore {
     this.lineage.push(beatId)
   }
 
+  @action setCurrentBeat = (beatId) => {
+    this.currentBeatId = beatId
+  }
+
   @action deleteBeatFromLineage = (index) => {
     if (this.currentBeatId === this.lineage[index]) {
       if (this.lineage.length === 1) {
@@ -264,8 +268,6 @@ class FamilyStore {
     this.deleteBeatFromLineage(0)
     this.newBeat(newBeat)
   }
-
-  
 
   @action removeLastBeatFromLineage = () => {
     const lastBeatIndex = this.lineage.length - 1
