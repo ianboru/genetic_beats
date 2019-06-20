@@ -1,6 +1,5 @@
-* Set labels for sections - John
+* Next/prev beat should use same mechanism to switch beat as selecting beat in lineage (to avoid restarting during playback) - John
 * Fix tempo bug (when it's not 100) - investigate/bisect
-* Select from lineage onclick - John
 
 * Start on a random beat - Ian
 * Fix play individual beat bug - Ian

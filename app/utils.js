@@ -96,11 +96,22 @@ const findInJSON = (object, key1, value1, key2, value2 ) => {
     return null
   }
 }
+
+const noteOrder = {
+  c: 1,
+  d: 2,
+  e: 3,
+  f: 4,
+  g: 5,
+  a: 6,
+  b: 7,
+}
+
 // TODO: This can move out of the store
 const completeScale = (beat) => {
   beat = deepClone(beat)
   const beatNotes = []
-  let synthType = ""
+  let synthType = "triangle"
   beat.tracks.forEach((track)=>{
     if(track.trackType == "synth"){
       beatNotes.push(track.sample)
@@ -123,44 +134,41 @@ const completeScale = (beat) => {
       duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
     })
   })
-  console.log("before" ,beat.tracks)
-  beat.tracks.sort(compareTracksByNote) 
-    console.log("after" ,beat.tracks)
-
+  beat.tracks.sort(compareTracksByNote)
   return beat
 }
 const compareTracksByNote = (first,second) => {
-  const firstNoteSplit = first.sample.split("") 
-  const secondNoteSplit = second.sample.split("") 
+  const firstNote = first.sample.split("")
+  const secondNote = second.sample.split("")
   //force sharp to be last element
   //force octage to second element
-  if(firstNoteSplit[1] == "#"){
-    firstNoteSplit[3] = "#"
-    firstNoteSplit[1] = firstNoteSplit[2] 
+  if(firstNote[1] == "#"){
+    firstNote[3] = "#"
+    firstNote[1] = firstNote[2]
   }
-  if(secondNoteSplit[1] == "#"){
-    secondNoteSplit[3] = "#"
-    secondNoteSplit[1] = secondNoteSplit[2] 
+  if(secondNote[1] == "#"){
+    secondNote[3] = "#"
+    secondNote[1] = secondNote[2]
   }
   //check octave first
-  if(firstNoteSplit[1] > secondNoteSplit[1]){
-    return 1 
-  }else if(firstNoteSplit[1] < secondNoteSplit[1]){
+  if(firstNote[1] > secondNote[1]){
     return -1
-  }
-  
-  //check letter second
-  if(firstNoteSplit[0] > secondNoteSplit[0]){
+  }else if(firstNote[1] < secondNote[1]){
     return 1
-  }else if(firstNoteSplit[0] < secondNoteSplit[0]){
-    return -1 
+  }
+
+  //check letter second
+  if(noteOrder[firstNote[0]] > noteOrder[secondNote[0]]){
+    return -1
+  }else if(noteOrder[firstNote[0]] < noteOrder[secondNote[0]]){
+    return 1
   }
 
   //check sharp last
-  if(firstNoteSplit[3] && !secondNoteSplit[3]){
-    return 1
-  }else if(!firstNoteSplit[3] && secondNoteSplit[3]){
+  if(firstNote[3] && !secondNote[3]){
     return -1
+  }else if(!firstNote[3] && secondNote[3]){
+    return 1
   }
   return 0
 }
@@ -212,10 +220,10 @@ function generateFamilyName(){
   ]
   const curDate = new Date()
   const dateString = curDate.getDate() + "/"
-                + (curDate.getMonth()+1)  + "/" 
-                + curDate.getFullYear() + " @ "  
-                + curDate.getHours() + ":"  
-                + curDate.getMinutes() + ":" 
+                + (curDate.getMonth()+1)  + "/"
+                + curDate.getFullYear() + " @ "
+                + curDate.getHours() + ":"
+                + curDate.getMinutes() + ":"
                 + curDate.getSeconds();
   const familyName = Array(3).fill().map(() => {
     return words[Math.floor(Math.random() * words.length)]
@@ -234,7 +242,7 @@ octaves.forEach((octave)=>{
       allNotesInRange.push(`${letter}#${octave}`)
     }
   })
-}) 
+})
 
 const SCALES = {
   cmaj : [

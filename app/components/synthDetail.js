@@ -96,6 +96,18 @@ const StyledSectionWrapper = styled.div`
   text-align: center;
 `
 
+const SectionHeader = styled.h3`
+  color: #e6e983;
+  font-size: 22px;
+  font-weight: lighter;
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  margin: 0;
+  text-align: left;
+  text-transform: uppercase;
+`
+
 const StyledSection = styled.div`
   display: inline-block;
   padding: 15px;
@@ -104,6 +116,7 @@ const StyledSection = styled.div`
   border-radius: 4px;
   box-shadow: 0 0 4px 1px black;
   margin-top: 30px;
+  position: relative;
 `
 
 @observer
@@ -144,7 +157,7 @@ class BeatDetail extends Component {
   }
 
   componentDidMount() {
-    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }} )
+    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }})
   }
 
   componentWillUnmount() {
@@ -155,8 +168,8 @@ class BeatDetail extends Component {
     playingStore.toggleMuteAll(this.state.activeMuteAll)
     this.setState({
       activeMuteAll : !this.state.activeMuteAll
-    },()=>{
-      if(this.state.activeMuteAll){
+    },() => {
+      if (this.state.activeMuteAll) {
         this.setState({
           activeSoloAll : false
         })
@@ -358,7 +371,8 @@ class BeatDetail extends Component {
 
         <StyledSectionWrapper>
           <StyledSection>
-           <MuteTrackButton
+            <SectionHeader>Keyboard</SectionHeader>
+            <MuteTrackButton
               onClick={playingStore.toggleMuteSynth}
               active={playingStore.muteSynth}
             >M</MuteTrackButton>
@@ -384,6 +398,7 @@ class BeatDetail extends Component {
 
         <StyledSectionWrapper>
           <StyledSection>
+            <SectionHeader>Drums</SectionHeader>
             <MuteTrackButton
               onClick={playingStore.toggleMuteSampler}
               active={playingStore.muteSampler}
@@ -397,7 +412,6 @@ class BeatDetail extends Component {
               />
               <Button width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
             </div>
-
             {samplerTracks}
           </StyledSection>
         </StyledSectionWrapper>

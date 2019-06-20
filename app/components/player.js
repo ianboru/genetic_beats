@@ -30,9 +30,8 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, 
   const synthType = synthData[0]
   const gain = synthData[1]
 
-
   var reverb = new Tone.Reverb().toMaster();
-  reverb.decay = 1
+  reverb.decay = 3
   reverb.generate()
   const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
   synth.connect(reverb)
