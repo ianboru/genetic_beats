@@ -96,7 +96,96 @@ const findInJSON = (object, key1, value1, key2, value2 ) => {
     return null
   }
 }
+// TODO: This can move out of the store
+const completeScale = (beat) => {
+  beat = deepClone(beat)
+  const beatNotes = []
+  let synthType = ""
+  beat.tracks.forEach((track)=>{
+    if(track.trackType == "synth"){
+      beatNotes.push(track.sample)
+      synthType = track.synthType
+    }
+  })
+  let scale
+  if(beat.scale){
+    scale = SCALES[beat.scale]
+  }else{
+    scale = SCALES["cmaj"]
+  }
+  const difference = [...scale].filter(note => !beatNotes.includes(note))
+  difference.forEach((note)=>{
+    beat.tracks.unshift({
+      trackType: "synth",
+      synthType: synthType,
+      sample: note,
+      sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+      duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
+    })
+  })
+  console.log("before" ,beat.tracks)
+  beat.tracks.sort(compareTracksByNote) 
+    console.log("after" ,beat.tracks)
 
+  return beat
+}
+const compareTracksByNote = (first,second) => {
+  const firstNoteSplit = first.sample.split("") 
+  const secondNoteSplit = second.sample.split("") 
+  //force sharp to be last element
+  //force octage to second element
+  if(firstNoteSplit[1] == "#"){
+    firstNoteSplit[3] = "#"
+    firstNoteSplit[1] = firstNoteSplit[2] 
+  }
+  if(secondNoteSplit[1] == "#"){
+    secondNoteSplit[3] = "#"
+    secondNoteSplit[1] = secondNoteSplit[2] 
+  }
+  //check octave first
+  if(firstNoteSplit[1] > secondNoteSplit[1]){
+    return 1 
+  }else if(firstNoteSplit[1] < secondNoteSplit[1]){
+    return -1
+  }
+  
+  //check letter second
+  if(firstNoteSplit[0] > secondNoteSplit[0]){
+    return 1
+  }else if(firstNoteSplit[0] < secondNoteSplit[0]){
+    return -1 
+  }
+
+  //check sharp last
+  if(firstNoteSplit[3] && !secondNoteSplit[3]){
+    return 1
+  }else if(!firstNoteSplit[3] && secondNoteSplit[3]){
+    return -1
+  }
+  return 0
+}
+const completeSamples = (beat) => {
+  beat = deepClone(beat)
+  const beatSamples = []
+  beat.tracks.forEach((track)=>{
+    if(track.trackType == "sampler"){
+      beatSamples.push(track.sample)
+    }
+  })
+
+  const difference = [...starterSamples].filter(sample => !beatSamples.includes(sample))
+  difference.forEach((sample)=>{
+    beat.tracks.push(
+      {
+        trackType: "sampler",
+        sample: sample,
+        sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+        duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
+      }
+    )
+  })
+  return beat
+}
 function generateFamilyName(){
   const words = [
     "ball",
@@ -204,5 +293,7 @@ export {
   calculateSampleDifference,
   SCALES,
   synthTypes,
-  starterSamples
+  starterSamples,
+  completeScale,
+  completeSamples
 }

@@ -6,10 +6,14 @@ import {
   allNotesInRange,
   SCALES,
   starterSamples,
+  completeScale,
+  completeSamples
 } from "../utils"
 import store from "./store"
 import playingStore from "./playingStore"
 import messageStore from "./messageStore"
+import templateBeats from "../templateBeats"
+
 import starterBeats from "../starterBeats"
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
@@ -20,13 +24,15 @@ const BEAT_STEPS = 16
 
 
 let starterBeatsMap = {}
-let firstBeatId = null
-
-starterBeats.map( (beat) => {
+templateBeats.map( (beat,i) => {
+  beat = completeScale(beat)
+  templateBeats[i] = completeSamples(beat)
+  beat = templateBeats[i]
   beat.id = shortid.generate()
-  firstBeatId = beat.id
   starterBeatsMap[beat.id] = beat
 })
+const randomBeatIndex = Math.floor(Math.random()*templateBeats.length)
+const firstBeatId = templateBeats[randomBeatIndex].id
 
 
 class FamilyStore {
@@ -37,7 +43,6 @@ class FamilyStore {
   //@observable beats              = {}
   @observable beats              = starterBeatsMap
   //@observable allGenerations     = [[]]
-  @observable allGenerations     = [starterBeats]
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
   @observable numMutations       = 0
@@ -239,65 +244,18 @@ class FamilyStore {
     this.addBeatToCurrentGen(emptyBeat)
     messageStore.addMessageToQueue(`empty beat added to generation ${this.generation}`);
   }
-
+  @action setRandomBeat = () => {
+    const chosenBeat = Math.floor(Math.random() * templateBeats.length)
+    familyStore.replaceFirstBeat(templateBeats[chosenBeat])
+  }
   @action replaceFirstBeat = (newBeat) => {
-    newBeat = this.completeScale(newBeat)
-    newBeat = this.completeSamples(newBeat)
+    newBeat = completeScale(newBeat)
+    newBeat = completeSamples(newBeat)
     this.deleteBeatFromLineage(0)
     this.newBeat(newBeat)
   }
 
-  // TODO: This can move out of the store
-  @action completeScale = (beat) => {
-    beat = deepClone(beat)
-    const beatNotes = []
-    let synthType = ""
-    beat.tracks.forEach((track)=>{
-      if(track.trackType == "synth"){
-        beatNotes.push(track.sample)
-        synthType = track.synthType
-      }
-    })
-    let scale
-    if(beat.scale){
-      scale = SCALES[beat.scale]
-    }else{
-      scale = SCALES["cmaj"]
-    }
-    const difference = [...scale].filter(note => !beatNotes.includes(note))
-    difference.forEach((note)=>{
-      beat.tracks.unshift({
-        trackType: "synth",
-        synthType: synthType,
-        sample: note,
-        sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-        duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
-      })
-    })
-    return beat
-  }
-  @action completeSamples = (beat) => {
-    beat = deepClone(beat)
-    const beatSamples = []
-    beat.tracks.forEach((track)=>{
-      if(track.trackType == "sampler"){
-        beatSamples.push(track.sample)
-      }
-    })
-
-    const difference = [...starterSamples].filter(sample => !beatSamples.includes(sample))
-    difference.forEach((sample)=>{
-      beat.tracks.push(
-        {
-          trackType: "sampler",
-          sample: sample,
-          sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-          duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
-        }
-      )
-    })
-    return beat
-  }
+  
 
   @action removeLastBeatFromLineage = () => {
     const lastBeatIndex = this.lineage.length - 1
