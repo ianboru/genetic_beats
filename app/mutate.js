@@ -182,10 +182,10 @@ const randomBit = (probOn) => {
   return Math.random() < probOn ? 1 : 0
 }
 
-const mutateMelody = (originalBeat)=>{
-  console.log("mutatemelody")
+const mutateMelody = (originalBeat) => {
   let newBeat = deepClone(toJS(originalBeat))
   let mutatedTracks = []
+
   newBeat.tracks[0].sequence.forEach((note, i)=>{
     let playedTrackIndex = null
 
@@ -222,6 +222,7 @@ const mutateMelody = (originalBeat)=>{
   if(switchSynthType){
     mutateSynthType(newBeat)
   }
+
   return newBeat
 }
 
@@ -230,9 +231,12 @@ const mutateScale = (newBeat) => {
   const randomScaleIndex = Math.floor(Math.random()*scaleTypes.length)
   const scaleName = scaleTypes[randomScaleIndex]
   newBeat.scale = scaleName
+
+  let numSynthTracks = 0
   newBeat.tracks.forEach((track,j)=>{
     if (track.trackType === "synth") {
-      track.sample = SCALES[scaleName][j]
+      track.sample = SCALES[scaleName][numSynthTracks]
+      numSynthTracks += 1
     }
   })
 }

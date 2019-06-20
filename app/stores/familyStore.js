@@ -26,8 +26,8 @@ const BEAT_STEPS = 16
 let starterBeatsMap = {}
 templateBeats.map( (beat,i) => {
   beat = completeScale(beat)
-  templateBeats[i] = completeSamples(beat)
-  beat = templateBeats[i]
+  beat = completeSamples(beat)
+  templateBeats[i] = beat
   beat.id = shortid.generate()
   starterBeatsMap[beat.id] = beat
 })
@@ -338,9 +338,11 @@ class FamilyStore {
   }
   @action setScale = (scaleName) => {
     this.currentBeat.scale = scaleName
+    let numSynthTracks = 0
     this.currentBeat.tracks.forEach((track,j)=>{
       if (track.trackType === "synth") {
-        track.sample = SCALES[scaleName][j]
+        track.sample = SCALES[scaleName][numSynthTracks]
+        numSynthTracks += 1
       }
     })
   }

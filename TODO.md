@@ -1,5 +1,6 @@
 * Next/prev beat should use same mechanism to switch beat as selecting beat in lineage (to avoid restarting during playback) - John
 * Fix tempo bug (when it's not 100) - investigate/bisect
+* Changing synth notes modifies keyboard (including during keyboard mutation)
 
 * Start on a random beat - Ian
 * Fix play individual beat bug - Ian
