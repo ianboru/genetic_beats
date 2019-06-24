@@ -26,16 +26,14 @@ const StyledLineage = styled.div`
   margin-bottom: 5px;
 `
 
-
-
 @observer
 class Lineage extends Component {
   handleClickPlayLineage = () => {
-    lineageViewStore.togglePlaying()
+    lineageViewStore.togglePlayLineage()
   }
 
-  handleClickPlay = (beatId) => {
-    lineageViewStore.togglePlayingBeat(beatId)
+  handleClickPlayBeat = (beatId, i) => {
+    lineageViewStore.togglePlayingBeat(beatId, i)
   }
 
   handleClickBeat = (beatId) => {
@@ -44,12 +42,13 @@ class Lineage extends Component {
 
   render() {
     const beatBlocks = this.props.beats.map( (beat, i) => {
+      console.log(beat, lineageViewStore.beatPlayingStates[beat.id])
       return (
         <BeatBlock
           index         = {i}
           key           = {i}
           beat          = {beat}
-          handleClickPlay = {() => {this.handleClickPlay(beat.id)}}
+          handleClickPlay = {() => {this.handleClickPlayBeat(beat.id, i)}}
           playing = {() => lineageViewStore.beatPlayingStates[beat.id]}
           familyBlock   = {true}
           handleClickBeat = {() => {this.handleClickBeat(beat.id)}}
@@ -59,7 +58,7 @@ class Lineage extends Component {
       )
     })
 
-    const PlayStopButton = lineageViewStore.playing ? MdStop : MdPlayArrow
+    const PlayStopButton = lineageViewStore.playingLineage ? MdStop : MdPlayArrow
 
     return (
       <StyledLineage>
