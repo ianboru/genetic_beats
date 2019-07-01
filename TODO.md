@@ -1,13 +1,10 @@
-* Changing synth notes modifies drumkit (including during keyboard mutation) - John
-* Mutating doesn't carry ratings forward
-
 * Fix tempo bug (when it's not 100) - investigate/bisect - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 
 * Fix weird play lineage behavior - Ian
 * Mutating doesn't carry ratings forward - Ian
 * Option to enforce monosynth - Ian
-* Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
+* Switch star rating to how much to change slider
 
 * Duplicate beat in lineage? - John
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
