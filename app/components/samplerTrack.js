@@ -71,17 +71,17 @@ class Track extends Component {
     const { trackNum } = this.props
 
     if (wasClicked) {
-      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
-    } else if (!wasClicked && wasOn && familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]) {
-      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
-    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]) {
-      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
+      familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
+    } else if (!wasClicked && wasOn && familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[noteNumber]) {
+      familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
+    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[noteNumber]) {
+      familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
     }
   }
 
   handleSampleChange = (e) => {
     const { trackNum } = this.props
-    familyStore.setSampleOnCurrentBeat(trackNum, e.target.value)
+    familyStore.setSampleOnCurrentBeat("drums", trackNum, e.target.value)
   }
 
   renderSamplePreviewer = () => {
@@ -140,7 +140,7 @@ class Track extends Component {
           onClick = {(e) => {
             this.setState({
               lastEntered : i,
-              lastClickedNoteWasOn: familyStore.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
+              lastClickedNoteWasOn: familyStore.currentBeat.sections.drums.tracks[this.props.trackNum].sequence[i] > 0,
             })
             this.handleNoteToggle(i,note,true)
           }}
@@ -217,7 +217,7 @@ class Track extends Component {
           <RemoveTrackButton
             className = "remove-track"
             title     = {"Delete track"}
-            onClick   = {() => {familyStore.removeTrackFromCurrentBeat(this.props.trackNum)}}
+            onClick   = {() => {familyStore.removeTrackFromCurrentBeat("drums", this.props.trackNum)}}
           ><MdDeleteForever/></RemoveTrackButton>
         </Column>
       </StyledTrack>

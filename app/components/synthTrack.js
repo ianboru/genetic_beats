@@ -70,7 +70,7 @@ const RemoveTrackButton = styled.span`
 `
 
 const StyledTrack = styled.div`
-  //width : 1000px; 
+  //width : 1000px;
   margin : 0 auto;
 `
 
@@ -86,17 +86,17 @@ class Track extends Component {
     const { trackNum } = this.props
 
     if (wasClicked) {
-      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
-    } else if (!wasClicked && wasOn && familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]) {
-      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
-    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.tracks[trackNum].sequence[noteNumber]) {
-      familyStore.toggleNoteOnCurrentBeat(trackNum, noteNumber)
+      familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
+    } else if (!wasClicked && wasOn && familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[noteNumber]) {
+      familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
+    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[noteNumber]) {
+      familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
     }
   }
 
   handleSampleChange = (e) => {
     const { trackNum } = this.props
-    familyStore.setSampleOnCurrentBeat(trackNum, e.target.value)
+    familyStore.setSampleOnCurrentBeat("keyboard", trackNum, e.target.value)
   }
 
   componentDidMount() {
@@ -115,7 +115,7 @@ class Track extends Component {
           onClick = {(e) => {
             this.setState({
               lastEntered : i,
-              lastClickedNoteWasOn: familyStore.currentBeat.tracks[this.props.trackNum].sequence[i] > 0,
+              lastClickedNoteWasOn: familyStore.currentBeat.sections.keyboard.tracks[this.props.trackNum].sequence[i] > 0,
             })
             this.handleNoteToggle(i,note,true)
           }}
@@ -156,7 +156,7 @@ class Track extends Component {
           >
             {track.sample}
           </SynthTrackName>
-        </KeyboardBody>    
+        </KeyboardBody>
       </Column>
 
       {notes}

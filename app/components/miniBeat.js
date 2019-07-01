@@ -8,12 +8,10 @@ import { MdAdd } from "react-icons/md"
 import Player from "./player"
 
 import Button from "./button"
-import ConfigControl from "./configControl"
 import Note from "./note"
 import PlayControls from "./playControls"
 import StarRating from "./starRating"
 import TempoControls from "./tempoControls"
-import Track from "./track"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
@@ -60,9 +58,7 @@ class MiniBeat extends Component {
   }
 
   render() {
-    const synthTracks = this.props.beat.tracks.filter(
-      (track) => track.trackType === "synth"
-    ).map( (track, i) => {
+    const synthTracks = this.props.beat.sections.keyboard.tracks.map( (track, i) => {
       return (
         <MiniTrack
           key         = {`${this.props.beat.id}.${i}`}
@@ -73,9 +69,7 @@ class MiniBeat extends Component {
       )
     })
 
-    const samplerTracks = this.props.beat.tracks.filter(
-      (track) => track.trackType === "sampler"
-    ).map( (track, i) => {
+    const samplerTracks = this.props.beat.sections.drums.tracks.map( (track, i) => {
       return (
         <MiniTrack
           key         = {`${this.props.beat.id}.${i}`}
@@ -95,7 +89,7 @@ class MiniBeat extends Component {
         <Player
           beat       = {this.props.beat}
           playing    = {this.props.playing}
-          resolution = {this.props.beat.tracks[0].sequence.length}
+          resolution = {familyStore.currentBeatResolution}
           setLitNote = {this.beatStore.setLitNote}
         />
       </StyledBeat>

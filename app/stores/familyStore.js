@@ -3,7 +3,6 @@ import shortid from "shortid"
 import {
   deepClone,
   generateFamilyName,
-  allNotesInRange,
   SCALES,
   starterSamples,
   completeScale,
@@ -62,9 +61,7 @@ class FamilyStore {
   }
 
   @computed get currentBeatResolution() {
-    if (this.currentBeat != null) {
-      return this.currentBeat.tracks[0].sequence.length
-    }
+    return BEAT_STEPS
   }
 
 
@@ -213,49 +210,20 @@ class FamilyStore {
     this.deleteBeatFromLineage(lastBeatIndex)
   }
 
-  @action addTrackToCurrentBeat = (trackType) => {
-    const steps = this.currentBeat.tracks[0].sequence.length
-    let sample
-
-    if (trackType === "sampler") {
-      const beatSamples = this.currentBeat.tracks.map( (track) => { return track.sample } )
-      const unusedSamples = Object.keys(store.samples).filter( (key) => {
-        const sample = store.samples[key]
-        return !beatSamples.includes(sample.path)
-      })
-      sample = unusedSamples[0]
-    } else if (trackType === "synth") {
-      sample = allNotesInRange[0]
-    }
-    // TODO move to ui control
-    const synthType = "square"
-    const sequence = Array(steps).fill(0)
-
-    let track = {sample, sequence, trackType, synthType}
-
-    if (this.numSolo > 0) {
-      track.mute = true
-    }
-    this.currentBeat.tracks.forEach((track) => {
-      playingStore.trackPreviewers[track.sample] = false
-    })
-    this.currentBeat.tracks.push(track)
-  }
-
-  @action toggleNoteOnCurrentBeat = (trackNum, note) => {
-    const newNote = this.currentBeat.tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    this.currentBeat.tracks[trackNum].sequence[note] = newNote
+  @action toggleNoteOnCurrentBeat = (section, trackNum, note) => {
+    const newNote = this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    this.currentBeat.sections[section].tracks[trackNum].sequence[note] = newNote
     this.updateFamilyInStorage()
     this.numEdits++
   }
 
-  @action setSampleOnCurrentBeat = (trackNum, sample) => {
-    this.currentBeat.tracks[trackNum].sample = sample
+  @action setSampleOnCurrentBeat = (section, trackNum, sample) => {
+    this.currentBeat.sections[section].tracks[trackNum].sample = sample
     this.updateFamilyInStorage()
   }
 
-  @action removeTrackFromCurrentBeat = (trackNum) => {
-    this.currentBeat.tracks.splice(trackNum, 1)
+  @action removeTrackFromCurrentBeat = (section, trackNum) => {
+    this.currentBeat.sections[section].tracks.splice(trackNum, 1)
     this.updateFamilyInStorage()
   }
 
@@ -272,19 +240,15 @@ class FamilyStore {
   @action setScale = (scaleName) => {
     this.currentBeat.scale = scaleName
     let numSynthTracks = 0
-    this.currentBeat.tracks.forEach((track,j)=>{
-      if (track.trackType === "synth") {
-        track.sample = SCALES[scaleName][numSynthTracks]
-        numSynthTracks += 1
-      }
+    this.currentBeat.sections.keyboard.tracks.forEach((track,j)=>{
+      track.sample = SCALES[scaleName][numSynthTracks]
+      numSynthTracks += 1
     })
   }
 
   @action setSynthType = (type) => {
-    this.currentBeat.tracks.forEach((track,j)=>{
-      if (track.trackType === "synth") {
-        track.synthType = type
-      }
+    this.currentBeat.sections.keyboard.tracks.forEach((track,j)=>{
+      track.synthType = type
     })
   }
 }

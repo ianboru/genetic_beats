@@ -4,8 +4,6 @@ import samples from "../samples"
 import {
   deepClone,
   generateFamilyName,
-  getNormalProbability,
-  calculateSampleDifference ,
 } from "../utils"
 
 import familyStore from "./familyStore"
@@ -18,21 +16,21 @@ class PlayingStore {
   //
   // STATE
   //
-  @observable tempo              = 100
-  @observable metronome          = false
-  @observable trackPreviewers    = {}
+  @observable tempo             = 100
+  @observable metronome         = false
+  @observable trackPreviewers   = {}
   @observable spaceButtonTarget = "currentBeat"
   @observable numSolo           = 0
-  @observable muteSampler     = false
+  @observable muteSampler       = false
   @observable muteSynth         = false
 
   //
   // ACTIONS
   //
-  @action toggleTrackPreviewer = (index)=> {
+  @action toggleTrackPreviewer = (index) => {
     this.trackPreviewers[index] = !this.trackPreviewers[index]
-    if(this.trackPreviewers[index]){
-      setTimeout(()=>{
+    if (this.trackPreviewers[index]) {
+      setTimeout(() => {
         this.toggleTrackPreviewer([index])
       }, 1000)
     }
@@ -46,64 +44,33 @@ class PlayingStore {
     this.metronome = !this.metronome
   }
 
-  @action nextBeat = () => {
-    this.unmuteUnsoloAll()
-    familyStore.incrementBeatNum("up")
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      this.trackPreviewers[track.sample] = false
-    })
+  @action toggleMuteSynth = () => {
+    this.muteSynth = !this.muteSynth
   }
 
-  @action prevBeat = () => {
-    this.unmuteUnsoloAll()
-    familyStore.incrementBeatNum("down")
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      this.trackPreviewers[track.sample] = false
-    })
+  @action toggleMuteSampler = () => {
+    this.muteSampler = !this.muteSampler
   }
-  @action toggleMuteSynth = ()=>{
-    this.muteSynth = !this.muteSynth 
-  }
-  @action toggleMuteSampler = ()=>{
-    this.muteSampler = !this.muteSampler 
-  }
+
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      track.mute = newState
-      if(newState){
-        track.solo = lastState
-      }
+    Object.keys(familyStore.currentBeat.sections).forEach( (sectionName) => {
+      familyStore.currentBeat.sections[sectionName].tracks.forEach( (track) => {
+        track.mute = newState
+        if (newState) {
+          track.solo = lastState
+        }
+      })
     })
-  }
-
-  @action toggleSoloAll = (lastState) => {
-    const newState = !lastState
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      track.solo = newState
-      if(newState){
-        track.mute = lastState
-      }
-    })
-    if(lastState){
-      this.numSolo = 0
-    }else{
-      this.numSolo = familyStore.currentBeat.tracks.length
-    }
   }
 
   @action muteUnsolod = () => {
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      if(!track.solo){
-        track.mute = true
-      }
-    })
-  }
-
-  @action unmuteUnsoloAll = () => {
-    familyStore.currentBeat.tracks.forEach((track)=>{
-      track.mute = false
-      track.solo = false
+    Object.keys(familyStore.currentBeat.sections).forEach( (sectionName) => {
+      familyStore.currentBeat.sections[sectionName].tracks.forEach( (track) => {
+        if (!track.solo) {
+          track.mute = true
+        }
+      })
     })
   }
 

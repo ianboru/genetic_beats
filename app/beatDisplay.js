@@ -8,12 +8,10 @@ import familyStore from "./stores/familyStore"
 import messageStore from "./stores/messageStore"
 
 import { colors } from "./colors"
-import { mutateBeat } from "./mutate"
 
 import BeatDetail from "./components/beatDetail"
 import Lineage from "./components/lineage"
 import Button from "./components/button"
-import MatingControls from "./components/matingControls"
 import Tooltip from "./components/tooltip"
 
 
@@ -35,10 +33,6 @@ class BeatDisplay extends Component {
 
     return (
       <div>
-        <div>
-          <MatingControls right view="beatDisplay" />
-        </div>
-
         <div style={{
           overflow   : "visible",
           background : colors.gray.darkest,

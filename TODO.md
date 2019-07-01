@@ -1,4 +1,5 @@
-* Changing synth notes modifies keyboard (including during keyboard mutation)
+* Changing synth notes modifies drumkit (including during keyboard mutation) - John
+* Mutating doesn't carry ratings forward
 
 * Fix tempo bug (when it's not 100) - investigate/bisect - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
@@ -46,7 +47,7 @@ Potentially really hard:
 * Simplify rating - 5 stars?
 * Visually separate musical sections, and give them different colors
 * Add back arrangement - as existing UI, or new single-view UI
-* Utility - beat diff metric 
+* Utility - beat diff metric
     * longer lines between beats in a lineage depending on how much change
     * Things that are too similar won't mate potentially
     * Learn what manual changes a user makes to improve their beats (or what changes they rate highly)

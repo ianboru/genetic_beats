@@ -5,8 +5,6 @@ import styled from "styled-components"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 
-import { allNotesInRange } from "../utils"
-
 
 const StyledSelect = styled.div`
   display: inline-block;

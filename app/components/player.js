@@ -41,33 +41,27 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, 
 })
 
 
-function loopProcessor(tracks, beatNotifier) {
+function loopProcessor(sections, beatNotifier) {
   return (time, index) => {
     let notes = {}
     const gainRange = 55
     const offSet = 37
     beatNotifier(index)
-    let finalTracks = tracks
-    if(playingStore.metronome){
-      finalTracks = [...tracks, metronomeTrack]
+    let samplerTracks = sections.drums.tracks
+    let synthTracks = sections.keyboard.tracks
+    //let finalSections = sections
+
+    if (playingStore.metronome) {
+      samplerTracks = [...samplerTracks, metronomeTrack]
     }
-    finalTracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
-      if(
-        (trackType === "sampler" && playingStore.muteSampler) ||
-        (trackType === "synth" && playingStore.muteSynth)
-      ){ return }
+
+    samplerTracks.forEach(({sample, mute, sequence, trackType}) => {
+      if (playingStore.muteSampler) { return }
       if (sequence[index] && !mute) {
         try {
-          if (trackType === "sampler") {
-            const player = samplePlayers.get(sample)
-            player.volume.value = store.samples[sample].gain*gainRange - offSet
-            player.start(time, 0, "1n", 0)
-          } else if (trackType === "synth") {
-            if (!notes[synthType]) {
-              notes[synthType] = []
-            }
-            notes[synthType].push(sample)
-          }
+          const player = samplePlayers.get(sample)
+          player.volume.value = store.samples[sample].gain*gainRange - offSet
+          player.start(time, 0, "1n", 0)
         } catch(e) {
           // We're most likely in a race condition where the new sample hasn't been loaded
           // just yet; silently ignore, it will resiliently catch up later.
@@ -75,6 +69,17 @@ function loopProcessor(tracks, beatNotifier) {
         }
       }
     })
+
+    samplerTracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
+      if (playingStore.muteSynth) { return }
+      if (sequence[index] && !mute) {
+        if (!notes[synthType]) {
+          notes[synthType] = []
+        }
+        notes[synthType].push(sample)
+      }
+    })
+
     Object.keys(synths).forEach( (synthType) => {
       if(notes[synthType]){
         synths[synthType].triggerAttackRelease(notes[synthType], "16n")
@@ -96,10 +101,10 @@ class Player extends Component {
   }
 
   createLoop = () => {
-    const tracks = this.props.beat.tracks
+    const sections = this.props.beat.sections
 
     const loop = new Tone.Sequence(
-      loopProcessor(tracks, this.beatNotifier),
+      loopProcessor(sections, this.beatNotifier),
       new Array(this.props.resolution).fill(0).map((_, i) => i),
       `${this.props.resolution}n`
     )
@@ -128,8 +133,8 @@ class Player extends Component {
       this.loop.stop()
     }
 
-    const tracks = this.props.beat.tracks
-    this.loop.callback = loopProcessor(tracks, this.beatNotifier)
+    const sections = this.props.beat.sections
+    this.loop.callback = loopProcessor(sections, this.beatNotifier)
   }
 
   beatNotifier = (index) => {
