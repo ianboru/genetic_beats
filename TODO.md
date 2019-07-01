@@ -1,10 +1,10 @@
 * Changing synth notes modifies keyboard (including during keyboard mutation)
-* Mutating doesn't carry ratings forward
 
 * Fix tempo bug (when it's not 100) - investigate/bisect - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 
-* Fix play individual beat bug - Ian
+* Fix weird play lineage behavior - Ian
+* Mutating doesn't carry ratings forward - Ian
 * Option to enforce monosynth - Ian
 * Set labels for stars AND/OR few stars OR diff set of words/buttons - Ian
 
