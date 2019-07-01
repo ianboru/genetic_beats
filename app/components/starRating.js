@@ -124,6 +124,14 @@ class StarRating extends Component {
       <StyledStarRating
         onMouseLeave={this.handleStarUnhover}
       >
+        <div style={{
+            display:"flex" , 
+            justifyContent : "space-between",
+            fontSize : "15px"
+          }} >
+          <span>Total Change</span>
+          <span>Minor Change</span>
+        </div>
         {stars}
       </StyledStarRating>
     )

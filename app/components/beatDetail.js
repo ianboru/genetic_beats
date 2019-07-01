@@ -386,14 +386,14 @@ class BeatDetail extends Component {
               <span style={{ display: "inline-block",width: "150px"}}>Scale :</span>{scaleSelect}
             </div>
 
-            <div style={{ marginBottom: 20, marginTop: 10 }}>
+            <div style={{ marginBottom: 20, marginTop: 10}}>
               <StarRating
                 score = {familyStore.currentBeat.synthScore}
                 handleSetScore = { (score) => {
                   familyStore.setSynthScore(score)
                 }}
               />
-              <Button width={150} onClick={this.handleMutateMelody}>Mutate Keyboard</Button>
+              <Button style={{ marginLeft: "10px"}} width={150} onClick={this.handleMutateMelody}>Mutate Keyboard</Button>
             </div>
             {this.renderSynthTracks(synthTracks)}
           </StyledSection>
@@ -413,7 +413,7 @@ class BeatDetail extends Component {
                   familyStore.setSamplerScore(score)
                 }}
               />
-              <Button width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
+              <Button style={{ marginLeft: "10px"}} width={150} onClick={this.handleMutateSampler}>Mutate Drums</Button>
             </div>
             {samplerTracks}
           </StyledSection>
