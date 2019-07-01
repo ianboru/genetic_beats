@@ -157,8 +157,8 @@ class FamilyStore {
     this.beats[id] = {
       ...deepClone(beat),
       id: id,
-      synthScore: 0,
-      samplerScore: 0,
+      synthScore: beat.synthScore,
+      samplerScore: beat.samplerScore,
     }
     this.currentBeatId = id
     this.addBeatToLineage(id)

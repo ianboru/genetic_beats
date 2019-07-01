@@ -54,11 +54,11 @@ class LineageGlobalViewStore {
     } else {
       this.stopPlayingAllBeats()
       console.log("turning back on")
-      this.beatPlayingStates[activeBeatId] = true
       this.playingBeatIndex = lineageIndex
+      this.beatPlayingStates[activeBeatId] = true
     }
     if (this.playingLineage) {
-      this.togglePlayLineage()
+      this.playingLineage = false
     }
   }
 
