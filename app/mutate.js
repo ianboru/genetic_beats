@@ -74,9 +74,6 @@ const mutateSampler = (originalBeat)=>{
     let playedTrackIndex = null
 
     newBeat.sections.drums.tracks.forEach((track,j)=>{
-      if (track.trackType === "synth") {
-        return
-      }
       if (!playedTrackIndex && track.sequence[i]){
         playedTrackIndex = j
       }

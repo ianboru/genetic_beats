@@ -11,7 +11,6 @@ import playingStore from "../stores/playingStore"
 
 import Note from "./note"
 import Tooltip from "./tooltip"
-import GainSlider from "./gainSlider"
 
 import DrumsetIcon from "../svg/drumset.svg"
 import SynthIcon from "../svg/synth.svg"
@@ -99,12 +98,6 @@ class Track extends Component {
     familyStore.setSampleOnCurrentBeat("keyboard", trackNum, e.target.value)
   }
 
-  componentDidMount() {
-    if (this.props.track.trackType === "sampler") {
-      this.samplePreviewer.volume = store.samples[this.props.track.sample].gain
-    }
-  }
-
   render() {
     const notes = this.props.track.sequence.map( (note, i) => {
       return (
@@ -140,18 +133,10 @@ class Track extends Component {
         <KeyboardBody>
           <SynthTrackName
             onClick={ () => {
-              if (track.trackType === "synth") {
-                let synth = new Tone.Synth({
-                  oscillator: { type: track.synthType },
-                }).toMaster()
-                synth.triggerAttackRelease(track.sample, "16n")
-              } else if (track.trackType === "sampler") {
-                var sampler = new Tone.Sampler({
-                  [track.sample]: store.samples[track.sample],
-                }, () => {
-                  sampler.triggerAttack(track.sample)
-                })
-              }
+              let synth = new Tone.Synth({
+                oscillator: { type: track.synthType },
+              }).toMaster()
+              synth.triggerAttackRelease(track.sample, "16n")
             }}
           >
             {track.sample}

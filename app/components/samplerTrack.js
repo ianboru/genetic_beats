@@ -86,48 +86,21 @@ class Track extends Component {
 
   renderSamplePreviewer = () => {
     const { track } = this.props
-    if (track.trackType === "synth") {
-      const synthType = track.synthType ? track.synthType : "sine"
-      return(
-        <span>
-          <button
-            style   = {{verticalAlign:"middle"}}
-            onClick = {() => {
-              if (track.trackType === "synth") {
-                let synth = new Tone.Synth({
-                  oscillator: { type: track.synthType },
-                }).toMaster()
-                synth.triggerAttackRelease(track.sample, "16n")
-              } else if (track.trackType === "sampler") {
-                var sampler = new Tone.Sampler({
-                  [track.sample]: store.samples[track.sample],
-                }, () => {
-                  sampler.triggerAttack(track.sample)
-                })
-              }
-            }}
-          >Play</button>
-        </span>
-      )
-    } else {
-      return (
-        <span>
-          <button
-            style   = {{verticalAlign:"middle"}}
-            onClick = {() => this.samplePreviewer.play()}
-          >Play</button>
-          <audio key={track.sample} ref={ref => this.samplePreviewer = ref}>
-            <source src={store.samples[track.sample].path}/>
-          </audio>
-        </span>
-      )
-    }
+    return (
+      <span>
+        <button
+          style   = {{verticalAlign:"middle"}}
+          onClick = {() => this.samplePreviewer.play()}
+        >Play</button>
+        <audio key={track.sample} ref={ref => this.samplePreviewer = ref}>
+          <source src={store.samples[track.sample].path}/>
+        </audio>
+      </span>
+    )
   }
 
   componentDidMount() {
-    if (this.props.track.trackType === "sampler") {
-      this.samplePreviewer.volume = store.samples[this.props.track.sample].gain
-    }
+    this.samplePreviewer.volume = store.samples[this.props.track.sample].gain
   }
 
   render() {
@@ -164,8 +137,7 @@ class Track extends Component {
         <Column>
           <StyledLeftButtons>
             {this.renderSamplePreviewer()}
-                <div style={trackNameStyles}>
-            {track.trackType === "sampler" ?
+            <div style={trackNameStyles}>
               <DrumsetIcon
                 height={25}
                 width={35}
@@ -174,22 +146,12 @@ class Track extends Component {
                   filter: "brightness(0) invert(1)",
                   padding: "0 5px 0 5px",
                 }}
-              /> :
-              <SynthIcon
-                height={25}
-                width={35}
-                style={{
-                  verticalAlign: "middle",
-                  filter: "brightness(0) invert(1)",
-                  padding: "0 5px 0 5px",
-                }}
               />
-            }
-            <SamplePicker
-              track = {track}
-              handleSampleChange = {this.handleSampleChange}
-            />
-          </div>
+              <SamplePicker
+                track = {track}
+                handleSampleChange = {this.handleSampleChange}
+              />
+            </div>
           </StyledLeftButtons>
         </Column>
 
@@ -212,7 +174,7 @@ class Track extends Component {
           <GainSlider
             sample    = {track.sample}
             synthType = {track.synthType}
-            trackType = {track.trackType}
+            trackType = {"drums"}
           />
           <RemoveTrackButton
             className = "remove-track"

@@ -134,7 +134,6 @@ class BeatDetail extends Component {
         track = {
           "sample": note,
           "sequence": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          "trackType": "synth",
           "synthType": "triangle"
         }
       }

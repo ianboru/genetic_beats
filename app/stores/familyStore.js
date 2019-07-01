@@ -128,7 +128,6 @@ class FamilyStore {
 
     let melodyTracks = scaleNotes.map( (note) => {
       return {
-        trackType : "synth",
         synthType : "triangle",
         sample    : note,
         sequence  : new Array(BEAT_STEPS).fill(0),
@@ -167,7 +166,6 @@ class FamilyStore {
       score  : 0,
       tracks : [
         {
-          trackType : "sampler",
           sample    : "samples/kick.wav",
           sequence  : (new Array(BEAT_STEPS).fill(0)),
           mute      : false,

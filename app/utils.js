@@ -19,20 +19,19 @@ const completeScale = (beat) => {
   beat = deepClone(beat)
   const beatNotes = []
   let synthType = "triangle"
-  beat.sections.keyboard.tracks.forEach((track)=>{
+  beat.sections.keyboard.tracks.forEach((track) => {
     beatNotes.push(track.sample)
     synthType = track.synthType
   })
   let scale
-  if(beat.scale){
+  if (beat.scale) {
     scale = SCALES[beat.scale]
-  }else{
+  } else {
     scale = SCALES["cmaj"]
   }
   const difference = [...scale].filter(note => !beatNotes.includes(note))
   difference.forEach((note)=>{
     beat.sections.keyboard.tracks.unshift({
-      trackType: "synth",
       synthType: synthType,
       sample: note,
       sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
@@ -86,7 +85,6 @@ const completeSamples = (beat) => {
   difference.forEach((sample) => {
     beat.sections.drums.tracks.push(
       {
-        trackType: "sampler",
         sample: sample,
         sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
         duration: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],

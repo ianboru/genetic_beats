@@ -7,7 +7,7 @@ import store from "../stores/store"
 @observer
 class GainSlider extends Component {
   handleGainChange = (e) => {
-    if(this.props.trackType == "synth"){
+    if (this.props.trackType == "synth") {
       store.setSynthGain(e.target.value / 100, this.props.synthType)
     }else{
       store.setGain(this.props.sample, e.target.value / 100)

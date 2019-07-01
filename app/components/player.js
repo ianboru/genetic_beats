@@ -13,7 +13,6 @@ const velocities = [
   1, .1, .75, .1,
 ]
 const metronomeTrack ={
-    trackType: "sampler",
     sample: "samples/clave.wav",
     sequence: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
     mute: false,
@@ -55,7 +54,7 @@ function loopProcessor(sections, beatNotifier) {
       samplerTracks = [...samplerTracks, metronomeTrack]
     }
 
-    samplerTracks.forEach(({sample, mute, sequence, trackType}) => {
+    samplerTracks.forEach(({sample, mute, sequence}) => {
       if (playingStore.muteSampler) { return }
       if (sequence[index] && !mute) {
         try {
@@ -70,7 +69,7 @@ function loopProcessor(sections, beatNotifier) {
       }
     })
 
-    samplerTracks.forEach(({sample, mute, sequence, synthType, trackType}) => {
+    synthTracks.forEach(({sample, mute, sequence, synthType}) => {
       if (playingStore.muteSynth) { return }
       if (sequence[index] && !mute) {
         if (!notes[synthType]) {
@@ -81,7 +80,7 @@ function loopProcessor(sections, beatNotifier) {
     })
 
     Object.keys(synths).forEach( (synthType) => {
-      if(notes[synthType]){
+      if (notes[synthType]) {
         synths[synthType].triggerAttackRelease(notes[synthType], "16n")
       }
       //TODO fixing gain
