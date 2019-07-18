@@ -1,8 +1,8 @@
+* Reenable all template beats
 * Fix tempo bug (when it's not 100) - investigate/bisect - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 
 * Fix weird play lineage behavior - Ian
-* Mutating doesn't carry ratings forward - Ian
 * Option to enforce monosynth - Ian
 * Switch star rating to how much to change slider
 
