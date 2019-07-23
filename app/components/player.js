@@ -42,14 +42,12 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, 
 
 function loopProcessor(sections, beatNotifier) {
   return (time, index) => {
-    console.log("LOOP", sections)
     let notes = {}
     const gainRange = 55
     const offSet = 37
     beatNotifier(index)
     let samplerTracks = sections.drums.tracks
     let synthTracks = sections.keyboard.tracks
-    //let finalSections = sections
 
     if (playingStore.metronome) {
       samplerTracks = [...samplerTracks, metronomeTrack]
@@ -117,9 +115,6 @@ class Player extends Component {
 
   componentDidMount() {
     this.disableTempoRx = reaction(() => playingStore.tempo, (tempo) => Tone.Transport.bpm.value = playingStore.tempo)
-    //if (this.props.playing) {
-      //this.loop.start()
-    //}
   }
 
   componentWillUnmount() {

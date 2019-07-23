@@ -42,9 +42,6 @@ class Lineage extends Component {
 
   render() {
     const beatBlocks = this.props.beats.map( (beat, i) => {
-      if(lineageViewStore.beatPlayingStates[beat.id]){
-        //console.log("playing", i, beat.id)
-      }
       return (
         <BeatBlock
           index         = {i}
