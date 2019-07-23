@@ -229,11 +229,15 @@ class BeatDetail extends Component {
               onClick={playingStore.toggleMuteSynth}
               active={playingStore.muteSynth}
             >M</MuteTrackButton>
-            <div>
-              <span style={{ display: "inline-block",width: "150px"}}>Waveform :</span>{synthTypeSelect}
+            <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
+              <span style={{ display: "inline-block",width: "150px"}}>monosynth</span>
+              <input style={{ fontSize : "15px"}} type="checkbox" onClick={familyStore.toggleMonosynth} checked={familyStore.currentBeat.sections.keyboard.monosynth}/>
             </div>
-            <div>
-              <span style={{ display: "inline-block",width: "150px"}}>Scale :</span>{scaleSelect}
+            <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
+              <span style={{ display: "inline-block",width: "150px"}}>Waveform </span>{synthTypeSelect}
+            </div>
+            <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
+              <span style={{ display: "inline-block",width: "150px"}}>Scale </span>{scaleSelect}
             </div>
 
             <div style={{ marginBottom: 20, marginTop: 10}}>

@@ -9,6 +9,7 @@ import {
   completeSamples
 } from "../utils"
 import store from "./store"
+import beatStore from "./BeatStore"
 import playingStore from "./playingStore"
 import messageStore from "./messageStore"
 import templateBeats from "../templateBeats"
@@ -45,7 +46,6 @@ class FamilyStore {
   @observable familyNames        = newFamilyNames
   @observable numMutations       = 0
   @observable numEdits           = 0
-
 
   //
   // COMPUTED
@@ -210,6 +210,14 @@ class FamilyStore {
 
   @action toggleNoteOnCurrentBeat = (section, trackNum, note) => {
     const newNote = this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    console.log( toJS(this.currentBeat), this.monosynth)
+    if( section == "keyboard" && this.currentBeat.sections.keyboard.monosynth){
+      this.currentBeat.sections[section].tracks.forEach((track, index)=>{
+        if(track.sequence[note] == 1 && trackNum != index ){
+          track.sequence[note] = 0
+        }
+      })
+    }
     this.currentBeat.sections[section].tracks[trackNum].sequence[note] = newNote
     this.updateFamilyInStorage()
     this.numEdits++
@@ -248,6 +256,9 @@ class FamilyStore {
     this.currentBeat.sections.keyboard.tracks.forEach((track,j)=>{
       track.synthType = type
     })
+  }
+  @action toggleMonosynth = () => {
+    this.currentBeat.sections.keyboard.monosynth = !this.currentBeat.sections.keyboard.monosynth
   }
 }
 

@@ -9,6 +9,7 @@ export default [{
           keyboard: {
             name: "keyboard",
             tracks: [],
+            monosynth : true,
           },
           drums: {
             name: "drums",
@@ -44,6 +45,7 @@ export default [{
         sections: {
           keyboard: {
             name: "keyboard",
+            monosynth : true,
             tracks: [{
                     synthType: "square",
                     sample: "c3",
