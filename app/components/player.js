@@ -48,7 +48,6 @@ function loopProcessor(sections, beatNotifier) {
     beatNotifier(index)
     let samplerTracks = sections.drums.tracks
     let synthTracks = sections.keyboard.tracks
-    //let finalSections = sections
 
     if (playingStore.metronome) {
       samplerTracks = [...samplerTracks, metronomeTrack]
@@ -107,6 +106,7 @@ class Player extends Component {
       new Array(this.props.resolution).fill(0).map((_, i) => i),
       `${this.props.resolution}n`
     )
+
     Tone.Transport.bpm.value = playingStore.tempo
     Tone.Transport.start()
 
@@ -115,9 +115,6 @@ class Player extends Component {
 
   componentDidMount() {
     this.disableTempoRx = reaction(() => playingStore.tempo, (tempo) => Tone.Transport.bpm.value = playingStore.tempo)
-    if (this.props.playing) {
-      this.loop.start()
-    }
   }
 
   componentWillUnmount() {

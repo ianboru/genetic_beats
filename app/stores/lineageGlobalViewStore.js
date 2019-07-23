@@ -42,13 +42,15 @@ class LineageGlobalViewStore {
     console.log("toggle lineage")
     this.playingLineage = !this.playingLineage
     this.stopPlayingAllBeats()
-    if (this.playingLineage){
-      this.startPlayingBeat()
+    if (this.playingLineage) {
+      this.incrementBeatTimer = new Tone.Loop(this.incrementPlayingBeat, "1m")
+      this.incrementBeatTimer.start("+1m")
+      this.beatPlayingStates[this.selectedBeatId] = true
     }
   }
 
   @action togglePlayingBeat = (activeBeatId, lineageIndex) => {
-    console.log("toggleing beat " ,activeBeatId,lineageIndex, this.beatPlayingStates[activeBeatId]) 
+    console.log("toggleing beat " ,activeBeatId,lineageIndex, this.beatPlayingStates[activeBeatId])
     if (this.beatPlayingStates[activeBeatId]) {
       this.stopPlayingAllBeats()
     } else {
@@ -62,7 +64,7 @@ class LineageGlobalViewStore {
     }
   }
 
-  @action incrementPlayingBeat = () => {
+  @action incrementPlayingBeat = (time) => {
     const prevBeatId = familyStore.lineage[this.playingBeatIndex]
     this.playingBeatIndex = (this.playingBeatIndex + 1) % familyStore.lineage.length
     if (prevBeatId) {
@@ -89,16 +91,7 @@ class LineageGlobalViewStore {
       this.incrementBeatTimer.cancel()
       this.incrementBeatTimer = null
     }
-  }
-
-  @action startPlayingBeat = () => {
-    this.incrementBeatTimer = new Tone.Event((time) => {
-      this.incrementPlayingBeat()
-    })
-    this.incrementBeatTimer.loop = true
-    this.incrementBeatTimer.start("+1m")
-
-    this.beatPlayingStates[this.selectedBeatId] = true
+    this.playingBeatIndex = 0
   }
 }
 
