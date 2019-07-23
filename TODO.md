@@ -3,7 +3,6 @@
 
 * Fix weird play lineage behavior - Ian
 * Mutating doesn't carry ratings forward - Ian
-* Option to enforce monosynth - Ian
 * Switch star rating to how much to change slider
 
 * Duplicate beat in lineage? - John
