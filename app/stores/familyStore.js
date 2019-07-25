@@ -60,6 +60,10 @@ class FamilyStore {
     return this.beats[this.currentBeatId]
   }
 
+  @computed get currentBeatIndex() {
+    return this.lineage.indexOf(this.currentBeatId)
+  }
+
   @computed get currentBeatResolution() {
     return BEAT_STEPS
   }
@@ -160,6 +164,19 @@ class FamilyStore {
     this.addBeatToLineage(id)
   }
 
+  @action newBeatAfterCurrentBeat = (beat) => {
+    const id = shortid.generate()
+    this.beats[id] = {
+      ...deepClone(beat),
+      id: id,
+      synthScore: beat.synthScore,
+      samplerScore: beat.samplerScore,
+    }
+
+    this.addBeatToLineage(id, this.currentBeatIndex+1)
+    this.currentBeatId = id
+  }
+
   @action newEmptyBeat = () => {
     this.newBeat({
       name   : "",
@@ -175,8 +192,12 @@ class FamilyStore {
     })
   }
 
-  @action addBeatToLineage = (beatId) => {
-    this.lineage.push(beatId)
+  @action addBeatToLineage = (beatId, atIndex) => {
+    if (atIndex) {
+      this.lineage.splice(atIndex, 0, beatId)
+    } else {
+      this.lineage.push(beatId)
+    }
   }
 
   @action setCurrentBeat = (beatId) => {

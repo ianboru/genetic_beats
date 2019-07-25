@@ -92,13 +92,13 @@ class BeatDetail extends Component {
 
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
-    const newBeatId = familyStore.newBeat(newBeat)
+    const newBeatId = familyStore.newBeatAfterCurrentBeat(newBeat)
     familyStore.incrementNumMutations()
   }
 
   handleMutateSampler = () => {
     const newBeat = mutateSampler(familyStore.currentBeat)
-    const newBeatID = familyStore.newBeat(newBeat)
+    const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
     familyStore.incrementNumMutations()
   }
 
