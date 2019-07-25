@@ -1,6 +1,7 @@
 * Reenable all template beats
 * Fix tempo bug (when it's not 100) - investigate/bisect - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
+* Consolidate BeatViewStore and BeatStore
 
 * Fix weird play lineage behavior - Ian
 * Switch star rating to how much to change slider

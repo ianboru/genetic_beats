@@ -39,7 +39,6 @@ class LineageGlobalViewStore {
   }
 
   @action togglePlayLineage = () => {
-    console.log("toggle lineage")
     this.playingLineage = !this.playingLineage
     this.stopPlayingAllBeats()
     if (this.playingLineage) {
@@ -50,12 +49,10 @@ class LineageGlobalViewStore {
   }
 
   @action togglePlayingBeat = (activeBeatId, lineageIndex) => {
-    console.log("toggleing beat " ,activeBeatId,lineageIndex, this.beatPlayingStates[activeBeatId])
     if (this.beatPlayingStates[activeBeatId]) {
       this.stopPlayingAllBeats()
     } else {
       this.stopPlayingAllBeats()
-      console.log("turning back on")
       this.playingBeatIndex = lineageIndex
       this.beatPlayingStates[activeBeatId] = true
     }
@@ -81,12 +78,9 @@ class LineageGlobalViewStore {
 
   // Left off here, this is really resetLineage
   @action stopPlayingAllBeats = () => {
-    console.log("stop playing ", this.playingBeatIndex,this.playingBeatId)
     if (this.playingBeatId) {
-      console.log("stopping")
       this.beatPlayingStates[this.playingBeatId] = false
     }
-    console.log(toJS(this.beatPlayingStates))
     if (this.incrementBeatTimer) {
       this.incrementBeatTimer.cancel()
       this.incrementBeatTimer = null

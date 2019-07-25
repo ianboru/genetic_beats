@@ -12,12 +12,14 @@ const velocities = [
   1, .1, .75, .1,
   1, .1, .75, .1,
 ]
+
 const metronomeTrack ={
     sample: "samples/clave.wav",
     sequence: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
     mute: false,
     solo: false,
 }
+
 // Set up sampler players
 const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
   return { ...acc, [k]: store.samples[k].path }
@@ -40,6 +42,11 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, 
 })
 
 
+Tone.Transport.bpm.value = playingStore.tempo
+Tone.Transport.start()
+
+
+
 function loopProcessor(sections, beatNotifier) {
   return (time, index) => {
     let notes = {}
@@ -58,7 +65,7 @@ function loopProcessor(sections, beatNotifier) {
       if (sequence[index] && !mute) {
         try {
           const player = samplePlayers.get(sample)
-          player.volume.value = store.samples[sample].gain*gainRange - offSet
+          player.volume.value = store.samples[sample].gain * gainRange - offSet
           player.start(time, 0, "1n", 0)
         } catch(e) {
           // We're most likely in a race condition where the new sample hasn't been loaded
@@ -83,7 +90,6 @@ function loopProcessor(sections, beatNotifier) {
         synths[synthType].triggerAttackRelease(notes[synthType], "16n")
       }
       //TODO fixing gain
-      //console.log("synth gain", store.synthGain, synthType)
       //synths[synthType].volume.value = store.synthGain*gainRange - offSet
     })
   }
@@ -106,9 +112,6 @@ class Player extends Component {
       new Array(this.props.resolution).fill(0).map((_, i) => i),
       `${this.props.resolution}n`
     )
-
-    Tone.Transport.bpm.value = playingStore.tempo
-    Tone.Transport.start()
 
     return loop
   }
