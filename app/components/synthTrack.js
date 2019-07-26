@@ -110,7 +110,6 @@ class Track extends Component {
           value = {note}
           activeNotes = {this.props.activeNotes}
           onClick = {(e) => {
-            console.log("click")
             this.setState({
               lastEntered : i,
               lastClickedNoteWasOn: familyStore.currentBeat.sections.keyboard.tracks[this.props.trackNum].sequence[i] > 0,
@@ -118,7 +117,6 @@ class Track extends Component {
             this.handleNoteToggle(i,note,true)
           }}
           onMouseOver = {(e) => {
-            console.log("mouse")
             if (e.buttons == 1 && this.state.lastEntered != i) {
               this.handleNoteToggle(i, this.state.lastClickedNoteWasOn, false)
               this.setState({

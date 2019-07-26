@@ -93,13 +93,11 @@ class BeatDetail extends Component {
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
     const newBeatId = familyStore.newBeatAfterCurrentBeat(newBeat)
-    familyStore.incrementNumMutations()
   }
 
   handleMutateSampler = () => {
     const newBeat = mutateSampler(familyStore.currentBeat)
     const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
-    familyStore.incrementNumMutations()
   }
 
   handleKillLastBeat = () => {
@@ -231,7 +229,7 @@ class BeatDetail extends Component {
             >M</MuteTrackButton>
             <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
               <span style={{ display: "inline-block",width: "150px"}}>monosynth</span>
-              <input style={{ fontSize : "15px"}} type="checkbox" onClick={familyStore.toggleMonosynth} checked={familyStore.currentBeat.sections.keyboard.monosynth}/>
+              <input style={{ fontSize : "15px"}} type="checkbox" onChange={familyStore.toggleMonosynth} checked={familyStore.currentBeat.sections.keyboard.monosynth}/>
             </div>
             <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
               <span style={{ display: "inline-block",width: "150px"}}>Waveform </span>{synthTypeSelect}

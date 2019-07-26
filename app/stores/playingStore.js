@@ -24,6 +24,8 @@ class PlayingStore {
   @observable muteSampler       = false
   @observable muteSynth         = false
 
+  @observable currentPlayingLineageBeat = 0
+
   //
   // ACTIONS
   //
@@ -50,6 +52,14 @@ class PlayingStore {
 
   @action toggleMuteSampler = () => {
     this.muteSampler = !this.muteSampler
+  }
+
+  @action incrementCurrentPlayingLineageBeat = () => {
+      this.currentPlayingLineageBeat++
+  }
+
+  @action resetCurrentPlayingLineageBeat = () => {
+      this.currentPlayingLineageBeat = 0
   }
 
   @action toggleMuteAll = (lastState) => {
