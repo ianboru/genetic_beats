@@ -82,7 +82,7 @@ class Lineage extends Component {
   handleClickPlayLineage = () => {
     if (this.lineage.state === "stopped") {
       this.setState({playing: true})
-      this.lineage.start()
+      this.lineage.start("+0.5")
     } else {
       this.setState({playing: false})
       playingStore.resetLineagePlayingBeatIndex()
