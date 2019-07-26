@@ -39,6 +39,12 @@ class Player extends Component {
     return loop
   }
 
+  componentDidMount() {
+    if (this.props.playing) {
+      this.loop.start()
+    }
+  }
+
   componentWillUnmount() {
     this.loop.stop()
     this.loop.dispose()

@@ -164,7 +164,7 @@ class FamilyStore {
     newBeat = completeScale(newBeat)
     newBeat = completeSamples(newBeat)
     newBeat = this.newBeat(newBeat)
-    this.addBeatToLineage(newBeat.id)
+    this.lineage[0] = newBeat.id
     this.currentBeatId = newBeat.id
   }
 
