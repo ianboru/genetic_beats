@@ -1,10 +1,16 @@
-"extends": "formidable/configurations/es6-react"
-"parser": "babel-eslint"
-"env":
-  "browser": true
-"rules":
-  "no-magic-numbers": 0
-  "react/sort-comp": 0
-  "comma-dangle": [2, "always-multiline"]
-  "jsx-quotes": [2, "prefer-double"]
-  "quotes": [2, "single",{"allowTemplateLiterals": true}]
+{
+  "extends": ["formidable/configurations/es6-react", "prettier", "plugin:prettier/recommended"],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "no-magic-numbers": 0,
+    "react/sort-comp": 0,
+    "comma-dangle": [2, "always-multiline"],
+    "jsx-quotes": [2, "prefer-double"],
+    "quotes": [2, "single", {"allowTemplateLiterals": true}],
+    "prettier/prettier": "error"
+  }
+}
