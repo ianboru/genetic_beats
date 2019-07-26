@@ -1,0 +1,7 @@
+conf/**
+core/**
+dist/**
+ops/**
+specs/**
+templates/**
+app/node_modules/**
