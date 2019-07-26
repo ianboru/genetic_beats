@@ -97,15 +97,13 @@ class Lineage extends Component {
     const beatBlocks = this.props.beats.map( (beat, i) => {
       return (
         <BeatBlock
-          index         = {i}
-          key           = {i}
-          beat          = {beat}
+          index       = {i}
+          key         = {i}
+          beat        = {beat}
+          playing     = {() => lineageViewStore.beatPlayingStates[beat.id]}
+          deleteBlock = {() => familyStore.deleteBeatFromLineage(i)}
           handleClickPlay = {() => {this.handleClickPlayBeat(beat.id, i)}}
-          playing = {() => lineageViewStore.beatPlayingStates[beat.id]}
-          familyBlock   = {true}
           handleClickBeat = {() => {this.handleClickBeat(beat.id)}}
-          templateBlock = {true}
-          deleteBlock   = {() => familyStore.deleteBeatFromLineage(i)}
         />
       )
     })

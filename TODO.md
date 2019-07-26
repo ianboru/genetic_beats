@@ -1,11 +1,6 @@
-* Fix tempo bug (when it's not 100) - investigate/bisect - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
-* Consolidate BeatViewStore and BeatStore
 * All Solo tracks can be enabled on drums
-
-* Fix weird play lineage behavior - Ian
 * Switch star rating to how much to change slider
-
 * Duplicate beat in lineage? - John
 * Add beat property which is a scale name/key (refers to scale in master list of scales) - John
 * volume section - Ian
@@ -17,17 +12,10 @@ Other:
 Design Needed:
 * Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)
 
-Potentially really hard:
-* Lineage playback seems to skip / stutter between beats sometimes
-
 
 * Live performance mode
 
 * Style play button/play controls for lineage
-
-* Refactor beat data structure so that it's an array of sections rather than an array of tracks
-    * each section is an array of tracks
-    * get its own rating, mute/solo, delete, mutate buttons
 
 * UI for sections:
     * also Mutate Rated Sections button
@@ -52,11 +40,8 @@ Potentially really hard:
 * Lock synth / samples
 * Checkbox to mutate various things - synth type, scale, percussion kit, etc.
 * Pull presets into workflow, or create new presets
-* Monophonic vs polyphonic synth
-* Enforce monophone in UX
 
 
-* Do new synth UI
 * Create intro graphic
 * A/B test rating thing
 

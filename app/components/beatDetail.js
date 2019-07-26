@@ -16,7 +16,6 @@ import SynthTrack from "./synthTrack"
 
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-import beatViewStore from "../stores/beatViewStore"
 import BeatStore from "../stores/BeatStore"
 
 import templateBeats from "../templateBeats"
@@ -83,7 +82,7 @@ class BeatDetail extends Component {
   }
 
   componentDidMount() {
-    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }})
+    this.disablePlayReaction = reaction(() => playingStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }})
   }
 
   componentWillUnmount() {
@@ -201,7 +200,7 @@ class BeatDetail extends Component {
       <StyledBeat>
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {beatViewStore.playing}
+          playing    = {playingStore.playing}
           resolution = {familyStore.currentBeatResolution}
           setLitNote = {this.store.setLitNote}
         />

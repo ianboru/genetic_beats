@@ -15,7 +15,7 @@ import Tooltip from "./tooltip"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
-import beatViewStore from "../stores/beatViewStore"
+import playingStore from "../stores/playingStore"
 
 const StyledPlayControls = styled.div`
   margin: 10px 28px;
@@ -46,7 +46,7 @@ class PlayControls extends Component {
       size,
     } = this.props
 
-    const PlayStopButton = beatViewStore.playing ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.playing ? MdStop : MdPlayArrow
     return (
       <StyledPlayControls>
         <Tooltip
@@ -64,7 +64,7 @@ class PlayControls extends Component {
         >
           <PlayStopButton
             size    = {size}
-            onClick = {beatViewStore.togglePlaying}
+            onClick = {playingStore.togglePlaying}
           />
         </Tooltip>
         <Tooltip

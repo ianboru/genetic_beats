@@ -5,7 +5,7 @@ import { observer } from "mobx-react"
 
 import BeatDisplay from "./beatDisplay"
 
-import beatViewStore from "./stores/beatViewStore"
+import playingStore from "./stores/playingStore"
 import familyStore from "./stores/familyStore"
 
 import "./index.css"
@@ -27,7 +27,7 @@ class App extends Component {
 
   handleKeyPress = (e) => {
     if (e.code == "Space") {
-      beatViewStore.togglePlaying()
+      playingStore.togglePlaying()
       e.preventDefault()
     } else if (e.code == "ArrowRight") {
       familyStore.nextBeatInLineage()

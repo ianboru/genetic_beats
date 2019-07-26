@@ -16,6 +16,7 @@ class PlayingStore {
   //
   // STATE
   //
+  @observable playing           = false
   @observable tempo             = 100
   @observable metronome         = false
   @observable trackPreviewers   = {}
@@ -29,6 +30,10 @@ class PlayingStore {
   //
   // ACTIONS
   //
+  @action togglePlaying = () => {
+    this.playing = !this.playing
+  }
+
   @action toggleTrackPreviewer = (index) => {
     this.trackPreviewers[index] = !this.trackPreviewers[index]
     if (this.trackPreviewers[index]) {
