@@ -3,16 +3,12 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import store from "./stores/store"
-import familyStore from "./stores/familyStore"
-import messageStore from "./stores/messageStore"
+import familyStore from "../stores/familyStore"
 
-import { colors } from "./colors"
+import { colors } from "../colors"
 
-import BeatDetail from "./components/beatDetail"
-import Lineage from "./components/lineage"
-import Button from "./components/button"
-import Tooltip from "./components/tooltip"
+import BeatDetail from "./beatDetail"
+import Lineage from "./lineage"
 
 
 @observer

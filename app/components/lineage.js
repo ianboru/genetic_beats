@@ -31,22 +31,22 @@ const StyledLineage = styled.div`
 
 function lineageProcessor(beatNotifier) {
   return (time, noteIndex) => {
-    const currentPlayingBeat = playingStore.currentPlayingLineageBeat
+    const playingBeatIndex = playingStore.lineagePlayingBeatIndex
 
-    const beatId = familyStore.lineage[currentPlayingBeat]
+    const beatId = familyStore.lineage[playingBeatIndex]
     const beat = familyStore.beats[beatId]
 
     let samplerTracks = beat.sections.drums.tracks
     let synthTracks = beat.sections.keyboard.tracks
 
-    beatNotifier(currentPlayingBeat, noteIndex)
+    beatNotifier(playingBeatIndex, noteIndex)
     playInstruments(time, noteIndex, samplerTracks, synthTracks)
 
     if (noteIndex === 15) {
-      playingStore.incrementCurrentPlayingLineageBeat()
+      playingStore.incrementLineagePlayingBeatIndex()
     }
-    if (playingStore.currentPlayingLineageBeat === familyStore.lineage.length) {
-      playingStore.resetCurrentPlayingLineageBeat()
+    if (playingStore.lineagePlayingBeatIndex === familyStore.lineage.length) {
+      playingStore.resetLineagePlayingBeatIndex()
     }
   }
 }
@@ -74,7 +74,7 @@ class Lineage extends Component {
       this.lineage.start()
     } else {
       this.setState({playing: false})
-      playingStore.resetCurrentPlayingLineageBeat()
+      playingStore.resetLineagePlayingBeatIndex()
       this.lineage.stop()
     }
   }
@@ -87,10 +87,8 @@ class Lineage extends Component {
     familyStore.setCurrentBeat(beatId)
   }
 
-  beatNotifier = (currentPlayingBeat, currentPlayingNote) => {
-    //if(this.props.setLitNote){
-      //this.props.setLitNote(index)
-    //}
+  beatNotifier = (playingBeatIndex, noteIndex) => {
+    const beatId = familyStore.lineage[playingBeatIndex]
   }
 
   render() {

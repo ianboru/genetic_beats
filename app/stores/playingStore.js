@@ -1,11 +1,5 @@
 import { action, configure, computed, observable, reaction, toJS } from "mobx"
 
-import samples from "../samples"
-import {
-  deepClone,
-  generateFamilyName,
-} from "../utils"
-
 import familyStore from "./familyStore"
 
 
@@ -16,31 +10,19 @@ class PlayingStore {
   //
   // STATE
   //
-  @observable playing           = false
-  @observable tempo             = 100
-  @observable metronome         = false
-  @observable trackPreviewers   = {}
-  @observable spaceButtonTarget = "currentBeat"
-  @observable numSolo           = 0
-  @observable muteSampler       = false
-  @observable muteSynth         = false
-
-  @observable currentPlayingLineageBeat = 0
+  @observable playing     = false
+  @observable tempo       = 100
+  @observable metronome   = false
+  @observable numSolo     = 0
+  @observable muteSampler = false
+  @observable muteSynth   = false
+  @observable lineagePlayingBeatIndex = 0
 
   //
   // ACTIONS
   //
   @action togglePlaying = () => {
     this.playing = !this.playing
-  }
-
-  @action toggleTrackPreviewer = (index) => {
-    this.trackPreviewers[index] = !this.trackPreviewers[index]
-    if (this.trackPreviewers[index]) {
-      setTimeout(() => {
-        this.toggleTrackPreviewer([index])
-      }, 1000)
-    }
   }
 
   @action setTempo = (tempo) => {
@@ -59,12 +41,12 @@ class PlayingStore {
     this.muteSampler = !this.muteSampler
   }
 
-  @action incrementCurrentPlayingLineageBeat = () => {
-      this.currentPlayingLineageBeat++
+  @action incrementLineagePlayingBeatIndex = () => {
+      this.lineagePlayingBeatIndex++
   }
 
-  @action resetCurrentPlayingLineageBeat = () => {
-      this.currentPlayingLineageBeat = 0
+  @action resetLineagePlayingBeatIndex = () => {
+      this.lineagePlayingBeatIndex = 0
   }
 
   @action toggleMuteAll = (lastState) => {

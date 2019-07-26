@@ -4,25 +4,12 @@ import { observer } from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import { MdAdd } from "react-icons/md"
 import Player from "./player"
 
-import Button from "./button"
-import Note from "./note"
-import PlayControls from "./playControls"
-import StarRating from "./starRating"
-import TempoControls from "./tempoControls"
-
-import store from "../stores/store"
 import familyStore from "../stores/familyStore"
-import playingStore from "../stores/playingStore"
 import BeatStore from "../stores/BeatStore"
 
 import { colors } from "../colors"
-
-import Column from "../styledComponents/column"
-import MuteTrackButton from "../styledComponents/muteTrackButton"
-import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 
 const lightGreen = chroma("lightgreen").darken(0.4)
@@ -38,16 +25,12 @@ const StyledBeat = styled.div`
   width: 220px;
 `
 
-const TableRow = styled.div`
-  display: table-row;
-  width: 100%;
-`
-
 
 @observer
 class MiniBeat extends Component {
   constructor(props) {
     super(props)
+
     this.beatStore = new BeatStore()
   }
 

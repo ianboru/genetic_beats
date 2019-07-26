@@ -5,10 +5,10 @@ import { observer } from "mobx-react"
 
 import BeatDisplay from "./beatDisplay"
 
-import playingStore from "./stores/playingStore"
-import familyStore from "./stores/familyStore"
+import playingStore from "../stores/playingStore"
+import familyStore from "../stores/familyStore"
 
-import "./index.css"
+import "../index.css"
 
 
 if (process.env.SENTRY_PUBLIC_DSN) {

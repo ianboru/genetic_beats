@@ -1,11 +1,8 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
-import { reaction, toJS } from "mobx"
 import Tone from "tone"
 
 import playInstruments from "../playInstruments"
-import playingStore from "../stores/playingStore"
-import store from "../stores/store"
 
 
 function loopProcessor(sections, beatNotifier) {
@@ -24,24 +21,16 @@ class Player extends Component {
   constructor(props) {
     super(props)
 
-    this.loop = this.createLoop()
-  }
-
-  createLoop = () => {
-    const sections = this.props.beat.sections
-
-    const loop = new Tone.Sequence(
-      loopProcessor(sections, this.beatNotifier),
-      new Array(this.props.resolution).fill(0).map((_, i) => i),
-      `${this.props.resolution}n`
+    this.loop = new Tone.Sequence(
+      loopProcessor(props.beat.sections, props.setLitNote),
+      new Array(props.resolution).fill(0).map((_, i) => i),
+      `${props.resolution}n`
     )
-
-    return loop
   }
 
   componentDidMount() {
     if (this.props.playing) {
-      this.loop.start()
+      this.loop.start("+0.5")
     }
   }
 
@@ -58,13 +47,7 @@ class Player extends Component {
     }
 
     const sections = this.props.beat.sections
-    this.loop.callback = loopProcessor(sections, this.beatNotifier)
-  }
-
-  beatNotifier = (index) => {
-    if(this.props.setLitNote){
-      this.props.setLitNote(index)
-    }
+    this.loop.callback = loopProcessor(sections, this.props.setLitNote)
   }
 
   render() {
