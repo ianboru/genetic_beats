@@ -7,7 +7,7 @@ import chroma from "chroma-js"
 import Player from "./player"
 
 import familyStore from "../stores/familyStore"
-import BeatStore from "../stores/BeatStore"
+import playingStore from "../stores/playingStore"
 
 import { colors } from "../colors"
 
@@ -28,16 +28,16 @@ const StyledBeat = styled.div`
 
 @observer
 class MiniBeat extends Component {
-  constructor(props) {
-    super(props)
-
-    this.beatStore = new BeatStore()
-  }
+  beatStore = playingStore.newBeatStore()
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.playing) {
       this.beatStore.clearLitNote()
     }
+  }
+
+  componentWillUnmount() {
+    playingStore.popBeatStore()
   }
 
   render() {

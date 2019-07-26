@@ -1,4 +1,4 @@
-import { action, configure, computed, observable, reaction, toJS } from "mobx"
+import { action, computed, observable, reaction, toJS } from "mobx"
 import shortid from "shortid"
 
 import {
@@ -36,7 +36,6 @@ class FamilyStore {
   //
   // OBSERVABLE
   //
-
   @observable lineage            = [firstBeatId]
   @observable currentBeatId      = firstBeatId
   @observable beats              = { ...templateBeatsMap }
@@ -46,7 +45,6 @@ class FamilyStore {
   //
   // COMPUTED
   //
-
   @computed get lineageBeats() {
     const thing = this.lineage.map( (beatId) => this.beats[beatId] )
     return thing
@@ -68,7 +66,6 @@ class FamilyStore {
   //
   // ACTIONS
   //
-
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
 

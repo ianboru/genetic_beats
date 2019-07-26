@@ -76,10 +76,7 @@ const StyledSection = styled.div`
 
 @observer
 class BeatDetail extends Component {
-  constructor(props) {
-    super(props)
-    this.store = new BeatStore()
-  }
+  store = new BeatStore()
 
   componentDidMount() {
     this.disablePlayReaction = reaction(() => playingStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }})

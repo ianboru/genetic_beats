@@ -29,19 +29,30 @@ const StyledLineage = styled.div`
 `
 
 
-function lineageProcessor(beatNotifier) {
+function lineageProcessor() {
   return (time, noteIndex) => {
     const playingBeatIndex = playingStore.lineagePlayingBeatIndex
-
     const beatId = familyStore.lineage[playingBeatIndex]
+
+    if (!beatId) {
+      playingStore.resetLineagePlayingBeatIndex()
+    }
+
     const beat = familyStore.beats[beatId]
 
     let samplerTracks = beat.sections.drums.tracks
     let synthTracks = beat.sections.keyboard.tracks
 
-    beatNotifier(playingBeatIndex, noteIndex)
+    playingStore.setLitNoteForBeat(playingBeatIndex, noteIndex)
     playInstruments(time, noteIndex, samplerTracks, synthTracks)
 
+    if (noteIndex === 0) {
+      let lastPlayingBeatIndex = playingBeatIndex - 1
+      if (lastPlayingBeatIndex < 0) {
+        lastPlayingBeatIndex = familyStore.lineage.length - 1
+      }
+      playingStore.clearLitNoteForBeat(lastPlayingBeatIndex)
+    }
     if (noteIndex === 15) {
       playingStore.incrementLineagePlayingBeatIndex()
     }
@@ -58,7 +69,7 @@ class Lineage extends Component {
     super(props)
 
     this.lineage = new Tone.Sequence(
-      lineageProcessor(this.beatNotifier),
+      lineageProcessor(),
       new Array(16).fill(0).map((_, i) => i),
       `16n`
     )
@@ -87,10 +98,6 @@ class Lineage extends Component {
     familyStore.setCurrentBeat(beatId)
   }
 
-  beatNotifier = (playingBeatIndex, noteIndex) => {
-    const beatId = familyStore.lineage[playingBeatIndex]
-  }
-
   render() {
     const beatBlocks = this.props.beats.map( (beat, i) => {
       return (
@@ -115,11 +122,14 @@ class Lineage extends Component {
             margin : "4px 8px",
             fontSize: 30,
           }}
-        >Lineage</h3>
-        <PlayStopButton
-          size    = {50}
-          onClick = {this.handleClickPlayLineage}
-        />
+        >
+          <PlayStopButton
+            size    = {50}
+            onClick = {this.handleClickPlayLineage}
+            style   = {{ verticalAlign: "middle" }}
+          />
+          Lineage
+        </h3>
         {beatBlocks}
       </StyledLineage>
     )

@@ -1,6 +1,7 @@
 import Raven from "raven-js"
 import React, { Component } from "react"
 import ReactFileReader from "react-file-reader"
+import { configure } from "mobx"
 import { observer } from "mobx-react"
 
 import BeatDisplay from "./beatDisplay"
@@ -14,6 +15,9 @@ import "../index.css"
 if (process.env.SENTRY_PUBLIC_DSN) {
   Raven.config(process.env.SENTRY_PUBLIC_DSN)
 }
+
+configure({ enforceActions: "always" })
+
 
 @observer
 class App extends Component {

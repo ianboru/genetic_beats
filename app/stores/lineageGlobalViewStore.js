@@ -1,4 +1,4 @@
-import { action, computed, reaction, observable, toJS } from "mobx"
+import { action, computed, observable, toJS } from "mobx"
 
 import familyStore from "./familyStore"
 
@@ -7,7 +7,6 @@ class LineageGlobalViewStore {
   //
   // STATE
   //
-
   @observable beatPlayingStates = {}
   @observable playingBeatIndex = 0
 
@@ -15,7 +14,6 @@ class LineageGlobalViewStore {
   //
   // COMPUTED
   //
-
   @computed get playingBeatId() {
     return familyStore.lineage[this.playingBeatIndex]
   }
@@ -24,7 +22,6 @@ class LineageGlobalViewStore {
   //
   // ACTIONS
   //
-
   @action togglePlayingBeat = (activeBeatId, lineageIndex) => {
     if (this.beatPlayingStates[activeBeatId]) {
       this.stopPlayingAllBeats()

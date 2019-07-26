@@ -60,11 +60,11 @@ class BeatBlock extends Component {
     const PlayStopButton = playing ? MdStop : MdPlayArrow
 
     const deleteButton = this.props.deleteBlock ? <DeleteBlockButton onClick={(e) => {
-          this.props.deleteBlock()
-          e.stopPropagation()
-        }}>
-          &times;
-        </DeleteBlockButton> : null
+        this.props.deleteBlock()
+        e.stopPropagation()
+      }}>
+        &times;
+      </DeleteBlockButton> : null
 
     return (
       <StyledBlock

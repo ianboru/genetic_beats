@@ -5,15 +5,10 @@ import Tone from "tone"
 
 import { MdDeleteForever } from "react-icons/md"
 
-import store from "../stores/store"
 import familyStore from "../stores/familyStore"
-import playingStore from "../stores/playingStore"
 
 import Note from "./note"
 import Tooltip from "./tooltip"
-
-import DrumsetIcon from "../svg/drumset.svg"
-import SynthIcon from "../svg/synth.svg"
 
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
@@ -84,15 +79,7 @@ class Track extends Component {
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
     const { trackNum } = this.props
 
-    // These conditionals are for click & drag logic to turn notes on or off
-    // `wasClicked` refers to first beat that was clicked, before dragging mouse
-    // over other beats. Second and third conditional handle cases of mousing
-    // over other notes after the initial click/toggle.
-    if (wasClicked) {
-      familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
-    } else if (!wasClicked && wasOn && familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[noteNumber]) {
-      familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
-    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[noteNumber]) {
+    if (wasClicked || (!!wasOn == !!familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[noteNumber])) {
       familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
     }
   }

@@ -1,9 +1,7 @@
-import { action, configure, computed, observable, reaction, toJS } from "mobx"
+import { action, computed, observable, toJS } from "mobx"
 
 import familyStore from "./familyStore"
-
-
-configure({ enforceActions: "always" })
+import BeatStore from "./BeatStore"
 
 
 class PlayingStore {
@@ -17,10 +15,29 @@ class PlayingStore {
   @observable muteSampler = false
   @observable muteSynth   = false
   @observable lineagePlayingBeatIndex = 0
+  @observable beatStores = []
 
   //
   // ACTIONS
   //
+  @action newBeatStore = () => {
+    const newBeatStore = new BeatStore()
+    this.beatStores.push(newBeatStore)
+    return newBeatStore
+  }
+
+  @action popBeatStore = () => {
+    delete this.beatStores.pop()
+  }
+
+  @action setLitNoteForBeat = (beatIndex, noteIndex) => {
+    this.beatStores[beatIndex].setLitNote(noteIndex)
+  }
+
+  @action clearLitNoteForBeat = (beatIndex) => {
+    this.beatStores[beatIndex].clearLitNote()
+  }
+
   @action togglePlaying = () => {
     this.playing = !this.playing
   }
@@ -42,11 +59,11 @@ class PlayingStore {
   }
 
   @action incrementLineagePlayingBeatIndex = () => {
-      this.lineagePlayingBeatIndex++
+    this.lineagePlayingBeatIndex++
   }
 
   @action resetLineagePlayingBeatIndex = () => {
-      this.lineagePlayingBeatIndex = 0
+    this.lineagePlayingBeatIndex = 0
   }
 
   @action toggleMuteAll = (lastState) => {
