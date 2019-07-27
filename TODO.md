@@ -1,11 +1,9 @@
 * Bug: Various play buttons aren't mutually exclusive anymore - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 * Switch star rating to how much to change slider - Luke
-* Section volume - Ian
+* Solo/Gain for each section (ian)
 * Bug: All tracks can be Soloed at same time for drums
 * Duplicate beat in lineage - John
-* Add beat property which is a scale name/key (refers to scale in master list of scales)
-* Leave minibeats with minimal borders?
 * Pick lineage playback up where it left off, allow selecting starting beat when it's not currently playing
 
 Design Needed:
@@ -14,11 +12,7 @@ Design Needed:
 
 * Live performance mode
 * Style play button/play controls for lineage
-* UI for sections:
-    * add Mutate Rated Sections button
-    * Mute/Solo/Gain for each section (remove mute/solo/gain per synth track)
-
-* Full piano UI
+  
 * Potentially:
   * show tooltip on Kill Last Beat to encourage using it when user rates a beat 5 or less
   * or only show the Kill Last Beat button when they rate the current beat 5 or less
@@ -27,7 +21,6 @@ Design Needed:
 * Utility - beat diff metric
     * longer lines between beats in a lineage depending on how much change
     * Learn what manual changes a user makes to improve their beats (or what changes they rate highly)
-* Checkboxes to mutate various things - synth type, scale, percussion kit, etc.
 
 
 High value and/or easy:
