@@ -100,7 +100,11 @@ class BeatDetail extends Component {
     const newBeat = mutateSampler(familyStore.currentBeat)
     const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
   }
-
+  handleMutateAllSections = () => {
+    let newBeat = mutateMelody(familyStore.currentBeat)
+    newBeat = mutateSampler(newBeat)
+    const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
+  }
   handleKillLastBeat = () => {
     familyStore.removeLastBeatFromLineage()
   }
@@ -157,7 +161,7 @@ class BeatDetail extends Component {
   handleSelectSynthType = (evt) => {
     familyStore.setSynthType(evt.target.value)
   }
-
+ 
   render() {
     const synthTracks = this.props.beat.sections.keyboard.tracks
     const samplerTracks = this.props.beat.sections.drums.tracks
@@ -233,6 +237,13 @@ class BeatDetail extends Component {
               New Random Beat
             </Button>
           )}
+          <Button
+              width={150}
+              color={["blue"]}
+              onClick={this.handleMutateAllSections}
+            >
+             Mutate Both Sections
+          </Button>
         </div>
 
         <StyledSectionWrapper>
