@@ -1,19 +1,18 @@
-import { action, computed, observable, toJS } from "mobx"
+import {action, computed, observable, toJS} from "mobx"
 
 import familyStore from "./familyStore"
 import BeatStore from "./BeatStore"
-
 
 class PlayingStore {
   //
   // STATE
   //
-  @observable playing     = false
-  @observable tempo       = 100
-  @observable metronome   = false
-  @observable numSolo     = 0
+  @observable playing = false
+  @observable tempo = 100
+  @observable metronome = false
+  @observable numSolo = 0
   @observable muteSampler = false
-  @observable muteSynth   = false
+  @observable muteSynth = false
   @observable lineagePlayingBeatIndex = 0
   @observable beatStores = []
 
@@ -68,8 +67,8 @@ class PlayingStore {
 
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
-    Object.keys(familyStore.currentBeat.sections).forEach( (sectionName) => {
-      familyStore.currentBeat.sections[sectionName].tracks.forEach( (track) => {
+    Object.keys(familyStore.currentBeat.sections).forEach((sectionName) => {
+      familyStore.currentBeat.sections[sectionName].tracks.forEach((track) => {
         track.mute = newState
         if (newState) {
           track.solo = lastState
@@ -79,8 +78,8 @@ class PlayingStore {
   }
 
   @action muteUnsolod = () => {
-    Object.keys(familyStore.currentBeat.sections).forEach( (sectionName) => {
-      familyStore.currentBeat.sections[sectionName].tracks.forEach( (track) => {
+    Object.keys(familyStore.currentBeat.sections).forEach((sectionName) => {
+      familyStore.currentBeat.sections[sectionName].tracks.forEach((track) => {
         if (!track.solo) {
           track.mute = true
         }
@@ -89,21 +88,21 @@ class PlayingStore {
   }
 
   @action handleMuteTrack = (track) => {
-    if(this.numSolo == 0){
+    if (this.numSolo == 0) {
       track.mute = !track.mute
     }
   }
 
   @action handleSoloTrack = (track) => {
     track.solo = !track.solo
-    if(track.solo){
+    if (track.solo) {
       ++this.numSolo
       track.mute = false
       this.muteUnsolod()
-    }else{
+    } else {
       --this.numSolo
       track.mute = true
-      if(this.numSolo == 0){
+      if (this.numSolo == 0) {
         this.toggleMuteAll(true)
       }
     }

@@ -1,9 +1,9 @@
-import React, { Component } from "react"
-import { observer } from "mobx-react"
+import React, {Component} from "react"
+import {observer} from "mobx-react"
 import styled from "styled-components"
 import Tone from "tone"
 
-import { MdDeleteForever } from "react-icons/md"
+import {MdDeleteForever} from "react-icons/md"
 
 import familyStore from "../stores/familyStore"
 
@@ -14,12 +14,11 @@ import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
 
-
 const KeyboardBody = styled.div`
   background: black;
   display: inline-block;
   text-align: right;
-  width : 300px;
+  width: 300px;
 `
 
 const SynthTrackName = styled.div`
@@ -44,7 +43,6 @@ const SynthTrackName = styled.div`
   }
 `
 
-
 const RemoveTrackButton = styled.span`
   color: white;
   cursor: pointer;
@@ -65,53 +63,61 @@ const RemoveTrackButton = styled.span`
 
 const StyledTrack = styled.div`
   //width : 1000px;
-  margin : 0 auto;
+  margin: 0 auto;
 `
-
 
 @observer
 class Track extends Component {
   state = {
-    lastClickedNoteWasOn : null,
-    lastEntered          : -1,
+    lastClickedNoteWasOn: null,
+    lastEntered: -1,
   }
 
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
-    const { trackNum } = this.props
+    const {trackNum} = this.props
 
-    if (wasClicked || (!!wasOn == !!familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[noteNumber])) {
+    if (
+      wasClicked ||
+      !!wasOn ==
+        !!familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[
+          noteNumber
+        ]
+    ) {
       familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
     }
   }
 
   handleSampleChange = (e) => {
-    const { trackNum } = this.props
+    const {trackNum} = this.props
     familyStore.setSampleOnCurrentBeat("keyboard", trackNum, e.target.value)
   }
 
   render() {
-    const notes = this.props.track.sequence.map( (note, i) => {
+    const notes = this.props.track.sequence.map((note, i) => {
       return (
         <Note
-          key   = {`${i}.${note}`}
-          value = {note}
-          activeNotes = {this.props.activeNotes}
-          onClick = {(e) => {
+          key={`${i}.${note}`}
+          value={note}
+          activeNotes={this.props.activeNotes}
+          onClick={(e) => {
             this.setState({
-              lastEntered : i,
-              lastClickedNoteWasOn: familyStore.currentBeat.sections.keyboard.tracks[this.props.trackNum].sequence[i] > 0,
+              lastEntered: i,
+              lastClickedNoteWasOn:
+                familyStore.currentBeat.sections.keyboard.tracks[
+                  this.props.trackNum
+                ].sequence[i] > 0,
             })
-            this.handleNoteToggle(i,note,true)
+            this.handleNoteToggle(i, note, true)
           }}
-          onMouseOver = {(e) => {
+          onMouseOver={(e) => {
             if (e.buttons == 1 && this.state.lastEntered != i) {
               this.handleNoteToggle(i, this.state.lastClickedNoteWasOn, false)
               this.setState({
-                lastEntered : i
+                lastEntered: i,
               })
             }
           }}
-          index   = {i}
+          index={i}
         />
       )
     })
@@ -119,29 +125,28 @@ class Track extends Component {
     const track = this.props.track
 
     return (
-    <StyledTrack>
-      <Column>
-        <KeyboardBody>
-          <SynthTrackName
-            onClick={ () => {
-              let synth = new Tone.Synth({
-                oscillator: { type: track.synthType },
-              }).toMaster()
-              synth.triggerAttackRelease(track.sample, "16n")
-            }}
-          >
-            {track.sample}
-          </SynthTrackName>
-        </KeyboardBody>
-      </Column>
+      <StyledTrack>
+        <Column>
+          <KeyboardBody>
+            <SynthTrackName
+              onClick={() => {
+                let synth = new Tone.Synth({
+                  oscillator: {type: track.synthType},
+                }).toMaster()
+                synth.triggerAttackRelease(track.sample, "16n")
+              }}
+            >
+              {track.sample}
+            </SynthTrackName>
+          </KeyboardBody>
+        </Column>
 
-      {notes}
+        {notes}
 
-      <Column textLeft />
+        <Column textLeft />
       </StyledTrack>
     )
   }
 }
-
 
 export default Track

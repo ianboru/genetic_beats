@@ -1,6 +1,5 @@
 const staticFilePath = "/static/"
 
-
 export default {
   "samples/6581__ST_012.wav": {
     name: "buzz1",
@@ -106,7 +105,7 @@ export default {
     category: "Bass Drum",
     path: staticFilePath + "samples/Kicks/Cymatics - Dubstep Kick 3 - E.wav",
     gain: 0.8,
-    gainCorrection: 0.50,
+    gainCorrection: 0.5,
     mute: false,
     solo: false,
   },

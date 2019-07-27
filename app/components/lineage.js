@@ -1,25 +1,23 @@
-import React, { Component } from "react"
-import { toJS } from "mobx"
+import React, {Component} from "react"
+import {toJS} from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 import Tone from "tone"
 
-import {
-  MdPlayArrow,
-  MdStop,
-} from "react-icons/md"
+import {MdPlayArrow, MdStop} from "react-icons/md"
 
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 import lineageViewStore from "../stores/lineageGlobalViewStore"
 
-import playInstruments from "../playInstruments"
+import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
-import { colors } from "../colors"
+import {colors} from "../colors"
 
-
-const bgColor = chroma(colors.green.lightest).alpha(1).rgba()
+const bgColor = chroma(colors.green.lightest)
+  .alpha(1)
+  .rgba()
 
 const StyledLineage = styled.div`
   border: 2px solid rgba(${bgColor.join(",")});
@@ -27,7 +25,6 @@ const StyledLineage = styled.div`
   padding: 10px 20px;
   margin-bottom: 5px;
 `
-
 
 function lineageProcessor() {
   return (time, noteIndex) => {
@@ -44,7 +41,7 @@ function lineageProcessor() {
     let synthTracks = beat.sections.keyboard.tracks
 
     playingStore.setLitNoteForBeat(playingBeatIndex, noteIndex)
-    playInstruments(time, noteIndex, samplerTracks, synthTracks)
+    scheduleInstruments(time, noteIndex, samplerTracks, synthTracks)
 
     if (noteIndex === 0) {
       let lastPlayingBeatIndex = playingBeatIndex - 1
@@ -62,7 +59,6 @@ function lineageProcessor() {
   }
 }
 
-
 @observer
 class Lineage extends Component {
   constructor(props) {
@@ -71,7 +67,7 @@ class Lineage extends Component {
     this.lineage = new Tone.Sequence(
       lineageProcessor(),
       new Array(16).fill(0).map((_, i) => i),
-      `16n`
+      `16n`,
     )
   }
 
@@ -99,16 +95,20 @@ class Lineage extends Component {
   }
 
   render() {
-    const beatBlocks = this.props.beats.map( (beat, i) => {
+    const beatBlocks = this.props.beats.map((beat, i) => {
       return (
         <BeatBlock
-          index       = {i}
-          key         = {i}
-          beat        = {beat}
-          playing     = {() => lineageViewStore.beatPlayingStates[beat.id]}
-          deleteBlock = {() => familyStore.deleteBeatFromLineage(i)}
-          handleClickPlay = {() => {this.handleClickPlayBeat(beat.id, i)}}
-          handleClickBeat = {() => {this.handleClickBeat(beat.id)}}
+          index={i}
+          key={i}
+          beat={beat}
+          playing={() => lineageViewStore.beatPlayingStates[beat.id]}
+          deleteBlock={() => familyStore.deleteBeatFromLineage(i)}
+          handleClickPlay={() => {
+            this.handleClickPlayBeat(beat.id, i)
+          }}
+          handleClickBeat={() => {
+            this.handleClickBeat(beat.id)
+          }}
         />
       )
     })
@@ -119,14 +119,18 @@ class Lineage extends Component {
       <StyledLineage>
         <h3
           style={{
-            margin : "4px 8px",
+            margin: "4px 8px",
             fontSize: 30,
           }}
         >
           <PlayStopButton
-            size    = {50}
-            onClick = {this.handleClickPlayLineage}
-            style   = {{ verticalAlign: "middle" }}
+            size={50}
+            onClick={this.handleClickPlayLineage}
+            style={{
+              marginLeft: -18,
+              verticalAlign: "middle",
+              color: "yellow",
+            }}
           />
           Lineage
         </h3>
@@ -135,6 +139,5 @@ class Lineage extends Component {
     )
   }
 }
-
 
 export default Lineage

@@ -1,13 +1,9 @@
-import React, { Component } from "react"
-import { observer } from "mobx-react"
+import React, {Component} from "react"
+import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 
-import {
-  MdStar,
-  MdStarBorder,
-} from "react-icons/md"
-
+import {MdStar, MdStarBorder} from "react-icons/md"
 
 const starSize = 28
 const NUM_STARS = 10
@@ -88,47 +84,51 @@ class StarRating extends Component {
   }
 
   handleStarHover = (e, i) => {
-    this.setState({ hover: i+1 })
+    this.setState({hover: i + 1})
   }
 
   handleStarUnhover = (e) => {
-    this.setState({ hover: null, tentative: null })
+    this.setState({hover: null, tentative: null})
   }
 
   handleTentativeClick = (e, i) => {
-    this.setState({ tentative: i+1 })
+    this.setState({tentative: i + 1})
   }
 
   render() {
-    const stars = Array(NUM_STARS).fill(0).map( (temp, i) => {
-      const hover = this.state.hover || 0
-      const score = this.props.score || this.state.tentative || 0
-      const dimmedColor = `rgba(${chroma(colors[i]).alpha(transparencyGradient[i] - 0.5).rgba()})`
-      const color       = `rgba(${chroma(colors[i]).alpha(transparencyGradient[i]).rgba()})`
+    const stars = Array(NUM_STARS)
+      .fill(0)
+      .map((temp, i) => {
+        const hover = this.state.hover || 0
+        const score = this.props.score || this.state.tentative || 0
+        const dimmedColor = `rgba(${chroma(colors[i])
+          .alpha(transparencyGradient[i] - 0.5)
+          .rgba()})`
+        const color = `rgba(${chroma(colors[i])
+          .alpha(transparencyGradient[i])
+          .rgba()})`
 
-      let props = {
-        key          : i,
-        size         : starSize,
-        color        : (i < hover || hover === 0) ? color : dimmedColor,
-        onMouseEnter : (e) => this.handleMouseEnter(e, i),
-        onMouseDown  : (e) => this.handleTentativeClick(e, i),
-        onMouseUp    : this.handleMouseUp,
-      }
+        let props = {
+          key: i,
+          size: starSize,
+          color: i < hover || hover === 0 ? color : dimmedColor,
+          onMouseEnter: (e) => this.handleMouseEnter(e, i),
+          onMouseDown: (e) => this.handleTentativeClick(e, i),
+          onMouseUp: this.handleMouseUp,
+        }
 
-      return (i < score) ?
-        <MdStar {...props} /> :
-        <MdStarBorder {...props} />
-    })
+        return i < score ? <MdStar {...props} /> : <MdStarBorder {...props} />
+      })
 
     return (
-      <StyledStarRating
-        onMouseLeave={this.handleStarUnhover}
-      >
-        <div style={{
-            display:"flex" , 
-            justifyContent : "space-between",
-            fontSize : "15px"
-          }} >
+      <StyledStarRating onMouseLeave={this.handleStarUnhover}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "15px",
+          }}
+        >
           <span>Total Change</span>
           <span>Minor Change</span>
         </div>
@@ -137,6 +137,5 @@ class StarRating extends Component {
     )
   }
 }
-
 
 export default StarRating

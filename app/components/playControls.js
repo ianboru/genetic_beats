@@ -1,13 +1,8 @@
-import React, { Component } from "react"
-import { observer } from "mobx-react"
+import React, {Component} from "react"
+import {observer} from "mobx-react"
 import styled from "styled-components"
 
-import {
-  MdPlayArrow,
-  MdSkipNext,
-  MdSkipPrevious,
-  MdStop,
-} from "react-icons/md"
+import {MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop} from "react-icons/md"
 
 import {colors} from "../colors"
 
@@ -33,48 +28,26 @@ const StyledPlayControls = styled.div`
   }
 `
 
-
 @observer
 class PlayControls extends Component {
-
   static defaultProps = {
     size: 50,
   }
 
   render() {
-    const {
-      size,
-    } = this.props
+    const {size} = this.props
 
     const PlayStopButton = playingStore.playing ? MdStop : MdPlayArrow
     return (
       <StyledPlayControls>
-        <Tooltip
-          position="top"
-          text="Previous Beat"
-        >
-          <MdSkipPrevious
-            size    = {size}
-            onClick = {familyStore.prevBeatInLineage}
-          />
+        <Tooltip position="top" text="Previous Beat">
+          <MdSkipPrevious size={size} onClick={familyStore.prevBeatInLineage} />
         </Tooltip>
-        <Tooltip
-          position="top"
-          text="Play / Stop"
-        >
-          <PlayStopButton
-            size    = {size}
-            onClick = {playingStore.togglePlaying}
-          />
+        <Tooltip position="top" text="Play / Stop">
+          <PlayStopButton size={size} onClick={playingStore.togglePlaying} />
         </Tooltip>
-        <Tooltip
-          position="top"
-          text="Next Beat"
-        >
-          <MdSkipNext
-            size    = {size}
-            onClick = {familyStore.nextBeatInLineage}
-          />
+        <Tooltip position="top" text="Next Beat">
+          <MdSkipNext size={size} onClick={familyStore.nextBeatInLineage} />
         </Tooltip>
       </StyledPlayControls>
     )

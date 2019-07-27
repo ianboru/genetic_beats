@@ -1,9 +1,12 @@
+* Bug: Various play buttons aren't mutually exclusive anymore - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 * Switch star rating to how much to change slider - Luke
 * Section volume - Ian
 * Bug: All tracks can be Soloed at same time for drums
 * Duplicate beat in lineage - John
 * Add beat property which is a scale name/key (refers to scale in master list of scales)
+* Leave minibeats with minimal borders?
+* Pick lineage playback up where it left off, allow selecting starting beat when it's not currently playing
 
 Design Needed:
 * Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)

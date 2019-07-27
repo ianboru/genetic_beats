@@ -1,9 +1,8 @@
 import chroma from "chroma-js"
 import styled from "styled-components"
 
-
 const MuteTrackButton = styled.span`
-  background-color: ${props => props.active ? "darkorange" : "gray" };
+  background-color: ${(props) => (props.active ? "darkorange" : "gray")};
   border-radius: 2px;
   border: 1px solid black;
   color: black;
@@ -16,9 +15,9 @@ const MuteTrackButton = styled.span`
   vertical-align: middle;
 
   &:hover {
-    background-color: ${props => props.active ? "darkorange" : chroma("darkorange").brighten() };
+    background-color: ${(props) =>
+      props.active ? "darkorange" : chroma("darkorange").brighten()};
   }
 `
-
 
 export default MuteTrackButton

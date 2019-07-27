@@ -1,18 +1,16 @@
-import { action, computed, observable, toJS } from "mobx"
+import {action, computed, observable, toJS} from "mobx"
 
 import samples from "../samples"
 
 import familyStore from "./familyStore"
 
-
 class Store {
   //
   // STATE
   //
-  @observable samples             = samples
-  @observable synthGain           = {'sine' : 0.5,'square' : 0.5}
-  @observable synthGainCorrection = {'sine' : 1, "square" : 2}
-
+  @observable samples = samples
+  @observable synthGain = {sine: 0.5, square: 0.5}
+  @observable synthGainCorrection = {sine: 1, square: 2}
 
   //
   // ACTIONS

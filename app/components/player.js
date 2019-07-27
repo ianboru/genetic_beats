@@ -1,9 +1,8 @@
-import React, { Component } from "react"
-import { observer } from "mobx-react"
+import React, {Component} from "react"
+import {observer} from "mobx-react"
 import Tone from "tone"
 
-import playInstruments from "../playInstruments"
-
+import scheduleInstruments from "../scheduleInstruments"
 
 function loopProcessor(sections, beatNotifier) {
   return (time, noteIndex) => {
@@ -11,10 +10,14 @@ function loopProcessor(sections, beatNotifier) {
     const synthTracks = sections.keyboard.tracks
 
     beatNotifier(noteIndex)
-    playInstruments(time, noteIndex, sections.drums.tracks, sections.keyboard.tracks)
+    scheduleInstruments(
+      time,
+      noteIndex,
+      sections.drums.tracks,
+      sections.keyboard.tracks,
+    )
   }
 }
-
 
 @observer
 class Player extends Component {
@@ -24,7 +27,7 @@ class Player extends Component {
     this.loop = new Tone.Sequence(
       loopProcessor(props.beat.sections, props.setLitNote),
       new Array(props.resolution).fill(0).map((_, i) => i),
-      `${props.resolution}n`
+      `${props.resolution}n`,
     )
   }
 
@@ -51,11 +54,8 @@ class Player extends Component {
   }
 
   render() {
-    return (
-      <div />
-    )
+    return <div />
   }
 }
-
 
 export default Player

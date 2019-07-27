@@ -1,8 +1,8 @@
-import React, { Component } from "react"
-import { observer } from "mobx-react"
+import React, {Component} from "react"
+import {observer} from "mobx-react"
 import styled from "styled-components"
 
-import { MdDeleteForever } from "react-icons/md"
+import {MdDeleteForever} from "react-icons/md"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
@@ -18,13 +18,11 @@ import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
 
-
 const trackNameStyles = {
-  display       : "inline-block",
-  width         : 225,
-  textAlign     : "left",
+  display: "inline-block",
+  width: 225,
+  textAlign: "left",
 }
-
 
 const RemoveTrackButton = styled.span`
   color: white;
@@ -45,47 +43,53 @@ const RemoveTrackButton = styled.span`
 `
 
 const StyledLeftButtons = styled.div`
-  width : 300px;
- display : inline-block;
- text-align : right;
-
+  width: 300px;
+  display: inline-block;
+  text-align: right;
 `
 
 const StyledTrack = styled.div`
-  margin : 0 auto;
+  margin: 0 auto;
 `
-
 
 @observer
 class Track extends Component {
   state = {
-    lastClickedNoteWasOn : null,
-    lastEntered          : -1,
+    lastClickedNoteWasOn: null,
+    lastEntered: -1,
   }
 
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
-    const { trackNum } = this.props
+    const {trackNum} = this.props
 
-    if (wasClicked || (!!wasOn == !!familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[noteNumber])) {
+    if (
+      wasClicked ||
+      !!wasOn ==
+        !!familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[
+          noteNumber
+        ]
+    ) {
       familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
     }
   }
 
   handleSampleChange = (e) => {
-    const { trackNum } = this.props
+    const {trackNum} = this.props
     familyStore.setSampleOnCurrentBeat("drums", trackNum, e.target.value)
   }
 
   renderSamplePreviewer = () => {
-    const { track } = this.props
+    const {track} = this.props
     return (
       <span>
         <button
-          style   = {{verticalAlign:"middle"}}
-          onClick = {() => this.samplePreviewer.play()}
-        >Play</button>
-        <audio key={track.sample} ref={ref => this.samplePreviewer = ref}>
-          <source src={store.samples[track.sample].path}/>
+          style={{verticalAlign: "middle"}}
+          onClick={() => this.samplePreviewer.play()}
+        >
+          Play
+        </button>
+        <audio key={track.sample} ref={(ref) => (this.samplePreviewer = ref)}>
+          <source src={store.samples[track.sample].path} />
         </audio>
       </span>
     )
@@ -96,28 +100,31 @@ class Track extends Component {
   }
 
   render() {
-    const notes = this.props.track.sequence.map( (note, i) => {
+    const notes = this.props.track.sequence.map((note, i) => {
       return (
         <Note
-          key   = {`${i}.${note}`}
-          value = {note}
-          activeNotes = {this.props.activeNotes}
-          onClick = {(e) => {
+          key={`${i}.${note}`}
+          value={note}
+          activeNotes={this.props.activeNotes}
+          onClick={(e) => {
             this.setState({
-              lastEntered : i,
-              lastClickedNoteWasOn: familyStore.currentBeat.sections.drums.tracks[this.props.trackNum].sequence[i] > 0,
+              lastEntered: i,
+              lastClickedNoteWasOn:
+                familyStore.currentBeat.sections.drums.tracks[
+                  this.props.trackNum
+                ].sequence[i] > 0,
             })
-            this.handleNoteToggle(i,note,true)
+            this.handleNoteToggle(i, note, true)
           }}
-          onMouseOver = {(e) => {
+          onMouseOver={(e) => {
             if (e.buttons == 1 && this.state.lastEntered != i) {
               this.handleNoteToggle(i, this.state.lastClickedNoteWasOn, false)
               this.setState({
-                lastEntered : i
+                lastEntered: i,
               })
             }
           }}
-          index   = {i}
+          index={i}
         />
       )
     })
@@ -140,8 +147,8 @@ class Track extends Component {
                 }}
               />
               <SamplePicker
-                track = {track}
-                handleSampleChange = {this.handleSampleChange}
+                track={track}
+                handleSampleChange={this.handleSampleChange}
               />
             </div>
           </StyledLeftButtons>
@@ -153,31 +160,45 @@ class Track extends Component {
           <Tooltip position="left" text="Mute">
             <MuteTrackButton
               active={track.mute}
-              onClick={() => {this.props.handleMuteTrack(track)}}
-            >M</MuteTrackButton>
+              onClick={() => {
+                this.props.handleMuteTrack(track)
+              }}
+            >
+              M
+            </MuteTrackButton>
           </Tooltip>
 
           <Tooltip position="right" text="Solo">
             <SoloTrackButton
               active={track.solo}
-              onClick={()=>{this.props.handleSoloTrack(track)}}
-            >S</SoloTrackButton>
+              onClick={() => {
+                this.props.handleSoloTrack(track)
+              }}
+            >
+              S
+            </SoloTrackButton>
           </Tooltip>
           <GainSlider
-            sample    = {track.sample}
-            synthType = {track.synthType}
-            trackType = {"drums"}
+            sample={track.sample}
+            synthType={track.synthType}
+            trackType={"drums"}
           />
           <RemoveTrackButton
-            className = "remove-track"
-            title     = {"Delete track"}
-            onClick   = {() => {familyStore.removeTrackFromCurrentBeat("drums", this.props.trackNum)}}
-          ><MdDeleteForever/></RemoveTrackButton>
+            className="remove-track"
+            title={"Delete track"}
+            onClick={() => {
+              familyStore.removeTrackFromCurrentBeat(
+                "drums",
+                this.props.trackNum,
+              )
+            }}
+          >
+            <MdDeleteForever />
+          </RemoveTrackButton>
         </Column>
       </StyledTrack>
     )
   }
 }
-
 
 export default Track

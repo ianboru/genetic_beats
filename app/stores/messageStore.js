@@ -1,5 +1,4 @@
-import { action, computed, observable, reaction, toJS } from "mobx"
-
+import {action, computed, observable, reaction, toJS} from "mobx"
 
 const MESSAGE_DURATION = 4000
 
@@ -14,17 +13,16 @@ class MessageStore {
   // ACTIONS
   //
 
-  @action addMessageToQueue(message){
+  @action addMessageToQueue(message) {
     this.messageQueue.push(message)
-    setTimeout(()=>{
+    setTimeout(() => {
       this.shiftMessageFromQueue()
     }, MESSAGE_DURATION)
   }
 
-  @action shiftMessageFromQueue(){
+  @action shiftMessageFromQueue() {
     this.messageQueue.shift()
   }
-
 }
 
 const messageStore = new MessageStore()

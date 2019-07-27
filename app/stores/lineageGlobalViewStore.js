@@ -1,7 +1,6 @@
-import { action, computed, observable, toJS } from "mobx"
+import {action, computed, observable, toJS} from "mobx"
 
 import familyStore from "./familyStore"
-
 
 class LineageGlobalViewStore {
   //
@@ -10,14 +9,12 @@ class LineageGlobalViewStore {
   @observable beatPlayingStates = {}
   @observable playingBeatIndex = 0
 
-
   //
   // COMPUTED
   //
   @computed get playingBeatId() {
     return familyStore.lineage[this.playingBeatIndex]
   }
-
 
   //
   // ACTIONS
@@ -40,8 +37,6 @@ class LineageGlobalViewStore {
   }
 }
 
-
 const lineageGlobalViewStore = new LineageGlobalViewStore()
-
 
 export default lineageGlobalViewStore

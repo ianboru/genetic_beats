@@ -1,4 +1,4 @@
-import { action, computed, observable, reaction, toJS } from "mobx"
+import {action, computed, observable, reaction, toJS} from "mobx"
 import shortid from "shortid"
 
 import {
@@ -6,11 +6,10 @@ import {
   generateFamilyName,
   SCALES,
   completeScale,
-  completeSamples
+  completeSamples,
 } from "../utils"
 
 import templateBeats from "../templateBeats"
-
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
@@ -19,34 +18,32 @@ newFamilyNames.push(newFamilyName)
 
 const BEAT_STEPS = 16
 
-
 let templateBeatsMap = {}
-templateBeats.map( (beat,i) => {
+templateBeats.map((beat, i) => {
   beat = completeScale(beat)
   beat = completeSamples(beat)
   beat.id = shortid.generate()
   templateBeats[i] = beat
   templateBeatsMap[beat.id] = beat
 })
-const randomBeatIndex = Math.floor(Math.random()*templateBeats.length)
+const randomBeatIndex = Math.floor(Math.random() * templateBeats.length)
 const firstBeatId = templateBeats[randomBeatIndex].id
-
 
 class FamilyStore {
   //
   // OBSERVABLE
   //
-  @observable lineage            = [firstBeatId]
-  @observable currentBeatId      = firstBeatId
-  @observable beats              = { ...templateBeatsMap }
-  @observable familyName         = newFamilyName
-  @observable familyNames        = newFamilyNames
+  @observable lineage = [firstBeatId]
+  @observable currentBeatId = firstBeatId
+  @observable beats = {...templateBeatsMap}
+  @observable familyName = newFamilyName
+  @observable familyNames = newFamilyNames
 
   //
   // COMPUTED
   //
   @computed get lineageBeats() {
-    const thing = this.lineage.map( (beatId) => this.beats[beatId] )
+    const thing = this.lineage.map((beatId) => this.beats[beatId])
     return thing
   }
 
@@ -62,28 +59,30 @@ class FamilyStore {
     return BEAT_STEPS
   }
 
-
   //
   // ACTIONS
   //
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
 
-    localStorage.setItem(this.familyName, JSON.stringify({
-      lineage : this.lineage,
-      beats   : this.beats,
-    }))
+    localStorage.setItem(
+      this.familyName,
+      JSON.stringify({
+        lineage: this.lineage,
+        beats: this.beats,
+      }),
+    )
   }
 
   @action nextBeatInLineage = () => {
     const currentBeatIndex = this.lineage.indexOf(this.currentBeatId)
-    const newCurrentBeatIndex = (currentBeatIndex+1) % this.lineage.length
+    const newCurrentBeatIndex = (currentBeatIndex + 1) % this.lineage.length
     this.currentBeatId = this.lineage[newCurrentBeatIndex]
   }
 
   @action prevBeatInLineage = () => {
     const currentBeatIndex = this.lineage.indexOf(this.currentBeatId)
-    let newIndex = currentBeatIndex-1
+    let newIndex = currentBeatIndex - 1
     if (newIndex < 0) {
       newIndex = this.lineage.length - 1
     }
@@ -109,10 +108,13 @@ class FamilyStore {
 
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
-    localStorage.setItem(this.familyName, JSON.stringify({
-      lineage : this.lineage,
-      beats   : this.beats,
-    }))
+    localStorage.setItem(
+      this.familyName,
+      JSON.stringify({
+        lineage: this.lineage,
+        beats: this.beats,
+      }),
+    )
   }
 
   @action newBeat = (beat) => {
@@ -128,7 +130,7 @@ class FamilyStore {
 
   @action newBeatAfterCurrentBeat = (beat) => {
     const newBeat = this.newBeat(beat)
-    this.addBeatToLineage(newBeat.id, this.currentBeatIndex+1)
+    this.addBeatToLineage(newBeat.id, this.currentBeatIndex + 1)
     this.currentBeatId = newBeat.id
   }
 
@@ -148,10 +150,10 @@ class FamilyStore {
     if (this.currentBeatId === this.lineage[index]) {
       if (this.lineage.length === 1) {
         // noop
-      } else if (index === this.lineage.length-1) {
-        this.currentBeatId = this.lineage[index-1]
+      } else if (index === this.lineage.length - 1) {
+        this.currentBeatId = this.lineage[index - 1]
       } else {
-        this.currentBeatId = this.lineage[index+1]
+        this.currentBeatId = this.lineage[index + 1]
       }
     }
     this.lineage.splice(index, 1)
@@ -171,10 +173,13 @@ class FamilyStore {
   }
 
   @action toggleNoteOnCurrentBeat = (section, trackNum, note) => {
-    const newNote = this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    if( section == "keyboard" && this.currentBeat.sections.keyboard.monosynth){
-      this.currentBeat.sections[section].tracks.forEach((track, index)=>{
-        if(track.sequence[note] == 1 && trackNum != index ){
+    const newNote =
+      this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0
+        ? 1
+        : 0
+    if (section == "keyboard" && this.currentBeat.sections.keyboard.monosynth) {
+      this.currentBeat.sections[section].tracks.forEach((track, index) => {
+        if (track.sequence[note] == 1 && trackNum != index) {
           track.sequence[note] = 0
         }
       })
@@ -206,24 +211,24 @@ class FamilyStore {
   @action setScale = (scaleName) => {
     this.currentBeat.scale = scaleName
     let numSynthTracks = 0
-    this.currentBeat.sections.keyboard.tracks.forEach((track,j)=>{
+    this.currentBeat.sections.keyboard.tracks.forEach((track, j) => {
       track.sample = SCALES[scaleName][numSynthTracks]
       numSynthTracks += 1
     })
   }
 
   @action setSynthType = (type) => {
-    this.currentBeat.sections.keyboard.tracks.forEach((track,j)=>{
+    this.currentBeat.sections.keyboard.tracks.forEach((track, j) => {
       track.synthType = type
     })
   }
 
   @action toggleMonosynth = () => {
-    this.currentBeat.sections.keyboard.monosynth = !this.currentBeat.sections.keyboard.monosynth
+    this.currentBeat.sections.keyboard.monosynth = !this.currentBeat.sections
+      .keyboard.monosynth
   }
 }
 
 const familyStore = new FamilyStore()
-
 
 export default familyStore
