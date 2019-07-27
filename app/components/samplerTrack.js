@@ -1,13 +1,11 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
 import styled from "styled-components"
-import Tone from "tone"
 
 import { MdDeleteForever } from "react-icons/md"
 
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
-import playingStore from "../stores/playingStore"
 
 import Note from "./note"
 import Tooltip from "./tooltip"
@@ -15,7 +13,6 @@ import GainSlider from "./gainSlider"
 import SamplePicker from "./samplePicker"
 
 import DrumsetIcon from "../svg/drumset.svg"
-import SynthIcon from "../svg/synth.svg"
 
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
@@ -56,7 +53,6 @@ const StyledLeftButtons = styled.div`
 
 const StyledTrack = styled.div`
   margin : 0 auto;
-  //width: 1000px;
 `
 
 
@@ -70,11 +66,7 @@ class Track extends Component {
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
     const { trackNum } = this.props
 
-    if (wasClicked) {
-      familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
-    } else if (!wasClicked && wasOn && familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[noteNumber]) {
-      familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
-    } else if (!wasClicked && !wasOn && !familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[noteNumber]) {
+    if (wasClicked || (!!wasOn == !!familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[noteNumber])) {
       familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
     }
   }

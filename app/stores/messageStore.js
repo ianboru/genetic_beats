@@ -1,7 +1,4 @@
-import { action, configure, computed, observable, reaction, toJS } from "mobx"
-
-
-configure({ enforceActions: "always" })
+import { action, computed, observable, reaction, toJS } from "mobx"
 
 
 const MESSAGE_DURATION = 4000

@@ -16,7 +16,6 @@ import SynthTrack from "./synthTrack"
 
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-import beatViewStore from "../stores/beatViewStore"
 import BeatStore from "../stores/BeatStore"
 
 import templateBeats from "../templateBeats"
@@ -77,13 +76,10 @@ const StyledSection = styled.div`
 
 @observer
 class BeatDetail extends Component {
-  constructor(props) {
-    super(props)
-    this.store = new BeatStore()
-  }
+  store = new BeatStore()
 
   componentDidMount() {
-    this.disablePlayReaction = reaction(() => beatViewStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }})
+    this.disablePlayReaction = reaction(() => playingStore.playing, (playing) => { if (!playing) { this.store.clearLitNote() }})
   }
 
   componentWillUnmount() {
@@ -93,13 +89,11 @@ class BeatDetail extends Component {
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
     const newBeatId = familyStore.newBeatAfterCurrentBeat(newBeat)
-    familyStore.incrementNumMutations()
   }
 
   handleMutateSampler = () => {
     const newBeat = mutateSampler(familyStore.currentBeat)
     const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
-    familyStore.incrementNumMutations()
   }
 
   handleKillLastBeat = () => {
@@ -203,7 +197,7 @@ class BeatDetail extends Component {
       <StyledBeat>
         <Player
           beat       = {familyStore.currentBeat}
-          playing    = {beatViewStore.playing}
+          playing    = {playingStore.playing}
           resolution = {familyStore.currentBeatResolution}
           setLitNote = {this.store.setLitNote}
         />
@@ -231,7 +225,7 @@ class BeatDetail extends Component {
             >M</MuteTrackButton>
             <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
               <span style={{ display: "inline-block",width: "150px"}}>monosynth</span>
-              <input style={{ fontSize : "15px"}} type="checkbox" onClick={familyStore.toggleMonosynth} checked={familyStore.currentBeat.sections.keyboard.monosynth}/>
+              <input style={{ fontSize : "15px"}} type="checkbox" onChange={familyStore.toggleMonosynth} checked={familyStore.currentBeat.sections.keyboard.monosynth}/>
             </div>
             <div style={{ width : "250px", margin : "0 auto", textAlign : "left"}} >
               <span style={{ display: "inline-block",width: "150px"}}>Waveform </span>{synthTypeSelect}

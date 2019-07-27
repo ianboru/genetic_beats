@@ -1,39 +1,45 @@
-import { action, configure, computed, observable, reaction, toJS } from "mobx"
-
-import samples from "../samples"
-import {
-  deepClone,
-  generateFamilyName,
-} from "../utils"
+import { action, computed, observable, toJS } from "mobx"
 
 import familyStore from "./familyStore"
-
-
-configure({ enforceActions: "always" })
+import BeatStore from "./BeatStore"
 
 
 class PlayingStore {
   //
   // STATE
   //
-  @observable tempo             = 100
-  @observable metronome         = false
-  @observable trackPreviewers   = {}
-  @observable spaceButtonTarget = "currentBeat"
-  @observable numSolo           = 0
-  @observable muteSampler       = false
-  @observable muteSynth         = false
+  @observable playing     = false
+  @observable tempo       = 100
+  @observable metronome   = false
+  @observable numSolo     = 0
+  @observable muteSampler = false
+  @observable muteSynth   = false
+  @observable lineagePlayingBeatIndex = 0
+  @observable beatStores = []
 
   //
   // ACTIONS
   //
-  @action toggleTrackPreviewer = (index) => {
-    this.trackPreviewers[index] = !this.trackPreviewers[index]
-    if (this.trackPreviewers[index]) {
-      setTimeout(() => {
-        this.toggleTrackPreviewer([index])
-      }, 1000)
-    }
+  @action newBeatStore = () => {
+    const newBeatStore = new BeatStore()
+    this.beatStores.push(newBeatStore)
+    return newBeatStore
+  }
+
+  @action popBeatStore = () => {
+    delete this.beatStores.pop()
+  }
+
+  @action setLitNoteForBeat = (beatIndex, noteIndex) => {
+    this.beatStores[beatIndex].setLitNote(noteIndex)
+  }
+
+  @action clearLitNoteForBeat = (beatIndex) => {
+    this.beatStores[beatIndex].clearLitNote()
+  }
+
+  @action togglePlaying = () => {
+    this.playing = !this.playing
   }
 
   @action setTempo = (tempo) => {
@@ -50,6 +56,14 @@ class PlayingStore {
 
   @action toggleMuteSampler = () => {
     this.muteSampler = !this.muteSampler
+  }
+
+  @action incrementLineagePlayingBeatIndex = () => {
+    this.lineagePlayingBeatIndex++
+  }
+
+  @action resetLineagePlayingBeatIndex = () => {
+    this.lineagePlayingBeatIndex = 0
   }
 
   @action toggleMuteAll = (lastState) => {

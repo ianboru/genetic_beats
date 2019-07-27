@@ -1,97 +1,17 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
-import { reaction, toJS } from "mobx"
-import store from "../stores/store"
-import playingStore from "../stores/playingStore"
 import Tone from "tone"
 
-
-const velocities = [
-  1, .1, .75, .1,
-  1, .1, .75, .1,
-  1, .1, .75, .1,
-  1, .1, .75, .1,
-]
-
-const metronomeTrack ={
-    sample: "samples/clave.wav",
-    sequence: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-    mute: false,
-    solo: false,
-}
-
-// Set up sampler players
-const urls = [{}, ...Object.keys(store.samples)].reduce( (acc, k) => {
-  return { ...acc, [k]: store.samples[k].path }
-})
-const samplePlayers = new Tone.Players(urls).toMaster()
-
-// Set up synth players
-const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce( (acc, synthData) => {
-  const synthType = synthData[0]
-  const gain = synthData[1]
-
-  //var reverb = new Tone.Reverb().toMaster();
-  //reverb.decay = 3
-  //reverb.generate()
-  const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
-  //synth.connect(reverb)
-  synth.set({ oscillator: { type: synthType }, })
-  synth.volume.value += gain
-  return { ...acc, [synthType]: synth }
-})
-
-
-Tone.Transport.bpm.value = playingStore.tempo
-Tone.Transport.start()
-
+import playInstruments from "../playInstruments"
 
 
 function loopProcessor(sections, beatNotifier) {
-  return (time, index) => {
-    let notes = {}
-    const gainRange = 55
-    const offSet = 37
-    beatNotifier(index)
-    let samplerTracks = sections.drums.tracks
-    let synthTracks = sections.keyboard.tracks
+  return (time, noteIndex) => {
+    const samplerTracks = sections.drums.tracks
+    const synthTracks = sections.keyboard.tracks
 
-    if (playingStore.metronome) {
-      samplerTracks = [...samplerTracks, metronomeTrack]
-    }
-
-    samplerTracks.forEach(({sample, mute, sequence}) => {
-      if (playingStore.muteSampler) { return }
-      if (sequence[index] && !mute) {
-        try {
-          const player = samplePlayers.get(sample)
-          player.volume.value = store.samples[sample].gain * gainRange - offSet
-          player.start(time, 0, "1n", 0)
-        } catch(e) {
-          // We're most likely in a race condition where the new sample hasn't been loaded
-          // just yet; silently ignore, it will resiliently catch up later.
-          console.error("ERROR", e)
-        }
-      }
-    })
-
-    synthTracks.forEach(({sample, mute, sequence, synthType}) => {
-      if (playingStore.muteSynth) { return }
-      if (sequence[index] && !mute) {
-        if (!notes[synthType]) {
-          notes[synthType] = []
-        }
-        notes[synthType].push(sample)
-      }
-    })
-
-    Object.keys(synths).forEach( (synthType) => {
-      if (notes[synthType]) {
-        synths[synthType].triggerAttackRelease(notes[synthType], "16n")
-      }
-      //TODO fixing gain
-      //synths[synthType].volume.value = store.synthGain*gainRange - offSet
-    })
+    beatNotifier(noteIndex)
+    playInstruments(time, noteIndex, sections.drums.tracks, sections.keyboard.tracks)
   }
 }
 
@@ -101,28 +21,22 @@ class Player extends Component {
   constructor(props) {
     super(props)
 
-    this.loop = this.createLoop()
-  }
-
-  createLoop = () => {
-    const sections = this.props.beat.sections
-
-    const loop = new Tone.Sequence(
-      loopProcessor(sections, this.beatNotifier),
-      new Array(this.props.resolution).fill(0).map((_, i) => i),
-      `${this.props.resolution}n`
+    this.loop = new Tone.Sequence(
+      loopProcessor(props.beat.sections, props.setLitNote),
+      new Array(props.resolution).fill(0).map((_, i) => i),
+      `${props.resolution}n`
     )
-
-    return loop
   }
 
   componentDidMount() {
-    this.disableTempoRx = reaction(() => playingStore.tempo, (tempo) => Tone.Transport.bpm.value = playingStore.tempo)
+    if (this.props.playing) {
+      this.loop.start("+0.5")
+    }
   }
 
   componentWillUnmount() {
-    this.disableTempoRx()
     this.loop.stop()
+    this.loop.dispose()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -133,19 +47,12 @@ class Player extends Component {
     }
 
     const sections = this.props.beat.sections
-    this.loop.callback = loopProcessor(sections, this.beatNotifier)
-  }
-
-  beatNotifier = (index) => {
-    if(this.props.setLitNote){
-      this.props.setLitNote(index)
-    }
+    this.loop.callback = loopProcessor(sections, this.props.setLitNote)
   }
 
   render() {
     return (
-      <div>
-      </div>
+      <div />
     )
   }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from "react"
+import { toJS } from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-
-import { toJS } from "mobx"
+import Tone from "tone"
 
 import {
   MdPlayArrow,
@@ -11,8 +11,10 @@ import {
 } from "react-icons/md"
 
 import familyStore from "../stores/familyStore"
+import playingStore from "../stores/playingStore"
 import lineageViewStore from "../stores/lineageGlobalViewStore"
 
+import playInstruments from "../playInstruments"
 import BeatBlock from "./beatBlock"
 import { colors } from "../colors"
 
@@ -26,10 +28,66 @@ const StyledLineage = styled.div`
   margin-bottom: 5px;
 `
 
+
+function lineageProcessor() {
+  return (time, noteIndex) => {
+    const playingBeatIndex = playingStore.lineagePlayingBeatIndex
+    const beatId = familyStore.lineage[playingBeatIndex]
+
+    if (!beatId) {
+      playingStore.resetLineagePlayingBeatIndex()
+    }
+
+    const beat = familyStore.beats[beatId]
+
+    let samplerTracks = beat.sections.drums.tracks
+    let synthTracks = beat.sections.keyboard.tracks
+
+    playingStore.setLitNoteForBeat(playingBeatIndex, noteIndex)
+    playInstruments(time, noteIndex, samplerTracks, synthTracks)
+
+    if (noteIndex === 0) {
+      let lastPlayingBeatIndex = playingBeatIndex - 1
+      if (lastPlayingBeatIndex < 0) {
+        lastPlayingBeatIndex = familyStore.lineage.length - 1
+      }
+      playingStore.clearLitNoteForBeat(lastPlayingBeatIndex)
+    }
+    if (noteIndex === 15) {
+      playingStore.incrementLineagePlayingBeatIndex()
+    }
+    if (playingStore.lineagePlayingBeatIndex === familyStore.lineage.length) {
+      playingStore.resetLineagePlayingBeatIndex()
+    }
+  }
+}
+
+
 @observer
 class Lineage extends Component {
+  constructor(props) {
+    super(props)
+
+    this.lineage = new Tone.Sequence(
+      lineageProcessor(),
+      new Array(16).fill(0).map((_, i) => i),
+      `16n`
+    )
+  }
+
+  state = {
+    playing: false,
+  }
+
   handleClickPlayLineage = () => {
-    lineageViewStore.togglePlayLineage()
+    if (this.lineage.state === "stopped") {
+      this.setState({playing: true})
+      this.lineage.start("+0.5")
+    } else {
+      this.setState({playing: false})
+      playingStore.resetLineagePlayingBeatIndex()
+      this.lineage.stop()
+    }
   }
 
   handleClickPlayBeat = (beatId, i) => {
@@ -44,20 +102,18 @@ class Lineage extends Component {
     const beatBlocks = this.props.beats.map( (beat, i) => {
       return (
         <BeatBlock
-          index         = {i}
-          key           = {i}
-          beat          = {beat}
+          index       = {i}
+          key         = {i}
+          beat        = {beat}
+          playing     = {() => lineageViewStore.beatPlayingStates[beat.id]}
+          deleteBlock = {() => familyStore.deleteBeatFromLineage(i)}
           handleClickPlay = {() => {this.handleClickPlayBeat(beat.id, i)}}
-          playing = {() => lineageViewStore.beatPlayingStates[beat.id]}
-          familyBlock   = {true}
           handleClickBeat = {() => {this.handleClickBeat(beat.id)}}
-          templateBlock = {true}
-          deleteBlock   = {() => familyStore.deleteBeatFromLineage(i)}
         />
       )
     })
 
-    const PlayStopButton = lineageViewStore.playingLineage ? MdStop : MdPlayArrow
+    const PlayStopButton = this.state.playing ? MdStop : MdPlayArrow
 
     return (
       <StyledLineage>
@@ -66,11 +122,14 @@ class Lineage extends Component {
             margin : "4px 8px",
             fontSize: 30,
           }}
-        >Lineage</h3>
-        <PlayStopButton
-          size    = {50}
-          onClick = {this.handleClickPlayLineage}
-        />
+        >
+          <PlayStopButton
+            size    = {50}
+            onClick = {this.handleClickPlayLineage}
+            style   = {{ verticalAlign: "middle" }}
+          />
+          Lineage
+        </h3>
         {beatBlocks}
       </StyledLineage>
     )

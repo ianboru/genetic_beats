@@ -1,11 +1,8 @@
-import { action, configure, computed, observable, toJS } from "mobx"
+import { action, computed, observable, toJS } from "mobx"
 
 import samples from "../samples"
 
 import familyStore from "./familyStore"
-
-
-configure({ enforceActions: "always" })
 
 
 class Store {

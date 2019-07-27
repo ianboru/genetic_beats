@@ -1,18 +1,16 @@
-import { action, configure, computed, observable, reaction, toJS } from "mobx"
+import { action, computed, observable, reaction, toJS } from "mobx"
 import shortid from "shortid"
+
 import {
   deepClone,
   generateFamilyName,
   SCALES,
-  starterSamples,
   completeScale,
   completeSamples
 } from "../utils"
-import store from "./store"
-import beatStore from "./BeatStore"
-import playingStore from "./playingStore"
-import messageStore from "./messageStore"
+
 import templateBeats from "../templateBeats"
+
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
@@ -38,19 +36,15 @@ class FamilyStore {
   //
   // OBSERVABLE
   //
-
   @observable lineage            = [firstBeatId]
   @observable currentBeatId      = firstBeatId
   @observable beats              = { ...templateBeatsMap }
   @observable familyName         = newFamilyName
   @observable familyNames        = newFamilyNames
-  @observable numMutations       = 0
-  @observable numEdits           = 0
 
   //
   // COMPUTED
   //
-
   @computed get lineageBeats() {
     const thing = this.lineage.map( (beatId) => this.beats[beatId] )
     return thing
@@ -72,11 +66,6 @@ class FamilyStore {
   //
   // ACTIONS
   //
-
-  @action incrementNumMutations() {
-    this.numMutations++
-  }
-
   @action updateFamilyInStorage = () => {
     localStorage.setItem("familyNames", JSON.stringify(newFamilyNames))
 
@@ -126,32 +115,6 @@ class FamilyStore {
     }))
   }
 
-  // TODO: This doesn't need to be in a store
-  @action newRandomMelody = (scale = "cmaj") => {
-    const scaleNotes = SCALES[scale]
-
-    let melodyTracks = scaleNotes.map( (note) => {
-      return {
-        synthType : "triangle",
-        sample    : note,
-        sequence  : new Array(BEAT_STEPS).fill(0),
-        duration: [0, 0, 0, 2, 0, 4, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0],
-      }
-    })
-
-    melodyTracks[0].sequence.forEach( (_, i) => {
-      if (Math.random() > 0.25) {
-        const noteIndex = Math.floor(Math.random() * scaleNotes.length)
-        melodyTracks[noteIndex].sequence[i] = 1
-      }
-    })
-
-    return {
-      name: "melody1",
-      tracks: melodyTracks,
-    }
-  }
-
   @action newBeat = (beat) => {
     const id = shortid.generate()
     this.beats[id] = {
@@ -160,36 +123,13 @@ class FamilyStore {
       synthScore: beat.synthScore,
       samplerScore: beat.samplerScore,
     }
-    this.currentBeatId = id
-    this.addBeatToLineage(id)
+    return this.beats[id]
   }
 
   @action newBeatAfterCurrentBeat = (beat) => {
-    const id = shortid.generate()
-    this.beats[id] = {
-      ...deepClone(beat),
-      id: id,
-      synthScore: beat.synthScore,
-      samplerScore: beat.samplerScore,
-    }
-
-    this.addBeatToLineage(id, this.currentBeatIndex+1)
-    this.currentBeatId = id
-  }
-
-  @action newEmptyBeat = () => {
-    this.newBeat({
-      name   : "",
-      score  : 0,
-      tracks : [
-        {
-          sample    : "samples/kick.wav",
-          sequence  : (new Array(BEAT_STEPS).fill(0)),
-          mute      : false,
-          solo      : false,
-        },
-      ],
-    })
+    const newBeat = this.newBeat(beat)
+    this.addBeatToLineage(newBeat.id, this.currentBeatIndex+1)
+    this.currentBeatId = newBeat.id
   }
 
   @action addBeatToLineage = (beatId, atIndex) => {
@@ -220,8 +160,9 @@ class FamilyStore {
   @action replaceFirstBeat = (newBeat) => {
     newBeat = completeScale(newBeat)
     newBeat = completeSamples(newBeat)
-    this.deleteBeatFromLineage(0)
-    this.newBeat(newBeat)
+    newBeat = this.newBeat(newBeat)
+    this.lineage[0] = newBeat.id
+    this.currentBeatId = newBeat.id
   }
 
   @action removeLastBeatFromLineage = () => {
@@ -231,7 +172,6 @@ class FamilyStore {
 
   @action toggleNoteOnCurrentBeat = (section, trackNum, note) => {
     const newNote = this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0 ? 1 : 0
-    console.log( toJS(this.currentBeat), this.monosynth)
     if( section == "keyboard" && this.currentBeat.sections.keyboard.monosynth){
       this.currentBeat.sections[section].tracks.forEach((track, index)=>{
         if(track.sequence[note] == 1 && trackNum != index ){
@@ -241,7 +181,6 @@ class FamilyStore {
     }
     this.currentBeat.sections[section].tracks[trackNum].sequence[note] = newNote
     this.updateFamilyInStorage()
-    this.numEdits++
   }
 
   @action setSampleOnCurrentBeat = (section, trackNum, sample) => {
@@ -278,6 +217,7 @@ class FamilyStore {
       track.synthType = type
     })
   }
+
   @action toggleMonosynth = () => {
     this.currentBeat.sections.keyboard.monosynth = !this.currentBeat.sections.keyboard.monosynth
   }

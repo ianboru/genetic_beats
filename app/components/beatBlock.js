@@ -3,16 +3,12 @@ import { toJS } from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-import { BrowserRouter as Router, Route, NavLink, Switch } from "react-router-dom"
 
 import {
   MdPlayArrow,
-  MdSkipNext,
-  MdSkipPrevious,
   MdStop,
 } from "react-icons/md"
 
-import familyStore from "../stores/familyStore"
 import MiniBeat from "./miniBeat"
 
 import { colors } from "../colors"
@@ -40,16 +36,6 @@ const StyledBlock = styled.div`
   }
 `
 
-const AddBlockButton = styled.div`
-  cursor: pointer;
-  display: inline-block;
-  font-size: 30px;
-
-  &:hover {
-    color: red;
-  }
-`
-
 const DeleteBlockButton = styled.div`
   position: absolute;
   top: 0;
@@ -67,30 +53,24 @@ const DeleteBlockButton = styled.div`
 @observer
 class BeatBlock extends Component {
   render() {
+    // Re-render any time anything in the beat changes
     const beat = deepClone(this.props.beat)
 
-    // `playing` is true under two conditions. the first is the "easy" way
-    // to get a beat to play (pass in playing={true} prop), the second
-    // is the more efficient way of playing, eg within an arrangement.
     let playing = this.props.playing()
-    if (this.props.beatPlayingStates && this.props.beatPlayingStates[this.props.arrangementKey]) {
-      playing = this.props.beatPlayingStates[this.props.arrangementKey]
-    }
-
     const PlayStopButton = playing ? MdStop : MdPlayArrow
 
     const deleteButton = this.props.deleteBlock ? <DeleteBlockButton onClick={(e) => {
-          this.props.deleteBlock()
-          e.stopPropagation()
-        }}>
-          &times;
-        </DeleteBlockButton> : null
+        this.props.deleteBlock()
+        e.stopPropagation()
+      }}>
+        &times;
+      </DeleteBlockButton> : null
 
     return (
       <StyledBlock
-        innerRef        = {this.props.innerRef}
-        selected        = {this.props.selected || playing}
-        onClick         = {this.props.handleClickBeat}
+        innerRef = {this.props.innerRef}
+        selected = {this.props.selected || playing}
+        onClick  = {this.props.handleClickBeat}
         {...this.props.draggableProps}
         {...this.props.dragHandleProps}
       >
@@ -101,9 +81,6 @@ class BeatBlock extends Component {
             style={{verticalAlign: "middle"}}
           />
           <span style={{verticalAlign: "middle", marginLeft: 5}}>{beat.key}</span>
-          <span style={{float: "right"}}>
-            {this.props.children}
-          </span>
         </div>
         <MiniBeat
           beat    = {beat}
