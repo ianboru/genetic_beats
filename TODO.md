@@ -1,4 +1,5 @@
 * Bug: Various play buttons aren't mutually exclusive anymore - John
+* Lineage can skip at beginning with lots of beats; investigate unnecessary re-rendering or other ways avoid skips - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 * Switch star rating to how much to change slider - Luke
 * Section volume - Ian

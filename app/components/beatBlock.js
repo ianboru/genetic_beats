@@ -16,8 +16,7 @@ const selectedColor = colors.gray.dark
 const StyledBlock = styled.div`
   border-radius: 3px;
   box-shadow: 1px 1px 4px 0px black;
-  //margin: 6px;
-  //border: 1px solid #333;
+  border: 1px solid #333;
   background-color: ${(props) => (props.selected ? selectedColor : "#1d1f27")};
   display: inline-block;
   height: 100%;
@@ -83,7 +82,11 @@ class BeatBlock extends Component {
             {beat.key}
           </span>
         </div>
-        <MiniBeat beat={beat} playing={playing} />
+        <MiniBeat 
+          beat     = {beat}
+          playing  = {playing}
+          altColor = {this.props.altColor}
+        />
         {deleteButton}
       </StyledBlock>
     )
