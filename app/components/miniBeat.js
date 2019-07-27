@@ -18,11 +18,7 @@ const lightestGreen = chroma("lightgreen").brighten(1.2)
 const StyledBeat = styled.div`
   display: table;
   position: relative;
-  margin: 0px auto;
   margin: 0;
-  //padding: 0 5px 6px;
-  passing: 0;
-  //width: 220px;
 `
 
 @observer
@@ -48,6 +44,7 @@ class MiniBeat extends Component {
             trackNum={i}
             track={track}
             activeNotes={this.beatStore.activeNotes}
+            altColor={this.props.altColor}
           />
         )
       },
@@ -61,6 +58,7 @@ class MiniBeat extends Component {
             trackNum={i}
             track={track}
             activeNotes={this.beatStore.activeNotes}
+            altColor={this.props.altColor}
           />
         )
       },
@@ -99,6 +97,7 @@ class MiniTrack extends Component {
           value={note}
           index={i}
           activeNotes={this.props.activeNotes}
+          altColor={this.props.altColor}
         />
       )
     })
@@ -112,10 +111,14 @@ const StyledNote = styled.div`
     props.active
       ? props.on
         ? lightestGreen
-        : "darkgray"
+        : props.altColor
+        ? "darkgray"
+        : chroma("darkgray").brighten(0.6)
       : props.on
       ? lightGreen
-      : "gray"};
+      : props.altColor
+      ? "gray"
+      : chroma("gray").brighten(0.6)};
   box-shadow: ${(props) => (props.on ? `0 0 2px 0px ${lightGreen}` : "none")};
   border-radius: 0px;
   border: 1px solid black;
@@ -140,6 +143,7 @@ class MiniNote extends Component {
       <StyledNote
         active={this.props.activeNotes[this.props.index].value}
         on={this.props.value === 1}
+        altColor={this.props.altColor}
         className="note"
       >
         &nbsp;

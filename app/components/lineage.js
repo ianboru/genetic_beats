@@ -78,7 +78,7 @@ class Lineage extends Component {
   handleClickPlayLineage = () => {
     if (this.lineage.state === "stopped") {
       this.setState({playing: true})
-      this.lineage.start("+0.5")
+      this.lineage.start()
     } else {
       this.setState({playing: false})
       playingStore.resetLineagePlayingBeatIndex()
@@ -101,6 +101,7 @@ class Lineage extends Component {
           index={i}
           key={i}
           beat={beat}
+          altColor={i % 2 == 1}
           playing={() => lineageViewStore.beatPlayingStates[beat.id]}
           deleteBlock={() => familyStore.deleteBeatFromLineage(i)}
           handleClickPlay={() => {

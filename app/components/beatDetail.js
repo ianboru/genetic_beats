@@ -161,7 +161,7 @@ class BeatDetail extends Component {
   handleSelectSynthType = (evt) => {
     familyStore.setSynthType(evt.target.value)
   }
- 
+
   render() {
     const synthTracks = this.props.beat.sections.keyboard.tracks
     const samplerTracks = this.props.beat.sections.drums.tracks
@@ -238,11 +238,11 @@ class BeatDetail extends Component {
             </Button>
           )}
           <Button
-              width={150}
-              color={["blue"]}
-              onClick={this.handleMutateAllSections}
-            >
-             Mutate Both Sections
+            width={150}
+            color={["blue"]}
+            onClick={this.handleMutateAllSections}
+          >
+            Mutate Both Sections
           </Button>
         </div>
 
