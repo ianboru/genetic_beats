@@ -82,10 +82,10 @@ class BeatBlock extends Component {
             {beat.key}
           </span>
         </div>
-        <MiniBeat 
-          beat     = {beat}
-          playing  = {playing}
-          altColor = {this.props.altColor}
+        <MiniBeat
+          beat={beat}
+          playing={playing}
+          altColor={this.props.altColor}
         />
         {deleteButton}
       </StyledBlock>

@@ -101,7 +101,7 @@ class Lineage extends Component {
           index={i}
           key={i}
           beat={beat}
-          altColor={i%2 == 1}
+          altColor={i % 2 == 1}
           playing={() => lineageViewStore.beatPlayingStates[beat.id]}
           deleteBlock={() => familyStore.deleteBeatFromLineage(i)}
           handleClickPlay={() => {

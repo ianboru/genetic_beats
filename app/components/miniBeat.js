@@ -111,12 +111,14 @@ const StyledNote = styled.div`
     props.active
       ? props.on
         ? lightestGreen
-        : props.altColor ?
-          "darkgray" : chroma("darkgray").brighten(0.6)
+        : props.altColor
+        ? "darkgray"
+        : chroma("darkgray").brighten(0.6)
       : props.on
-        ? lightGreen
-        : props.altColor ?
-          "gray" : chroma("gray").brighten(0.6)};
+      ? lightGreen
+      : props.altColor
+      ? "gray"
+      : chroma("gray").brighten(0.6)};
   box-shadow: ${(props) => (props.on ? `0 0 2px 0px ${lightGreen}` : "none")};
   border-radius: 0px;
   border: 1px solid black;
