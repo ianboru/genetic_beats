@@ -80,11 +80,13 @@ const compareTracksByNote = (first, second) => {
 const completeSamples = (beat) => {
   beat = deepClone(beat)
   const beatSamples = beat.sections.drums.tracks.map((track) => {
-    track.sample
+    return track.sample
   })
+  console.log("orign" ,beatSamples)
   const difference = [...starterSamples].filter(
     (sample) => !beatSamples.includes(sample),
   )
+  console.log("completing " ,difference)
   difference.forEach((sample) => {
     beat.sections.drums.tracks.push({
       sample: sample,

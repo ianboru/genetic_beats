@@ -295,7 +295,7 @@ export default [
           {
             sample: "d#3",
             sequence: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "square",
           },
         ],
       },
@@ -371,7 +371,7 @@ export default [
           {
             sample: "c3",
             sequence: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "square",
           },
           {
             sample: "b3",
@@ -423,12 +423,12 @@ export default [
           {
             sample: "b3",
             sequence: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "square",
           },
           {
             sample: "a3",
             sequence: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "square",
           },
           {
             sample: "e3",
@@ -438,7 +438,7 @@ export default [
           {
             sample: "d3",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-            synthType: "sine",
+            synthType: "square",
           },
         ],
       },
@@ -462,22 +462,22 @@ export default [
           {
             sample: "b3",
             sequence: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "triangle",
           },
           {
             sample: "a3",
             sequence: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "triangle",
           },
           {
             sample: "e3",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            synthType: "sine",
+            synthType: "triangle",
           },
           {
             sample: "c3",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-            synthType: "sine",
+            synthType: "triangle",
           },
         ],
       },
