@@ -47,7 +47,6 @@ const DeleteBlockButton = styled.div`
 @observer
 class BeatBlock extends Component {
   render() {
-    console.log("rendering")
     // Re-render any time anything in the beat changes
     const beat = deepClone(this.props.beat)
 

@@ -2,14 +2,13 @@ import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-import {reaction, toJS} from "mobx"
+import {reaction} from "mobx"
 
 import Player from "./player"
 
 import Button from "./button"
-import Note from "./note"
 import PlayControls from "./playControls"
-import StarRating from "./starRating"
+import RatingSlider from "./ratingSlider"
 import TempoControls from "./tempoControls"
 import SamplerTrack from "./samplerTrack"
 import SynthTrack from "./synthTrack"
@@ -23,7 +22,6 @@ import {colors} from "../colors"
 
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
-import SoloTrackButton from "../styledComponents/soloTrackButton"
 import {mutateMelody, mutateSampler} from "../mutate"
 import {SCALES, synthTypes} from "../utils"
 
@@ -282,7 +280,7 @@ class BeatDetail extends Component {
             </div>
 
             <div style={{marginBottom: 20, marginTop: 10}}>
-              <StarRating
+              <RatingSlider
                 score={familyStore.currentBeat.synthScore}
                 handleSetScore={(score) => {
                   familyStore.setSynthScore(score)
@@ -310,7 +308,7 @@ class BeatDetail extends Component {
               M
             </MuteTrackButton>
             <div style={{marginBottom: 20, marginTop: 10}}>
-              <StarRating
+              <RatingSlider
                 score={familyStore.currentBeat.samplerScore}
                 handleSetScore={(score) => {
                   familyStore.setSamplerScore(score)
