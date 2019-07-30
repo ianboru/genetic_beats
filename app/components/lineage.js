@@ -14,6 +14,7 @@ import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
 import {colors} from "../colors"
 
+
 const bgColor = chroma(colors.green.lightest)
   .alpha(1)
   .rgba()
@@ -24,6 +25,7 @@ const StyledLineage = styled.div`
   padding: 10px 20px;
   margin-bottom: 5px;
 `
+
 
 function lineageProcessor() {
   return (time, noteIndex) => {
@@ -103,6 +105,7 @@ class Lineage extends Component {
   }
 
   render() {
+    familyStore.currentBeatId
     const beatBlocks = this.props.beats.map((beat, i) => {
       return (
         <BeatBlock
@@ -110,6 +113,7 @@ class Lineage extends Component {
           key={i}
           beat={beat}
           altColor={i % 2 == 1}
+          selected={beat.id === familyStore.currentBeatId}
           playing={() => playingStore.beatPlayingStates[beat.id]}
           deleteBlock={() => familyStore.deleteBeatFromLineage(i)}
           handleClickPlay={() => {

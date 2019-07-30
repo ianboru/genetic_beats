@@ -3,6 +3,7 @@ import React, {Component} from "react"
 import ReactFileReader from "react-file-reader"
 import {configure} from "mobx"
 import {observer} from "mobx-react"
+import Tone from "tone"
 
 import BeatDisplay from "./beatDisplay"
 
@@ -21,6 +22,7 @@ configure({enforceActions: "always"})
 class App extends Component {
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyPress, false)
+    Tone.Transport.start()
   }
 
   componentWillUnmount = () => {

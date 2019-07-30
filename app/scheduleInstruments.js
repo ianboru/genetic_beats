@@ -5,8 +5,6 @@ import store from "./stores/store"
 import playingStore from "./stores/playingStore"
 
 Tone.Transport.bpm.value = playingStore.tempo
-Tone.Transport.start()
-
 const disableTempoRx = reaction(
   () => playingStore.tempo,
   (tempo) => (Tone.Transport.bpm.value = playingStore.tempo),

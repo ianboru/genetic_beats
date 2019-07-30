@@ -1,4 +1,5 @@
 * Bug: Various play buttons aren't mutually exclusive anymore - John
+* Bug: Start tone after user interaction (currently broken in Safari and Chrome)
 * Lineage can skip at beginning with lots of beats; investigate unnecessary re-rendering or other ways avoid skips - John
 * Actions at the bottom (rate, mutate), play at the bottom? - John
 * Switch star rating to how much to change slider - Luke
@@ -6,10 +7,28 @@
 * Bug: All tracks can be Soloed at same time for drums
 * Duplicate beat in lineage - John
 * Pick lineage playback up where it left off, allow selecting starting beat when it's not currently playing
+* Load lineage from local storage
+* Name lineage
+* Rename beats
+* Undo 1 (or more) beat deletes
+* Additional ocave
+* Fix duplicate samplers
+* Add custom sections
+* URL sharing
+
+Aryn Feedback
+* "kills the vibe" - developer blue, developer red, developer yellow, system blue (select dropdowns)
+* minibeat backgrounds: contrast between light gray and green is low
+* Move section controls to line across top potentially
+* Dot pattern across top of background, fade down ~300-500px
+* around sections: get rid of white bevel, make shadow more diffuse, use higher corner radius
+* light gray for titles of secondary things, labels, gain/delete icons
+* re-layout section controls
+* dropdowns: dark (but lighter than the background) with white/light text
+* background dot texture thing
 
 Design Needed:
 * Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)
-
 
 * Live performance mode
 * Style play button/play controls for lineage
