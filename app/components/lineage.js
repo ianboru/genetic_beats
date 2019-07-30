@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {toJS} from "mobx"
+import {reaction,toJS} from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
@@ -9,7 +9,6 @@ import {MdPlayArrow, MdStop} from "react-icons/md"
 
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
-import lineageViewStore from "../stores/lineageGlobalViewStore"
 
 import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
@@ -70,24 +69,33 @@ class Lineage extends Component {
       `16n`,
     )
   }
-
-  state = {
-    playing: false,
+  componentDidMount() {
+    this.disablePlayReaction = reaction(
+      () => playingStore.playingLineage,
+      (playing) => {
+        if (!playing) {
+          this.lineage.stop()
+        }
+      },
+    )
   }
 
+  componentWillUnmount() {
+    this.disablePlayReaction()
+  }
   handleClickPlayLineage = () => {
     if (this.lineage.state === "stopped") {
-      this.setState({playing: true})
+      playingStore.setPlayingLineage(true)
       this.lineage.start()
     } else {
-      this.setState({playing: false})
+      playingStore.setPlayingLineage(false)
       playingStore.resetLineagePlayingBeatIndex()
       this.lineage.stop()
     }
   }
 
   handleClickPlayBeat = (beatId, i) => {
-    lineageViewStore.togglePlayingBeat(beatId, i)
+    playingStore.togglePlayingBeat(beatId, i)
   }
 
   handleClickBeat = (beatId) => {
@@ -102,7 +110,7 @@ class Lineage extends Component {
           key={i}
           beat={beat}
           altColor={i % 2 == 1}
-          playing={() => lineageViewStore.beatPlayingStates[beat.id]}
+          playing={() => playingStore.beatPlayingStates[beat.id]}
           deleteBlock={() => familyStore.deleteBeatFromLineage(i)}
           handleClickPlay={() => {
             this.handleClickPlayBeat(beat.id, i)
@@ -114,7 +122,7 @@ class Lineage extends Component {
       )
     })
 
-    const PlayStopButton = this.state.playing ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.playingLineage ? MdStop : MdPlayArrow
 
     return (
       <StyledLineage>

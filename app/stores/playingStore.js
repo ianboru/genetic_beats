@@ -15,10 +15,47 @@ class PlayingStore {
   @observable muteSynth = false
   @observable lineagePlayingBeatIndex = 0
   @observable beatStores = []
+  @observable beatPlayingStates = {}
+  @observable playingBeatIndex = 0
+  @observable playingLineage = false
+  //
+  // ACTIONS
+  //
+  @computed get playingBeatId() {
+    return familyStore.lineage[this.playingBeatIndex]
+  }
 
   //
   // ACTIONS
   //
+
+  @action setPlayingLineage = (state) => {
+    this.playingLineage = state
+    this.stopPlayingAllBeats()
+    this.playing = false
+    console.log("setPlayingLineage")
+  }
+  @action togglePlayingBeat = (activeBeatId, lineageIndex) => {
+    console.log("toggle playing beat")
+    if (this.beatPlayingStates[activeBeatId]) {
+      this.stopPlayingAllBeats()
+    } else {
+      this.stopPlayingAllBeats()
+      this.playingBeatIndex = lineageIndex
+      this.beatPlayingStates[activeBeatId] = true
+    }
+    this.playingLineage = false
+    this.resetLineagePlayingBeatIndex()
+    this.playing = false
+  }
+
+  @action stopPlayingAllBeats = () => {
+
+    if (this.playingBeatId) {
+      this.beatPlayingStates[this.playingBeatId] = false
+    }
+    this.playingBeatIndex = 0
+  }
   @action newBeatStore = () => {
     const newBeatStore = new BeatStore()
     this.beatStores.push(newBeatStore)
@@ -37,7 +74,9 @@ class PlayingStore {
     this.beatStores[beatIndex].clearLitNote()
   }
 
-  @action togglePlaying = () => {
+  @action togglePlaying = (balls) => {
+    this.stopPlayingAllBeats()
+    this.playingLineage = false
     this.playing = !this.playing
   }
 
