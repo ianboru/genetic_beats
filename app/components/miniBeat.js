@@ -1,18 +1,12 @@
 import React, {Component} from "react"
-import {action, computed, observable, toJS} from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-
 import Player from "./player"
-
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 
-import {colors} from "../colors"
-
 const lightGreen = chroma("lightgreen").darken(0.4)
-const lighterGreen = chroma("lightgreen").brighten(0.4)
 const lightestGreen = chroma("lightgreen").brighten(1.2)
 
 const StyledBeat = styled.div`
@@ -138,7 +132,6 @@ const StyledNote = styled.div`
 @observer
 class MiniNote extends Component {
   render() {
-    const separator = this.props.index % 4 === 3
     return (
       <StyledNote
         active={this.props.activeNotes[this.props.index].value}

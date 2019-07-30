@@ -1,5 +1,6 @@
+/* eslint-disable max-statements */
 import React, {Component} from "react"
-import {reaction,toJS} from "mobx"
+import {reaction} from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
@@ -14,7 +15,6 @@ import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
 import {colors} from "../colors"
 
-
 const bgColor = chroma(colors.green.lightest)
   .alpha(1)
   .rgba()
@@ -26,8 +26,7 @@ const StyledLineage = styled.div`
   margin-bottom: 5px;
 `
 
-
-function lineageProcessor() {
+const lineageProcessor = function() {
   return (time, noteIndex) => {
     const playingBeatIndex = playingStore.lineagePlayingBeatIndex
     const beatId = familyStore.lineage[playingBeatIndex]
@@ -38,8 +37,8 @@ function lineageProcessor() {
 
     const beat = familyStore.beats[beatId]
 
-    let samplerTracks = beat.sections.drums.tracks
-    let synthTracks = beat.sections.keyboard.tracks
+    const samplerTracks = beat.sections.drums.tracks
+    const synthTracks = beat.sections.keyboard.tracks
 
     playingStore.setLitNoteForBeat(playingBeatIndex, noteIndex)
     scheduleInstruments(time, noteIndex, samplerTracks, synthTracks)
@@ -105,7 +104,6 @@ class Lineage extends Component {
   }
 
   render() {
-    familyStore.currentBeatId
     const beatBlocks = this.props.beats.map((beat, i) => {
       return (
         <BeatBlock

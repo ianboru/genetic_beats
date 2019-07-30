@@ -1,7 +1,5 @@
-import React, {Component} from "react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-
 import {colors} from "../colors"
 
 const buttonColor = colors.blue.base

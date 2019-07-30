@@ -1,5 +1,4 @@
-import {action, computed, observable, toJS} from "mobx"
-
+import {action, computed, observable} from "mobx"
 import familyStore from "./familyStore"
 import BeatStore from "./BeatStore"
 
@@ -33,10 +32,8 @@ class PlayingStore {
     this.playingLineage = state
     this.stopPlayingAllBeats()
     this.playing = false
-    console.log("setPlayingLineage")
   }
   @action togglePlayingBeat = (activeBeatId, lineageIndex) => {
-    console.log("toggle playing beat")
     if (this.beatPlayingStates[activeBeatId]) {
       this.stopPlayingAllBeats()
     } else {
@@ -50,7 +47,6 @@ class PlayingStore {
   }
 
   @action stopPlayingAllBeats = () => {
-
     if (this.playingBeatId) {
       this.beatPlayingStates[this.playingBeatId] = false
     }
@@ -74,7 +70,7 @@ class PlayingStore {
     this.beatStores[beatIndex].clearLitNote()
   }
 
-  @action togglePlaying = (balls) => {
+  @action togglePlaying = () => {
     this.stopPlayingAllBeats()
     this.playingLineage = false
     this.playing = !this.playing
@@ -127,7 +123,7 @@ class PlayingStore {
   }
 
   @action handleMuteTrack = (track) => {
-    if (this.numSolo == 0) {
+    if (this.numSolo === 0) {
       track.mute = !track.mute
     }
   }
@@ -141,7 +137,7 @@ class PlayingStore {
     } else {
       --this.numSolo
       track.mute = true
-      if (this.numSolo == 0) {
+      if (this.numSolo === 0) {
         this.toggleMuteAll(true)
       }
     }

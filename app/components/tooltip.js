@@ -1,16 +1,11 @@
 import React, {Component} from "react"
 import styled from "styled-components"
-import chroma from "chroma-js"
-
-import {colors} from "../colors"
 
 // CSS arrow technique from: http://www.cssarrowplease.com/
 //const color = "#303030"
 const color = "black"
 const width = 10
 const borderColor = "#aaa"
-const borderWidth = 4
-const position = "top"
 
 const opposite = {
   bottom: "top",

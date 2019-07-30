@@ -2,17 +2,9 @@ import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import Tone from "tone"
-
-import {MdDeleteForever} from "react-icons/md"
-
 import familyStore from "../stores/familyStore"
-
 import Note from "./note"
-import Tooltip from "./tooltip"
-
 import Column from "../styledComponents/column"
-import MuteTrackButton from "../styledComponents/muteTrackButton"
-import SoloTrackButton from "../styledComponents/soloTrackButton"
 
 const KeyboardBody = styled.div`
   background: black;
@@ -43,24 +35,6 @@ const SynthTrackName = styled.div`
   }
 `
 
-const RemoveTrackButton = styled.span`
-  color: white;
-  cursor: pointer;
-  font-size: 30px;
-  margin-left: 5px;
-  margin-right: 10px;
-  position: relative;
-  top: -12px;
-  height: 15px;
-  width: 15px;
-  display: inline-block;
-  vertical-align: middle;
-
-  &:hover {
-    color: red;
-  }
-`
-
 const StyledTrack = styled.div`
   //width : 1000px;
   margin: 0 auto;
@@ -78,7 +52,7 @@ class Track extends Component {
 
     if (
       wasClicked ||
-      !!wasOn ==
+      !!wasOn ===
         !!familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[
           noteNumber
         ]
@@ -110,7 +84,7 @@ class Track extends Component {
             this.handleNoteToggle(i, note, true)
           }}
           onMouseOver={(e) => {
-            if (e.buttons == 1 && this.state.lastEntered != i) {
+            if (e.buttons === 1 && this.state.lastEntered !== i) {
               this.handleNoteToggle(i, this.state.lastClickedNoteWasOn, false)
               this.setState({
                 lastEntered: i,
@@ -130,7 +104,7 @@ class Track extends Component {
           <KeyboardBody>
             <SynthTrackName
               onClick={() => {
-                let synth = new Tone.Synth({
+                const synth = new Tone.Synth({
                   oscillator: {type: track.synthType},
                 }).toMaster()
                 synth.triggerAttackRelease(track.sample, "16n")

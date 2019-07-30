@@ -1,13 +1,8 @@
 import React, {Component} from "react"
-import {toJS} from "mobx"
 import {observer} from "mobx-react"
 import styled from "styled-components"
-import chroma from "chroma-js"
-
 import {MdPlayArrow, MdStop} from "react-icons/md"
-
 import MiniBeat from "./miniBeat"
-
 import {colors} from "../colors"
 import {deepClone} from "../utils"
 
@@ -47,11 +42,10 @@ const DeleteBlockButton = styled.div`
 @observer
 class BeatBlock extends Component {
   render() {
-    console.log("rendering")
     // Re-render any time anything in the beat changes
     const beat = deepClone(this.props.beat)
 
-    let playing = this.props.playing()
+    const playing = this.props.playing()
     const PlayStopButton = playing ? MdStop : MdPlayArrow
 
     const deleteButton = this.props.deleteBlock ? (
@@ -90,4 +84,5 @@ class BeatBlock extends Component {
     )
   }
 }
+
 export default BeatBlock

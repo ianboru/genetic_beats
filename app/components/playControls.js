@@ -1,14 +1,8 @@
 import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
-
 import {MdPlayArrow, MdSkipNext, MdSkipPrevious, MdStop} from "react-icons/md"
-
-import {colors} from "../colors"
-
 import Tooltip from "./tooltip"
-
-import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 

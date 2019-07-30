@@ -1,19 +1,14 @@
 import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
-
 import {MdDeleteForever} from "react-icons/md"
-
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
-
 import Note from "./note"
 import Tooltip from "./tooltip"
 import GainSlider from "./gainSlider"
 import SamplePicker from "./samplePicker"
-
 import DrumsetIcon from "../svg/drumset.svg"
-
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import SoloTrackButton from "../styledComponents/soloTrackButton"
@@ -64,7 +59,7 @@ class Track extends Component {
 
     if (
       wasClicked ||
-      !!wasOn ==
+      !!wasOn ===
         !!familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[
           noteNumber
         ]
@@ -117,7 +112,7 @@ class Track extends Component {
             this.handleNoteToggle(i, note, true)
           }}
           onMouseOver={(e) => {
-            if (e.buttons == 1 && this.state.lastEntered != i) {
+            if (e.buttons === 1 && this.state.lastEntered !== i) {
               this.handleNoteToggle(i, this.state.lastClickedNoteWasOn, false)
               this.setState({
                 lastEntered: i,

@@ -1,4 +1,4 @@
-import {action, computed, observable, toJS} from "mobx"
+import {action, observable} from "mobx"
 
 const BEAT_LENGTH = 16
 

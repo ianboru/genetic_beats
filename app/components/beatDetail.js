@@ -2,12 +2,11 @@ import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-import {reaction, toJS} from "mobx"
+import {reaction} from "mobx"
 
 import Player from "./player"
 
 import Button from "./button"
-import Note from "./note"
 import PlayControls from "./playControls"
 import StarRating from "./starRating"
 import TempoControls from "./tempoControls"
@@ -23,7 +22,6 @@ import {colors} from "../colors"
 
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
-import SoloTrackButton from "../styledComponents/soloTrackButton"
 import {mutateMelody, mutateSampler} from "../mutate"
 import {SCALES, synthTypes} from "../utils"
 
@@ -93,18 +91,18 @@ class BeatDetail extends Component {
 
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
-    const newBeatId = familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.newBeatAfterCurrentBeat(newBeat)
   }
 
   handleMutateSampler = () => {
     const newBeat = mutateSampler(familyStore.currentBeat)
-    const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.newBeatAfterCurrentBeat(newBeat)
   }
 
   handleMutateAllSections = () => {
     let newBeat = mutateMelody(familyStore.currentBeat)
     newBeat = mutateSampler(newBeat)
-    const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.newBeatAfterCurrentBeat(newBeat)
   }
 
   handleKillLastBeat = () => {
@@ -168,7 +166,7 @@ class BeatDetail extends Component {
     const synthTracks = this.props.beat.sections.keyboard.tracks
     const samplerTracks = this.props.beat.sections.drums.tracks
 
-    let scaleOptions = []
+    const scaleOptions = []
     Object.keys(SCALES).forEach((scale, index) => {
       scaleOptions.push(
         <option key={index} value={scale}>
@@ -187,7 +185,7 @@ class BeatDetail extends Component {
       </select>
     )
 
-    let synthTypeOptions = []
+    const synthTypeOptions = []
     synthTypes.forEach((type, index) => {
       synthTypeOptions.push(
         <option key={index} value={type}>
@@ -331,7 +329,7 @@ class BeatDetail extends Component {
         <div style={{display: "table-row"}}>
           <Column />
           <Column />
-          <Column style={{textAlign: "center"}}></Column>
+          <Column style={{textAlign: "center"}} />
         </div>
       </StyledBeat>
     )

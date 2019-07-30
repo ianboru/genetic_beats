@@ -1,14 +1,9 @@
-import {reaction, toJS} from "mobx"
 import Tone from "tone"
 
 import store from "./stores/store"
 import playingStore from "./stores/playingStore"
 
 Tone.Transport.bpm.value = playingStore.tempo
-const disableTempoRx = reaction(
-  () => playingStore.tempo,
-  (tempo) => (Tone.Transport.bpm.value = playingStore.tempo),
-)
 
 const metronomeTrack = {
   sample: "samples/clave.wav",
@@ -29,11 +24,7 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce(
     const synthType = synthData[0]
     const gain = synthData[1]
 
-    //var reverb = new Tone.Reverb().toMaster();
-    //reverb.decay = 3
-    //reverb.generate()
     const synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
-    //synth.connect(reverb)
     synth.set({oscillator: {type: synthType}})
     synth.volume.value += gain
     return {...acc, [synthType]: synth}
@@ -41,7 +32,7 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce(
 )
 
 const scheduleInstruments = (time, index, samplerTracks, synthTracks) => {
-  let notes = {}
+  const notes = {}
   const gainRange = 55
   const offSet = 37
 
@@ -61,6 +52,7 @@ const scheduleInstruments = (time, index, samplerTracks, synthTracks) => {
       } catch (e) {
         // We're most likely in a race condition where the new sample hasn't been loaded
         // just yet; silently ignore, it will resiliently catch up later.
+        // eslint-disable-next-line no-console
         console.error("ERROR", e)
       }
     }

@@ -1,9 +1,7 @@
 import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
-
 import store from "../stores/store"
-import familyStore from "../stores/familyStore"
 
 const StyledSelect = styled.div`
   display: inline-block;
@@ -12,7 +10,7 @@ const StyledSelect = styled.div`
 @observer
 class SamplePicker extends Component {
   render() {
-    let sampleOptions = Object.keys(store.samples).map((key) => {
+    const sampleOptions = Object.keys(store.samples).map((key) => {
       const sample = store.samples[key]
       return (
         <option key={sample.path} value={key}>
