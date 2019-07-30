@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 import {observer} from "mobx-react"
 
-const StyledSliderRating = styled.span`
+const StyledRatingSlider = styled.span`
   display: inline-block;
   margin: 0;
   font-size: 10px;
@@ -23,7 +23,7 @@ class RatingSlider extends Component {
 
   render() {
     return (
-      <StyledSliderRating>
+      <StyledRatingSlider>
         <div
           style={{
             display: "flex",
@@ -43,7 +43,7 @@ class RatingSlider extends Component {
           style={{width: "300px"}}
           onChange={this.handleChange}
         />
-      </StyledSliderRating>
+      </StyledRatingSlider>
     )
   }
 }
