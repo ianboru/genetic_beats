@@ -8,7 +8,7 @@ import Player from "./player"
 
 import Button from "./button"
 import PlayControls from "./playControls"
-import RatingSlider from "./ratingSlider"
+import ChangeSlider from "./changeSlider"
 import TempoControls from "./tempoControls"
 import SamplerTrack from "./samplerTrack"
 import SynthTrack from "./synthTrack"
@@ -280,7 +280,7 @@ class BeatDetail extends Component {
             </div>
 
             <div style={{marginBottom: 20, marginTop: 10}}>
-              <RatingSlider
+              <ChangeSlider
                 score={familyStore.currentBeat.synthScore}
                 handleSetScore={(score) => {
                   familyStore.setSynthScore(score)
@@ -308,7 +308,7 @@ class BeatDetail extends Component {
               M
             </MuteTrackButton>
             <div style={{marginBottom: 20, marginTop: 10}}>
-              <RatingSlider
+              <ChangeSlider
                 score={familyStore.currentBeat.samplerScore}
                 handleSetScore={(score) => {
                   familyStore.setSamplerScore(score)
