@@ -78,9 +78,6 @@ class BeatBlock extends Component {
             onClick={this.props.handleClickPlay}
             style={{verticalAlign: "middle"}}
           />
-          <span style={{verticalAlign: "middle", marginLeft: 5}}>
-            {beat.key}
-          </span>
         </div>
         <MiniBeat
           beat={beat}

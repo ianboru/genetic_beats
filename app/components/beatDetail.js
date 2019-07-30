@@ -100,11 +100,13 @@ class BeatDetail extends Component {
     const newBeat = mutateSampler(familyStore.currentBeat)
     const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
   }
+
   handleMutateAllSections = () => {
     let newBeat = mutateMelody(familyStore.currentBeat)
     newBeat = mutateSampler(newBeat)
     const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
   }
+
   handleKillLastBeat = () => {
     familyStore.removeLastBeatFromLineage()
   }
@@ -257,7 +259,7 @@ class BeatDetail extends Component {
             </MuteTrackButton>
             <div style={{width: "250px", margin: "0 auto", textAlign: "left"}}>
               <span style={{display: "inline-block", width: "150px"}}>
-                monosynth
+                Monosynth
               </span>
               <input
                 style={{fontSize: "15px"}}
