@@ -1,6 +1,5 @@
 import Raven from "raven-js"
 import React, {Component} from "react"
-import ReactFileReader from "react-file-reader"
 import {configure} from "mobx"
 import {observer} from "mobx-react"
 import Tone from "tone"
@@ -30,13 +29,13 @@ class App extends Component {
   }
 
   handleKeyPress = (e) => {
-    if (e.code == "Space") {
+    if (e.code === "Space") {
       playingStore.togglePlaying()
       e.preventDefault()
-    } else if (e.code == "ArrowRight") {
+    } else if (e.code === "ArrowRight") {
       familyStore.nextBeatInLineage()
       e.preventDefault()
-    } else if (e.code == "ArrowLeft") {
+    } else if (e.code === "ArrowLeft") {
       familyStore.prevBeatInLineage()
       e.preventDefault()
     }

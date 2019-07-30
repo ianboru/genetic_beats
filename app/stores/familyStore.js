@@ -1,4 +1,4 @@
-import {action, computed, observable, reaction, toJS} from "mobx"
+import {action, computed, observable} from "mobx"
 import shortid from "shortid"
 
 import {
@@ -13,12 +13,12 @@ import templateBeats from "../templateBeats"
 
 const originalFamilyNames = JSON.parse(localStorage.getItem("familyNames"))
 const newFamilyName = generateFamilyName()
-let newFamilyNames = originalFamilyNames ? originalFamilyNames : []
+const newFamilyNames = originalFamilyNames ? originalFamilyNames : []
 newFamilyNames.push(newFamilyName)
 
 const BEAT_STEPS = 16
 
-let templateBeatsMap = {}
+const templateBeatsMap = {}
 templateBeats.map((beat, i) => {
   beat = completeScale(beat)
   beat = completeSamples(beat)
@@ -95,13 +95,13 @@ class FamilyStore {
     const familyData = JSON.parse(localStorage.getItem(familyName))
     this.lineage = familyData.lineage
     this.beats = familyData.beats
-    this.currentBeatId = lineage[0]
+    this.currentBeatId = this.lineage[0]
 
     const familyNames = JSON.parse(localStorage.getItem("familyNames"))
     this.familyNames = familyNames
   }
 
-  @action clearSavedFamilies = (state) => {
+  @action clearSavedFamilies = () => {
     // SIDE EFFECT
     localStorage.clear()
   }
@@ -121,7 +121,7 @@ class FamilyStore {
     const id = shortid.generate()
     this.beats[id] = {
       ...deepClone(beat),
-      id: id,
+      id,
       synthScore: beat.synthScore,
       samplerScore: beat.samplerScore,
     }
@@ -177,9 +177,12 @@ class FamilyStore {
       this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0
         ? 1
         : 0
-    if (section == "keyboard" && this.currentBeat.sections.keyboard.monosynth) {
+    if (
+      section === "keyboard" &&
+      this.currentBeat.sections.keyboard.monosynth
+    ) {
       this.currentBeat.sections[section].tracks.forEach((track, index) => {
-        if (track.sequence[note] == 1 && trackNum != index) {
+        if (track.sequence[note] === 1 && trackNum !== index) {
           track.sequence[note] = 0
         }
       })

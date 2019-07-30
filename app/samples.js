@@ -4,7 +4,7 @@ export default {
   "samples/6581__ST_012.wav": {
     name: "buzz1",
     category: "Sound Effect",
-    path: staticFilePath + "samples/6581__ST_012.wav",
+    path: `${staticFilePath}samples/6581__ST_012.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -13,7 +13,7 @@ export default {
   "samples/8580_PST_060.wav": {
     name: "beep1",
     category: "Sound Effect",
-    path: staticFilePath + "samples/8580_PST_060.wav",
+    path: `${staticFilePath}samples/8580_PST_060.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -22,7 +22,7 @@ export default {
   "samples/8580_PST_090.wav": {
     name: "beep2",
     category: "Sound Effect",
-    path: staticFilePath + "samples/8580_PST_090.wav",
+    path: `${staticFilePath}samples/8580_PST_090.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -31,7 +31,7 @@ export default {
   "samples/8580_P_T_078.wav": {
     name: "8580_P_T_078",
     category: "Sound Effect",
-    path: staticFilePath + "samples/8580_P_T_078.wav",
+    path: `${staticFilePath}samples/8580_P_T_078.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -40,7 +40,7 @@ export default {
   "samples/clave.wav": {
     name: "clave",
     category: "Misc. Percussion",
-    path: staticFilePath + "samples/clave.wav",
+    path: `${staticFilePath}samples/clave.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -49,7 +49,7 @@ export default {
   "samples/cowbell.wav": {
     name: "cowbell",
     category: "Misc. Percussion",
-    path: staticFilePath + "samples/cowbell.wav",
+    path: `${staticFilePath}samples/cowbell.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -58,7 +58,7 @@ export default {
   "samples/hi_hat.wav": {
     name: "hihat1",
     category: "Cymbol",
-    path: staticFilePath + "samples/hi_hat.wav",
+    path: `${staticFilePath}samples/hi_hat.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -67,7 +67,7 @@ export default {
   "samples/hihat.wav": {
     name: "hihat2",
     category: "Cymbol",
-    path: staticFilePath + "samples/hihat.wav",
+    path: `${staticFilePath}samples/hihat.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -76,7 +76,7 @@ export default {
   "samples/kick.wav": {
     name: "kick",
     category: "Bass Drum",
-    path: staticFilePath + "samples/kick.wav",
+    path: `${staticFilePath}samples/kick.wav`,
     gain: 0.8,
     gainCorrection: 1.0,
     mute: false,
@@ -85,7 +85,7 @@ export default {
   "samples/snare.wav": {
     name: "snare",
     category: "Snare",
-    path: staticFilePath + "samples/snare.wav",
+    path: `${staticFilePath}samples/snare.wav`,
     gain: 0.8,
     gainCorrection: 0.7,
     mute: false,
@@ -94,7 +94,7 @@ export default {
   "samples/Kicks/Cymatics - Trap Kick 1 - C.wav": {
     name: "Trap Kick 1 - C",
     category: "Bass Drum",
-    path: staticFilePath + "samples/Kicks/Cymatics - Trap Kick 1 - C.wav",
+    path: `${staticFilePath}samples/Kicks/Cymatics - Trap Kick 1 - C.wav`,
     gain: 0.8,
     gainCorrection: 0.8,
     mute: false,
@@ -103,7 +103,7 @@ export default {
   "samples/Kicks/Cymatics - Dubstep Kick 3 - E.wav": {
     name: "Dubstep Kick 3 - E",
     category: "Bass Drum",
-    path: staticFilePath + "samples/Kicks/Cymatics - Dubstep Kick 3 - E.wav",
+    path: `${staticFilePath}samples/Kicks/Cymatics - Dubstep Kick 3 - E.wav`,
     gain: 0.8,
     gainCorrection: 0.5,
     mute: false,
@@ -112,7 +112,7 @@ export default {
   "samples/Snare/Cymatics - Titan Snare 3 - C.wav": {
     name: "Titan Snare 3 - C",
     category: "Snare",
-    path: staticFilePath + "samples/Snares/Cymatics - Titan Snare 3 - C.wav",
+    path: `${staticFilePath}samples/Snares/Cymatics - Titan Snare 3 - C.wav`,
     gain: 0.5,
     gainCorrection: 0.3,
     mute: false,
@@ -121,7 +121,7 @@ export default {
   "samples/Snare/Cymatics - Dubstep Snare 6 - G.wav": {
     name: "Dubstep Snare 6 - G",
     category: "Snare",
-    path: staticFilePath + "samples/Snares/Cymatics - Dubstep Snare 6 - G.wav",
+    path: `${staticFilePath}samples/Snares/Cymatics - Dubstep Snare 6 - G.wav`,
     gain: 0.8,
     gainCorrection: 0.4,
     mute: false,
@@ -130,7 +130,7 @@ export default {
   "samples/Percussion/Cymatics - Grime Perc 25.wav": {
     name: "Grime Perc 25",
     category: "Misc. Percussion",
-    path: staticFilePath + "samples/Percussion/Cymatics - Grime Perc 25.wav",
+    path: `${staticFilePath}samples/Percussion/Cymatics - Grime Perc 25.wav`,
     gain: 0.8,
     gainCorrection: 0.8,
     mute: false,
@@ -139,7 +139,7 @@ export default {
   "samples/Percussion/Cymatics - Synth Perc 28.wav": {
     name: "Synth Perc 28",
     category: "Misc. Percussion",
-    path: staticFilePath + "samples/Percussion/Cymatics - Synth Perc 28.wav",
+    path: `${staticFilePath}samples/Percussion/Cymatics - Synth Perc 28.wav`,
     gain: 0.8,
     gainCorrection: 0.8,
     mute: false,

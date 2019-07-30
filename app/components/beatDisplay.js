@@ -1,23 +1,18 @@
 import React, {Component} from "react"
 import {observer} from "mobx-react"
-import styled from "styled-components"
-import chroma from "chroma-js"
-
 import familyStore from "../stores/familyStore"
-
 import {colors} from "../colors"
-
 import BeatDetail from "./beatDetail"
 import Lineage from "./lineage"
 
 @observer
 class BeatDisplay extends Component {
   render() {
-    const beat = ((beat) => {
-      if (!beat) {
+    const beat = ((b) => {
+      if (!b) {
         return null
       } else {
-        return <BeatDetail key={beat.key} beat={beat} />
+        return <BeatDetail key={b.key} beat={b} />
       }
     })(familyStore.currentBeat)
 

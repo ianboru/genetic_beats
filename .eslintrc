@@ -15,6 +15,8 @@
     "comma-dangle": [2, "always-multiline"],
     "jsx-quotes": [2, "prefer-double"],
     "quotes": [2, "double", {"allowTemplateLiterals": true}],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-invalid-this": 0,
+    "babel/no-invalid-this": 1
   }
 }

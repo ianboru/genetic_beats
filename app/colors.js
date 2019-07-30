@@ -30,17 +30,6 @@ const colors = {
   },
 }
 
-const semanticColors = {
-  primary: {},
-  neutral: {},
-  accents: {
-    default: {},
-    warning: {},
-    danger: {},
-    info: {},
-  },
-}
-
 const getColor = {}
 
 export {colors, getColor}

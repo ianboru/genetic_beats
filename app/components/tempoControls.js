@@ -5,11 +5,6 @@ import Metronome from "../svg/metronome.svg"
 import MetronomeActive from "../svg/metronome-active.svg"
 import playingStore from "../stores/playingStore"
 
-const BILabel = styled.span`
-  color: #77777f;
-  margin: 4px;
-`
-
 const MetronomeButton = styled.div`
   display: inline-block;
   margin-bottom: -8px;

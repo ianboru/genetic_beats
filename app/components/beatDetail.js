@@ -91,18 +91,18 @@ class BeatDetail extends Component {
 
   handleMutateMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
-    const newBeatId = familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.newBeatAfterCurrentBeat(newBeat)
   }
 
   handleMutateSampler = () => {
     const newBeat = mutateSampler(familyStore.currentBeat)
-    const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.newBeatAfterCurrentBeat(newBeat)
   }
 
   handleMutateAllSections = () => {
     let newBeat = mutateMelody(familyStore.currentBeat)
     newBeat = mutateSampler(newBeat)
-    const newBeatID = familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.newBeatAfterCurrentBeat(newBeat)
   }
 
   handleKillLastBeat = () => {
@@ -166,7 +166,7 @@ class BeatDetail extends Component {
     const synthTracks = this.props.beat.sections.keyboard.tracks
     const samplerTracks = this.props.beat.sections.drums.tracks
 
-    let scaleOptions = []
+    const scaleOptions = []
     Object.keys(SCALES).forEach((scale, index) => {
       scaleOptions.push(
         <option key={index} value={scale}>
@@ -185,7 +185,7 @@ class BeatDetail extends Component {
       </select>
     )
 
-    let synthTypeOptions = []
+    const synthTypeOptions = []
     synthTypes.forEach((type, index) => {
       synthTypeOptions.push(
         <option key={index} value={type}>
@@ -329,7 +329,7 @@ class BeatDetail extends Component {
         <div style={{display: "table-row"}}>
           <Column />
           <Column />
-          <Column style={{textAlign: "center"}}></Column>
+          <Column style={{textAlign: "center"}} />
         </div>
       </StyledBeat>
     )
