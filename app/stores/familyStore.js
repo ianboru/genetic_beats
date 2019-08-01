@@ -18,7 +18,8 @@ newFamilyNames.push(newFamilyName)
 
 const BEAT_STEPS = 16
 
-const templateBeatsMap = {}
+// eslint-disable-next-line prefer-const
+let templateBeatsMap = {}
 templateBeats.map((beat, i) => {
   beat = completeScale(beat)
   beat = completeSamples(beat)

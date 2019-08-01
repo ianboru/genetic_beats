@@ -26,7 +26,7 @@ const StyledLineage = styled.div`
   margin-bottom: 5px;
 `
 
-const lineageProcessor = function() {
+const lineageProcessor = () => {
   return (time, noteIndex) => {
     const playingBeatIndex = playingStore.lineagePlayingBeatIndex
     const beatId = familyStore.lineage[playingBeatIndex]

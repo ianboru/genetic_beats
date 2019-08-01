@@ -1,9 +1,14 @@
 import Tone from "tone"
-
+import {reaction} from "mobx"
 import store from "./stores/store"
 import playingStore from "./stores/playingStore"
 
 Tone.Transport.bpm.value = playingStore.tempo
+
+reaction(
+  () => playingStore.tempo,
+  (tempo) => (Tone.Transport.bpm.value = playingStore.tempo),
+)
 
 const metronomeTrack = {
   sample: "samples/clave.wav",

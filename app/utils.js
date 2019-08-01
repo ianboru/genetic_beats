@@ -109,7 +109,7 @@ const completeSamples = (beat) => {
   return beat
 }
 
-const generateFamilyName = function() {
+const generateFamilyName = () => {
   const words = [
     "ball",
     "belt",
