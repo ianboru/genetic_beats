@@ -4,7 +4,7 @@ import Tone from "tone"
 
 import scheduleInstruments from "../scheduleInstruments"
 
-const loopProcessor = function(sections, beatNotifier) {
+const loopProcessor = (sections, beatNotifier) => {
   return (time, noteIndex) => {
     beatNotifier(noteIndex)
     scheduleInstruments(
