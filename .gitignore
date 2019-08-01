@@ -25,6 +25,7 @@ app-dev.js
 app-dev.js.map
 local_settings.py
 npm-debug.log
+package-lock.json
 pip-log.txt
 
 # Mac stuff
