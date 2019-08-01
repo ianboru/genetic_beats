@@ -110,7 +110,7 @@ class Lineage extends Component {
           index={i}
           key={i}
           beat={beat}
-          altColor={i % 2 == 1}
+          altColor={i % 2 === 1}
           selected={beat.id === familyStore.currentBeatId}
           playing={() => playingStore.beatPlayingStates[beat.id]}
           deleteBlock={() => familyStore.deleteBeatFromLineage(i)}
