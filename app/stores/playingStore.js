@@ -121,7 +121,12 @@ class PlayingStore {
       })
     })
   }
-
+  @action unsoloAllSamplerTracks = () => {
+    familyStore.currentBeat.sections.drums.tracks.forEach((track) => {
+        track.solo = false
+    })
+    this.numSolo = 0
+  }
   @action handleMuteTrack = (track) => {
     if (this.numSolo === 0) {
       track.mute = !track.mute
@@ -134,12 +139,16 @@ class PlayingStore {
       ++this.numSolo
       track.mute = false
       this.muteUnsolod()
+      if(this.numSolo === familyStore.currentBeat.sections.drums.tracks.length){
+        this.unsoloAllSamplerTracks()
+      }
     } else {
       --this.numSolo
       track.mute = true
       if (this.numSolo === 0) {
         this.toggleMuteAll(true)
       }
+      
     }
   }
 }
