@@ -1,9 +1,12 @@
+/* eslint-disable filenames/match-regex */
+import {DEFAULT_SCORE} from "./utils"
+
 export default [
   {
     key: "Hip hop 1",
     name: "Hip hop 1",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -39,8 +42,8 @@ export default [
   {
     key: "Synth 1",
     name: "Synth 1",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -78,8 +81,8 @@ export default [
   {
     key: "Buzzanova",
     name: "Buzzanova",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -115,8 +118,8 @@ export default [
   {
     name: "Blip Hop",
     key: "Blip Hop",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -158,8 +161,8 @@ export default [
   {
     name: "Hard Boom Bap",
     key: "Hard Boom Bap",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -195,8 +198,8 @@ export default [
   {
     name: "Ching Bap",
     key: "Ching Bap",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -232,8 +235,8 @@ export default [
   {
     name: "Bellanova",
     key: "Cowbellnova",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -269,8 +272,8 @@ export default [
   {
     name: "Minor Street",
     key: "Minor Street",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmel",
     sections: {
       keyboard: {
@@ -308,8 +311,8 @@ export default [
   {
     name: "Minor Street 3",
     key: "Minor Street 3",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmel",
     sections: {
       keyboard: {
@@ -360,8 +363,8 @@ export default [
   {
     name: "Beachin",
     key: "Beachin",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -412,8 +415,8 @@ export default [
   {
     name: "Flute Skeleton",
     key: "Flute Skeleton",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
@@ -451,8 +454,8 @@ export default [
   {
     name: "Flute Full",
     key: "Flute Full",
-    synthScore: 0,
-    samplerScore: 0,
+    synthScore: DEFAULT_SCORE,
+    samplerScore: DEFAULT_SCORE,
     scale: "cmaj",
     sections: {
       keyboard: {
