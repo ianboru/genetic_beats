@@ -100,6 +100,10 @@ class PlayingStore {
     this.lineagePlayingBeatIndex = 0
   }
 
+  @action setLineagePlayingBeatIndex = (index) => {
+    this.lineagePlayingBeatIndex = index
+  }  
+  
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     Object.keys(familyStore.currentBeat.sections).forEach((sectionName) => {

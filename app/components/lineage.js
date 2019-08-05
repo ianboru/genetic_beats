@@ -36,7 +36,10 @@ const lineageProcessor = () => {
     }
 
     const beat = familyStore.beats[beatId]
-
+    //If beat was deleted from lineage mid execution
+    if(!beat){
+      return
+    }
     const samplerTracks = beat.sections.drums.tracks
     const synthTracks = beat.sections.keyboard.tracks
 
@@ -99,8 +102,8 @@ class Lineage extends Component {
     playingStore.togglePlayingBeat(beatId, i)
   }
 
-  handleClickBeat = (beatId) => {
-    familyStore.setCurrentBeat(beatId)
+  handleClickBeat = (beatId, i) => {
+    familyStore.setCurrentBeat(beatId, i)
   }
 
   render() {
@@ -118,7 +121,7 @@ class Lineage extends Component {
             this.handleClickPlayBeat(beat.id, i)
           }}
           handleClickBeat={() => {
-            this.handleClickBeat(beat.id)
+            this.handleClickBeat(beat.id, i )
           }}
         />
       )

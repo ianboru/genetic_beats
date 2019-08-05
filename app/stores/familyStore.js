@@ -1,6 +1,6 @@
 import {action, computed, observable} from "mobx"
 import shortid from "shortid"
-
+import playingStore from "./playingStore"
 import {
   deepClone,
   generateFamilyName,
@@ -143,8 +143,9 @@ class FamilyStore {
     }
   }
 
-  @action setCurrentBeat = (beatId) => {
+  @action setCurrentBeat = (beatId, lineageIndex) => {
     this.currentBeatId = beatId
+    playingStore.setLineagePlayingBeatIndex(lineageIndex)
   }
 
   @action deleteBeatFromLineage = (index) => {
