@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
+import {newColors} from "../colors"
 
 const NoteWrapper = styled.div`
   border-right: ${(props) => (props.separator ? "1px solid white" : "0")};
@@ -12,28 +13,29 @@ const NoteWrapper = styled.div`
   }
 `
 
-const lightGreen = chroma("lightgreen").darken(0.4)
-const lighterGreen = chroma("lightgreen").brighten(0.4)
-const lightestGreen = chroma("lightgreen").brighten(1.2)
+const lightGreen = chroma("#44DA5F").brighten(0.4)
+const lighterGreen = chroma(lightGreen).brighten(1.0)
+const lightestGreen = chroma(lightGreen).brighten(1.8)
+
+const backgroundColor = (active, on) => {
+  if (active) {
+    return on ? lightestGreen : "darkgray"
+  } else {
+    return on ? lightGreen : "gray"
+  }
+}
 
 const StyledNote = styled.div`
-  background-color: ${(props) =>
-    props.active
-      ? props.on
-        ? lightestGreen
-        : "darkgray"
-      : props.on
-      ? lightGreen
-      : "gray"};
-  box-shadow: ${(props) => (props.on ? `0 0 2px 1px ${lightGreen}` : "none")};
+  background-color: ${(props) => backgroundColor(props.active, props.on)};
+  box-shadow: ${(props) => (props.on ? `0 0 3px 1px ${lighterGreen}` : "none")};
   border-radius: 3px;
-  border: 1px solid black;
+  border: 1px solid #202020;
   cursor: pointer;
   display: inline-block;
   position: relative;
   z-index: ${(props) => (props.on ? 1 : 0)};
   height: 24px;
-  margin: 0;
+  margin: 0px;
   font-size: 15px;
   width: 24px;
   vertical-align: middle;
@@ -56,7 +58,7 @@ const StyledNote = styled.div`
 @observer
 class Note extends Component {
   render() {
-    const separator = this.props.index % 4 === 3
+    const separator = this.props.index % 4 === 3 && this.props.index !== 15
 
     return (
       <NoteWrapper separator={separator}>

@@ -23,7 +23,7 @@ const StyledLineage = styled.div`
   border: 2px solid rgba(${bgColor.join(",")});
   border-radius: 3px;
   padding: 10px 20px;
-  margin-bottom: 5px;
+  margin: 10px;
 `
 
 const lineageProcessor = () => {

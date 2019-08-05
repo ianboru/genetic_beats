@@ -5,7 +5,7 @@ const Column = styled.div`
   display: inline-block;
   text-align: ${(props) =>
     props.textLeft ? "left" : props.textRight ? "right" : "center"};
-  width: 300px;
+  width: ${(props) => props.width ? props.width : "300"}px;
   margin-right: 10px;
 `
 

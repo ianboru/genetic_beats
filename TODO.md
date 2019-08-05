@@ -1,3 +1,4 @@
+* Switch default change scale to Minor Change
 * Bug: Various play buttons aren't mutually exclusive anymore - John
 * Bug: Start tone after user interaction (currently broken in Safari and Chrome)
 * Lineage can skip at beginning with lots of beats; investigate unnecessary re-rendering or other ways avoid skips - John

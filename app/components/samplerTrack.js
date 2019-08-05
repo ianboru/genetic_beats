@@ -151,7 +151,7 @@ class Track extends Component {
 
         {notes}
 
-        <Column textLeft>
+        <Column textLeft width={200}>
           <Tooltip position="left" text="Mute">
             <MuteTrackButton
               active={track.mute}
@@ -188,7 +188,7 @@ class Track extends Component {
               )
             }}
           >
-            <MdDeleteForever />
+            &times;
           </RemoveTrackButton>
         </Column>
       </StyledTrack>

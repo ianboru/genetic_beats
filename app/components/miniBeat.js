@@ -6,8 +6,30 @@ import Player from "./player"
 import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
 
-const lightGreen = chroma("lightgreen").darken(0.4)
-const lightestGreen = chroma("lightgreen").brighten(1.2)
+const lightGreen = chroma("#44DA5F").darken(0.2) //chroma("lightgreen").darken(0.4)
+const lighterGreen = chroma(lightGreen).brighten(0.4)
+const lightestGreen = chroma(lightGreen).brighten(1.2)
+
+const noteBackgroundColor = (active, on, altColor) => {
+  if (active) {
+    if (on) {
+      return lightestGreen
+    } else if (altColor) {
+      return "darkgray"
+    } else {
+      return chroma("darkgray").brighten(0.6)
+    }
+  } else {
+    if (on) {
+      return lightGreen
+    } else if (altColor) {
+      return "gray"
+    } else {
+      return chroma("gray").brighten(0.6)
+    }
+  }
+}
+
 
 const StyledBeat = styled.div`
   display: table;
@@ -100,20 +122,10 @@ class MiniTrack extends Component {
   }
 }
 
+
 const StyledNote = styled.div`
-  background-color: ${(props) =>
-    props.active
-      ? props.on
-        ? lightestGreen
-        : props.altColor
-        ? "darkgray"
-        : chroma("darkgray").brighten(0.6)
-      : props.on
-      ? lightGreen
-      : props.altColor
-      ? "gray"
-      : chroma("gray").brighten(0.6)};
-  box-shadow: ${(props) => (props.on ? `0 0 2px 0px ${lightGreen}` : "none")};
+  background-color: ${(props) => noteBackgroundColor(props.active, props.on, props.altColor)};
+  box-shadow: ${(props) => (props.on ? `0 0 4px 0px ${lighterGreen}` : "none")};
   border-radius: 0px;
   border: 1px solid black;
   cursor: pointer;

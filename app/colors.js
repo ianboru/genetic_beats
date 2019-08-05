@@ -30,6 +30,27 @@ const colors = {
   },
 }
 
-const getColor = {}
+const newColors = {
+  gray: {
+    darker: "#0E0E0E",
+    darkdark: "#15181A",
+    lightdark: "#1E2022",
+  },
+  blue: {
+    deep: "#2332C9",
+    pale: "#5196FE",
+    teal: "#008AD8",
+    light: "#417BFA",
+  },
+  purple: {
+    darker: "#472AEF",
+    dark: "#7331FD",
+    base: "#535FFF",
+    light:"#9D72FE",
+  },
+  yellow: {
+    deep: "#FFB301",
+  }
+}
 
-export {colors, getColor}
+export {colors, newColors}

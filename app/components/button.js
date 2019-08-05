@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import chroma from "chroma-js"
-import {colors} from "../colors"
+import {colors, newColors} from "../colors"
 
-const buttonColor = colors.blue.base
-const altColor = colors.blue.lighter
+const buttonColor = newColors.purple.base
+const altColor = newColors.blue.lighter
 
 const Button = styled.button.attrs({
   color: (props) => (props.color && props.color[0]) || buttonColor,
@@ -12,23 +12,24 @@ const Button = styled.button.attrs({
     (props.color && props.color[0] && chroma(props.color[0]).brighten(0.5)) ||
     altColor,
 })`
-  background-color: ${(props) => props.color};
+  background: ${(props) => props.color};
   border-radius: 3px;
-  border: 3px solid ${(props) => props.color};
+  border: 0;
   color: ${(props) => (props.textColor ? props.textColor : "white")};
-  float: ${(props) => (props.right ? "right" : props.left ? "left" : "none")};
   font-family: "Ubuntu";
   cursor: pointer;
-  font-size: ${(props) =>
-    props.large ? "20px" : props.small ? "12px" : "15px"};
+  font-size: 15px;
   margin: 6px 3px;
-  padding: ${(props) =>
-    props.large ? "4px 30px" : props.small ? "2px 4px" : "4px 8px"};
+  padding: 8px 12px;
   transition: all 0.2s;
   min-width: ${(props) => props.width || 100}px;
 
   &:hover {
-    background: ${(props) => props.altcolor};
+    background: linear-gradient(0deg, ${chroma(newColors.purple.base).darken(0.2)} 0%, ${chroma(newColors.blue.light).darken(0.2)} 100%);
+  }
+
+  &:active {
+    background: linear-gradient(0deg, ${chroma(newColors.purple.base).brighten(0.2)} 0%, ${chroma(newColors.blue.light).brighten(0.2)} 100%);
   }
 `
 

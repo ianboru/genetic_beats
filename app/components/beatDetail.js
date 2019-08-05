@@ -66,7 +66,8 @@ const StyledSection = styled.div`
   border: 2px solid rgb(41, 43, 48);
   border-radius: 4px;
   box-shadow: 0 0 4px 1px black;
-  margin-top: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   position: relative;
 `
 
@@ -231,7 +232,7 @@ class BeatDetail extends Component {
           ) : (
             <Button
               width={150}
-              color={["green"]}
+            color={[colors.blue.base]}
               onClick={this.handleNewRandomBeat}
             >
               New Random Beat
@@ -239,7 +240,6 @@ class BeatDetail extends Component {
           )}
           <Button
             width={150}
-            color={["blue"]}
             onClick={this.handleMutateAllSections}
           >
             Mutate Both Sections

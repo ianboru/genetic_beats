@@ -25,6 +25,8 @@ const SynthTrackName = styled.div`
   text-align: left;
   width: 90px;
   cursor: pointer;
+  font-size: 20px;
+  height: 28px;
 
   &:hover {
     background: #bbb;
@@ -36,7 +38,6 @@ const SynthTrackName = styled.div`
 `
 
 const StyledTrack = styled.div`
-  //width : 1000px;
   margin: 0 auto;
 `
 
@@ -117,7 +118,9 @@ class Track extends Component {
 
         {notes}
 
-        <Column textLeft />
+        <Column textLeft width={200}>
+          &nbsp;
+        </Column>
       </StyledTrack>
     )
   }
