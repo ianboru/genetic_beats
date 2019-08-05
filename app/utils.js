@@ -145,6 +145,8 @@ const generateFamilyName = () => {
   return familyName
 }
 
+const DEFAULT_SCORE = 10
+
 export {
   deepClone,
   generateFamilyName,
@@ -153,4 +155,5 @@ export {
   starterSamples,
   completeScale,
   completeSamples,
+  DEFAULT_SCORE,
 }

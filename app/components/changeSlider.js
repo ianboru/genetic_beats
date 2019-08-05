@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import {observer} from "mobx-react"
-
+import {DEFAULT_SCORE} from "../utils"
 const StyledChangeSlider = styled.span`
   display: inline-block;
   margin: 0;
@@ -17,7 +17,7 @@ const CHANGE_STEP = 1
 @observer
 class ChangeSlider extends Component {
   static defaultProps = {
-    score: 0,
+    score: DEFAULT_SCORE,
   }
 
   convertChangeAmountToScore = (changeAmount) => {
