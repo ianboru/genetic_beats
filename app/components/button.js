@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import chroma from "chroma-js"
-import {colors, newColors} from "../colors"
+import {newColors} from "../colors"
 
 const buttonColor = newColors.purple.base
 const altColor = newColors.blue.lighter
@@ -25,11 +25,19 @@ const Button = styled.button.attrs({
   min-width: ${(props) => props.width || 100}px;
 
   &:hover {
-    background: linear-gradient(0deg, ${chroma(newColors.purple.base).darken(0.2)} 0%, ${chroma(newColors.blue.light).darken(0.2)} 100%);
+    background: linear-gradient(
+      0deg,
+      ${chroma(newColors.purple.base).darken(0.2)} 0%,
+      ${chroma(newColors.blue.light).darken(0.2)} 100%
+    );
   }
 
   &:active {
-    background: linear-gradient(0deg, ${chroma(newColors.purple.base).brighten(0.2)} 0%, ${chroma(newColors.blue.light).brighten(0.2)} 100%);
+    background: linear-gradient(
+      0deg,
+      ${chroma(newColors.purple.base).brighten(0.2)} 0%,
+      ${chroma(newColors.blue.light).brighten(0.2)} 100%
+    );
   }
 `
 

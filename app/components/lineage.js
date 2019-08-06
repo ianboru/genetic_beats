@@ -14,6 +14,7 @@ import playingStore from "../stores/playingStore"
 import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
 import {colors} from "../colors"
+import Button from "./button"
 
 const bgColor = chroma(colors.green.lightest)
   .alpha(1)
@@ -87,6 +88,7 @@ class Lineage extends Component {
   componentWillUnmount() {
     this.disablePlayReaction()
   }
+
   handleClickPlayLineage = () => {
     if (this.lineage.state === "stopped") {
       playingStore.setPlayingLineage(true)
@@ -104,6 +106,10 @@ class Lineage extends Component {
 
   handleClickBeat = (beatId, i) => {
     familyStore.setCurrentBeat(beatId, i)
+  }
+
+  handleDuplicateBeat = () => {
+    familyStore.duplicateCurrentBeat()
   }
 
   render() {
@@ -147,6 +153,13 @@ class Lineage extends Component {
             }}
           />
           Lineage
+          <Button
+            style={{marginLeft: "10px"}}
+            width={150}
+            onClick={this.handleDuplicateBeat}
+          >
+            Duplicate
+          </Button>
         </h3>
         {beatBlocks}
       </StyledLineage>
