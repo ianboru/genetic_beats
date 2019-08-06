@@ -220,14 +220,14 @@ class FamilyStore {
   @action setScale = (scaleName) => {
     this.currentBeat.scale = scaleName
     let numSynthTracks = 0
-    this.currentBeat.sections.keyboard.tracks.forEach((track, j) => {
+    this.currentBeat.sections.keyboard.tracks.forEach((track, _) => {
       track.sample = SCALES[scaleName][numSynthTracks]
       numSynthTracks += 1
     })
   }
 
   @action setSynthType = (type) => {
-    this.currentBeat.sections.keyboard.tracks.forEach((track, j) => {
+    this.currentBeat.sections.keyboard.tracks.forEach((track, _) => {
       track.synthType = type
     })
   }

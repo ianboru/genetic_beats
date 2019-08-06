@@ -12,7 +12,7 @@ const mutateScale = (newBeat) => {
   newBeat.scale = scaleName
 
   let numSynthTracks = 0
-  newBeat.sections.keyboard.tracks.forEach((track, j) => {
+  newBeat.sections.keyboard.tracks.forEach((track, _) => {
     track.sample = SCALES[scaleName][numSynthTracks]
     numSynthTracks += 1
   })
@@ -20,7 +20,7 @@ const mutateScale = (newBeat) => {
 
 const mutateSynthType = (newBeat) => {
   const randomSynth = synthTypes[Math.floor(Math.random() * synthTypes.length)]
-  newBeat.sections.keyboard.tracks.forEach((track, j) => {
+  newBeat.sections.keyboard.tracks.forEach((track, _) => {
     track.synthType = randomSynth
   })
 }

@@ -19,17 +19,14 @@ const noteBackgroundColor = (active, on, altColor) => {
     } else {
       return chroma("darkgray").brighten(0.6)
     }
+  } else if (on) {
+    return lightGreen
+  } else if (altColor) {
+    return "gray"
   } else {
-    if (on) {
-      return lightGreen
-    } else if (altColor) {
-      return "gray"
-    } else {
-      return chroma("gray").brighten(0.6)
-    }
+    return chroma("gray").brighten(0.6)
   }
 }
-
 
 const StyledBeat = styled.div`
   display: table;
@@ -41,7 +38,7 @@ const StyledBeat = styled.div`
 class MiniBeat extends Component {
   beatStore = playingStore.newBeatStore()
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, _prevState) {
     if (!this.props.playing) {
       this.beatStore.clearLitNote()
     }
@@ -122,9 +119,9 @@ class MiniTrack extends Component {
   }
 }
 
-
 const StyledNote = styled.div`
-  background-color: ${(props) => noteBackgroundColor(props.active, props.on, props.altColor)};
+  background-color: ${(props) =>
+    noteBackgroundColor(props.active, props.on, props.altColor)};
   box-shadow: ${(props) => (props.on ? `0 0 4px 0px ${lighterGreen}` : "none")};
   border-radius: 0px;
   border: 1px solid black;

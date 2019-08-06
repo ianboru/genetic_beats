@@ -232,16 +232,13 @@ class BeatDetail extends Component {
           ) : (
             <Button
               width={150}
-            color={[colors.blue.base]}
+              color={[colors.blue.base]}
               onClick={this.handleNewRandomBeat}
             >
               New Random Beat
             </Button>
           )}
-          <Button
-            width={150}
-            onClick={this.handleMutateAllSections}
-          >
+          <Button width={150} onClick={this.handleMutateAllSections}>
             Mutate Both Sections
           </Button>
         </div>
