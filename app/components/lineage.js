@@ -13,7 +13,7 @@ import playingStore from "../stores/playingStore"
 
 import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
-import {colors} from "../colors"
+import {colors, newColors} from "../colors"
 
 const bgColor = chroma(colors.green.lightest)
   .alpha(1)
@@ -135,6 +135,7 @@ class Lineage extends Component {
           style={{
             margin: "4px 8px",
             fontSize: 30,
+            
           }}
         >
           <PlayStopButton
@@ -143,7 +144,7 @@ class Lineage extends Component {
             style={{
               marginLeft: -18,
               verticalAlign: "middle",
-              color: "yellow",
+              color: newColors.purple.base,
             }}
           />
           Lineage
