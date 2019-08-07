@@ -5,6 +5,7 @@ import Tone from "tone"
 import familyStore from "../stores/familyStore"
 import Note from "./note"
 import Column from "../styledComponents/column"
+import {BEAT_RESOLUTION} from "../utils"
 
 const KeyboardBody = styled.div`
   background: black;
@@ -108,7 +109,7 @@ class Track extends Component {
                 const synth = new Tone.Synth({
                   oscillator: {type: track.synthType},
                 }).toMaster()
-                synth.triggerAttackRelease(track.sample, "16n")
+                synth.triggerAttackRelease(track.sample, BEAT_RESOLUTION)
               }}
             >
               {track.sample}

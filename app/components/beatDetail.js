@@ -23,7 +23,7 @@ import {colors} from "../colors"
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
 import {mutateMelody, mutateSampler} from "../mutate"
-import {SCALES, synthTypes} from "../utils"
+import {SCALES, synthTypes, BEAT_RESOLUTION, BEAT_LENGTH} from "../utils"
 
 const StyledBeat = styled.div`
   display: table;
@@ -210,7 +210,8 @@ class BeatDetail extends Component {
         <Player
           beat={familyStore.currentBeat}
           playing={playingStore.playing}
-          resolution={familyStore.currentBeatResolution}
+          length={BEAT_LENGTH}
+          resolution={BEAT_RESOLUTION}
           setLitNote={this.store.setLitNote}
         />
 
@@ -232,16 +233,13 @@ class BeatDetail extends Component {
           ) : (
             <Button
               width={150}
-            color={[colors.blue.base]}
+              color={[colors.blue.base]}
               onClick={this.handleNewRandomBeat}
             >
               New Random Beat
             </Button>
           )}
-          <Button
-            width={150}
-            onClick={this.handleMutateAllSections}
-          >
+          <Button width={150} onClick={this.handleMutateAllSections}>
             Mutate Both Sections
           </Button>
         </div>

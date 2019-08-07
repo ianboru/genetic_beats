@@ -3,8 +3,8 @@ import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 import Player from "./player"
-import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
+import {BEAT_LENGTH, BEAT_RESOLUTION} from "../utils"
 
 const lightGreen = chroma("#44DA5F").darken(0.2) //chroma("lightgreen").darken(0.4)
 const lighterGreen = chroma(lightGreen).brighten(0.4)
@@ -29,7 +29,6 @@ const noteBackgroundColor = (active, on, altColor) => {
     }
   }
 }
-
 
 const StyledBeat = styled.div`
   display: table;
@@ -89,7 +88,8 @@ class MiniBeat extends Component {
         <Player
           beat={this.props.beat}
           playing={this.props.playing}
-          resolution={familyStore.currentBeatResolution}
+          length={BEAT_LENGTH}
+          resolution={BEAT_RESOLUTION}
           setLitNote={this.beatStore.setLitNote}
         />
       </StyledBeat>
@@ -122,9 +122,9 @@ class MiniTrack extends Component {
   }
 }
 
-
 const StyledNote = styled.div`
-  background-color: ${(props) => noteBackgroundColor(props.active, props.on, props.altColor)};
+  background-color: ${(props) =>
+    noteBackgroundColor(props.active, props.on, props.altColor)};
   box-shadow: ${(props) => (props.on ? `0 0 4px 0px ${lighterGreen}` : "none")};
   border-radius: 0px;
   border: 1px solid black;

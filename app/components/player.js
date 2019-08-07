@@ -23,8 +23,8 @@ class Player extends Component {
 
     this.loop = new Tone.Sequence(
       loopProcessor(props.beat.sections, props.setLitNote),
-      new Array(props.resolution).fill(0).map((_, i) => i),
-      `${props.resolution}n`,
+      new Array(props.length).fill(0).map((_, i) => i),
+      props.resolution,
     )
   }
 

@@ -2,6 +2,7 @@ import Tone from "tone"
 import {reaction} from "mobx"
 import store from "./stores/store"
 import playingStore from "./stores/playingStore"
+import {BEAT_RESOLUTION} from "./utils"
 
 Tone.Transport.bpm.value = playingStore.tempo
 
@@ -77,7 +78,7 @@ const scheduleInstruments = (time, index, samplerTracks, synthTracks) => {
 
   Object.keys(synths).forEach((synthType) => {
     if (notes[synthType]) {
-      synths[synthType].triggerAttackRelease(notes[synthType], "16n")
+      synths[synthType].triggerAttackRelease(notes[synthType], BEAT_RESOLUTION)
     }
     //TODO fixing gain
     //synths[synthType].volume.value = store.synthGain*gainRange - offSet
