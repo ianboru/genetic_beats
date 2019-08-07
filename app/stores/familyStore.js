@@ -16,8 +16,6 @@ const newFamilyName = generateFamilyName()
 const newFamilyNames = originalFamilyNames ? originalFamilyNames : []
 newFamilyNames.push(newFamilyName)
 
-const BEAT_STEPS = 16
-
 // eslint-disable-next-line prefer-const
 let templateBeatsMap = {}
 templateBeats.map((beat, i) => {
@@ -54,10 +52,6 @@ class FamilyStore {
 
   @computed get currentBeatIndex() {
     return this.lineage.indexOf(this.currentBeatId)
-  }
-
-  @computed get currentBeatResolution() {
-    return BEAT_STEPS
   }
 
   //
