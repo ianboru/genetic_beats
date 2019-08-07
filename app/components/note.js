@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
-import {newColors} from "../colors"
 
 const NoteWrapper = styled.div`
   border-right: ${(props) => (props.separator ? "1px solid white" : "0")};

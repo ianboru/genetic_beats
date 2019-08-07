@@ -31,14 +31,12 @@ class App extends Component {
   handleKeyPress = (e) => {
     if (e.code === "Space") {
       playingStore.togglePlaying()
-      e.preventDefault()
     } else if (e.code === "ArrowRight") {
       familyStore.nextBeatInLineage()
-      e.preventDefault()
     } else if (e.code === "ArrowLeft") {
       familyStore.prevBeatInLineage()
-      e.preventDefault()
     }
+    e.preventDefault()
   }
 
   render() {

@@ -19,8 +19,8 @@ class Store {
     this.samples.push(newSample)
   }
 
-  @action setAllSamples = (samples) => {
-    this.samples = samples
+  @action setAllSamples = (targetSamples) => {
+    this.samples = targetSamples
   }
 
   @action setGain = (sample, gain) => {

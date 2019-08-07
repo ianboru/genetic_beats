@@ -8,6 +8,7 @@ Tone.Transport.bpm.value = playingStore.tempo
 
 reaction(
   () => playingStore.tempo,
+  // eslint-disable-next-line no-unused-vars
   (tempo) => (Tone.Transport.bpm.value = playingStore.tempo),
 )
 
@@ -37,6 +38,7 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce(
   },
 )
 
+// eslint-disable-next-line max-params
 const scheduleInstruments = (time, index, samplerTracks, synthTracks) => {
   const notes = {}
   const gainRange = 55

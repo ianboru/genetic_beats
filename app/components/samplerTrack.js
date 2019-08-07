@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import {observer} from "mobx-react"
 import styled from "styled-components"
-import {MdDeleteForever} from "react-icons/md"
 import store from "../stores/store"
 import familyStore from "../stores/familyStore"
 import Note from "./note"
@@ -101,7 +100,7 @@ class Track extends Component {
           key={`${i}.${note}`}
           value={note}
           activeNotes={this.props.activeNotes}
-          onClick={(e) => {
+          onClick={(_) => {
             this.setState({
               lastEntered: i,
               lastClickedNoteWasOn:

@@ -39,7 +39,7 @@ class Player extends Component {
     this.loop.dispose()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, _prevState) {
     if (this.props.playing && !prevProps.playing) {
       this.loop.start()
     } else if (!this.props.playing && prevProps.playing) {
