@@ -182,32 +182,27 @@ class FamilyStore {
     this.deleteBeatFromLineage(lastBeatIndex)
   }
 
-  @action toggleNoteOnCurrentBeat = (section, trackNum, note) => {
+  @action toggleNoteOnBeat = (beat, section, trackNum, note) => {
     const newNote =
-      this.currentBeat.sections[section].tracks[trackNum].sequence[note] === 0
-        ? 1
-        : 0
-    if (
-      section === "keyboard" &&
-      this.currentBeat.sections.keyboard.monosynth
-    ) {
-      this.currentBeat.sections[section].tracks.forEach((track, index) => {
+      beat.sections[section].tracks[trackNum].sequence[note] === 0 ? 1 : 0
+    if (section === "keyboard" && beat.sections.keyboard.monosynth) {
+      beat.sections[section].tracks.forEach((track, index) => {
         if (track.sequence[note] === 1 && trackNum !== index) {
           track.sequence[note] = 0
         }
       })
     }
-    this.currentBeat.sections[section].tracks[trackNum].sequence[note] = newNote
+    beat.sections[section].tracks[trackNum].sequence[note] = newNote
     this.updateFamilyInStorage()
   }
 
-  @action setSampleOnCurrentBeat = (section, trackNum, sample) => {
-    this.currentBeat.sections[section].tracks[trackNum].sample = sample
+  @action setSampleOnBeat = (beat, section, trackNum, sample) => {
+    beat.sections[section].tracks[trackNum].sample = sample
     this.updateFamilyInStorage()
   }
 
-  @action removeTrackFromCurrentBeat = (section, trackNum) => {
-    this.currentBeat.sections[section].tracks.splice(trackNum, 1)
+  @action removeTrackFromBeat = (beat, section, trackNum) => {
+    beat.sections[section].tracks.splice(trackNum, 1)
     this.updateFamilyInStorage()
   }
 
@@ -221,24 +216,23 @@ class FamilyStore {
     this.updateFamilyInStorage()
   }
 
-  @action setScale = (scaleName) => {
-    this.currentBeat.scale = scaleName
+  @action setScale = (beat, scaleName) => {
+    beat.scale = scaleName
     let numSynthTracks = 0
-    this.currentBeat.sections.keyboard.tracks.forEach((track, _) => {
+    beat.sections.keyboard.tracks.forEach((track, _) => {
       track.sample = SCALES[scaleName][numSynthTracks]
       numSynthTracks += 1
     })
   }
 
-  @action setSynthType = (type) => {
-    this.currentBeat.sections.keyboard.tracks.forEach((track, _) => {
+  @action setSynthType = (beat, type) => {
+    beat.sections.keyboard.tracks.forEach((track, _) => {
       track.synthType = type
     })
   }
 
-  @action toggleMonosynth = () => {
-    this.currentBeat.sections.keyboard.monosynth = !this.currentBeat.sections
-      .keyboard.monosynth
+  @action toggleMonosynth = (beat) => {
+    beat.sections.keyboard.monosynth = !beat.sections.keyboard.monosynth
   }
 }
 

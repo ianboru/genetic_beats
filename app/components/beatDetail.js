@@ -124,6 +124,7 @@ class BeatDetail extends Component {
       return (
         <SamplerTrack
           key={`${this.props.beat.key}.${i}`}
+          beat={this.props.beat}
           trackNum={i}
           track={track}
           handleMuteTrack={playingStore.handleMuteTrack}
@@ -149,6 +150,7 @@ class BeatDetail extends Component {
       return (
         <SynthTrack
           key={`${note}.${i}`}
+          beat={this.props.beat}
           trackNum={i}
           track={track}
           handleMuteTrack={playingStore.handleMuteTrack}
@@ -160,11 +162,15 @@ class BeatDetail extends Component {
   }
 
   handleSelectScale = (evt) => {
-    familyStore.setScale(evt.target.value)
+    familyStore.setScale(this.props.beat, evt.target.value)
   }
 
   handleSelectSynthType = (evt) => {
-    familyStore.setSynthType(evt.target.value)
+    familyStore.setSynthType(this.props.beat, evt.target.value)
+  }
+
+  handleToggleMonosynth = (_evt) => {
+    familyStore.toggleMonosynth(this.props.beat)
   }
 
   render() {
@@ -184,7 +190,7 @@ class BeatDetail extends Component {
       <select
         style={{fontSize: "20px"}}
         onChange={this.handleSelectScale}
-        value={familyStore.currentBeat.scale}
+        value={this.props.beat.scale}
       >
         {scaleOptions}
       </select>
@@ -264,8 +270,8 @@ class BeatDetail extends Component {
               <input
                 style={{fontSize: "15px"}}
                 type="checkbox"
-                onChange={familyStore.toggleMonosynth}
-                checked={familyStore.currentBeat.sections.keyboard.monosynth}
+                onChange={this.handleToggleMonosynth}
+                checked={familyStore.floatingBeat.sections.keyboard.monosynth}
               />
             </div>
             <div style={{width: "250px", margin: "0 auto", textAlign: "left"}}>
