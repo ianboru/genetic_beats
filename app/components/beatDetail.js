@@ -69,9 +69,9 @@ const StyledSection = styled.div`
   position: relative;
 `
 const MutateSection = styled.div`
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   margin-top: 10px;
-  padding : 15px;
+  padding: 15px;
   border: 1px solid ${chroma(newColors.purple.base)};
   border-radius: 8px;
   display: inline-block;
@@ -110,6 +110,16 @@ class BeatDetail extends Component {
     let newBeat = mutateMelody(familyStore.currentBeat)
     newBeat = mutateSampler(newBeat)
     familyStore.newBeatAfterCurrentBeat(newBeat)
+  }
+
+  handleMutateFloatingMelody = () => {
+    const newBeat = mutateMelody(familyStore.currentBeat)
+    familyStore.setFloatingBeat(newBeat)
+  }
+
+  handleMutateFloatingSampler = () => {
+    const newBeat = mutateSampler(familyStore.currentBeat)
+    familyStore.setFloatingBeat(newBeat)
   }
 
   handleKillLastBeat = () => {
@@ -214,7 +224,7 @@ class BeatDetail extends Component {
     return (
       <StyledBeat>
         <Player
-          beat={familyStore.currentBeat}
+          beat={familyStore.floatingBeat}
           playing={playingStore.playing}
           length={BEAT_LENGTH}
           resolution={BEAT_RESOLUTION}
@@ -245,10 +255,7 @@ class BeatDetail extends Component {
               New Random Beat
             </Button>
           )}
-          <Button
-            width={150}
-            onClick={this.handleMutateAllSections}
-          >
+          <Button width={150} onClick={this.handleMutateAllSections}>
             Evolve Both Sections
           </Button>
         </div>
@@ -285,12 +292,13 @@ class BeatDetail extends Component {
               </span>
               {scaleSelect}
             </div>
-            <br/>
+            <br />
             <MutateSection>
               <ChangeSlider
                 score={familyStore.currentBeat.synthScore}
                 handleSetScore={(score) => {
                   familyStore.setSynthScore(score)
+                  this.handleMutateFloatingMelody()
                 }}
               />
               <Button
@@ -314,12 +322,13 @@ class BeatDetail extends Component {
             >
               M
             </MuteTrackButton>
-            <br/>
+            <br />
             <MutateSection>
               <ChangeSlider
                 score={familyStore.currentBeat.samplerScore}
                 handleSetScore={(score) => {
                   familyStore.setSamplerScore(score)
+                  this.handleMutateFloatingSampler()
                 }}
               />
               <Button

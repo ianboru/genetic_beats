@@ -27,6 +27,7 @@ templateBeats.map((beat, i) => {
 })
 const randomBeatIndex = Math.floor(Math.random() * templateBeats.length)
 const firstBeatId = templateBeats[randomBeatIndex].id
+const firstFloatingBeat = templateBeatsMap[firstBeatId]
 
 class FamilyStore {
   //
@@ -34,6 +35,7 @@ class FamilyStore {
   //
   @observable lineage = [firstBeatId]
   @observable currentBeatId = firstBeatId
+  @observable floatingBeat = firstFloatingBeat
   @observable beats = {...templateBeatsMap}
   @observable familyName = newFamilyName
   @observable familyNames = newFamilyNames
@@ -144,6 +146,14 @@ class FamilyStore {
   @action setCurrentBeat = (beatId, lineageIndex) => {
     this.currentBeatId = beatId
     playingStore.setLineagePlayingBeatIndex(lineageIndex)
+  }
+
+  @action setFloatingBeat = (beat) => {
+    this.floatingBeat = this.newBeat(beat)
+  }
+
+  @action resetFloatingBeat = () => {
+    this.setFloatingBeat(this.currentBeat)
   }
 
   @action deleteBeatFromLineage = (index) => {
