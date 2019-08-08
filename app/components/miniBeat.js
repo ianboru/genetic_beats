@@ -6,9 +6,9 @@ import Player from "./player"
 import playingStore from "../stores/playingStore"
 import {BEAT_LENGTH, BEAT_RESOLUTION} from "../utils"
 
-const lightGreen = chroma("#44DA5F").darken(0.2) //chroma("lightgreen").darken(0.4)
-const lighterGreen = chroma(lightGreen).brighten(0.4)
-const lightestGreen = chroma(lightGreen).brighten(1.2)
+const lightGreen = chroma("#44DA5F").brighten(0.4)
+const lighterGreen = chroma(lightGreen).brighten(1.0)
+const lightestGreen = chroma(lightGreen).brighten(1.8)
 
 const noteBackgroundColor = (active, on, altColor) => {
   if (active) {
