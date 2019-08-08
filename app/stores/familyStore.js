@@ -135,6 +135,10 @@ class FamilyStore {
     this.currentBeatId = newBeat.id
   }
 
+  @action duplicateCurrentBeat = () => {
+    this.newBeatAfterCurrentBeat(this.currentBeat)
+  }
+
   @action addBeatToLineage = (beatId, atIndex) => {
     if (atIndex) {
       this.lineage.splice(atIndex, 0, beatId)

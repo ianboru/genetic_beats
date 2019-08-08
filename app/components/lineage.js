@@ -14,6 +14,7 @@ import playingStore from "../stores/playingStore"
 import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
 import {colors, newColors} from "../colors"
+import Button from "./button"
 
 const bgColor = chroma(colors.green.lightest)
   .alpha(1)
@@ -24,6 +25,14 @@ const StyledLineage = styled.div`
   border-radius: 3px;
   padding: 10px 20px;
   margin: 10px;
+  svg {
+    transition: 0.2s color;
+  }
+
+  svg:hover {
+    cursor: pointer;
+    color: lightgreen;
+  }
 `
 
 const lineageProcessor = () => {
@@ -87,6 +96,7 @@ class Lineage extends Component {
   componentWillUnmount() {
     this.disablePlayReaction()
   }
+
   handleClickPlayLineage = () => {
     if (this.lineage.state === "stopped") {
       playingStore.setPlayingLineage(true)
@@ -104,6 +114,10 @@ class Lineage extends Component {
 
   handleClickBeat = (beatId, i) => {
     familyStore.setCurrentBeat(beatId, i)
+  }
+
+  handleDuplicateBeat = () => {
+    familyStore.duplicateCurrentBeat()
   }
 
   render() {
@@ -133,22 +147,30 @@ class Lineage extends Component {
       <StyledLineage>
         <h3
           style={{
-            margin: "4px 8px",
+            margin: "8px",
             fontSize: 30,
             
           }}
         >
-          <PlayStopButton
-            size={50}
-            onClick={this.handleClickPlayLineage}
-            style={{
-              marginLeft: -18,
-              verticalAlign: "middle",
-              color: newColors.purple.base,
-            }}
-          />
           Lineage
         </h3>
+        <div>
+          <PlayStopButton
+            size={60}
+            onClick={this.handleClickPlayLineage}
+            style={{
+              marginLeft: -13,
+              verticalAlign: "middle",
+            }}
+          />
+          <Button
+            style={{marginLeft: "10px"}}
+            width={150}
+            onClick={this.handleDuplicateBeat}
+          >
+            Clone Beat
+          </Button>
+        </div>
         {beatBlocks}
       </StyledLineage>
     )

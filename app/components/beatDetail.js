@@ -18,7 +18,7 @@ import playingStore from "../stores/playingStore"
 import BeatStore from "../stores/BeatStore"
 
 import templateBeats from "../templateBeats"
-import {colors} from "../colors"
+import {colors, newColors} from "../colors"
 
 import Column from "../styledComponents/column"
 import MuteTrackButton from "../styledComponents/muteTrackButton"
@@ -61,14 +61,20 @@ const SectionHeader = styled.h3`
 
 const StyledSection = styled.div`
   display: inline-block;
-  padding: 15px;
   background-color: ${chroma("rgb(41, 43, 48)").darken(0.5)};
   border: 2px solid rgb(41, 43, 48);
   border-radius: 4px;
   box-shadow: 0 0 4px 1px black;
-  margin-top: 10px;
   margin-bottom: 10px;
   position: relative;
+`
+const MutateSection = styled.div`
+  margin-bottom: 20px; 
+  margin-top: 10px;
+  padding : 15px;
+  border: 1px solid ${chroma(newColors.purple.base)};
+  border-radius: 8px;
+  display: inline-block;
 `
 
 @observer
@@ -242,7 +248,7 @@ class BeatDetail extends Component {
             width={150}
             onClick={this.handleMutateAllSections}
           >
-            Mutate Both Sections
+            Evolve Both Sections
           </Button>
         </div>
 
@@ -278,8 +284,8 @@ class BeatDetail extends Component {
               </span>
               {scaleSelect}
             </div>
-
-            <div style={{marginBottom: 20, marginTop: 10}}>
+            <br/>
+            <MutateSection>
               <ChangeSlider
                 score={familyStore.currentBeat.synthScore}
                 handleSetScore={(score) => {
@@ -291,9 +297,9 @@ class BeatDetail extends Component {
                 width={150}
                 onClick={this.handleMutateMelody}
               >
-                Mutate Keyboard
+                Evolve Keyboard
               </Button>
-            </div>
+            </MutateSection>
             {this.renderSynthTracks(synthTracks)}
           </StyledSection>
         </StyledSectionWrapper>
@@ -307,7 +313,8 @@ class BeatDetail extends Component {
             >
               M
             </MuteTrackButton>
-            <div style={{marginBottom: 20, marginTop: 10}}>
+            <br/>
+            <MutateSection>
               <ChangeSlider
                 score={familyStore.currentBeat.samplerScore}
                 handleSetScore={(score) => {
@@ -319,9 +326,9 @@ class BeatDetail extends Component {
                 width={150}
                 onClick={this.handleMutateSampler}
               >
-                Mutate Drums
+                Evolve Drums
               </Button>
-            </div>
+            </MutateSection>
             {this.renderSamplerTracks(samplerTracks)}
           </StyledSection>
         </StyledSectionWrapper>
