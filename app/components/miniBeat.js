@@ -3,12 +3,12 @@ import {observer} from "mobx-react"
 import styled from "styled-components"
 import chroma from "chroma-js"
 import Player from "./player"
-import familyStore from "../stores/familyStore"
 import playingStore from "../stores/playingStore"
+import {BEAT_LENGTH, BEAT_RESOLUTION} from "../utils"
 
-const lightGreen = chroma("#44DA5F").darken(0.2) //chroma("lightgreen").darken(0.4)
-const lighterGreen = chroma(lightGreen).brighten(0.4)
-const lightestGreen = chroma(lightGreen).brighten(1.2)
+const lightGreen = chroma("#44DA5F").brighten(0.4)
+const lighterGreen = chroma(lightGreen).brighten(1.0)
+const lightestGreen = chroma(lightGreen).brighten(1.8)
 
 const noteBackgroundColor = (active, on, altColor) => {
   if (active) {
@@ -19,17 +19,14 @@ const noteBackgroundColor = (active, on, altColor) => {
     } else {
       return chroma("darkgray").brighten(0.6)
     }
+  } else if (on) {
+    return lightGreen
+  } else if (altColor) {
+    return "gray"
   } else {
-    if (on) {
-      return lightGreen
-    } else if (altColor) {
-      return "gray"
-    } else {
-      return chroma("gray").brighten(0.6)
-    }
+    return chroma("gray").brighten(0.6)
   }
 }
-
 
 const StyledBeat = styled.div`
   display: table;
@@ -41,7 +38,7 @@ const StyledBeat = styled.div`
 class MiniBeat extends Component {
   beatStore = playingStore.newBeatStore()
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, _prevState) {
     if (!this.props.playing) {
       this.beatStore.clearLitNote()
     }
@@ -89,7 +86,8 @@ class MiniBeat extends Component {
         <Player
           beat={this.props.beat}
           playing={this.props.playing}
-          resolution={familyStore.currentBeatResolution}
+          length={BEAT_LENGTH}
+          resolution={BEAT_RESOLUTION}
           setLitNote={this.beatStore.setLitNote}
         />
       </StyledBeat>
@@ -122,9 +120,9 @@ class MiniTrack extends Component {
   }
 }
 
-
 const StyledNote = styled.div`
-  background-color: ${(props) => noteBackgroundColor(props.active, props.on, props.altColor)};
+  background-color: ${(props) =>
+    noteBackgroundColor(props.active, props.on, props.altColor)};
   box-shadow: ${(props) => (props.on ? `0 0 4px 0px ${lighterGreen}` : "none")};
   border-radius: 0px;
   border: 1px solid black;

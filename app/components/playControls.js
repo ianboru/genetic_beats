@@ -38,7 +38,10 @@ class PlayControls extends Component {
           <MdSkipPrevious size={size} onClick={familyStore.prevBeatInLineage} />
         </Tooltip>
         <Tooltip position="top" text="Play / Stop">
-          <PlayStopButton size={size + 30} onClick={playingStore.togglePlaying} />
+          <PlayStopButton
+            size={size + 30}
+            onClick={playingStore.togglePlaying}
+          />
         </Tooltip>
         <Tooltip position="top" text="Next Beat">
           <MdSkipNext size={size} onClick={familyStore.nextBeatInLineage} />

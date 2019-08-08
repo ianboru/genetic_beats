@@ -46,11 +46,11 @@ const newColors = {
     darker: "#472AEF",
     dark: "#7331FD",
     base: "#535FFF",
-    light:"#9D72FE",
+    light: "#9D72FE",
   },
   yellow: {
     deep: "#FFB301",
-  }
+  },
 }
 
 export {colors, newColors}

@@ -17,6 +17,15 @@
     "quotes": [2, "double", {"allowTemplateLiterals": true}],
     "prettier/prettier": "error",
     "no-invalid-this": 0,
-    "babel/no-invalid-this": 1
+    "babel/no-invalid-this": 1,
+    "react/prop-types": 0,
+    "react/jsx-handler-names": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "react/no-multi-comp": 0
   }
 }

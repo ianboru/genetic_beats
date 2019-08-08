@@ -15,6 +15,7 @@ import scheduleInstruments from "../scheduleInstruments"
 import BeatBlock from "./beatBlock"
 import {colors, newColors} from "../colors"
 import Button from "./button"
+import {BEAT_LENGTH, BEAT_RESOLUTION} from "../utils"
 
 const bgColor = chroma(colors.green.lightest)
   .alpha(1)
@@ -46,7 +47,7 @@ const lineageProcessor = () => {
 
     const beat = familyStore.beats[beatId]
     //If beat was deleted from lineage mid execution
-    if(!beat){
+    if (!beat) {
       return
     }
     const samplerTracks = beat.sections.drums.tracks
@@ -78,8 +79,8 @@ class Lineage extends Component {
 
     this.lineage = new Tone.Sequence(
       lineageProcessor(),
-      new Array(16).fill(0).map((_, i) => i),
-      `16n`,
+      new Array(BEAT_LENGTH).fill(0).map((_, i) => i),
+      BEAT_RESOLUTION,
     )
   }
   componentDidMount() {
@@ -135,7 +136,7 @@ class Lineage extends Component {
             this.handleClickPlayBeat(beat.id, i)
           }}
           handleClickBeat={() => {
-            this.handleClickBeat(beat.id, i )
+            this.handleClickBeat(beat.id, i)
           }}
         />
       )

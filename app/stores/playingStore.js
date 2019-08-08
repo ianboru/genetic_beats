@@ -102,8 +102,8 @@ class PlayingStore {
 
   @action setLineagePlayingBeatIndex = (index) => {
     this.lineagePlayingBeatIndex = index
-  }  
-  
+  }
+
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
     Object.keys(familyStore.currentBeat.sections).forEach((sectionName) => {
@@ -127,7 +127,7 @@ class PlayingStore {
   }
   @action unsoloAllSamplerTracks = () => {
     familyStore.currentBeat.sections.drums.tracks.forEach((track) => {
-        track.solo = false
+      track.solo = false
     })
     this.numSolo = 0
   }
@@ -143,7 +143,9 @@ class PlayingStore {
       ++this.numSolo
       track.mute = false
       this.muteUnsolod()
-      if(this.numSolo === familyStore.currentBeat.sections.drums.tracks.length){
+      if (
+        this.numSolo === familyStore.currentBeat.sections.drums.tracks.length
+      ) {
         this.unsoloAllSamplerTracks()
       }
     } else {
@@ -152,7 +154,6 @@ class PlayingStore {
       if (this.numSolo === 0) {
         this.toggleMuteAll(true)
       }
-      
     }
   }
 }

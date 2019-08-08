@@ -153,6 +153,8 @@ const generateFamilyName = () => {
 }
 
 const DEFAULT_SCORE = 10
+const BEAT_LENGTH = 16
+const BEAT_RESOLUTION = "16n"
 
 export {
   deepClone,
@@ -163,4 +165,6 @@ export {
   completeScale,
   completeSamples,
   DEFAULT_SCORE,
+  BEAT_LENGTH,
+  BEAT_RESOLUTION,
 }

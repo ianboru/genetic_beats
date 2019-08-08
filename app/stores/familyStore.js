@@ -16,8 +16,6 @@ const newFamilyName = generateFamilyName()
 const newFamilyNames = originalFamilyNames ? originalFamilyNames : []
 newFamilyNames.push(newFamilyName)
 
-const BEAT_STEPS = 16
-
 // eslint-disable-next-line prefer-const
 let templateBeatsMap = {}
 templateBeats.map((beat, i) => {
@@ -54,10 +52,6 @@ class FamilyStore {
 
   @computed get currentBeatIndex() {
     return this.lineage.indexOf(this.currentBeatId)
-  }
-
-  @computed get currentBeatResolution() {
-    return BEAT_STEPS
   }
 
   //
@@ -220,14 +214,14 @@ class FamilyStore {
   @action setScale = (scaleName) => {
     this.currentBeat.scale = scaleName
     let numSynthTracks = 0
-    this.currentBeat.sections.keyboard.tracks.forEach((track, j) => {
+    this.currentBeat.sections.keyboard.tracks.forEach((track, _) => {
       track.sample = SCALES[scaleName][numSynthTracks]
       numSynthTracks += 1
     })
   }
 
   @action setSynthType = (type) => {
-    this.currentBeat.sections.keyboard.tracks.forEach((track, j) => {
+    this.currentBeat.sections.keyboard.tracks.forEach((track, _) => {
       track.synthType = type
     })
   }

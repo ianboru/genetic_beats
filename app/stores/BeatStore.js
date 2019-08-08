@@ -1,6 +1,5 @@
 import {action, observable} from "mobx"
-
-const BEAT_LENGTH = 16
+import {BEAT_LENGTH} from "../utils"
 
 class BeatStore {
   //

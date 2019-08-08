@@ -23,8 +23,8 @@ class Player extends Component {
 
     this.loop = new Tone.Sequence(
       loopProcessor(props.beat.sections, props.setLitNote),
-      new Array(props.resolution).fill(0).map((_, i) => i),
-      `${props.resolution}n`,
+      new Array(props.length).fill(0).map((_, i) => i),
+      props.resolution,
     )
   }
 
@@ -39,7 +39,7 @@ class Player extends Component {
     this.loop.dispose()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, _prevState) {
     if (this.props.playing && !prevProps.playing) {
       this.loop.start()
     } else if (!this.props.playing && prevProps.playing) {

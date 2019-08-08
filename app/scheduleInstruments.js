@@ -2,11 +2,13 @@ import Tone from "tone"
 import {reaction} from "mobx"
 import store from "./stores/store"
 import playingStore from "./stores/playingStore"
+import {BEAT_RESOLUTION} from "./utils"
 
 Tone.Transport.bpm.value = playingStore.tempo
 
 reaction(
   () => playingStore.tempo,
+  // eslint-disable-next-line no-unused-vars
   (tempo) => (Tone.Transport.bpm.value = playingStore.tempo),
 )
 
@@ -36,6 +38,7 @@ const synths = [{}, ["sine", 5], ["square", 0], ["triangle", 12]].reduce(
   },
 )
 
+// eslint-disable-next-line max-params
 const scheduleInstruments = (time, index, samplerTracks, synthTracks) => {
   const notes = {}
   const gainRange = 55
@@ -77,7 +80,7 @@ const scheduleInstruments = (time, index, samplerTracks, synthTracks) => {
 
   Object.keys(synths).forEach((synthType) => {
     if (notes[synthType]) {
-      synths[synthType].triggerAttackRelease(notes[synthType], "16n")
+      synths[synthType].triggerAttackRelease(notes[synthType], BEAT_RESOLUTION)
     }
     //TODO fixing gain
     //synths[synthType].volume.value = store.synthGain*gainRange - offSet
