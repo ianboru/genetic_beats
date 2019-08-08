@@ -84,7 +84,7 @@ class ChangeSlider extends Component {
             fontSize: "15px",
           }}
         >
-          <span>Minor Change</span>
+          <span>No Change</span>
           <span>Total Change</span>
         </div>
         <input
