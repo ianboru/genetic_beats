@@ -96,20 +96,8 @@ class BeatDetail extends Component {
     this.disablePlayReaction()
   }
 
-  handleMutateMelody = () => {
-    const newBeat = mutateMelody(familyStore.currentBeat)
-    familyStore.newBeatAfterCurrentBeat(newBeat)
-  }
-
-  handleMutateSampler = () => {
-    const newBeat = mutateSampler(familyStore.currentBeat)
-    familyStore.newBeatAfterCurrentBeat(newBeat)
-  }
-
-  handleMutateAllSections = () => {
-    let newBeat = mutateMelody(familyStore.currentBeat)
-    newBeat = mutateSampler(newBeat)
-    familyStore.newBeatAfterCurrentBeat(newBeat)
+  handleSaveBeat = () => {
+    familyStore.newBeatAfterCurrentBeat(familyStore.floatingBeat)
   }
 
   handleMutateFloatingMelody = () => {
@@ -255,8 +243,8 @@ class BeatDetail extends Component {
               New Random Beat
             </Button>
           )}
-          <Button width={150} onClick={this.handleMutateAllSections}>
-            Evolve Both Sections
+          <Button width={150} onClick={this.handleSaveBeat}>
+            Save Beat
           </Button>
         </div>
 
@@ -301,13 +289,6 @@ class BeatDetail extends Component {
                   this.handleMutateFloatingMelody()
                 }}
               />
-              <Button
-                style={{marginLeft: "10px"}}
-                width={150}
-                onClick={this.handleMutateMelody}
-              >
-                Evolve Keyboard
-              </Button>
             </MutateSection>
             {this.renderSynthTracks(synthTracks)}
           </StyledSection>
@@ -331,13 +312,6 @@ class BeatDetail extends Component {
                   this.handleMutateFloatingSampler()
                 }}
               />
-              <Button
-                style={{marginLeft: "10px"}}
-                width={150}
-                onClick={this.handleMutateSampler}
-              >
-                Evolve Drums
-              </Button>
             </MutateSection>
             {this.renderSamplerTracks(samplerTracks)}
           </StyledSection>
