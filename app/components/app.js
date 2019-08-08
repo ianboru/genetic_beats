@@ -30,7 +30,7 @@ class App extends Component {
 
   handleKeyPress = (e) => {
     if (e.code === "Space") {
-      playingStore.togglePlaying()
+      playingStore.toggleBeatDetailPlayer()
     } else if (e.code === "ArrowRight") {
       familyStore.nextBeatInLineage()
     } else if (e.code === "ArrowLeft") {

@@ -77,9 +77,9 @@ class BeatDetail extends Component {
 
   componentDidMount() {
     this.disablePlayReaction = reaction(
-      () => playingStore.playing,
-      (playing) => {
-        if (!playing) {
+      () => playingStore.player,
+      (player) => {
+        if (!player) {
           this.store.clearLitNote()
         }
       },
@@ -209,7 +209,7 @@ class BeatDetail extends Component {
       <StyledBeat>
         <Player
           beat={familyStore.currentBeat}
-          playing={playingStore.playing}
+          playing={playingStore.player === playingStore.players.BEAT_DETAIL}
           length={BEAT_LENGTH}
           resolution={BEAT_RESOLUTION}
           setLitNote={this.store.setLitNote}

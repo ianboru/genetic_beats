@@ -1,12 +1,24 @@
 import {action, computed, observable} from "mobx"
+import Tone from "tone"
 import familyStore from "./familyStore"
 import BeatStore from "./BeatStore"
 
+
+
 class PlayingStore {
+  //
+  // STATIC
+  //
+  players = {
+    BEAT_DETAIL : "BEAT_DETAIL",
+    LINEAGE     : "LINEAGE",
+    MINI_BEAT   : "MINI_BEAT",
+  }
+
   //
   // STATE
   //
-  @observable playing = false
+  @observable player = null
   @observable tempo = 100
   @observable metronome = false
   @observable numSolo = 0
@@ -16,9 +28,9 @@ class PlayingStore {
   @observable beatStores = []
   @observable beatPlayingStates = {}
   @observable playingBeatIndex = 0
-  @observable playingLineage = false
+
   //
-  // ACTIONS
+  // COMPUTED
   //
   @computed get playingBeatId() {
     return familyStore.lineage[this.playingBeatIndex]
@@ -27,31 +39,40 @@ class PlayingStore {
   //
   // ACTIONS
   //
-
-  @action setPlayingLineage = (state) => {
-    this.playingLineage = state
-    this.stopPlayingAllBeats()
-    this.playing = false
+  @action toggleBeatDetailPlayer = () => {
+    this.togglePlayer(this.players.BEAT_DETAIL)
   }
-  @action togglePlayingBeat = (activeBeatId, lineageIndex) => {
-    if (this.beatPlayingStates[activeBeatId]) {
-      this.stopPlayingAllBeats()
-    } else {
-      this.stopPlayingAllBeats()
+
+  @action toggleLineagePlayer = () => {
+    this.togglePlayer(this.players.LINEAGE)
+  }
+
+  @action toggleMiniBeatPlayer = (activeBeatId, lineageIndex) => {
+    this.togglePlayer(this.players.MINI_BEAT)
+
+    if (!this.beatPlayingStates[activeBeatId]) {
       this.playingBeatIndex = lineageIndex
       this.beatPlayingStates[activeBeatId] = true
     }
-    this.playingLineage = false
     this.resetLineagePlayingBeatIndex()
-    this.playing = false
   }
 
-  @action stopPlayingAllBeats = () => {
+  @action togglePlayer = (player) => {
     if (this.playingBeatId) {
       this.beatPlayingStates[this.playingBeatId] = false
     }
     this.playingBeatIndex = 0
+    Tone.Transport.stop()
+
+    // Clear player or start playback
+    if (!player || this.player === player) {
+      this.player = null
+    } else {
+      this.player = player
+      Tone.Transport.start()
+    }
   }
+
   @action newBeatStore = () => {
     const newBeatStore = new BeatStore()
     this.beatStores.push(newBeatStore)
@@ -68,12 +89,6 @@ class PlayingStore {
 
   @action clearLitNoteForBeat = (beatIndex) => {
     this.beatStores[beatIndex].clearLitNote()
-  }
-
-  @action togglePlaying = () => {
-    this.stopPlayingAllBeats()
-    this.playingLineage = false
-    this.playing = !this.playing
   }
 
   @action setTempo = (tempo) => {
@@ -125,12 +140,14 @@ class PlayingStore {
       })
     })
   }
+
   @action unsoloAllSamplerTracks = () => {
     familyStore.currentBeat.sections.drums.tracks.forEach((track) => {
       track.solo = false
     })
     this.numSolo = 0
   }
+
   @action handleMuteTrack = (track) => {
     if (this.numSolo === 0) {
       track.mute = !track.mute

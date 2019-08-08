@@ -31,7 +31,7 @@ class PlayControls extends Component {
   render() {
     const {size} = this.props
 
-    const PlayStopButton = playingStore.playing ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.player === playingStore.players.BEAT_DETAIL ? MdStop : MdPlayArrow
     return (
       <StyledPlayControls>
         <Tooltip position="top" text="Previous Beat">
@@ -40,7 +40,7 @@ class PlayControls extends Component {
         <Tooltip position="top" text="Play / Stop">
           <PlayStopButton
             size={size + 30}
-            onClick={playingStore.togglePlaying}
+            onClick={playingStore.toggleBeatDetailPlayer}
           />
         </Tooltip>
         <Tooltip position="top" text="Next Beat">

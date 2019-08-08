@@ -75,11 +75,14 @@ class Lineage extends Component {
       BEAT_RESOLUTION,
     )
   }
+
   componentDidMount() {
     this.disablePlayReaction = reaction(
-      () => playingStore.playingLineage,
-      (playing) => {
-        if (!playing) {
+      () => playingStore.player,
+      (player) => {
+        if (player === playingStore.players.LINEAGE) {
+          this.lineage.start()
+        } else {
           this.lineage.stop()
         }
       },
@@ -91,18 +94,14 @@ class Lineage extends Component {
   }
 
   handleClickPlayLineage = () => {
-    if (this.lineage.state === "stopped") {
-      playingStore.setPlayingLineage(true)
-      this.lineage.start()
-    } else {
-      playingStore.setPlayingLineage(false)
+    playingStore.toggleLineagePlayer()
+    if (this.lineage.state !== "stopped") {
       playingStore.resetLineagePlayingBeatIndex()
-      this.lineage.stop()
     }
   }
 
   handleClickPlayBeat = (beatId, i) => {
-    playingStore.togglePlayingBeat(beatId, i)
+    playingStore.toggleMiniBeatPlayer(beatId, i)
   }
 
   handleClickBeat = (beatId, i) => {
@@ -134,7 +133,7 @@ class Lineage extends Component {
       )
     })
 
-    const PlayStopButton = playingStore.playingLineage ? MdStop : MdPlayArrow
+    const PlayStopButton = playingStore.player === playingStore.players.LINEAGE ? MdStop : MdPlayArrow
 
     return (
       <StyledLineage>
