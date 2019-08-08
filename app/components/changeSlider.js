@@ -4,51 +4,49 @@ import styled from "styled-components"
 import {observer} from "mobx-react"
 import {DEFAULT_SCORE} from "../utils"
 import chroma from "chroma-js"
-import {colors, newColors} from "../colors"
+import {newColors} from "../colors"
 
 const StyledChangeSlider = styled.span`
   display: inline-block;
   margin: 0;
   font-size: 10px;
   vertical-align: middle;
-  @media screen and (-webkit-min-device-pixel-ratio:0) {
-
-    input[type='range'] {
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input[type="range"] {
       overflow: hidden;
       -webkit-appearance: none;
       background-color: ${chroma(newColors.purple.base)};
       width: 300px;
       border-radius: 4px;
     }
-    
-    input[type='range']::-webkit-slider-runnable-track {
+
+    input[type="range"]::-webkit-slider-runnable-track {
       height: 10px;
       -webkit-appearance: none;
       color: #43e5f7;
       margin-top: -1px;
     }
-    
-    input[type='range']::-webkit-slider-thumb {
+
+    input[type="range"]::-webkit-slider-thumb {
       width: 10px;
       -webkit-appearance: none;
       height: 10px;
       background: #43e5f7;
-      box-shadow: -300px 0 0 300px 
+      box-shadow: -300px 0 0 300px;
     }
-
   }
   /** FF*/
   input[type="range"]::-moz-range-progress {
-    background-color: #43e5f7; 
+    background-color: #43e5f7;
   }
-  input[type="range"]::-moz-range-track {  
+  input[type="range"]::-moz-range-track {
     background-color: ${chroma(newColors.purple.base)};
   }
   /* IE*/
   input[type="range"]::-ms-fill-lower {
-    background-color: #43e5f7; 
+    background-color: #43e5f7;
   }
-  input[type="range"]::-ms-fill-upper {  
+  input[type="range"]::-ms-fill-upper {
     background-color: ${chroma(newColors.purple.base)};
   }
 `
@@ -95,7 +93,6 @@ class ChangeSlider extends Component {
           max={MAXIMUM_CHANGE}
           step={CHANGE_STEP}
           value={this.convertScoreToChangeAmount(this.props.score)}
-
           onChange={this.handleChange}
         />
       </StyledChangeSlider>

@@ -1,6 +1,8 @@
 import {toJS} from "mobx"
 import {deepClone, SCALES, synthTypes} from "./utils"
 
+const MAXIMUM_SCORE = 10
+
 const randomBit = (probOn) => {
   return Math.random() < probOn ? 1 : 0
 }
@@ -26,9 +28,13 @@ const mutateSynthType = (newBeat) => {
 }
 
 const mutateMelody = (originalBeat) => {
+  if (originalBeat.synthScore === MAXIMUM_SCORE) {
+    return deepClone(toJS(originalBeat))
+  }
+
   const newBeat = deepClone(toJS(originalBeat))
 
-  newBeat.sections.keyboard.tracks[0].sequence.forEach((note, i) => {
+  newBeat.sections.keyboard.tracks[0].sequence.forEach((_note, i) => {
     let playedTrackIndex = null
 
     newBeat.sections.keyboard.tracks.forEach((track, j) => {
@@ -38,9 +44,10 @@ const mutateMelody = (originalBeat) => {
     })
 
     //flip off to on
-    const flipNote = Math.random() * 10 > originalBeat.synthScore ? true : false
+    const flipNote =
+      Math.random() * MAXIMUM_SCORE > originalBeat.synthScore ? true : false
     const switchNote =
-      Math.random() * 10 > Math.min(originalBeat.synthScore, 9.0)
+      Math.random() * MAXIMUM_SCORE > Math.min(originalBeat.synthScore, 9.0)
     const randomNoteIndex = Math.floor(Math.random() * SCALES.cmaj.length)
 
     if (flipNote && playedTrackIndex !== null) {
@@ -71,6 +78,10 @@ const mutateMelody = (originalBeat) => {
 }
 
 const mutateSampler = (originalBeat) => {
+  if (originalBeat.synthScore === MAXIMUM_SCORE) {
+    return deepClone(toJS(originalBeat))
+  }
+
   const newBeat = deepClone(toJS(originalBeat))
   newBeat.sections.drums.tracks[0].sequence.forEach((note, i) => {
     let playedTrackIndex = null
@@ -80,10 +91,11 @@ const mutateSampler = (originalBeat) => {
         playedTrackIndex = j
       }
 
-      const randomNote = Math.random() * 10 > 6.5 ? 1 : 0
+      const randomNote = Math.random() * MAXIMUM_SCORE > 6.5 ? 1 : 0
 
       track.sequence[i] =
-        Math.random() * 20 - 10 > Math.min(originalBeat.samplerScore, 9.0)
+        Math.random() * 20 - MAXIMUM_SCORE >
+        Math.min(originalBeat.samplerScore, 9.0)
           ? randomNote
           : track.sequence[i]
     })
