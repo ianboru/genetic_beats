@@ -1,17 +1,21 @@
-- Switch default change scale to Minor Change
-- Bug: Various play buttons aren't mutually exclusive anymore - John
-- Bug: Start tone after user interaction (currently broken in Safari and Chrome)
+THINGS WE STILL WANNA DO IF WE WRAP THIS UP FOR A WHILE
+- Re-layout the section controls (especially keyboard) - John
+- Bug: Start tone after user interaction (currently broken in Safari and Chrome) - John
+- Rename mute button to "mute"
+- Load lineage from local storage - Ian
+- Gain for keyboard section - Ian
+- Export to .wav file - Luke
+- Hide secret in settings.py - John
+- Remove django middle-man and do straight nginx -> static files - John
+- Cmd-r to reload not working for some reason and it's INFURIATING - John
+- Bug in continuously-evolve-beat branch: BeatDetail isn't last beat in lineage
+- Have beats remain consistent for each mutation level - Luke
+
 - Lineage can skip at beginning with lots of beats; investigate unnecessary re-rendering or other ways avoid skips - John
-- Actions at the bottom (rate, mutate), play at the bottom? - John
-- Solo/Gain for each section (ian)
-- Bug: All tracks can be Soloed at same time for drums
 - Pick lineage playback up where it left off, allow selecting starting beat when it's not currently playing
-- Load lineage from local storage
 - Name lineage
-- Rename beats
 - Undo 1 (or more) beat deletes
-- Additional ocave
-- Fix duplicate samplers
+- Additional octave
 - Add custom sections
 - URL sharing
 
@@ -29,6 +33,7 @@ Aryn Feedback
 
 Design Needed:
 
+- Rename beats
 - Describe workflow somewhere in simple terms ("listen, edit, rate, mutate, listen to lineage" - or whatever)
 
 - Live performance mode
