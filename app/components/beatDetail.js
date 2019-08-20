@@ -232,22 +232,15 @@ class BeatDetail extends Component {
           </Controls>
         </div>
         <div style={{textAlign: "center"}}>
-          {familyStore.lineage.length > 1 ? (
-            <Button
-              width={150}
-              color={["red"]}
-              onClick={this.handleKillLastBeat}
-            >
-              Kill Last Beat
-            </Button>
-          ) : (
-            <Button
-              width={150}
-              color={[colors.blue.base]}
-              onClick={this.handleNewRandomBeat}
-            >
-              New Random Beat
-            </Button>
+          {familyStore.lineage.length > 1 ? null :
+            (
+              <Button
+                width={150}
+                color={[colors.blue.base]}
+                onClick={this.handleNewRandomBeat}
+              >
+                New Random Beat
+              </Button>
           )}
           <Button width={150} onClick={this.handleSaveBeat}>
             Save Beat
