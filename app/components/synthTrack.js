@@ -50,22 +50,19 @@ class Track extends Component {
   }
 
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
-    const {trackNum} = this.props
+    const {beat, trackNum} = this.props
 
     if (
       wasClicked ||
-      !!wasOn ===
-        !!familyStore.currentBeat.sections.keyboard.tracks[trackNum].sequence[
-          noteNumber
-        ]
+      !!wasOn === !!beat.sections.keyboard.tracks[trackNum].sequence[noteNumber]
     ) {
-      familyStore.toggleNoteOnCurrentBeat("keyboard", trackNum, noteNumber)
+      familyStore.toggleNoteOnBeat(beat, "keyboard", trackNum, noteNumber)
     }
   }
 
   handleSampleChange = (e) => {
-    const {trackNum} = this.props
-    familyStore.setSampleOnCurrentBeat("keyboard", trackNum, e.target.value)
+    const {beat, trackNum} = this.props
+    familyStore.setSampleOnBeat(beat, "keyboard", trackNum, e.target.value)
   }
 
   render() {
@@ -79,9 +76,8 @@ class Track extends Component {
             this.setState({
               lastEntered: i,
               lastClickedNoteWasOn:
-                familyStore.currentBeat.sections.keyboard.tracks[
-                  this.props.trackNum
-                ].sequence[i] > 0,
+                this.props.beat.sections.keyboard.tracks[this.props.trackNum]
+                  .sequence[i] > 0,
             })
             this.handleNoteToggle(i, note, true)
           }}

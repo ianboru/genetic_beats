@@ -14,7 +14,7 @@ class BeatDisplay extends Component {
       } else {
         return <BeatDetail key={b.key} beat={b} />
       }
-    })(familyStore.currentBeat)
+    })(familyStore.floatingBeat)
 
     return (
       <div>
