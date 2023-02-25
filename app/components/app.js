@@ -21,7 +21,6 @@ configure({enforceActions: "always"})
 class App extends Component {
   componentDidMount = () => {
     document.addEventListener("keydown", this.handleKeyPress, false)
-    Tone.Transport.start()
   }
 
   componentWillUnmount = () => {

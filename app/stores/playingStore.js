@@ -1,11 +1,13 @@
 import {action, computed, observable} from "mobx"
 import familyStore from "./familyStore"
 import BeatStore from "./BeatStore"
+import Tone from "tone"
 
 class PlayingStore {
   //
   // STATE
   //
+  @observable started = false
   @observable playing = false
   @observable tempo = 100
   @observable metronome = false
@@ -71,6 +73,10 @@ class PlayingStore {
   }
 
   @action togglePlaying = () => {
+    if (!this.started) {
+      Tone.Transport.start()
+      this.started = true
+    }
     this.stopPlayingAllBeats()
     this.playingLineage = false
     this.playing = !this.playing
