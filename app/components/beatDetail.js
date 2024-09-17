@@ -69,9 +69,9 @@ const StyledSection = styled.div`
   position: relative;
 `
 const MutateSection = styled.div`
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   margin-top: 10px;
-  padding : 15px;
+  padding: 15px;
   border: 1px solid ${chroma(newColors.purple.base)};
   border-radius: 8px;
   display: inline-block;
@@ -96,20 +96,18 @@ class BeatDetail extends Component {
     this.disablePlayReaction()
   }
 
-  handleMutateMelody = () => {
+  handleSaveBeat = () => {
+    familyStore.newBeatAfterCurrentBeat(familyStore.floatingBeat)
+  }
+
+  handleMutateFloatingMelody = () => {
     const newBeat = mutateMelody(familyStore.currentBeat)
-    familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.setFloatingBeat(newBeat)
   }
 
-  handleMutateSampler = () => {
+  handleMutateFloatingSampler = () => {
     const newBeat = mutateSampler(familyStore.currentBeat)
-    familyStore.newBeatAfterCurrentBeat(newBeat)
-  }
-
-  handleMutateAllSections = () => {
-    let newBeat = mutateMelody(familyStore.currentBeat)
-    newBeat = mutateSampler(newBeat)
-    familyStore.newBeatAfterCurrentBeat(newBeat)
+    familyStore.setFloatingBeat(newBeat)
   }
 
   handleKillLastBeat = () => {
@@ -126,6 +124,7 @@ class BeatDetail extends Component {
       return (
         <SamplerTrack
           key={`${this.props.beat.key}.${i}`}
+          beat={this.props.beat}
           trackNum={i}
           track={track}
           handleMuteTrack={playingStore.handleMuteTrack}
@@ -151,6 +150,7 @@ class BeatDetail extends Component {
       return (
         <SynthTrack
           key={`${note}.${i}`}
+          beat={this.props.beat}
           trackNum={i}
           track={track}
           handleMuteTrack={playingStore.handleMuteTrack}
@@ -162,11 +162,15 @@ class BeatDetail extends Component {
   }
 
   handleSelectScale = (evt) => {
-    familyStore.setScale(evt.target.value)
+    familyStore.setScale(this.props.beat, evt.target.value)
   }
 
   handleSelectSynthType = (evt) => {
-    familyStore.setSynthType(evt.target.value)
+    familyStore.setSynthType(this.props.beat, evt.target.value)
+  }
+
+  handleToggleMonosynth = (_evt) => {
+    familyStore.toggleMonosynth(this.props.beat)
   }
 
   render() {
@@ -186,7 +190,7 @@ class BeatDetail extends Component {
       <select
         style={{fontSize: "20px"}}
         onChange={this.handleSelectScale}
-        value={familyStore.currentBeat.scale}
+        value={this.props.beat.scale}
       >
         {scaleOptions}
       </select>
@@ -214,7 +218,7 @@ class BeatDetail extends Component {
     return (
       <StyledBeat>
         <Player
-          beat={familyStore.currentBeat}
+          beat={familyStore.floatingBeat}
           playing={playingStore.playing}
           length={BEAT_LENGTH}
           resolution={BEAT_RESOLUTION}
@@ -228,28 +232,18 @@ class BeatDetail extends Component {
           </Controls>
         </div>
         <div style={{textAlign: "center"}}>
-          {familyStore.lineage.length > 1 ? (
-            <Button
-              width={150}
-              color={["red"]}
-              onClick={this.handleKillLastBeat}
-            >
-              Kill Last Beat
-            </Button>
-          ) : (
-            <Button
-              width={150}
-              color={[colors.blue.base]}
-              onClick={this.handleNewRandomBeat}
-            >
-              New Random Beat
-            </Button>
+          {familyStore.lineage.length > 1 ? null :
+            (
+              <Button
+                width={150}
+                color={[colors.blue.base]}
+                onClick={this.handleNewRandomBeat}
+              >
+                New Random Beat
+              </Button>
           )}
-          <Button
-            width={150}
-            onClick={this.handleMutateAllSections}
-          >
-            Evolve Both Sections
+          <Button width={150} onClick={this.handleSaveBeat}>
+            Save Beat
           </Button>
         </div>
 
@@ -269,8 +263,8 @@ class BeatDetail extends Component {
               <input
                 style={{fontSize: "15px"}}
                 type="checkbox"
-                onChange={familyStore.toggleMonosynth}
-                checked={familyStore.currentBeat.sections.keyboard.monosynth}
+                onChange={this.handleToggleMonosynth}
+                checked={familyStore.floatingBeat.sections.keyboard.monosynth}
               />
             </div>
             <div style={{width: "250px", margin: "0 auto", textAlign: "left"}}>
@@ -285,21 +279,15 @@ class BeatDetail extends Component {
               </span>
               {scaleSelect}
             </div>
-            <br/>
+            <br />
             <MutateSection>
               <ChangeSlider
                 score={familyStore.currentBeat.synthScore}
                 handleSetScore={(score) => {
                   familyStore.setSynthScore(score)
+                  this.handleMutateFloatingMelody()
                 }}
               />
-              <Button
-                style={{marginLeft: "10px"}}
-                width={150}
-                onClick={this.handleMutateMelody}
-              >
-                Evolve Keyboard
-              </Button>
             </MutateSection>
             {this.renderSynthTracks(synthTracks)}
           </StyledSection>
@@ -314,21 +302,15 @@ class BeatDetail extends Component {
             >
               M
             </MuteTrackButton>
-            <br/>
+            <br />
             <MutateSection>
               <ChangeSlider
                 score={familyStore.currentBeat.samplerScore}
                 handleSetScore={(score) => {
                   familyStore.setSamplerScore(score)
+                  this.handleMutateFloatingSampler()
                 }}
               />
-              <Button
-                style={{marginLeft: "10px"}}
-                width={150}
-                onClick={this.handleMutateSampler}
-              >
-                Evolve Drums
-              </Button>
             </MutateSection>
             {this.renderSamplerTracks(samplerTracks)}
           </StyledSection>

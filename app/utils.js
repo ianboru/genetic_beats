@@ -153,6 +153,10 @@ const generateFamilyName = () => {
 }
 
 const DEFAULT_SCORE = 10
+const DEFAULT_MUTE = false
+const DEFAULT_SOLO = false
+const DEFAULT_MONOSYNTH = true
+
 const BEAT_LENGTH = 16
 const BEAT_RESOLUTION = "16n"
 
@@ -165,6 +169,9 @@ export {
   completeScale,
   completeSamples,
   DEFAULT_SCORE,
+  DEFAULT_MUTE,
+  DEFAULT_SOLO,
+  DEFAULT_MONOSYNTH,
   BEAT_LENGTH,
   BEAT_RESOLUTION,
 }

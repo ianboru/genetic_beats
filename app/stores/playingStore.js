@@ -112,8 +112,8 @@ class PlayingStore {
 
   @action toggleMuteAll = (lastState) => {
     const newState = !lastState
-    Object.keys(familyStore.currentBeat.sections).forEach((sectionName) => {
-      familyStore.currentBeat.sections[sectionName].tracks.forEach((track) => {
+    Object.keys(familyStore.floatingBeat.sections).forEach((sectionName) => {
+      familyStore.floatingBeat.sections[sectionName].tracks.forEach((track) => {
         track.mute = newState
         if (newState) {
           track.solo = lastState
@@ -123,20 +123,22 @@ class PlayingStore {
   }
 
   @action muteUnsolod = () => {
-    Object.keys(familyStore.currentBeat.sections).forEach((sectionName) => {
-      familyStore.currentBeat.sections[sectionName].tracks.forEach((track) => {
+    Object.keys(familyStore.floatingBeat.sections).forEach((sectionName) => {
+      familyStore.floatingBeat.sections[sectionName].tracks.forEach((track) => {
         if (!track.solo) {
           track.mute = true
         }
       })
     })
   }
+
   @action unsoloAllSamplerTracks = () => {
-    familyStore.currentBeat.sections.drums.tracks.forEach((track) => {
+    familyStore.floatingBeat.sections.drums.tracks.forEach((track) => {
       track.solo = false
     })
     this.numSolo = 0
   }
+
   @action handleMuteTrack = (track) => {
     if (this.numSolo === 0) {
       track.mute = !track.mute
@@ -150,7 +152,7 @@ class PlayingStore {
       track.mute = false
       this.muteUnsolod()
       if (
-        this.numSolo === familyStore.currentBeat.sections.drums.tracks.length
+        this.numSolo === familyStore.floatingBeat.sections.drums.tracks.length
       ) {
         this.unsoloAllSamplerTracks()
       }

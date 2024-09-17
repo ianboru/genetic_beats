@@ -1,5 +1,10 @@
 /* eslint-disable filenames/match-regex */
-import {DEFAULT_SCORE} from "./utils"
+import {
+  DEFAULT_SCORE,
+  DEFAULT_MONOSYNTH,
+  DEFAULT_SOLO,
+  DEFAULT_MUTE,
+} from "./utils"
 
 export default [
   {
@@ -12,7 +17,7 @@ export default [
       keyboard: {
         name: "keyboard",
         tracks: [],
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
       },
       drums: {
         name: "drums",
@@ -20,20 +25,20 @@ export default [
           {
             sample: "samples/kick.wav",
             sequence: [1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/snare.wav",
             sequence: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/hihat.wav",
             sequence: [1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
         ],
       },
@@ -48,7 +53,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [
           {
             synthType: "square",
@@ -87,7 +92,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [],
       },
       drums: {
@@ -96,20 +101,20 @@ export default [
           {
             sample: "samples/hi_hat.wav",
             sequence: [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/6581__ST_012.wav",
             sequence: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/snare.wav",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
         ],
       },
@@ -124,7 +129,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [],
       },
       drums: {
@@ -133,26 +138,26 @@ export default [
           {
             sample: "samples/hi_hat.wav",
             sequence: [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/8580_PST_060.wav",
             sequence: [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/snare.wav",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/hihat.wav",
             sequence: [1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
         ],
       },
@@ -167,7 +172,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [],
       },
       drums: {
@@ -176,20 +181,20 @@ export default [
           {
             sample: "samples/Kicks/Cymatics - Trap Kick 1 - C.wav",
             sequence: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/hi_hat.wav",
             sequence: [0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/Snare/Cymatics - Titan Snare 3 - C.wav",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
         ],
       },
@@ -204,7 +209,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [],
       },
       drums: {
@@ -213,20 +218,20 @@ export default [
           {
             sample: "samples/Percussion/Cymatics - Synth Perc 28.wav",
             sequence: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/hi_hat.wav",
             sequence: [0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/Snare/Cymatics - Titan Snare 3 - C.wav",
             sequence: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
         ],
       },
@@ -241,7 +246,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [],
       },
       drums: {
@@ -250,20 +255,20 @@ export default [
           {
             sample: "samples/kick.wav",
             sequence: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/hihat.wav",
             sequence: [1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
           {
             sample: "samples/cowbell.wav",
             sequence: [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
-            mute: false,
-            solo: false,
+            mute: DEFAULT_MUTE,
+            solo: DEFAULT_SOLO,
           },
         ],
       },
@@ -278,7 +283,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [
           {
             sample: "c3",
@@ -317,7 +322,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [
           {
             sample: "c3",
@@ -369,7 +374,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [
           {
             sample: "c3",
@@ -421,7 +426,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [
           {
             sample: "b3",
@@ -460,7 +465,7 @@ export default [
     sections: {
       keyboard: {
         name: "keyboard",
-        monosynth: true,
+        monosynth: DEFAULT_MONOSYNTH,
         tracks: [
           {
             sample: "b3",

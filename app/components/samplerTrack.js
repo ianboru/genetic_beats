@@ -54,22 +54,19 @@ class Track extends Component {
   }
 
   handleNoteToggle = (noteNumber, wasOn, wasClicked) => {
-    const {trackNum} = this.props
+    const {beat, trackNum} = this.props
 
     if (
       wasClicked ||
-      !!wasOn ===
-        !!familyStore.currentBeat.sections.drums.tracks[trackNum].sequence[
-          noteNumber
-        ]
+      !!wasOn === !!beat.sections.drums.tracks[trackNum].sequence[noteNumber]
     ) {
-      familyStore.toggleNoteOnCurrentBeat("drums", trackNum, noteNumber)
+      familyStore.toggleNoteOnBeat(beat, "drums", trackNum, noteNumber)
     }
   }
 
   handleSampleChange = (e) => {
-    const {trackNum} = this.props
-    familyStore.setSampleOnCurrentBeat("drums", trackNum, e.target.value)
+    const {beat, trackNum} = this.props
+    familyStore.setSampleOnBeat(beat, "drums", trackNum, e.target.value)
   }
 
   renderSamplePreviewer = () => {
@@ -104,9 +101,8 @@ class Track extends Component {
             this.setState({
               lastEntered: i,
               lastClickedNoteWasOn:
-                familyStore.currentBeat.sections.drums.tracks[
-                  this.props.trackNum
-                ].sequence[i] > 0,
+                this.props.beat.sections.drums.tracks[this.props.trackNum]
+                  .sequence[i] > 0,
             })
             this.handleNoteToggle(i, note, true)
           }}
@@ -181,7 +177,8 @@ class Track extends Component {
             className="remove-track"
             title={"Delete track"}
             onClick={() => {
-              familyStore.removeTrackFromCurrentBeat(
+              familyStore.removeTrackFromBeat(
+                this.props.beat,
                 "drums",
                 this.props.trackNum,
               )
